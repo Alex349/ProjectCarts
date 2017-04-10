@@ -12,10 +12,10 @@ public class m_carController : MonoBehaviour {
 
 	public WheelCollider wheelFR;
 	public WheelCollider wheelFL;
-	public WheelCollider wheelRR;
-	public WheelCollider wheelRL;
+	public WheelCollider wheelBR;
+	public WheelCollider wheelBL;
 
-	public float turnRadius = 10f;
+	public float turnRadius = 6f;
 	public float torque = 100f;
 	public float brakeTorque = 100f;
 
@@ -34,12 +34,12 @@ public class m_carController : MonoBehaviour {
 
 	public float Speed()
     {
-		return wheelRR.radius * Mathf.PI * wheelRR.rpm * 60f / 1000f;
+		return wheelBR.radius * Mathf.PI * wheelBR.rpm * 60f / 1000f;
 	}
 
 	public float Rpm()
     {
-		return wheelRL.rpm;
+		return wheelBL.rpm;
 	}
 
 	void FixedUpdate () {
@@ -51,33 +51,34 @@ public class m_carController : MonoBehaviour {
 
 		float scaledTorque = Input.GetAxis("Vertical") * torque;
 
-		if(wheelRL.rpm < idealRPM)
-			scaledTorque = Mathf.Lerp(scaledTorque/10f, scaledTorque, wheelRL.rpm / idealRPM );
+		if(wheelBL.rpm < idealRPM)
+			scaledTorque = Mathf.Lerp(scaledTorque/10f, scaledTorque, wheelBL.rpm / idealRPM );
 		else 
-			scaledTorque = Mathf.Lerp(scaledTorque, 0,  (wheelRL.rpm-idealRPM) / (maxRPM-idealRPM) );
+			scaledTorque = Mathf.Lerp(scaledTorque, 0,  (wheelBL.rpm-idealRPM) / (maxRPM-idealRPM) );
 
 		BarRolling(wheelFR, wheelFL);
-		BarRolling(wheelRR, wheelRL);
+		BarRolling(wheelBR, wheelBL);
 
 		wheelFR.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
 		wheelFL.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
 
 		wheelFR.motorTorque = driveMode==DriveMode.Rear  ? 0 : scaledTorque;
 		wheelFL.motorTorque = driveMode==DriveMode.Rear  ? 0 : scaledTorque;
-		wheelRR.motorTorque = driveMode==DriveMode.Front ? 0 : scaledTorque;
-		wheelRL.motorTorque = driveMode==DriveMode.Front ? 0 : scaledTorque;
+        wheelBR.motorTorque = driveMode==DriveMode.Front ? 0 : scaledTorque;
+		wheelBL.motorTorque = driveMode==DriveMode.Front ? 0 : scaledTorque;
 
-		if(Input.GetButton("Fire1")) {
+		if(Input.GetButton("Fire1"))
+        {
 			wheelFR.brakeTorque = brakeTorque;
 			wheelFL.brakeTorque = brakeTorque;
-			wheelRR.brakeTorque = brakeTorque;
-			wheelRL.brakeTorque = brakeTorque;
+            wheelBR.brakeTorque = brakeTorque;
+			wheelBL.brakeTorque = brakeTorque;
 		}
 		else {
 			wheelFR.brakeTorque = 0;
 			wheelFL.brakeTorque = 0;
-			wheelRR.brakeTorque = 0;
-			wheelRL.brakeTorque = 0;
+            wheelBR.brakeTorque = 0;
+			wheelBL.brakeTorque = 0;
 		}
 	}
 

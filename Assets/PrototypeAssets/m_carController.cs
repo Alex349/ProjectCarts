@@ -15,6 +15,7 @@ public class m_carController : MonoBehaviour {
 	public WheelCollider wheelBR;
 	public WheelCollider wheelBL;
 
+    public int acceleration = 10;
 	public float turnRadius = 6f;
 	public float torque = 100f;
 	public float brakeTorque = 100f;
@@ -26,15 +27,19 @@ public class m_carController : MonoBehaviour {
 
 	public Text speedText;
 
+    private Quaternion m_car_rotation;
+
 	void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
 		rigidbody.centerOfMass = centerOfGravity.localPosition;
+        transform.localRotation = m_car_rotation;
 	}
 
 	public float Speed()
     {
-		return wheelBR.radius * Mathf.PI * wheelBR.rpm * 60f / 1000f;
+        //convert to km/h
+		return wheelBR.radius * Mathf.PI * wheelBR.rpm * 60f / 1000f;        
 	}
 
 	public float Rpm()
@@ -42,17 +47,17 @@ public class m_carController : MonoBehaviour {
 		return wheelBL.rpm;
 	}
 
-	void FixedUpdate () {
-
+	void FixedUpdate ()
+    {        
 		if(speedText!=null)
-			speedText.text = "Speed: " + Speed().ToString("f0") + " km/h";
+			speedText.text = "Speed: " + Speed().ToString("") + " km/h";
 
 		//Debug.Log ("Speed: " + (wheelRR.radius * Mathf.PI * wheelRR.rpm * 60f / 1000f) + "km/h    RPM: " + wheelRL.rpm);
 
-		float scaledTorque = Input.GetAxis("Vertical") * torque;
+		float scaledTorque = Input.GetAxis("Vertical") * torque * acceleration;
 
 		if(wheelBL.rpm < idealRPM)
-			scaledTorque = Mathf.Lerp(scaledTorque/10f, scaledTorque, wheelBL.rpm / idealRPM );
+			scaledTorque = Mathf.Lerp(scaledTorque/5, scaledTorque, wheelBL.rpm / idealRPM );
 		else 
 			scaledTorque = Mathf.Lerp(scaledTorque, 0,  (wheelBL.rpm-idealRPM) / (maxRPM-idealRPM) );
 
@@ -67,14 +72,16 @@ public class m_carController : MonoBehaviour {
         wheelBR.motorTorque = driveMode==DriveMode.Front ? 0 : scaledTorque;
 		wheelBL.motorTorque = driveMode==DriveMode.Front ? 0 : scaledTorque;
 
-		if(Input.GetButton("Fire1"))
+
+        if (Input.GetButton("Fire1"))
         {
 			wheelFR.brakeTorque = brakeTorque;
 			wheelFL.brakeTorque = brakeTorque;
             wheelBR.brakeTorque = brakeTorque;
 			wheelBL.brakeTorque = brakeTorque;
 		}
-		else {
+		else
+        {
 			wheelFR.brakeTorque = 0;
 			wheelFL.brakeTorque = 0;
             wheelBR.brakeTorque = 0;
@@ -83,27 +90,38 @@ public class m_carController : MonoBehaviour {
 	}
 
 
-	void BarRolling(WheelCollider WheelL, WheelCollider WheelR) {
+	void BarRolling (WheelCollider WheelL, WheelCollider WheelR)
+    {
 		WheelHit hit;
 		float travelL = 1.0f;
 		float travelR = 1.0f;
 		
 		bool groundedL = WheelL.GetGroundHit(out hit);
 		if (groundedL)
-			travelL = (-WheelL.transform.InverseTransformPoint(hit.point).y - WheelL.radius) / WheelL.suspensionDistance;
-		
-		bool groundedR = WheelR.GetGroundHit(out hit);
+            travelL = (-WheelL.transform.InverseTransformPoint(hit.point).y - WheelL.radius) / WheelL.suspensionDistance;
+
+        bool groundedR = WheelR.GetGroundHit(out hit);
 		if (groundedR)
-			travelR = (-WheelR.transform.InverseTransformPoint(hit.point).y - WheelR.radius) / WheelR.suspensionDistance;
-		
-		float antiRollForce = (travelL - travelR) * AntiRoll;
+            travelR = (-WheelR.transform.InverseTransformPoint(hit.point).y - WheelR.radius) / WheelR.suspensionDistance;
+
+        float antiRollForce = (travelL - travelR) * AntiRoll;
 		
 		if (groundedL)
 			rigidbody.AddForceAtPosition(WheelL.transform.up * -antiRollForce,
 			                             WheelL.transform.position); 
 		if (groundedR)
-			rigidbody.AddForceAtPosition(WheelR.transform.up * antiRollForce,
-			                             WheelR.transform.position); 
+			rigidbody.AddForceAtPosition(WheelR.transform.up * -antiRollForce,
+			                             WheelR.transform.position);
+        else if (groundedL != true)
+        {
+            m_car_rotation.x = 0;
+            m_car_rotation.z = 0;
+        }
+        else if (groundedR != true)
+        {
+            m_car_rotation.x = 0;
+            m_car_rotation.z = 0;
+        }
 	}
 
 }

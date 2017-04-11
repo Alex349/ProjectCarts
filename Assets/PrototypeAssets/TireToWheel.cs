@@ -4,54 +4,61 @@ using System.Collections;
 public class TireToWheel : MonoBehaviour {
 
 	public WheelCollider wheelCollider;
-    private ParticleSystem wheelParticleSystem;
+    public ParticleSystem wheelParticleSystem;
+    private float timeCounter;
+    private Vector3 wheelPosition;
 
-	void Start()
+    void Start()
     {
-        wheelParticleSystem = wheelCollider.GetComponent<ParticleSystem>();
+        wheelPosition = this.transform.localPosition;
 	}
 
 	void FixedUpdate ()
     {
-		UpdateWheelHeight(this.transform, wheelCollider);
-	}
-
+        UpdateWheelHeight(this.transform, wheelCollider);        
+    }
 
 	void UpdateWheelHeight(Transform wheelTransform, WheelCollider collider)
     {
-		
-		Vector3 localPosition = wheelTransform.localPosition;
+        var emission = wheelParticleSystem.emission;
+        Vector3 localPosition = wheelTransform.localPosition;
 		
 		WheelHit hit = new WheelHit();
 		
-		if (collider.GetGroundHit(out hit)) {
+		if (collider.GetGroundHit(out hit))
+        {
 
 			float hitY = collider.transform.InverseTransformPoint(hit.point).y;
 
-			localPosition.y = hitY;
+            localPosition.y = hitY;
 
-			wheelParticleSystem.enableEmission = true;
+            emission.enabled = true;
 
 			if(Mathf.Abs(hit.forwardSlip) >= wheelCollider.forwardFriction.extremumSlip || 
-					Mathf.Abs(hit.sidewaysSlip) >= wheelCollider.sidewaysFriction.extremumSlip)
+			   Mathf.Abs(hit.sidewaysSlip) >= wheelCollider.sidewaysFriction.extremumSlip)
             {
-				wheelParticleSystem.enableEmission = true;
+				emission.enabled = true;
 			}
-			else {
-				wheelParticleSystem.enableEmission = false;
+			else
+            {
+                emission.enabled = false;
 			}
 		}
         else
-        {			
+        {
+            timeCounter += Time.deltaTime;		
 			localPosition = Vector3.Lerp (localPosition, -Vector3.up * collider.suspensionDistance, .05f);
-			wheelParticleSystem.enableEmission = false;
-		}
-		
-		// actually update the position
-		
+
+            emission.enabled = false;
+
+            if (timeCounter >= 2)
+            {
+                localPosition.y = wheelPosition.y;
+                timeCounter = 0;
+            }
+		}		
 		wheelTransform.localPosition = localPosition;
 
-		wheelTransform.localRotation = Quaternion.Euler(collider.transform.rotation.x, collider.steerAngle, 0);
-		
+		wheelTransform.localRotation = Quaternion.Euler(0, collider.steerAngle, 0);        
 	}
 }

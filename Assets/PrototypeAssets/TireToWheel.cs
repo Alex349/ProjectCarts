@@ -5,7 +5,6 @@ public class TireToWheel : MonoBehaviour {
 
 	public WheelCollider wheelCollider;
     public ParticleSystem wheelParticleSystem;
-    private float timeCounter;
     private Vector3 wheelPosition;
 
     void Start()
@@ -27,7 +26,6 @@ public class TireToWheel : MonoBehaviour {
 		
 		if (collider.GetGroundHit(out hit))
         {
-
 			float hitY = collider.transform.InverseTransformPoint(hit.point).y;
 
             localPosition.y = hitY;
@@ -45,20 +43,13 @@ public class TireToWheel : MonoBehaviour {
 			}
 		}
         else
-        {
-            timeCounter += Time.deltaTime;		
+        {           	
 			localPosition = Vector3.Lerp (localPosition, -Vector3.up * collider.suspensionDistance, .05f);
-
             emission.enabled = false;
-
-            if (timeCounter >= 2)
-            {
-                localPosition.y = wheelPosition.y;
-                timeCounter = 0;
-            }
 		}		
 		wheelTransform.localPosition = localPosition;
-
-		wheelTransform.localRotation = Quaternion.Euler(0, collider.steerAngle, 0);        
+        
+		wheelTransform.localRotation = Quaternion.Euler(0, collider.steerAngle, 0);
+        //wheelRotation = Quaternion.Euler(collider.transform.localRotation.x, 0, 0);    
 	}
 }

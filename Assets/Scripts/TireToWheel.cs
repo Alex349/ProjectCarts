@@ -5,11 +5,10 @@ public class TireToWheel : MonoBehaviour {
 
 	public WheelCollider wheelCollider;
     public ParticleSystem wheelParticleSystem;
-    private Vector3 wheelPosition;
 
     void Start()
     {
-        wheelPosition = this.transform.localPosition;
+
 	}
 
 	void FixedUpdate ()

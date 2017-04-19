@@ -30,7 +30,8 @@ public class m_carController : MonoBehaviour {
 
     private Transform m_car_position;
     private float timeCounter;
-    float scaledTorque;
+    private float scaledTorque;
+    private float sideFrictionWheel;
 
     void Start()
     {
@@ -85,26 +86,30 @@ public class m_carController : MonoBehaviour {
         {
             wheelFR.motorTorque = scaledTorque;
             wheelFL.motorTorque = scaledTorque;
+            m_particleSystem.Stop();
             m_emission.enabled = false;
         }
         if (driveMode == DriveMode.Front)
         {
-            wheelBR.motorTorque =  scaledTorque;
-            wheelBL.motorTorque =  scaledTorque;
+            wheelBR.motorTorque = scaledTorque;
+            wheelBL.motorTorque = scaledTorque;
+            m_particleSystem.Stop();
             m_emission.enabled = false;
         }
         if (driveMode == DriveMode.Drift)
         {
-            wheelFR.motorTorque = scaledTorque * 2;
-            wheelFL.motorTorque = scaledTorque * 2;
-            wheelBR.motorTorque = scaledTorque;
-            wheelBL.motorTorque = scaledTorque;
-            wheelBR.brakeTorque = brakeTorque/2;
-            wheelBL.brakeTorque = brakeTorque/2;
+            wheelFR.motorTorque = scaledTorque * 3;
+            wheelFL.motorTorque = scaledTorque * 3;
+            wheelBR.motorTorque = scaledTorque/2;
+            wheelBL.motorTorque = scaledTorque/2;
+            wheelBR.brakeTorque = brakeTorque;
+            wheelBL.brakeTorque = brakeTorque;            
+
+            m_particleSystem.Play();
             m_emission.enabled = true;
         }
 
-        BarRolling(wheelBR, wheelBL, wheelFR, wheelFL);
+        WheelBehaviour(wheelBR, wheelBL, wheelFR, wheelFL);
 
         if (Input.GetButton("Jump"))
         {
@@ -121,7 +126,7 @@ public class m_carController : MonoBehaviour {
 	}
 
 
-	void BarRolling (WheelCollider WheelBL, WheelCollider WheelBR, WheelCollider WheelFL, WheelCollider WheelFR)
+	void WheelBehaviour(WheelCollider WheelBL, WheelCollider WheelBR, WheelCollider WheelFL, WheelCollider WheelFR)
     {
 		WheelHit hit;
 
@@ -136,24 +141,24 @@ public class m_carController : MonoBehaviour {
         {
             if (Input.GetAxis("Vertical") > 0)
             {
-                rigidbody.AddForceAtPosition(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBL.transform.position);
-                rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Acceleration);            
+                //rigidbody.AddForceAtPosition(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBL.transform.position);
+                rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Acceleration);
+
+                if (Input.GetAxis("Horizontal") > 0)
+                {
+                    //rigidbody.AddRelativeForce(new Vector3(transform.forward.x, 0, 0) * acceleration, ForceMode.Acceleration);
+                    rigidbody.AddForceAtPosition(new Vector3(transform.forward.x, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBL.transform.position);
+                }
+                else if (Input.GetAxis("Horizontal") < 0)
+                {
+                    rigidbody.AddForceAtPosition(new Vector3(-transform.forward.x, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBL.transform.position);
+                }
             }
             else if (Input.GetAxis("Vertical") < 0)
             {
-                rigidbody.AddForceAtPosition(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBL.transform.position);
+                rigidbody.AddForceAtPosition(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * -acceleration, WheelBL.transform.position);
                 //rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * -acceleration, ForceMode.Acceleration);
-            }
-            if (Input.GetAxis("Horizontal") > 0)
-            {
-                //rigidbody.AddRelativeForce(new Vector3(transform.forward.x, 0, 0) * acceleration, ForceMode.Acceleration);
-                rigidbody.AddForceAtPosition(new Vector3(-transform.forward.x, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBL.transform.position);
-            }
-            else if (Input.GetAxis("Horizontal") < 0)
-            {
-                rigidbody.AddForceAtPosition(new Vector3(-transform.forward.x, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBL.transform.position);
-                //rigidbody.AddRelativeForce(new Vector3(-transform.forward.x, 0, 0) * acceleration, ForceMode.Acceleration);            
-            }
+            }            
         }			
         else if (!groundedBL)
         {
@@ -166,13 +171,13 @@ public class m_carController : MonoBehaviour {
         {
             if (Input.GetAxis("Vertical") > 0)
             {                
-                rigidbody.AddForceAtPosition(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBR.transform.position);
+                //rigidbody.AddForceAtPosition(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBR.transform.position);
                 rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
 
                 if (Input.GetAxis("Horizontal") > 0)
                 {
                     //rigidbody.AddRelativeForce(new Vector3(transform.forward.x, 0, 0) * acceleration, ForceMode.Acceleration);
-                    rigidbody.AddForceAtPosition(new Vector3(-transform.forward.x, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBR.transform.position);
+                    rigidbody.AddForceAtPosition(new Vector3(transform.forward.x, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBR.transform.position);
                 }
                 else if (Input.GetAxis("Horizontal") < 0)
                 {
@@ -192,14 +197,14 @@ public class m_carController : MonoBehaviour {
             rigidbody.AddForceAtPosition(WheelBR.transform.up * -gravity, WheelBR.transform.position);
             //add counter to reset the car position
         }
-        if (!groundedFL)
+        /*if (!groundedFL)
         {
             rigidbody.AddForceAtPosition(WheelFL.transform.up * -gravity, WheelFL.transform.position);
         }
         if (!groundedFR)
         {
             rigidbody.AddForceAtPosition(WheelFR.transform.up * -gravity, WheelFR.transform.position);
-        }
+        }*/
     }
     public void ResetPosition()
     {
@@ -208,9 +213,8 @@ public class m_carController : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Turbo")
-        {
-            Debug.Log("Entering Turbo");
-            rigidbody.AddRelativeForce(new Vector3(transform.forward.x, 0, transform.forward.z) * acceleration * 5, ForceMode.Acceleration);
+        {            
+            rigidbody.AddRelativeForce(new Vector3(0, 0, transform.forward.z) * acceleration, ForceMode.VelocityChange);
         }
     }
 

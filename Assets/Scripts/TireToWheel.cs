@@ -29,21 +29,25 @@ public class TireToWheel : MonoBehaviour {
 
             localPosition.y = hitY;
 
+            wheelParticleSystem.Play();
             emission.enabled = true;
 
 			if(Mathf.Abs(hit.forwardSlip) >= wheelCollider.forwardFriction.extremumSlip || 
 			   Mathf.Abs(hit.sidewaysSlip) >= wheelCollider.sidewaysFriction.extremumSlip)
             {
-				emission.enabled = true;
+                wheelParticleSystem.Play();
+                emission.enabled = true;
 			}
 			else
             {
+                wheelParticleSystem.Stop();
                 emission.enabled = false;
 			}
 		}
         else
         {           	
 			localPosition = Vector3.Lerp (localPosition, -Vector3.up * collider.suspensionDistance, .05f);
+            wheelParticleSystem.Stop();
             emission.enabled = false;
 		}		
 		wheelTransform.localPosition = localPosition;

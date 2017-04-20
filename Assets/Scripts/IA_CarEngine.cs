@@ -28,7 +28,8 @@ public class IA_CarEngine : MonoBehaviour {
     private List<Transform> nodes;
     private int currentNode = 0;
     
-    private void Start () {
+    private void Start ()
+    {
         GetComponent<Rigidbody>().centerOfMass = centerOfMass;
 
         Transform[] pathTransforms = path.GetComponentsInChildren<Transform>();
@@ -36,7 +37,8 @@ public class IA_CarEngine : MonoBehaviour {
 
         for (int i = 0; i < pathTransforms.Length; i++)
         {
-            if (pathTransforms[i] != path.transform) {
+            if (pathTransforms[i] != path.transform)
+            {
                 nodes.Add(pathTransforms[i]);
             }
         }
@@ -103,10 +105,10 @@ public class IA_CarEngine : MonoBehaviour {
 
         if (currentSpeed < maxSpeed && !isBraking)
         {
-            wheelFL.motorTorque = maxMotorTorque;
-            wheelFR.motorTorque = maxMotorTorque;
-            wheelRL.motorTorque = maxMotorTorque;
-            wheelRR.motorTorque = maxMotorTorque;
+            wheelFL.motorTorque = maxMotorTorque * 10;
+            wheelFR.motorTorque = maxMotorTorque * 10;
+            wheelRL.motorTorque = maxMotorTorque * 10;
+            wheelRR.motorTorque = maxMotorTorque * 10;
         }
         else
         {

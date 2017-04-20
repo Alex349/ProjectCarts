@@ -5,17 +5,17 @@ using System.Collections.Generic;
 public class IA_CarEngine : MonoBehaviour {
 
     public Transform path;
-    public float maxSteerAngle = 45f;
+    public float maxSteerAngle;
     public WheelCollider wheelFL;
     public WheelCollider wheelFR;
     public WheelCollider wheelRL;
     public WheelCollider wheelRR;
-    public float maxMotorTorque = 80f;
-    public float maxBrakeTorque = 150f;
-    public float wheelTorque = 150f;
+    public float maxMotorTorque;
+    public float maxBrakeTorque;
+    public float wheelTorque;
     public float currentSpeed;
     public float maxSpeed = 100f;
-    //public Transform centerOfMass;
+    public Transform centerOfMass_Force;
     public Vector3 centerOfMass;
     public bool isBraking = false;
 
@@ -44,6 +44,7 @@ public class IA_CarEngine : MonoBehaviour {
 	
 	private void FixedUpdate ()
     {
+        GetComponent<Rigidbody>().AddForceAtPosition(Vector3.down * currentSpeed, centerOfMass_Force.transform.position, ForceMode.Acceleration);
        // Sensors();
         ApplySteer();
         Drive();
@@ -86,8 +87,12 @@ public class IA_CarEngine : MonoBehaviour {
 
     private void ApplySteer()
     {
-        Vector3 relativeVector = transform.InverseTransformPoint(nodes[currentNode].position);
-        float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
+        //Vector3 relativeVector = transform.InverseTransformPoint(nodes[currentNode].position);
+        //float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
+
+        Vector3 relativeVector = nodes[currentNode].position - transform.position;
+        float newSteer = (Mathf.Abs(relativeVector.x) + Mathf.Abs(relativeVector.z)) * maxSteerAngle;
+        
         wheelFL.steerAngle = newSteer;
         wheelFR.steerAngle = newSteer;
     }
@@ -96,13 +101,15 @@ public class IA_CarEngine : MonoBehaviour {
     {
         currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 1000;
 
-        if (currentSpeed < maxSpeed && !isBraking) {
+        if (currentSpeed < maxSpeed && !isBraking)
+        {
             wheelFL.motorTorque = maxMotorTorque;
             wheelFR.motorTorque = maxMotorTorque;
             wheelRL.motorTorque = maxMotorTorque;
             wheelRR.motorTorque = maxMotorTorque;
-            Debug.Log("brake1");
-        } else {
+        }
+        else
+        {
             wheelFL.motorTorque = wheelTorque;
             wheelFR.motorTorque = wheelTorque;
             wheelRL.motorTorque = wheelTorque;
@@ -112,10 +119,14 @@ public class IA_CarEngine : MonoBehaviour {
 
     private void CheckWaypointDistance()
     {
-        if(Vector3.Distance(transform.position, nodes[currentNode].position) < 10f) {
-            if(currentNode == nodes.Count - 1) {
+        if(Vector3.Distance(transform.position, nodes[currentNode].position) < 10f)
+        {
+            if(currentNode == nodes.Count - 1)
+            {
                 currentNode = 0;
-            } else {
+            }
+            else
+            {
                 currentNode++;
             }
         }
@@ -123,12 +134,15 @@ public class IA_CarEngine : MonoBehaviour {
 
     private void Braking()
     {
-        if (isBraking) {
+        if (isBraking)
+        {
             wheelFL.brakeTorque = maxBrakeTorque;
             wheelFR.brakeTorque = maxBrakeTorque;
             wheelRL.brakeTorque = maxBrakeTorque;
             wheelRR.brakeTorque = maxBrakeTorque;
-        } else {
+        }
+        else
+        {
             wheelRL.brakeTorque = 0;
             wheelRR.brakeTorque = 0;
             wheelFL.brakeTorque = 0;

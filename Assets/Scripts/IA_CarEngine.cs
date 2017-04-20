@@ -87,11 +87,11 @@ public class IA_CarEngine : MonoBehaviour {
 
     private void ApplySteer()
     {
-        //Vector3 relativeVector = transform.InverseTransformPoint(nodes[currentNode].position);
-        //float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
+        Vector3 relativeVector = transform.InverseTransformPoint(nodes[currentNode].position);
+        float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
 
-        Vector3 relativeVector = nodes[currentNode].position - transform.position;
-        float newSteer = (Mathf.Abs(relativeVector.x) + Mathf.Abs(relativeVector.z)) * maxSteerAngle;
+      //  Vector3 relativeVector = nodes[currentNode].position - transform.position;
+      //  float newSteer = (Mathf.Abs(relativeVector.x) + Mathf.Abs(relativeVector.z)) * maxSteerAngle;
         
         wheelFL.steerAngle = newSteer;
         wheelFR.steerAngle = newSteer;

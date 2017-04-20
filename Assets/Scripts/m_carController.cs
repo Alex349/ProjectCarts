@@ -43,7 +43,7 @@ public class m_carController : MonoBehaviour {
 	public float Speed()
     {
         //convert to km/h
-		return wheelBR.radius * Mathf.PI * wheelBR.rpm * 60f / 1000f;        
+		return 2 * wheelBR.radius * Mathf.PI * wheelBR.rpm * 60f / 1000f;        
 	}
 
 	public float Rpm()
@@ -108,16 +108,14 @@ public class m_carController : MonoBehaviour {
         {
             wheelFR.motorTorque = scaledTorque;
             wheelFL.motorTorque = scaledTorque;
-            // wheelBR.motorTorque = scaledTorque;
-            // wheelBL.motorTorque = scaledTorque;
-            wheelBL.brakeTorque = brakeTorque * 2;
-            wheelBR.brakeTorque = brakeTorque * 2;
+            wheelBL.brakeTorque = brakeTorque/3;
+            wheelBR.brakeTorque = brakeTorque/3;
+
             m_particleSystem.Play();
             m_emission.enabled = true;
         }
         WheelBehaviour(wheelBR, wheelBL, wheelFR, wheelFL);        
 	}
-
 
 	void WheelBehaviour(WheelCollider WheelBL, WheelCollider WheelBR, WheelCollider WheelFL, WheelCollider WheelFR)
     {
@@ -127,24 +125,21 @@ public class m_carController : MonoBehaviour {
 		
 		bool groundedBL = WheelBL.GetGroundHit(out hit);
         bool groundedBR = WheelBR.GetGroundHit(out hit);
-        bool groundedFL = WheelFL.GetGroundHit(out hit);
-        bool groundedFR = wheelFR.GetGroundHit(out hit);
+     //  bool groundedFL = WheelFL.GetGroundHit(out hit);
+     //  bool groundedFR = wheelFR.GetGroundHit(out hit);
 		
 		if (groundedBL)
         {
             if (Input.GetAxis("Vertical") > 0)
             {
-                //rigidbody.AddForceAtPosition(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBR.transform.position);
                 rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
 
                 if (Input.GetAxis("Horizontal") > 0)
                 {
-                    //rigidbody.AddRelativeForce(new Vector3(transform.forward.x, 0, 0) * acceleration, ForceMode.Acceleration);
                     rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
                 }
                 else if (Input.GetAxis("Horizontal") < 0)
                 {
-                    //rigidbody.AddRelativeForce(new Vector3(-transform.forward.x, 0, 0) * acceleration, ForceMode.Acceleration);
                     rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
                 }
             }
@@ -156,59 +151,52 @@ public class m_carController : MonoBehaviour {
         }
         else if (!groundedBL)
         {
-            timeCounter += Time.deltaTime;
-            rigidbody.AddForceAtPosition(WheelBL.transform.up * -gravity, WheelBL.transform.position);
-            
+            timeCounter += Time.deltaTime;           
             //add counter to reset the car position
+            if (timeCounter >= 2)
+            {                
+                //transform.position = hit.;
+                timeCounter = 0;
+            }
+
         }
         if (groundedBR)
         {
             if (Input.GetAxis("Vertical") > 0)
-            {                
-                //rigidbody.AddForceAtPosition(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, WheelBR.transform.position);
+            {      
                 rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
 
                 if (Input.GetAxis("Horizontal") > 0)
                 {
-                    //rigidbody.AddRelativeForce(new Vector3(transform.forward.x, 0, 0) * acceleration, ForceMode.Acceleration);
                     rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
                 }
                 else if (Input.GetAxis("Horizontal") < 0)
                 {
-                    //rigidbody.AddRelativeForce(new Vector3(-transform.forward.x, 0, 0) * acceleration, ForceMode.Acceleration);
                     rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
                 }
             }
             else if (Input.GetAxis("Vertical") < 0)
             {
                 rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * -acceleration, ForceMode.Force);
-            }
-            
+            }            
         }			     
         else if (!groundedBR)
         {
-            timeCounter += Time.deltaTime;
-            rigidbody.AddForceAtPosition(WheelBR.transform.up * -gravity, WheelBR.transform.position);
-            //add counter to reset the car position
+         // timeCounter += Time.deltaTime;
+         // //add counter to reset the car position
+         // if (timeCounter >= 2)
+         // {
+         //     transform.position = hit.point;
+         //     timeCounter = 0;
+         // }
+         // 
         }
-        /*if (!groundedFL)
-        {
-            rigidbody.AddForceAtPosition(WheelFL.transform.up * -gravity, WheelFL.transform.position);
-        }
-        if (!groundedFR)
-        {
-            rigidbody.AddForceAtPosition(WheelFR.transform.up * -gravity, WheelFR.transform.position);
-        }*/
-    }
-    public void ResetPosition()
-    {
-
     }
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Turbo")
         {            
-            rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.VelocityChange);
+            rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * 3, ForceMode.VelocityChange);
         }
     }
 }

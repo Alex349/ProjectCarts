@@ -18,6 +18,7 @@ public class IA_CarEngine : MonoBehaviour {
     public Transform centerOfMass_Force;
     public Vector3 centerOfMass;
     public bool isBraking = false;
+    public float nodeRange = 10f;
 
     //[Header("Sensors")]
     //public float sensorLength = 3f;
@@ -121,7 +122,7 @@ public class IA_CarEngine : MonoBehaviour {
 
     private void CheckWaypointDistance()
     {
-        if(Vector3.Distance(transform.position, nodes[currentNode].position) < 10f)
+        if(Vector3.Distance(transform.position, nodes[currentNode].position) < nodeRange)
         {
             if(currentNode == nodes.Count - 1)
             {

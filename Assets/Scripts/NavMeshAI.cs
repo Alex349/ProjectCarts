@@ -9,13 +9,13 @@ public class NavMeshAI : MonoBehaviour {
     private List<Transform> points;
     private int destPoint = 0;
     private NavMeshAgent agent;
-
+    private Rigidbody m_rigidbody;
     public float nodeRange = 10f;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-
+        m_rigidbody = GetComponent<Rigidbody>();
         // Disabling auto-braking allows for continuous movement
         // between points (ie, the agent doesn't slow down as it
         // approaches a destination point).
@@ -56,5 +56,12 @@ public class NavMeshAI : MonoBehaviour {
         // close to the current one.
         if (agent.remainingDistance < nodeRange)
             GotoNextPoint();
+    }
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Turbo")
+        {
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * agent.acceleration / 3, ForceMode.VelocityChange);
+        }
     }
 }

@@ -169,7 +169,13 @@ public class m_carController : MonoBehaviour {
 
         if (driveMode == DriveMode.Drift)
         {
+            wheelFR.motorTorque = scaledTorque/2;
+            wheelFL.motorTorque = scaledTorque/2;
+            wheelBL.brakeTorque = brakeTorque * 1.5f;
+            wheelBR.brakeTorque = brakeTorque * 1.5f;
+
             Debug.Log("Drifting");
+
             WheelBehaviour(wheelBR, wheelBL, wheelFR, wheelFL);
 
             if (Input.GetAxis("Horizontal") > 0.5f)
@@ -206,12 +212,7 @@ public class m_carController : MonoBehaviour {
         Vector3 localPosition = transform.localPosition;
         
 		bool groundedBL = WheelBL.GetGroundHit(out hit);
-        bool groundedBR = WheelBR.GetGroundHit(out hit);
-
-        WheelFR.motorTorque = scaledTorque;
-        WheelFL.motorTorque = scaledTorque;
-        WheelBL.brakeTorque = brakeTorque * 1.5f;
-        WheelBR.brakeTorque = brakeTorque * 1.5f;
+        bool groundedBR = WheelBR.GetGroundHit(out hit);        
 
         if (groundedBL)
         {            
@@ -219,29 +220,28 @@ public class m_carController : MonoBehaviour {
             {
                 m_particleSystem1.Play();
                 m_particleSystem2.Stop();
-                m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x)*2, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
+                m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
             }
             else if (Input.GetAxis("Horizontal") < 0)
             {
                 m_particleSystem1.Stop();
                 m_particleSystem2.Play();
-                m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x)*2, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
+                m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
             }           
-        }
-        
+        }        
         if (groundedBR)
         {
             if (Input.GetAxis("Horizontal") > 0)
             {
                 m_particleSystem1.Play();
                 m_particleSystem2.Stop();
-                m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x)*2, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
+                m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
             }
             else if (Input.GetAxis("Horizontal") < 0)
             {
                 m_particleSystem1.Stop();
                 m_particleSystem2.Play();
-                m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x)*2, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
+                m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
             }                  
         }        
     }
@@ -249,7 +249,7 @@ public class m_carController : MonoBehaviour {
     {
         if (col.tag == "Turbo")
         {            
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration/3, ForceMode.VelocityChange);
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration/2, ForceMode.VelocityChange);
         }
         if (col.tag == "Wall")
         {

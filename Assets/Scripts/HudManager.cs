@@ -28,9 +28,9 @@ public class HudManager : MonoBehaviour
 
     public void UpdateTimerUI()
     {
-        //set timer UI
+        //set timer UI 3 digits als milisegons
         milisecondsCount += Time.deltaTime * 100;
-        time_Text.text = minuteCount + "m: " + (int)secondsCount + "s: " + (int)milisecondsCount + "ms";
+        time_Text.text = minuteCount + ": " + (int)secondsCount + ", " + (int)milisecondsCount;
 
         if (milisecondsCount >= 100)
         {

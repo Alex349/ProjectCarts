@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckPoints : MonoBehaviour {
-    private Transform playerTransform;
+    public Transform playerTransform;
     public CarCheckPoints carCheckPoints;
+
     // Use this for initialization
     void Start ()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Kart").transform;
-
+        playerTransform = GameObject.FindGameObjectWithTag("Kart").GetComponent<Transform>();
+        //carCheckPoints = GameObject.FindGameObjectWithTag("Kart").GetComponent<CarCheckPoints>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -19,10 +20,10 @@ public class CheckPoints : MonoBehaviour {
             return; //If it's not the player dont continue
 
         //Is this transform equal to the transform of checkpointArrays[currentCheckpoint]?
-        if (transform == playerTransform.GetComponent<CarCheckPoints>().checkPointArray[carCheckPoints.currentCheckpoint].transform)
+        if (transform == carCheckPoints.checkPointArray[carCheckPoints.currentCheckpoint].transform)
         {
             //Check so we dont exceed our checkpoint quantity
-            if (carCheckPoints.currentCheckpoint + 1 < playerTransform.GetComponent<CarCheckPoints>().checkPointArray.Length)
+            if (carCheckPoints.currentCheckpoint + 1 < carCheckPoints.checkPointArray.Length)
             {
                 //Add to currentLap if currentCheckpoint is 0
                 if (carCheckPoints.currentCheckpoint == 0)

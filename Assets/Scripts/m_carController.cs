@@ -43,10 +43,19 @@ public class m_carController : MonoBehaviour {
     private float journeyLength;
     private float startTime;
     private float distanceCovered, francJourney;
+    private float AntiRoll = 1000f;
 
     void Start()
     {
         m_camera = GetComponentInChildren<Camera>();
+
+        if (m_camera == null)
+        {
+            m_camera = gameObject.AddComponent<Camera>();
+        }
+
+        m_camera.transform.position = startPos.position;
+
         nodes = GameObject.FindGameObjectsWithTag("Node");
 
         m_rigidbody = GetComponent<Rigidbody>();
@@ -72,7 +81,7 @@ public class m_carController : MonoBehaviour {
 
 	void FixedUpdate ()
     {
-        m_rigidbody.AddRelativeForce(Vector3.down * gravity, ForceMode.Acceleration);
+        m_rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
 
         if (speedText!=null)
 			speedText.text = "Speed: " + Speed().ToString("") + " km/h";
@@ -128,9 +137,9 @@ public class m_carController : MonoBehaviour {
         
         if (driveMode == DriveMode.Front)
         {
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Acceleration);
             wheelBR.motorTorque = scaledTorque;
-            wheelBL.motorTorque = scaledTorque;
+            wheelBL.motorTorque = scaledTorque;            
 
             if (Speed() > 0)
             {
@@ -145,14 +154,25 @@ public class m_carController : MonoBehaviour {
 
             if (Input.GetAxis("Horizontal") > 0.5f)
             {
+              //  wheelBR.motorTorque = scaledTorque * 3;
+              //  wheelBL.brakeTorque = brakeTorque * 3;
                 m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosR.rotation, cameraSpeed);
                 m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosR.position, cameraSpeed);
             }
             else if (Input.GetAxis("Horizontal") < -0.5f)
             {
+             //   wheelBR.brakeTorque = brakeTorque * 3;
+             //   wheelBL.motorTorque = scaledTorque * 3;
                 m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosL.rotation, cameraSpeed);
                 m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosL.position, cameraSpeed);
-            }            
+            }
+            else
+            {
+                m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, startPos.rotation, cameraSpeed);
+                m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, startPos.position, cameraSpeed);
+            }
+            Debug.Log("Wheel back left motor torque: " + wheelBL.motorTorque);
+            Debug.Log("Wheel back right motor torque: " + wheelBR.motorTorque);
         }
         if (driveMode == DriveMode.Rear)
         {
@@ -185,6 +205,7 @@ public class m_carController : MonoBehaviour {
             }
             else if (Input.GetAxis("Horizontal") < -0.5f)
             {
+                
                 m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosL.rotation, cameraSpeed * 5);
                 m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosL.position, cameraSpeed * 5);
             }
@@ -208,11 +229,17 @@ public class m_carController : MonoBehaviour {
 	void WheelBehaviour(WheelCollider WheelBL, WheelCollider WheelBR, WheelCollider WheelFL, WheelCollider WheelFR)
     {
 		WheelHit hit;
-
         Vector3 localPosition = transform.localPosition;
-        
-		bool groundedBL = WheelBL.GetGroundHit(out hit);
-        bool groundedBR = WheelBR.GetGroundHit(out hit);        
+
+        float travelFL = 1.0f;
+        float travelFR = 1.0f;
+        float travelBL = 1.0f;
+        float travelBR = 1.0f;
+
+        bool groundedBL = WheelBL.GetGroundHit(out hit);
+        bool groundedBR = WheelBR.GetGroundHit(out hit);
+        bool groundedFL = WheelBL.GetGroundHit(out hit);
+        bool groundedFR = WheelBR.GetGroundHit(out hit);
 
         if (groundedBL)
         {            
@@ -244,6 +271,26 @@ public class m_carController : MonoBehaviour {
                 m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
             }                  
         }        
+
+        if (groundedBL)
+            travelBL = (-WheelBL.transform.InverseTransformPoint(hit.point).y - WheelBL.radius) / WheelBL.suspensionDistance;
+
+        if (groundedBR)
+            travelBR = (-WheelBR.transform.InverseTransformPoint(hit.point).y - WheelBR.radius) / WheelBR.suspensionDistance;
+
+        if (groundedFL)
+            travelFL = (-WheelBL.transform.InverseTransformPoint(hit.point).y - WheelBL.radius) / WheelBL.suspensionDistance;
+
+        if (groundedFR)
+            travelFR = (-WheelBR.transform.InverseTransformPoint(hit.point).y - WheelBR.radius) / WheelBR.suspensionDistance;
+
+        float antiRollForceBack = (travelBL - travelBR) * AntiRoll;
+        float antiRollForceFront = (travelFL - travelFR) * AntiRoll;
+
+        if (groundedBL)
+            GetComponent<Rigidbody>().AddForceAtPosition(WheelBL.transform.up * -antiRollForceBack, WheelBL.transform.position);
+        if (groundedBR)
+            GetComponent<Rigidbody>().AddForceAtPosition(WheelBR.transform.up * antiRollForceBack, WheelBR.transform.position);
     }
     void OnTriggerEnter(Collider col)
     {
@@ -260,6 +307,7 @@ public class m_carController : MonoBehaviour {
     private Vector3 ResetPosition()
     {
         Vector3 respawnPosition;
+        GameObject kart = gameObject;
 
         for (int i = 0; i < nodes.Length; i++)
         {
@@ -267,11 +315,15 @@ public class m_carController : MonoBehaviour {
 
             if (distanceToRespawnPoint.magnitude <= 300)
             {
+               
                 float angleToPoint = transform.rotation.y - distanceToRespawnPoint.y;
                 respawnPosition = nodes[i].transform.position;
                 Debug.Log("Is Respawning");
-                transform.position = respawnPosition;
-                transform.rotation = new Quaternion (nodes[i].transform.rotation.x, angleToPoint, nodes[i].transform.rotation.z, 0);
+                Instantiate(kart, respawnPosition, new Quaternion(0, 0, 0, 0), null);
+                Destroy(gameObject);
+                //transform.position = respawnPosition;
+                //transform.rotation = ;
+                
             }
             /*else if (distanceToRespawnPoint.magnitude > 300) // && distanceToRespawnPoint.magnitude <= 600
             {

@@ -8,9 +8,11 @@ public class HudManager : MonoBehaviour
     
     public CarCheckPoints carCheckPoints;
     public Image itemImage;
-    public Sprite bananaSprite;
+    public IA_Item ia_Item;
+    public Sprite[] itemSpriteList;
     public Text currentPosition_Text, time_Text, currentLap_Text, totalLaps_Text;
     public float currentPosition, time, secondsCount, minuteCount, milisecondsCount, currentLap, totalLaps;
+
     // Use this for initialization
     void Start()
     {
@@ -20,6 +22,7 @@ public class HudManager : MonoBehaviour
     void Update()
     {
         UpdateTimerUI();
+        UpdateItemUI();
         currentPosition_Text.text = currentPosition.ToString();
         currentLap = carCheckPoints.currentLap ;
         currentLap_Text.text = currentLap.ToString();
@@ -30,7 +33,7 @@ public class HudManager : MonoBehaviour
     {
         //set timer UI 3 digits als milisegons
         milisecondsCount += Time.deltaTime * 100;
-        time_Text.text = minuteCount + ": " + (int)secondsCount + ", " + (int)milisecondsCount;
+        time_Text.text = minuteCount + ": " + (int)secondsCount + ", " + (float)milisecondsCount;
 
         if (milisecondsCount >= 100)
         {
@@ -46,9 +49,21 @@ public class HudManager : MonoBehaviour
 
     public void UpdateItemUI()
     {
-        //if (car.currentItem == "banana")
-        //{
-        //    itemImage.sprite = bananaSprite;
-        //}
+        if (ia_Item.currentIAItem == "none")
+        {
+            itemImage.sprite = itemSpriteList[0];
+        }
+        if (ia_Item.currentIAItem == "rocket")
+        {
+            itemImage.sprite = itemSpriteList[1];
+        }
+        if (ia_Item.currentIAItem == "turbo")
+        {
+            itemImage.sprite = itemSpriteList[2];
+        }
+        if (ia_Item.currentIAItem == "banana")
+        {
+            itemImage.sprite = itemSpriteList[3];
+        }
     }
 }

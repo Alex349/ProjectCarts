@@ -9,7 +9,7 @@ public class CheckPoints : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Kart").GetComponent<Transform>();
+        //playerTransform = GameObject.FindGameObjectWithTag("Kart").GetComponent<Transform>();
         //carCheckPoints = GameObject.FindGameObjectWithTag("Kart").GetComponent<CarCheckPoints>();
     }
 

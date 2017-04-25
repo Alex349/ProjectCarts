@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class m_carController_Copy : MonoBehaviour
 {
 
-    public float g_RPM = 500f;
+   /* public float g_RPM = 500f;
     public float max_RPM = 1000f;
     private Rigidbody m_rigidbody;
 
@@ -283,7 +283,9 @@ public class m_carController_Copy : MonoBehaviour
                 transform.position = respawnPosition;
                 transform.rotation = nodes[i].transform.rotation;
             }    */
-        }
-        return transform.position;
-    }
+ //       }
+ //       return transform.position;
+ //   }
+    
 }
+    

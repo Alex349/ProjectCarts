@@ -159,16 +159,12 @@ public class m_carController : MonoBehaviour {
             }
 
             if (Input.GetAxis("Horizontal") > 0.5f)
-            {
-              //  wheelBR.motorTorque = scaledTorque * 3;
-              //  wheelBL.brakeTorque = brakeTorque * 3;
+            {               
                m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosR.rotation, cameraSpeed);
                m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosR.position, cameraSpeed);
             }
             else if (Input.GetAxis("Horizontal") < -0.5f)
             {
-             //   wheelBR.brakeTorque = brakeTorque * 3;
-             //   wheelBL.motorTorque = scaledTorque * 3;
               m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosL.rotation, cameraSpeed);
               m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosL.position, cameraSpeed);
             }
@@ -307,14 +303,11 @@ public class m_carController : MonoBehaviour {
             GetComponent<Rigidbody>().AddForceAtPosition(WheelBL.transform.up * -antiRollForceBack, WheelBL.transform.position);        
         if (groundedBR)
             GetComponent<Rigidbody>().AddForceAtPosition(WheelBR.transform.up * antiRollForceBack, WheelBR.transform.position);
-        else if (!groundedBR)
-            GetComponent<Rigidbody>().AddForceAtPosition(WheelBL.transform.up * -antiRollForceBack, WheelBR.transform.position);
         if (groundedFL)
             GetComponent<Rigidbody>().AddForceAtPosition(WheelFL.transform.up * -antiRollForceFront, WheelFL.transform.position);
         if (groundedFR)
             GetComponent<Rigidbody>().AddForceAtPosition(WheelFR.transform.up * antiRollForceFront, WheelFR.transform.position);
-        else if (!groundedFR)
-            GetComponent<Rigidbody>().AddForceAtPosition(WheelBL.transform.up * -antiRollForceBack, WheelBR.transform.position);
+       
     }
     void OnTriggerEnter(Collider col)
     {

@@ -40,7 +40,7 @@ public class Path_Script : MonoBehaviour
             }
 
             Gizmos.DrawLine(previousNode, currentNode);
-            Gizmos.DrawSphere(currentNode, 1f);
+            Gizmos.DrawSphere(currentNode, 0.1f);
         }
     }
 }

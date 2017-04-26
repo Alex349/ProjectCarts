@@ -53,10 +53,10 @@ public class TireToWheel : MonoBehaviour {
          //  wheelParticleSystem.Stop();
          //  emission.enabled = false;
 		}		
-		wheelTransform.localPosition = localPosition;
+		wheelTransform.localPosition = new Vector3(localPosition.x, 0, localPosition.z);
 
         //wheelTransform.localRotation = Quaternion.Euler(collider.rpm, collider.steerAngle, 0);
         //this is the good one, we can add the correct rotation when the centers (assets) changed
-        wheelTransform.localRotation = Quaternion.Euler(0, collider.steerAngle, 0);
+        wheelTransform.localRotation = Quaternion.Euler(wheelCollider.transform.rotation.x, collider.steerAngle, 0);
     }
 }

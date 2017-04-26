@@ -1,42 +1,47 @@
 fileFormatVersion: 2
-guid: 1f6adac5cc5c38342a556d8123ee44f0
-timeCreated: 1493046369
+guid: 32e7140fe6df0b74d93cfd0ff63454b0
+timeCreated: 1493204795
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Coxe
+    100000: Coxe004
     100002: //RootNode
     100004: Object015
     100006: Object016
     100008: Object017
     100010: Object018
     100012: Object019
-    400000: Coxe
+    100014: Object020
+    400000: Coxe004
     400002: //RootNode
     400004: Object015
     400006: Object016
     400008: Object017
     400010: Object018
     400012: Object019
-    2300000: Coxe
+    400014: Object020
+    2300000: Coxe004
     2300002: Object015
     2300004: Object016
     2300006: Object017
     2300008: Object018
     2300010: Object019
-    3300000: Coxe
+    2300012: Object020
+    3300000: Coxe004
     3300002: Object015
     3300004: Object016
     3300006: Object017
     3300008: Object018
     3300010: Object019
-    4300000: Coxe
+    3300012: Object020
+    4300000: Coxe004
     4300002: Object015
     4300004: Object016
     4300006: Object017
     4300008: Object018
     4300010: Object019
+    4300012: Object020
   materials:
     importMaterials: 1
     materialName: 0

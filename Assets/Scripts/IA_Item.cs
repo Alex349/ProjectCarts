@@ -6,17 +6,33 @@ using UnityEngine.AI;
 
 public class IA_Item : MonoBehaviour
 {
-
     public string currentIAItem = "none";
     public int money;
     private NavMeshAgent agent;
     [SerializeField]
-    private float bananaEffect = 3;
+    private float iADefaultSpeed = 10;
+    [SerializeField]
+    private float iADefaultAcc = 40;
+    private float bananaEffect;
+    [SerializeField]
+    private float bananaEffectDuration = 3;
+    private float turboEffect;
+    [SerializeField]
+    private float turboEffectDuration = 3;
+    [SerializeField]
+    private float bananaSlowedSpeed = 2;
+    [SerializeField]
+    private float bananaSlowedAcc = 8;
+    [SerializeField]
+    private float turboSpeed = 30;
+    [SerializeField]
+    private float turboAcc = 120;
     [SerializeField]
     private Transform backSpawn;
-    [SerializeField]
-
     private Vector3 backSpawnVector;
+    [SerializeField]
+    private Transform frontSpawn;
+    private Vector3 frontSpawnVector;
 
     void Start()
     {
@@ -26,13 +42,10 @@ public class IA_Item : MonoBehaviour
     void Update()
     {
         backSpawnVector = backSpawn.transform.position;
-        bananaEffect -= Time.deltaTime;
-        if (bananaEffect < 0)
-        {
-            Debug.Log("NoSlowed");
-            agent.speed = 10;
-            agent.acceleration = 40;
-        }
+        frontSpawnVector = frontSpawn.transform.position;
+
+        UpdateItems();
+        IncreaseSpeedOnMoney();
 
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -65,14 +78,13 @@ public class IA_Item : MonoBehaviour
         if (other.tag == "Banana")
         {
             Destroy(other.gameObject);
-            bananaEffect = 3;
+            bananaEffect = bananaEffectDuration;
 
             if (bananaEffect > 0)
             {
                 Debug.Log("Slowed");
-                agent.speed = 2;
-                agent.acceleration = 8;
-
+                agent.speed = bananaSlowedSpeed;
+                agent.acceleration = bananaSlowedAcc;
             }
         }
 
@@ -109,15 +121,54 @@ public class IA_Item : MonoBehaviour
         }
         if (currentIAItem == "rocket")
         {
-
+            Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, Quaternion.identity);
+            currentIAItem = "none";
         }
         if (currentIAItem == "turbo")
         {
+            Debug.Log("Turbo");
 
+            turboEffect = turboEffectDuration;
+            currentIAItem = "none";
         }
         if (currentIAItem == "banana")
         {
-            Instantiate(Resources.Load("Banana"), backSpawnVector, Quaternion.identity);
+            Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity);
+            currentIAItem = "none";
+
         }
+    }
+
+    void UpdateItems()
+    {
+        //BananaItemUpdate
+        bananaEffect -= Time.deltaTime;
+
+        if (bananaEffect < 0)
+        {
+            agent.speed = iADefaultSpeed;
+            agent.acceleration = iADefaultAcc;
+        }
+        //TurboItemUpdate
+        turboEffect -= Time.deltaTime;
+
+        if (turboEffect > 0)
+        {
+            agent.speed = turboSpeed;
+            agent.acceleration = turboAcc;
+
+        }
+
+        if (turboEffect < 0)
+        {
+            agent.speed = iADefaultSpeed;
+            agent.acceleration = iADefaultAcc;
+        }
+    }
+
+    void IncreaseSpeedOnMoney()
+    {
+        agent.speed = agent.speed * ( 1 + money * 0.1f);
+        agent.acceleration = agent.acceleration * (1 + money * 0.4f);
     }
 }

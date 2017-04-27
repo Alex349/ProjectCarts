@@ -6,6 +6,7 @@ public class wagonScript : MonoBehaviour {
 
     public GameObject startPoint, endPoint;
     public float speed = 5f;
+    private float lifeTimeCounter;
 
 	void Start ()
     {
@@ -16,6 +17,13 @@ public class wagonScript : MonoBehaviour {
 	
 	void Update ()
     {
+        lifeTimeCounter += Time.deltaTime;
+
         transform.position = Vector3.MoveTowards(transform.position, endPoint.transform.position, speed * Time.deltaTime);
+
+        if (lifeTimeCounter >= 15)
+        {
+            Destroy(gameObject);
+        }
 	}
 }

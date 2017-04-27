@@ -28,9 +28,7 @@ public class wagonSpawner : MonoBehaviour
     }
 	
 	void Update ()
-    {
-      //  
-      //  m_wagon = wagon.GetComponent<wagonScript>();
+    {    
         currentTime += Time.deltaTime;
 
         if (currentTime > spawningTime && firstWagonDestroyed)
@@ -44,7 +42,7 @@ public class wagonSpawner : MonoBehaviour
             distanceToFirstWall = firstWall.transform.position - instanceWagon.transform.position;
             distanceToLastWall = lastWall.transform.position - instanceWagon.transform.position;            
 
-            if (distanceToFirstWall.magnitude <= 7)
+            if (distanceToFirstWall.magnitude <= 7 && !firstWallReached)
             {
                 firstWall.transform.position = Vector3.MoveTowards(firstWall.transform.position, firstWallFinalPoint.position, deltaUpdate);
                 firstWallReached = true;
@@ -54,7 +52,7 @@ public class wagonSpawner : MonoBehaviour
                 firstWall.transform.position = Vector3.MoveTowards(firstWall.transform.position, firstWallInitPoint.position, deltaUpdate);
                 firstWallReached = false;
             }
-            if (distanceToLastWall.magnitude <= 7)
+            if (distanceToLastWall.magnitude <= 7 && !secondWallReached)
             {
                 lastWall.transform.position = Vector3.MoveTowards(lastWall.transform.position, lastWallFinalPoint.position, deltaUpdate);
                 secondWallReached = true;
@@ -77,10 +75,7 @@ public class wagonSpawner : MonoBehaviour
             distanceToFirstWall = firstWall.transform.position - wagon.transform.position;
             distanceToLastWall = lastWall.transform.position - wagon.transform.position;
 
-            Debug.Log(distanceToFirstWall.magnitude);
-            Debug.Log(distanceToLastWall.magnitude);
-
-            if (distanceToFirstWall.magnitude <= 7)
+            if (distanceToFirstWall.magnitude <= 7 && !firstWallReached)
             {
                 firstWall.transform.position = Vector3.MoveTowards(firstWall.transform.position, firstWallFinalPoint.position, deltaUpdate);
                 firstWallReached = true;

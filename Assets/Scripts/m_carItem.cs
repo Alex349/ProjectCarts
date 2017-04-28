@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
+public class m_carItem : MonoBehaviour {
 
-public class IA_Item : MonoBehaviour
-{
-    public string currentIAItem = "none";
+	public string currentIAItem = "none";
+    private m_carController carController;
     public int money;
-    private NavMeshAgent agent;
     [SerializeField]
-    private float iADefaultSpeed = 10;
+    private float carDefaultSpeed = 10;
     [SerializeField]
-    private float iADefaultAcc = 40;
+    private float carDefaultAcc = 40;
     private float bananaEffect;
     [SerializeField]
     private float bananaEffectDuration = 3;
@@ -36,7 +34,7 @@ public class IA_Item : MonoBehaviour
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        carController = GameObject.FindGameObjectWithTag("Kart").GetComponent<m_carController>();
     }
     // Update is called once per frame
     void Update()
@@ -83,8 +81,8 @@ public class IA_Item : MonoBehaviour
             if (bananaEffect > 0)
             {
                 Debug.Log("Slowed");
-                agent.speed = bananaSlowedSpeed;
-                agent.acceleration = bananaSlowedAcc;
+                //carController.maxSpeed = bananaSlowedSpeed;
+                carController.acceleration = bananaSlowedAcc;
             }
         }
 
@@ -95,21 +93,17 @@ public class IA_Item : MonoBehaviour
         float rnd = (Random.Range(0f, 1f));
 
 
-        if (rnd < 0.2)
+        if (rnd < 0.45)
         {
             currentIAItem = "banana";
         }
-        else if (rnd < 0.4)
+        else if (rnd < 0.7)
         {
             currentIAItem = "turbo";
         }
-        else if (rnd < 0.6)
-        {
-            currentIAItem = "rocket";
-        }
         else if (rnd < 1)
         {
-            currentIAItem = "coins";
+            currentIAItem = "rocket";
         }
         else
         {
@@ -141,13 +135,6 @@ public class IA_Item : MonoBehaviour
             currentIAItem = "none";
 
         }
-
-        if (currentIAItem == "coins")
-        {
-            money = money + 5;
-            currentIAItem = "none";
-
-        }
     }
 
     void UpdateItems()
@@ -157,29 +144,29 @@ public class IA_Item : MonoBehaviour
 
         if (bananaEffect < 0)
         {
-            agent.speed = iADefaultSpeed;
-            agent.acceleration = iADefaultAcc;
+            //carController.maxSpeed = carDefaultSpeed;
+            carController.acceleration = carDefaultAcc;
         }
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
 
         if (turboEffect > 0)
         {
-            agent.speed = turboSpeed;
-            agent.acceleration = turboAcc;
+            //carController.maxSpeed = turboSpeed;
+            carController.acceleration = turboAcc;
 
         }
 
         if (turboEffect < 0)
         {
-            agent.speed = iADefaultSpeed;
-            agent.acceleration = iADefaultAcc;
+            //carController.maxSpeed = carDefaultSpeed;
+            carController.acceleration = carDefaultAcc;
         }
     }
 
     void IncreaseSpeedOnMoney()
     {
-        agent.speed = agent.speed * ( 1 + money * 0.1f);
-        agent.acceleration = agent.acceleration * (1 + money * 0.4f);
+        //carController.maxSpeed = carController.maxSpeed * ( 1 + money * 0.1f);
+        carController.acceleration = carController.acceleration * (1 + money * 0.4f);
     }
 }

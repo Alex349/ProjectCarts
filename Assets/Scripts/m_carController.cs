@@ -18,7 +18,7 @@ public class m_carController : MonoBehaviour {
     private ParticleSystem m_particleSystem1;
     private ParticleSystem m_particleSystem2;
 
-    public int acceleration = 10;
+    public float acceleration = 10;
     public float gravity = 9.81f;
 	public float turnRadius = 6f;
 	public float torque = 100f;

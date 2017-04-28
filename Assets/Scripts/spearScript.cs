@@ -5,8 +5,8 @@ using UnityEngine;
 public class spearScript : MonoBehaviour {
 
     public GameObject spear1, spear2, spear3, spear4;
-    private float displacement = 3f;
-    private float displacementTime = 10f;
+    public float displacement = 3f;
+    public float displacementTime = 10f;
 
 	void Start ()
     {
@@ -17,7 +17,7 @@ public class spearScript : MonoBehaviour {
     {
         displacementTime -= Time.deltaTime;
 
-        if (displacementTime > 9f)
+        if (displacementTime > 9f && displacementTime < 10f)
         {
             spear1.transform.position = Vector3.MoveTowards(spear1.transform.position, new Vector3(spear1.transform.position.x,
                                     spear1.transform.position.y, spear1.transform.position.z + displacement), displacement);
@@ -56,8 +56,10 @@ public class spearScript : MonoBehaviour {
         else if (displacementTime > 2f && displacementTime < 3f)
         {
             spear4.transform.position = Vector3.MoveTowards(spear4.transform.position, new Vector3(spear4.transform.position.x,
-                                    spear4.transform.position.y, spear4.transform.position.z + displacement), displacement);
-
+                                    spear4.transform.position.y, spear4.transform.position.z + displacement), displacement);            
+        }
+        if (displacementTime <= 0)
+        {
             displacementTime = 10f;
         }
     }

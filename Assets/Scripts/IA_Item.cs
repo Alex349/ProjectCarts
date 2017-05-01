@@ -9,24 +9,29 @@ public class IA_Item : MonoBehaviour
     public string currentIAItem = "none";
     public int money;
     private NavMeshAgent agent;
+    //Defaults
     [SerializeField]
     private float iADefaultSpeed = 10;
     [SerializeField]
     private float iADefaultAcc = 40;
+    private float IaUseItemCooldown = 5;
+    //Banana
     private float bananaEffect;
     [SerializeField]
     private float bananaEffectDuration = 3;
-    private float turboEffect;
-    [SerializeField]
-    private float turboEffectDuration = 3;
     [SerializeField]
     private float bananaSlowedSpeed = 2;
     [SerializeField]
     private float bananaSlowedAcc = 8;
+    //Turbo
+    private float turboEffect;
     [SerializeField]
     private float turboSpeed = 30;
     [SerializeField]
+    private float turboEffectDuration = 3;
+    [SerializeField]
     private float turboAcc = 120;
+    //ItemSpawners
     [SerializeField]
     private Transform backSpawn;
     private Vector3 backSpawnVector;
@@ -181,5 +186,15 @@ public class IA_Item : MonoBehaviour
     {
         agent.speed = agent.speed * ( 1 + money * 0.1f);
         agent.acceleration = agent.acceleration * (1 + money * 0.4f);
+    }
+
+    public void IaUseItem()
+    {
+        IaUseItemCooldown -= Time.deltaTime;
+
+        if (IaUseItemCooldown < 0)
+        {
+            UseItem();
+        }
     }
 }

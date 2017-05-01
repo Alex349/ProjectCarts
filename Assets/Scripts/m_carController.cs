@@ -35,7 +35,7 @@ public class m_carController : MonoBehaviour {
     private GameObject[] nodes;
     private Vector3 distanceToRespawnPoint;
 
-    private Camera m_camera;
+    //public Camera m_camera;
     public Transform startPos;
     public Transform targetPosL, targetPosR;
     public Transform RearPos;
@@ -45,16 +45,16 @@ public class m_carController : MonoBehaviour {
     public float wheelBLDriftFriction;
     public float wheelBRDriftFriction;
 
-    private float wheelFLFrwdFriction, wheelFRFrwdFritction;
+    //private float wheelFLFrwdFriction, wheelFRFrwdFritction;
 
     public float driftForce = 10f;
     public float speed = 5f;
 
     void Start()
     {
-        m_camera = GetComponentInChildren<Camera>();        
+        //m_camera = GetComponentInChildren<Camera>();        
 
-        m_camera.transform.position = startPos.position;
+        //m_camera.transform.position = startPos.position;
 
         nodes = GameObject.FindGameObjectsWithTag("Node");
 
@@ -85,19 +85,19 @@ public class m_carController : MonoBehaviour {
 	void FixedUpdate ()
     {
         m_rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-
-        if (speedText!=null)
+     
+        if (speedText !=null)
 			speedText.text = "Speed: " + Speed().ToString("") + " km/h";
 
 		scaledTorque = Input.GetAxis("Vertical") * torque * acceleration;
 
 		if(wheelBL.rpm < g_RPM)
         {
-            //scaledTorque = Mathf.Lerp(scaledTorque / 10, scaledTorque, wheelBL.rpm / g_RPM);
+            scaledTorque = Mathf.Lerp(scaledTorque / 10, scaledTorque, wheelBL.rpm / g_RPM);
         }			
 		else
         {
-            //scaledTorque = Mathf.Lerp(scaledTorque, 0, (wheelBL.rpm - g_RPM) / (max_RPM - g_RPM));
+            scaledTorque = Mathf.Lerp(scaledTorque, 0, (wheelBL.rpm - g_RPM) / (max_RPM - g_RPM));
         }					
 
 		wheelFR.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
@@ -131,14 +131,16 @@ public class m_carController : MonoBehaviour {
         }
         else if (Input.GetAxis("Vertical") == 0 && Speed() != 0 && driveMode != DriveMode.Drift)
         {
-            slowDownCounter += Time.deltaTime;
+            slowDownCounter += Time.deltaTime;            
 
-            if (slowDownCounter > 1.5f)
+            if (slowDownCounter > 1f)
             {
-                wheelBL.brakeTorque = brakeTorque;
-                wheelBR.brakeTorque = brakeTorque;
+                Debug.Log("Is braking");
                 wheelFL.brakeTorque = brakeTorque;
                 wheelFR.brakeTorque = brakeTorque;
+                wheelBL.brakeTorque = brakeTorque;
+                wheelBR.brakeTorque = brakeTorque;
+                slowDownCounter = 0;
             }            
         }
         if (driveMode == DriveMode.Front)
@@ -156,27 +158,7 @@ public class m_carController : MonoBehaviour {
             {
                 driveMode = DriveMode.Front;
             }
-            if (Input.GetKeyDown("z") && Input.GetAxis("Horizontal") == 0)
-            {
-                m_camera.transform.position = RearPos.position;
-                m_camera.transform.rotation = RearPos.rotation;
-            }
-            else if (Input.GetKeyUp("z"))
-            {
-                m_camera.transform.position = startPos.position;
-                m_camera.transform.rotation = startPos.rotation;
-            }                
-            else if (Input.GetAxis("Horizontal") > 0.5f)
-            {               
-               m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosR.rotation, cameraSpeed);
-               m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosR.position, cameraSpeed);
-            }
-            else if (Input.GetAxis("Horizontal") < -0.5f)
-            {
-              m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosL.rotation, cameraSpeed);
-              m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosL.position, cameraSpeed);
-            }
-            
+                        
             //   Debug.Log("Wheel back left motor torque: " + wheelBL.motorTorque);
             //   Debug.Log("Wheel back right motor torque: " + wheelBR.motorTorque);
         }
@@ -186,40 +168,12 @@ public class m_carController : MonoBehaviour {
             wheelBL.motorTorque = scaledTorque;
             
             m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * -acceleration, ForceMode.Acceleration);
-
-            if (Input.GetKeyDown("z"))
-            {
-                m_camera.transform.position = RearPos.position;
-                m_camera.transform.rotation = RearPos.rotation;
-            }
-            else if (Input.GetKeyUp("z"))
-            {
-                m_camera.transform.position = startPos.position;
-                m_camera.transform.rotation = startPos.rotation;
-            }
         }
 
         if (driveMode == DriveMode.Drift)
         {            
-            //Debug.Log("Drifting");
-
             DriftBehaviour(wheelBR, wheelBL, wheelFR, wheelFL);
 
-            if (Input.GetAxis("Horizontal") > 0.5f)
-            {
-               m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosR.rotation, cameraSpeed * 3);
-               m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosR.position, cameraSpeed * 3);
-            }
-            else if (Input.GetAxis("Horizontal") < -0.5f)
-            {                
-                m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, targetPosL.rotation, cameraSpeed * 3);
-                m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, targetPosL.position, cameraSpeed * 3);
-            }
-            else if (Input.GetAxis("Horizontal") > -0.5f && Input.GetAxis("Horizontal") < 0.5f)
-            {
-                m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, startPos.rotation, cameraSpeed * 3);
-                m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, startPos.position, cameraSpeed * 3);
-            }
         }        
 
         WheelHit hit;

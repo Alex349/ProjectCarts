@@ -16,6 +16,7 @@ public class IA_Item : MonoBehaviour
     private float iADefaultAcc = 40;
     private float IaUseItemCooldown = 5;
     //Banana
+    [SerializeField]
     private float bananaEffect;
     [SerializeField]
     private float bananaEffectDuration = 3;

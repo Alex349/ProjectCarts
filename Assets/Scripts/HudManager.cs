@@ -64,7 +64,7 @@ public class HudManager : MonoBehaviour
         {
             itemImage.sprite = itemSpriteList[3];
         }
-        if (ia_Item.currentIAItem == "coins")
+        if (ia_Item.currentIAItem == "coin")
         {
             itemImage.sprite = itemSpriteList[4];
         }

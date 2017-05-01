@@ -48,27 +48,25 @@ public class m_carHUD : MonoBehaviour
 
     public void UpdateItemUI()
     {
-        if (car_Item.currentIAItem == "none")
+        if (car_Item.currentPlayerObject == "none")
         {
             itemImage.sprite = itemSpriteList[0];
         }
-        if (car_Item.currentIAItem == "rocket")
+        if (car_Item.currentPlayerObject == "rocket")
         {
             itemImage.sprite = itemSpriteList[1];
         }
-        if (car_Item.currentIAItem == "turbo")
+        if (car_Item.currentPlayerObject == "turbo")
         {
             itemImage.sprite = itemSpriteList[2];
         }
-        if (car_Item.currentIAItem == "car")
+        if (car_Item.currentPlayerObject == "banana")
+        {
+            itemImage.sprite = itemSpriteList[3];
+        }
+        if (car_Item.currentPlayerObject == "coin")
         {
             itemImage.sprite = itemSpriteList[4];
-        }
-        if (car_Item.currentIAItem == "coins")
-        {
-            //car_Item.currentIAItem.money = money + 5;
-            car_Item.currentIAItem = "none";
-
         }
     }
 

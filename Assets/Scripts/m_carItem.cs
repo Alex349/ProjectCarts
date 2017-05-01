@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class m_carItem : MonoBehaviour {
 
-	public string currentIAItem = "none";
-    private m_carController carController;
-    public int money;
+	public string currentPlayerObject = "none";
+    public m_carController carController;
+    public float money;
     [SerializeField]
     private float carDefaultSpeed = 10;
     [SerializeField]
-    private float carDefaultAcc = 40;
+    private float carDefaultAcc = 10;
+    [SerializeField]
     private float bananaEffect;
     [SerializeField]
     private float bananaEffectDuration = 3;
@@ -34,7 +35,7 @@ public class m_carItem : MonoBehaviour {
 
     void Start()
     {
-        carController = GameObject.FindGameObjectWithTag("Kart").GetComponent<m_carController>();
+       // carController = GameObject.FindGameObjectWithTag("Kart").GetComponent<m_carController>();
     }
     // Update is called once per frame
     void Update()
@@ -58,7 +59,7 @@ public class m_carItem : MonoBehaviour {
         {
             Destroy(other.gameObject);
 
-            if (currentIAItem == "none")
+            if (currentPlayerObject == "none")
             {
                 GetRandomItem();
 
@@ -69,13 +70,14 @@ public class m_carItem : MonoBehaviour {
         {
             Destroy(other.gameObject);
 
-            money++;
+            money = money + 0.5f;
 
         }
 
         if (other.tag == "Banana")
         {
             Destroy(other.gameObject);
+
             bananaEffect = bananaEffectDuration;
 
             if (bananaEffect > 0)
@@ -93,46 +95,52 @@ public class m_carItem : MonoBehaviour {
         float rnd = (Random.Range(0f, 1f));
 
 
-        if (rnd < 0.45)
+        if (rnd < 0.2)
         {
-            currentIAItem = "banana";
+            currentPlayerObject = "banana";
         }
-        else if (rnd < 0.7)
+        else if (rnd < 0.4)
         {
-            currentIAItem = "turbo";
+            currentPlayerObject = "turbo";
+        }
+        else if (rnd < 0.6)
+        {
+            currentPlayerObject = "rocket";
         }
         else if (rnd < 1)
         {
-            currentIAItem = "rocket";
-        }
-        else
-        {
-
+            currentPlayerObject = "coin";
         }
     }
 
     void UseItem()
     {
-        if (currentIAItem == "none")
+        if (currentPlayerObject == "none")
         {
 
         }
-        if (currentIAItem == "rocket")
+        if (currentPlayerObject == "rocket")
         {
             Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, Quaternion.identity);
-            currentIAItem = "none";
+            currentPlayerObject = "none";
         }
-        if (currentIAItem == "turbo")
+        if (currentPlayerObject == "turbo")
         {
             Debug.Log("Turbo");
 
             turboEffect = turboEffectDuration;
-            currentIAItem = "none";
+            currentPlayerObject = "none";
         }
-        if (currentIAItem == "banana")
+        if (currentPlayerObject == "banana")
         {
             Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity);
-            currentIAItem = "none";
+            currentPlayerObject = "none";
+        }
+
+        if (currentPlayerObject == "coin")
+        {
+            money = money + 5;
+            currentPlayerObject = "none";
 
         }
     }
@@ -160,13 +168,13 @@ public class m_carItem : MonoBehaviour {
         if (turboEffect < 0)
         {
             //carController.maxSpeed = carDefaultSpeed;
-            carController.acceleration = carDefaultAcc;
+           carController.acceleration = carDefaultAcc;
         }
     }
 
     void IncreaseSpeedOnMoney()
     {
         //carController.maxSpeed = carController.maxSpeed * ( 1 + money * 0.1f);
-        carController.acceleration = carController.acceleration * (1 + money * 0.4f);
+        carController.acceleration = carController.acceleration * (1 + money * 0.01f);
     }
 }

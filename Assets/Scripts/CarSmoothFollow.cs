@@ -39,9 +39,8 @@ public class CarSmoothFollow : MonoBehaviour
         lookAtVector = new Vector3(0, lookAtHeight, 0);
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
-
         wantedHeight = target.position.y + height;
         currentHeight = transform.position.y;
 
@@ -63,6 +62,14 @@ public class CarSmoothFollow : MonoBehaviour
 
         transform.LookAt(target.position + lookAtVector);
 
+        if (Input.GetKeyDown("z"))
+        {
+            transform.position = -wantedPosition;
+        }
+        else if (Input.GetKeyUp("z"))
+        {
+            transform.position = wantedPosition;
+        }        
     }
 
 }

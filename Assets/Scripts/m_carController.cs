@@ -23,11 +23,11 @@ public class m_carController : MonoBehaviour {
 	public float turnRadius = 6f;
 	public float torque = 100f;
 	public float brakeTorque = 100f;
-
+    public float maxSpeed = 100f;
 	public enum DriveMode { Front, Rear, Drift, All };
-	public DriveMode driveMode = DriveMode.All;
+    public float turboForce = 10f;
 
-	public Text speedText;
+    public DriveMode driveMode = DriveMode.All;
 
     private float timeCounter, slowDownCounter;
     private float scaledTorque;
@@ -35,7 +35,6 @@ public class m_carController : MonoBehaviour {
     private GameObject[] nodes;
     private Vector3 distanceToRespawnPoint;
 
-    //public Camera m_camera;
     public Transform startPos;
     public Transform targetPosL, targetPosR;
     public Transform RearPos;
@@ -45,17 +44,11 @@ public class m_carController : MonoBehaviour {
     public float wheelBLDriftFriction;
     public float wheelBRDriftFriction;
 
-    //private float wheelFLFrwdFriction, wheelFRFrwdFritction;
-
     public float driftForce = 10f;
-    public float speed = 5f;
+    public float currentSpeed;
 
     void Start()
     {
-        //m_camera = GetComponentInChildren<Camera>();        
-
-        //m_camera.transform.position = startPos.position;
-
         nodes = GameObject.FindGameObjectsWithTag("Node");
 
         m_rigidbody = GetComponent<Rigidbody>();
@@ -67,8 +60,7 @@ public class m_carController : MonoBehaviour {
         wheelBLDriftFriction = wheelBL.sidewaysFriction.extremumSlip;
         wheelBRDriftFriction = wheelBR.sidewaysFriction.extremumSlip;
 
-        //startTime = Time.time;
-        //journeyLength = Vector3.Distance(startPos.position, targetPosL.position);
+        
     }
 
 	public float Speed()
@@ -84,10 +76,9 @@ public class m_carController : MonoBehaviour {
 
 	void FixedUpdate ()
     {
-        m_rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-     
-        if (speedText !=null)
-			speedText.text = "Speed: " + Speed().ToString("") + " km/h";
+        currentSpeed = m_rigidbody.velocity.magnitude;
+
+        m_rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);    
 
 		scaledTorque = Input.GetAxis("Vertical") * torque * acceleration;
 
@@ -98,7 +89,16 @@ public class m_carController : MonoBehaviour {
 		else
         {
             scaledTorque = Mathf.Lerp(scaledTorque, 0, (wheelBL.rpm - g_RPM) / (max_RPM - g_RPM));
-        }					
+        }        			
+
+        if (currentSpeed > maxSpeed)
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, maxSpeed / currentSpeed);
+        }
+        else
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, currentSpeed / maxSpeed);
+        }
 
 		wheelFR.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
 		wheelFL.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
@@ -135,17 +135,20 @@ public class m_carController : MonoBehaviour {
 
             if (slowDownCounter > 1f)
             {
-                Debug.Log("Is braking");
-                wheelFL.brakeTorque = brakeTorque;
-                wheelFR.brakeTorque = brakeTorque;
-                wheelBL.brakeTorque = brakeTorque;
-                wheelBR.brakeTorque = brakeTorque;
-                slowDownCounter = 0;
+                currentSpeed = currentSpeed - Time.deltaTime;
+
+                if (currentSpeed <= 1)
+                {
+                    slowDownCounter = 0;
+                }               
             }            
         }
         if (driveMode == DriveMode.Front)
         {
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Acceleration);
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Force);
+
+            wheelBLDriftFriction = 3;
+            wheelBRDriftFriction = 3;
 
             wheelBR.motorTorque = scaledTorque;
             wheelBL.motorTorque = scaledTorque;
@@ -158,22 +161,18 @@ public class m_carController : MonoBehaviour {
             {
                 driveMode = DriveMode.Front;
             }
-                        
-            //   Debug.Log("Wheel back left motor torque: " + wheelBL.motorTorque);
-            //   Debug.Log("Wheel back right motor torque: " + wheelBR.motorTorque);
         }
         if (driveMode == DriveMode.Rear)
         {
             wheelBR.motorTorque = scaledTorque;
             wheelBL.motorTorque = scaledTorque;
             
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * -acceleration, ForceMode.Acceleration);
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * -acceleration, ForceMode.Force);
         }
 
         if (driveMode == DriveMode.Drift)
         {            
             DriftBehaviour(wheelBR, wheelBL, wheelFR, wheelFL);
-
         }        
 
         WheelHit hit;
@@ -248,6 +247,7 @@ public class m_carController : MonoBehaviour {
     void Stabilizer(WheelCollider WheelBL, WheelCollider WheelBR, WheelCollider WheelFL, WheelCollider WheelFR)
     {
         WheelHit hit;
+        RaycastHit hitFloor;
 
         float travelFL = 1.0f;
         float travelFR = 1.0f;
@@ -292,28 +292,20 @@ public class m_carController : MonoBehaviour {
         }
         if (!groundedFR && !groundedBL && !groundedFL && !groundedBR)
         {
-            Debug.Log("Is jumping");
-            transform.rotation = new Quaternion (Mathf.Lerp(transform.rotation.x, 0, cameraSpeed), transform.localRotation.y, 
-                                                 Mathf.Lerp(transform.rotation.z, 0, cameraSpeed), transform.localRotation.w);
+            if (Physics.Raycast(transform.position, Vector3.down, out hitFloor, 10f))
+            {
+                transform.rotation = new Quaternion(Mathf.Lerp(transform.rotation.x, 0, cameraSpeed * 5), transform.localRotation.y,
+                                                 Mathf.Lerp(transform.rotation.z, 0, cameraSpeed * 5), transform.localRotation.w);
+            }            
         }           
     }
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Turbo")
         {
-            if (Speed() > 30f)
-            {
-                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration / 2, ForceMode.VelocityChange);
-            }
-            else
-            {
-                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.VelocityChange);
-            }            
-        }
-        if (col.tag == "Wall")
-        {
-            //m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)) * acceleration, ForceMode.Impulse);
-        }
+            Debug.Log("Trubo");
+            m_rigidbody.AddForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * turboForce * 5, ForceMode.Impulse);
+        }        
     }
    
     private Vector3 ResetPosition()
@@ -332,14 +324,7 @@ public class m_carController : MonoBehaviour {
                 transform.position = respawnPosition;
                 transform.rotation = nodes[i].transform.rotation;
 
-            }
-            /*else if (distanceToRespawnPoint.magnitude > 300) // && distanceToRespawnPoint.magnitude <= 600
-            {
-                respawnPosition = nodes[i].transform.position;
-                Debug.Log("Is Respawning");
-                transform.position = respawnPosition;
-                transform.rotation = nodes[i].transform.rotation;
-            }*/
+            }            
         }
         return transform.position;
     }

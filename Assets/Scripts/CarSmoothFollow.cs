@@ -64,7 +64,11 @@ public class CarSmoothFollow : MonoBehaviour
 
         if (Input.GetKeyDown("z"))
         {
-            transform.position = -wantedPosition;
+            distance = -distance;
+            //wantedPosition = new Vector3(-target.position.x, currentHeight, -target.position.z);
+            //lookAtVector = -lookAtVector;
+            //wantedPosition += Quaternion.Euler(0, currentRotationAngle, 0) * new Vector3(0, 0, usedDistance);
+            //transform.LookAt(new Vector3 (-target.position.x, currentHeight, -target.position.z) + lookAtVector);
         }
         else if (Input.GetKeyUp("z"))
         {

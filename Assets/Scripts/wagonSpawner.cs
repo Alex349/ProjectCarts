@@ -16,7 +16,7 @@ public class wagonSpawner : MonoBehaviour
     private bool firstWallReached, secondWallReached;
     public GameObject instanceWagon;
     public Transform initPoint, finalPoint;
-    public float deltaUpdate = 0.01f;
+    public float deltaUpdate = 5f;
 
     void Start ()
     {       
@@ -44,22 +44,22 @@ public class wagonSpawner : MonoBehaviour
 
             if (distanceToFirstWall.magnitude <= 7 && !firstWallReached)
             {
-                firstWall.transform.position = Vector3.MoveTowards(firstWall.transform.position, firstWallFinalPoint.position, deltaUpdate);
+                firstWall.transform.position = Vector3.Lerp(firstWall.transform.position, firstWallFinalPoint.position, deltaUpdate);
                 firstWallReached = true;
             }
             else if (distanceToFirstWall.magnitude > 7 && firstWallReached)
             {
-                firstWall.transform.position = Vector3.MoveTowards(firstWall.transform.position, firstWallInitPoint.position, deltaUpdate);
+                firstWall.transform.position = Vector3.Lerp(firstWall.transform.position, firstWallInitPoint.position, deltaUpdate);
                 firstWallReached = false;
             }
             if (distanceToLastWall.magnitude <= 7 && !secondWallReached)
             {
-                lastWall.transform.position = Vector3.MoveTowards(lastWall.transform.position, lastWallFinalPoint.position, deltaUpdate);
+                lastWall.transform.position = Vector3.Lerp(lastWall.transform.position, lastWallFinalPoint.position, deltaUpdate);
                 secondWallReached = true;
             }
             else if (distanceToLastWall.magnitude > 7 && secondWallReached )
             {
-                lastWall.transform.position = Vector3.MoveTowards(lastWall.transform.position, lastWallInitPoint.position, deltaUpdate);
+                lastWall.transform.position = Vector3.Lerp(lastWall.transform.position, lastWallInitPoint.position, deltaUpdate);
 
                 if (distanceToLastWall.magnitude > 30)
                 {
@@ -77,22 +77,22 @@ public class wagonSpawner : MonoBehaviour
 
             if (distanceToFirstWall.magnitude <= 7 && !firstWallReached)
             {
-                firstWall.transform.position = Vector3.MoveTowards(firstWall.transform.position, firstWallFinalPoint.position, deltaUpdate);
+                firstWall.transform.position = Vector3.Lerp(firstWall.transform.position, firstWallFinalPoint.position, deltaUpdate);
                 firstWallReached = true;
             }
             else if (distanceToFirstWall.magnitude > 7 && firstWallReached)
             {
-                firstWall.transform.position = Vector3.MoveTowards(firstWall.transform.position, firstWallInitPoint.position, deltaUpdate);
+                firstWall.transform.position = Vector3.Lerp(firstWall.transform.position, firstWallInitPoint.position, deltaUpdate);
                 firstWallReached = false;
             }
             if (distanceToLastWall.magnitude <= 7)
             {
-                lastWall.transform.position = Vector3.MoveTowards(lastWall.transform.position, lastWallFinalPoint.position, deltaUpdate);
+                lastWall.transform.position = Vector3.Lerp(lastWall.transform.position, lastWallFinalPoint.position, deltaUpdate);
                 secondWallReached = true;
             }
             else if (distanceToLastWall.magnitude > 7 && secondWallReached)
             {
-                lastWall.transform.position = Vector3.MoveTowards(lastWall.transform.position, lastWallInitPoint.position, deltaUpdate);
+                lastWall.transform.position = Vector3.Lerp(lastWall.transform.position, lastWallInitPoint.position, deltaUpdate);
                 
                 if (distanceToLastWall.magnitude > 30)
                 {

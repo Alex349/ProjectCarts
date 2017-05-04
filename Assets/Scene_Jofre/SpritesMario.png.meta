@@ -1,10 +1,48 @@
 fileFormatVersion: 2
 guid: 19dbfa354f2e87048a52847ab5df2b8d
-timeCreated: 1493860013
+timeCreated: 1493924181
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: SpritesMario_0
+    21300002: SpritesMario_1
+    21300004: SpritesMario_2
+    21300006: SpritesMario_3
+    21300008: SpritesMario_4
+    21300010: SpritesMario_5
+    21300012: SpritesMario_6
+    21300014: SpritesMario_7
+    21300016: SpritesMario_8
+    21300018: SpritesMario_9
+    21300020: SpritesMario_10
+    21300022: SpritesMario_11
+    21300024: SpritesMario_12
+    21300026: SpritesMario_13
+    21300028: SpritesMario_14
+    21300030: SpritesMario_15
+    21300032: SpritesMario_16
+    21300034: SpritesMario_17
+    21300036: SpritesMario_18
+    21300038: SpritesMario_19
+    21300040: SpritesMario_20
+    21300042: SpritesMario_21
+    21300044: SpritesMario_22
+    21300046: SpritesMario_23
+    21300048: SpritesMario_24
+    21300050: SpritesMario_25
+    21300052: SpritesMario_26
+    21300054: SpritesMario_27
+    21300056: SpritesMario_28
+    21300058: SpritesMario_29
+    21300060: SpritesMario_30
+    21300062: SpritesMario_31
+    21300064: SpritesMario_32
+    21300066: SpritesMario_33
+    21300068: SpritesMario_34
+    21300070: SpritesMario_35
+    21300072: SpritesMario_36
+    21300074: SpritesMario_37
+    21300076: SpritesMario_38
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -28,20 +66,20 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: 1
+    filterMode: 2
     aniso: -1
     mipBias: -1
-    wrapMode: 0
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
-  spriteExtrude: 0
+  spriteMode: 2
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 80
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -52,7 +90,7 @@ TextureImporter:
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -60,7 +98,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Standalone
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -74,12 +112,506 @@ TextureImporter:
       name: SpritesMario_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 930
-        height: 500
+        x: 2
+        y: 373.75
+        width: 91.8
+        height: 123.25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_1
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 373.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_2
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 373.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_3
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 373.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_4
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 373.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_5
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 373.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_6
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 373.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_7
+      rect:
+        serializedVersion: 2
+        x: 646
+        y: 373.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_8
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 373.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_9
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 256
+        width: 92
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_10
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 256
+        width: 84
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_11
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 256
+        width: 87
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_12
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 257
+        width: 95
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_13
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 249.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_14
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 249.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_15
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 249.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_16
+      rect:
+        serializedVersion: 2
+        x: 646
+        y: 249.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_17
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 249.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_18
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 249.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_19
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_20
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_21
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_22
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_23
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_24
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_25
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_26
+      rect:
+        serializedVersion: 2
+        x: 646
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_27
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_28
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 125.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_29
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_30
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_31
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_32
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_33
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_34
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_35
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_36
+      rect:
+        serializedVersion: 2
+        x: 646
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_37
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpritesMario_38
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 1.75
+        width: 91.8
+        height: 123.25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

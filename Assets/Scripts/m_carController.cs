@@ -6,7 +6,7 @@ public class m_carController : MonoBehaviour {
 
 	public float g_RPM = 500f;
 	public float max_RPM = 1000f;
-    private Rigidbody m_rigidbody;
+    public Rigidbody m_rigidbody;
 
     public Transform centerOfGravity;
 
@@ -60,9 +60,7 @@ public class m_carController : MonoBehaviour {
         m_particleSystem2 = wheelBR.GetComponent<ParticleSystem>();
 
         wheelBLDriftFriction = wheelBL.sidewaysFriction.extremumSlip;
-        wheelBRDriftFriction = wheelBR.sidewaysFriction.extremumSlip;
-
-        
+        wheelBRDriftFriction = wheelBR.sidewaysFriction.extremumSlip;        
     }
 
 	public float Speed()
@@ -124,14 +122,14 @@ public class m_carController : MonoBehaviour {
             wheelBR.brakeTorque = 0;
             wheelBL.brakeTorque = 0;
         }
-        else if (Input.GetAxis("Vertical") == 0 && Speed() != 0 && driveMode != DriveMode.Drift)
+        else if (Input.GetAxis("Vertical") == 0 && currentSpeed != 0 && driveMode != DriveMode.Drift)
         {
             slowDownCounter += Time.deltaTime;       
             if (slowDownCounter > 1f)
             {
                 currentSpeed = currentSpeed - Time.deltaTime;
 
-                if (currentSpeed <= 1)
+                if (currentSpeed <= 0.5f)
                 {
                     slowDownCounter = 0;
                 }               

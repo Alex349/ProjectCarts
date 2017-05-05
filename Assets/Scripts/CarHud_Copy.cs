@@ -6,21 +6,22 @@ using UnityEngine.UI;
 
 public class CarHud_Copy : MonoBehaviour
 {
-    //public CarCheckPoints carCheckPoints;
+    public CarCheckPoints carCheckPoints;
     public Image itemImage;
     public Image numberImage;
-    //public IA_Item ia_Item;
+    public m_carItem kart_item;
     public Sprite[] itemSpriteList;
     public Sprite[] numberSpriteList;
     public Text currentPosition_Text, time_Text, currentLap_Text, totalLaps_Text, coins_Text;
     private float currentPosition, time, secondsCount, minuteCount, milisecondsCount, currentLap, totalLaps;
     private float countDown = 3f;
-    private bool StartRace = false;
+    public bool StartRace = false;
     private m_carController m_car;
 
     void Start()
     {
-        m_car = FindObjectOfType<m_carController>();        
+        m_car = FindObjectOfType<m_carController>();
+        m_car.acceleration = 0;      
     }
     void Update()
     {
@@ -36,11 +37,11 @@ public class CarHud_Copy : MonoBehaviour
         
         //Laps UI
         currentPosition_Text.text = currentPosition.ToString();
-        //currentLap = carCheckPoints.currentLap;
+        currentLap = carCheckPoints.currentLap;
         currentLap_Text.text = currentLap.ToString();
         totalLaps_Text.text = totalLaps.ToString();
         //Coins UI
-        //coins_Text.text = "Coins:" + ia_Item.money.ToString();
+        coins_Text.text = "Coins:" + kart_item.money.ToString();
     }
 
     public void UpdateTimerUI()
@@ -65,26 +66,26 @@ public class CarHud_Copy : MonoBehaviour
 
     public void UpdateItemUI()
     {
-       // if (ia_Item.currentIAItem == "none")
-       // {
-       //     itemImage.sprite = itemSpriteList[0];
-       // }
-       // if (ia_Item.currentIAItem == "rocket")
-       // {
-       //     itemImage.sprite = itemSpriteList[1];
-       // }
-       // if (ia_Item.currentIAItem == "turbo")
-       // {
-       //     itemImage.sprite = itemSpriteList[2];
-       // }
-       // if (ia_Item.currentIAItem == "banana")
-       // {
-       //     itemImage.sprite = itemSpriteList[3];
-       // }
-       // if (ia_Item.currentIAItem == "coin")
-       // {
-       //     itemImage.sprite = itemSpriteList[4];
-       // }
+       if (kart_item.currentPlayerObject == "none")
+       {
+           itemImage.sprite = itemSpriteList[0];
+       }
+       if (kart_item.currentPlayerObject == "rocket")
+       {
+           itemImage.sprite = itemSpriteList[1];
+       }
+       if (kart_item.currentPlayerObject == "turbo")
+       {
+           itemImage.sprite = itemSpriteList[2];
+       }
+       if (kart_item.currentPlayerObject == "banana")
+       {
+           itemImage.sprite = itemSpriteList[3];
+       }
+       if (kart_item.currentPlayerObject == "coin")
+       {
+           itemImage.sprite = itemSpriteList[4];
+       }
     }
     void CountDown()
     {

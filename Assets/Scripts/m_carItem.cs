@@ -62,7 +62,6 @@ public class m_carItem : MonoBehaviour {
             if (currentPlayerObject == "none")
             {
                 GetRandomItem();
-
             }
         }
 

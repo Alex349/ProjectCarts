@@ -36,9 +36,6 @@ public class m_carController : MonoBehaviour {
     private GameObject[] nodes;
     private Vector3 distanceToRespawnPoint;
 
-    public Transform startPos;
-    public Transform targetPosL, targetPosR;
-    public Transform RearPos;
     private float cameraSpeed = 0.01f;
     public float AntiRoll = 1000f;
 
@@ -48,11 +45,12 @@ public class m_carController : MonoBehaviour {
     public float driftForce = 10f;
     public float currentSpeed;
     private float driftCounter = 2f;
+    private CarHud_Copy m_hud;
 
     void Start()
     {
         nodes = GameObject.FindGameObjectsWithTag("Node");
-
+        m_hud = FindObjectOfType<CarHud_Copy>();
         m_rigidbody = GetComponent<Rigidbody>();
 		m_rigidbody.centerOfMass = centerOfGravity.localPosition;
 
@@ -60,7 +58,9 @@ public class m_carController : MonoBehaviour {
         m_particleSystem2 = wheelBR.GetComponent<ParticleSystem>();
 
         wheelBLDriftFriction = wheelBL.sidewaysFriction.extremumSlip;
-        wheelBRDriftFriction = wheelBR.sidewaysFriction.extremumSlip;        
+        wheelBRDriftFriction = wheelBR.sidewaysFriction.extremumSlip;
+
+        acceleration = 0;
     }
 
 	public float Speed()
@@ -78,27 +78,31 @@ public class m_carController : MonoBehaviour {
     {
         currentSpeed = m_rigidbody.velocity.magnitude;
 
-        m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(transform.forward.y), 0).normalized * -gravity, ForceMode.Acceleration);    
-
-		scaledTorque = Input.GetAxis("Vertical") * torque * acceleration;
-
-		if(wheelBL.rpm < g_RPM)
+        m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(transform.forward.y), 0).normalized * -gravity, ForceMode.Acceleration);   
+		
+        if (m_hud.StartRace == true)
         {
-            scaledTorque = Mathf.Lerp(scaledTorque / 10, scaledTorque, wheelBL.rpm / g_RPM);
-        }			
-		else
-        {
-            scaledTorque = Mathf.Lerp(scaledTorque, 0, (wheelBL.rpm - g_RPM) / (max_RPM - g_RPM));
-        }        			
+            scaledTorque = Input.GetAxis("Vertical") * torque * acceleration;
 
-        if (currentSpeed >= maxSpeed)
-        {
-            currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, maxSpeed / currentSpeed);
+            if (wheelBL.rpm < g_RPM)
+            {
+                scaledTorque = Mathf.Lerp(scaledTorque / 10, scaledTorque, wheelBL.rpm / g_RPM);
+            }
+            else
+            {
+                scaledTorque = Mathf.Lerp(scaledTorque, 0, (wheelBL.rpm - g_RPM) / (max_RPM - g_RPM));
+            }
+
+            if (currentSpeed >= maxSpeed)
+            {
+                acceleration = acceleration / 3;
+            }
+            else if (currentSpeed < maxSpeed)
+            {
+                acceleration = 10f;
+            }
         }
-        else if (currentSpeed < maxSpeed)
-        {
-            currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, currentSpeed / maxSpeed);
-        }
+        
 
 		wheelFR.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
 		wheelFL.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
@@ -216,17 +220,18 @@ public class m_carController : MonoBehaviour {
             WheelBL.motorTorque = scaledTorque;
             if (Input.GetAxis("Vertical") > 0)
             {
-                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * driftForce, ForceMode.Acceleration);
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * driftForce/3, ForceMode.Acceleration);
 
                 if (Input.GetAxis("Horizontal") > 0)
                 {
-                    wheelBRDriftFriction = 5;                  
+                    wheelBL.brakeTorque = brakeTorque;
+                    wheelBLDriftFriction = 5;                  
                     m_particleSystem1.Play();
                     m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Acceleration);
                 }
                 else if (Input.GetAxis("Horizontal") < 0)
                 {
-                    wheelBRDriftFriction = 1;
+                    wheelBLDriftFriction = 1;
                     m_particleSystem1.Stop();
                     m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Acceleration);
                 }
@@ -237,17 +242,17 @@ public class m_carController : MonoBehaviour {
             WheelBR.motorTorque = scaledTorque;
             if (Input.GetAxis("Vertical") > 0)
             {
-                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * driftForce, ForceMode.Acceleration);
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * driftForce/3, ForceMode.Acceleration);
 
                 if (Input.GetAxis("Horizontal") > 0)
                 {
-                    wheelBLDriftFriction = 1;
+                    wheelBRDriftFriction = 5;
                     m_particleSystem2.Stop();
                     m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Acceleration);
                 }
                 else if (Input.GetAxis("Horizontal") < 0)
                 {
-                    wheelBLDriftFriction = 5;
+                    wheelBRDriftFriction = 1;
                     m_particleSystem2.Play();
                     m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Acceleration);
                 }

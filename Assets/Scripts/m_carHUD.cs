@@ -6,18 +6,39 @@ using UnityEngine.UI;
 
 public class m_carHUD : MonoBehaviour
 {
+    //public CarCheckPoints carCheckPoints;
     public CarCheckPoints carCheckPoints;
     public Image itemImage;
+    public Image numberImage;
+
     public m_carItem car_Item;
     public Sprite[] itemSpriteList;
+    public Sprite[] numberSpriteList;
+
     public Text currentPosition_Text, time_Text, currentLap_Text, totalLaps_Text, coins_Text;
     private float currentPosition, time, secondsCount, minuteCount, milisecondsCount, currentLap, totalLaps;
+
+    private float countDown = 3f;
+    private bool StartRace = false;
+    private m_carController m_car;
+
+    void Start()
+    {
+        m_car = FindObjectOfType<m_carController>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateTimerUI();
-        UpdateItemUI();
+        if (StartRace == false)
+        {
+            CountDown();
+        }
+        else if (StartRace == true)
+        {
+            UpdateTimerUI();
+            UpdateItemUI();
+        }
         //Laps UI
         currentPosition_Text.text = currentPosition.ToString();
         currentLap = carCheckPoints.currentLap;
@@ -70,7 +91,38 @@ public class m_carHUD : MonoBehaviour
         }
     }
 
+    void CountDown()
+    {
+        countDown -= Time.deltaTime;
 
+        m_car.acceleration = 0;
+
+        if (countDown <= 3 && countDown > 2)
+        {
+            numberImage.sprite = numberSpriteList[0];
+        }
+        else if (countDown <= 2 && countDown > 1)
+        {
+            numberImage.sprite = numberSpriteList[1];
+        }
+        else if (countDown <= 1 && countDown > 0)
+        {
+            numberImage.sprite = numberSpriteList[2];
+        }
+        else if (countDown <= 0)
+        {
+            if (Input.GetAxis("Vertical") == 1)
+            {
+                Debug.Log("Acceleration");
+                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * m_car.miniTurboForce, ForceMode.Acceleration);
+            }
+
+            Destroy(numberImage);
+            StartRace = true;
+            m_car.acceleration = 10f;
+        }
+
+    }
 }
 
 public static class StringExt

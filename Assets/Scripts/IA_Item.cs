@@ -131,8 +131,8 @@ public class IA_Item : MonoBehaviour
         }
         if (currentIAItem == "rocket")
         {
-            Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, Quaternion.identity);
-            currentIAItem = "none";
+            Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, frontSpawn.rotation);
+            //currentIAItem = "none";
         }
         if (currentIAItem == "turbo")
         {

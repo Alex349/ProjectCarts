@@ -150,7 +150,7 @@ public class m_carController : MonoBehaviour {
 
         if (driveMode == DriveMode.Front)
         {
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * acceleration, ForceMode.Force);
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * acceleration, ForceMode.Acceleration);
 
             wheelBLDriftFriction = 3;
             wheelBRDriftFriction = 3;
@@ -166,7 +166,7 @@ public class m_carController : MonoBehaviour {
             wheelBL.motorTorque = scaledTorque;
 
             currentSpeed = -m_rigidbody.velocity.magnitude;
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)).normalized * acceleration, ForceMode.Force);
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)).normalized * acceleration, ForceMode.Acceleration);
 
             driftCounter = 2f;
         }
@@ -179,7 +179,7 @@ public class m_carController : MonoBehaviour {
 
             if (driftCounter <= 0 && Input.GetKey("space"))
             {
-                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * miniTurboForce, ForceMode.Force);
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * miniTurboForce, ForceMode.Acceleration);
                 Debug.Log("DriftTurbo");
                 driftCounter = 2f;
             }
@@ -306,6 +306,11 @@ public class m_carController : MonoBehaviour {
             {
                 transform.rotation = new Quaternion(Mathf.Lerp(transform.rotation.x, 0, cameraSpeed * 5), transform.localRotation.y,
                                                  Mathf.Lerp(transform.rotation.z, 0, cameraSpeed * 5), transform.localRotation.w);
+
+                if (transform.position.y <= (hitFloor.point.y + 1))
+                {
+                    currentSpeed = m_rigidbody.velocity.y / 3;
+                }                
             }            
         }           
     }

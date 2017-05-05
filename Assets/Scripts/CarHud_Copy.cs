@@ -24,8 +24,11 @@ public class CarHud_Copy : MonoBehaviour
     }
     void Update()
     {
-        CountDown();
-        if (StartRace == true)
+        if (StartRace == false)
+        {
+            CountDown();
+        }        
+        else if (StartRace == true)
         {           
             UpdateTimerUI();
             UpdateItemUI();

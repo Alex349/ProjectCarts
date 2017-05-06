@@ -21,7 +21,7 @@ public class CarHud_Copy : MonoBehaviour
     void Start()
     {
         m_car = FindObjectOfType<m_carController>();
-        m_car.acceleration = 0;      
+        m_car.currentAcc = 0;      
     }
     void Update()
     {
@@ -91,7 +91,7 @@ public class CarHud_Copy : MonoBehaviour
     {
         countDown -= Time.deltaTime;
 
-        m_car.acceleration = 0;        
+        m_car.currentAcc = 0;        
 
         if (countDown <= 3 && countDown > 2)
         {
@@ -109,13 +109,10 @@ public class CarHud_Copy : MonoBehaviour
         {
             if (Input.GetAxis("Vertical") == 1)
             {
-                Debug.Log("Acceleration");
                 m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * m_car.miniTurboForce, ForceMode.Acceleration);
             }
-
             Destroy(numberImage);
             StartRace = true;
-            m_car.acceleration = 10f;
         }
 
     }

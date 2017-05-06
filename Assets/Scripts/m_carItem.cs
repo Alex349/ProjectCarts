@@ -83,7 +83,7 @@ public class m_carItem : MonoBehaviour {
             {
                 Debug.Log("Slowed");
                 //carController.maxSpeed = bananaSlowedSpeed;
-                carController.acceleration = bananaSlowedAcc;
+                carController.currentAcc = bananaSlowedAcc;
             }
         }
 
@@ -152,7 +152,7 @@ public class m_carItem : MonoBehaviour {
         if (bananaEffect < 0)
         {
             //carController.maxSpeed = carDefaultSpeed;
-            carController.acceleration = carDefaultAcc;
+            carController.currentAcc = carDefaultAcc;
         }
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
@@ -160,20 +160,20 @@ public class m_carItem : MonoBehaviour {
         if (turboEffect > 0)
         {
             //carController.maxSpeed = turboSpeed;
-            carController.acceleration = turboAcc;
+            carController.currentAcc = turboAcc;
 
         }
 
         if (turboEffect < 0)
         {
             //carController.maxSpeed = carDefaultSpeed;
-           carController.acceleration = carDefaultAcc;
+           carController.currentAcc = carDefaultAcc;
         }
     }
 
     void IncreaseSpeedOnMoney()
     {
         //carController.maxSpeed = carController.maxSpeed * ( 1 + money * 0.1f);
-        carController.acceleration = carController.acceleration * (1 + money * 0.01f);
+        carController.currentAcc = carController.currentAcc * (1 + money * 0.01f);
     }
 }

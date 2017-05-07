@@ -95,7 +95,7 @@ public class m_carHUD : MonoBehaviour
     {
         countDown -= Time.deltaTime;
 
-        m_car.acceleration = 0;
+		m_car.currentAcc = 0;
 
         if (countDown <= 3 && countDown > 2)
         {
@@ -119,7 +119,7 @@ public class m_carHUD : MonoBehaviour
 
             Destroy(numberImage);
             StartRace = true;
-            m_car.acceleration = 10f;
+            m_car.currentAcc = 10f;
         }
 
     }

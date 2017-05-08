@@ -8,13 +8,22 @@ public class IA_Item : MonoBehaviour
 {
     public string currentIAItem = "none";
     public int money;
+
+    private string lap1Time, lap2Time, lap3Time;
+    private float lapCountdown;
+
+    private HudManager hudManager;
     private NavMeshAgent agent;
+
     //Defaults
     [SerializeField]
     private float iADefaultSpeed = 10;
     [SerializeField]
     private float iADefaultAcc = 40;
+
+    [SerializeField]
     private float IaUseItemCooldown = 5;
+
     //Banana
     [SerializeField]
     private float bananaEffect;
@@ -24,6 +33,7 @@ public class IA_Item : MonoBehaviour
     private float bananaSlowedSpeed = 2;
     [SerializeField]
     private float bananaSlowedAcc = 8;
+
     //Turbo
     private float turboEffect;
     [SerializeField]
@@ -32,6 +42,7 @@ public class IA_Item : MonoBehaviour
     private float turboEffectDuration = 3;
     [SerializeField]
     private float turboAcc = 120;
+
     //ItemSpawners
     [SerializeField]
     private Transform backSpawn;
@@ -43,10 +54,22 @@ public class IA_Item : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        hudManager = GameObject.Find("HudManager").GetComponent<HudManager>();
     }
     // Update is called once per frame
     void Update()
     {
+        //CountDowns
+        lapCountdown -= Time.deltaTime;
+        IaUseItemCooldown -= Time.deltaTime;
+
+        //IA uses the item when the cooldown is over
+        if (IaUseItemCooldown < 0)
+        {
+            UseItem();
+        }
+
+
         backSpawnVector = backSpawn.transform.position;
         frontSpawnVector = frontSpawn.transform.position;
 
@@ -55,7 +78,7 @@ public class IA_Item : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Debug.Log("Item");
+           // Debug.Log("Item");
             UseItem();
         }
     }
@@ -69,7 +92,7 @@ public class IA_Item : MonoBehaviour
             if (currentIAItem == "none")
             {
                 GetRandomItem();
-
+                IaUseItem();
             }
         }
 
@@ -185,17 +208,37 @@ public class IA_Item : MonoBehaviour
 
     void IncreaseSpeedOnMoney()
     {
-        agent.speed = agent.speed * ( 1 + money * 0.1f);
+        agent.speed = agent.speed * (1 + money * 0.1f);
         agent.acceleration = agent.acceleration * (1 + money * 0.4f);
     }
 
-    public void IaUseItem()
+    void IaUseItem()
     {
-        IaUseItemCooldown -= Time.deltaTime;
+        float rnd = (Random.Range(1f, 15f));
 
-        if (IaUseItemCooldown < 0)
+        IaUseItemCooldown = rnd;
+    }
+
+    public void SetTimeLap()
+    {
+        if (lap1Time == string.Empty)
         {
-            UseItem();
+            lap1Time = hudManager.time_Text.text.ToString();
+            Debug.Log("Lap1Set");
+            lapCountdown = 5;
+        }
+
+        if ((lap1Time != string.Empty && lap2Time == string.Empty) && lapCountdown < 0)
+        {
+            lap2Time = hudManager.time_Text.text.ToString();
+            Debug.Log("Lap2Set");
+            lapCountdown = 5;
+        }
+
+        if ((lap1Time != string.Empty && lap2Time != string.Empty) && lapCountdown < 0)
+        {
+            lap3Time = hudManager.time_Text.text.ToString();
+            lapCountdown = 400;
         }
     }
 }

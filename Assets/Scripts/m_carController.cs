@@ -94,19 +94,18 @@ public class m_carController : MonoBehaviour {
             else
             {
                 scaledTorque = Mathf.Lerp(scaledTorque, 0, (wheelBL.rpm - g_RPM) / (max_RPM - g_RPM));
-            }
+            }            
+        }
+        if (currentSpeed >= maxSpeed)
+        {
+            currentAcc = baseAcc / 3;
+        }
+        else if (currentSpeed < maxSpeed && isSlowingDown == false)
+        {
+            currentAcc = baseAcc;
+        }
 
-            if (currentSpeed >= maxSpeed)
-            {
-                currentAcc = baseAcc / 3;
-            }
-            else if (currentSpeed < maxSpeed && isSlowingDown == false)
-            {
-                currentAcc = 10;
-            }
-        }       
-
-		wheelFR.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
+        wheelFR.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
 		wheelFL.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
 
         Stabilizer(wheelBL, wheelBR, wheelFL, wheelFR);  
@@ -140,12 +139,14 @@ public class m_carController : MonoBehaviour {
             if (slowDownCounter > 1f)
             {                
                 Debug.Log("is slowing down");
-                currentAcc -= Time.deltaTime;                
 
-                if (currentSpeed <= 0.1f)
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)).normalized * brakeTorque, ForceMode.Acceleration);
+
+                if (currentSpeed <= 1f)
                 {
                     slowDownCounter = 0;
                     isSlowingDown = false;
+
                 }               
             }            
         }

@@ -1,47 +1,16 @@
 fileFormatVersion: 2
-guid: 32e7140fe6df0b74d93cfd0ff63454b0
-timeCreated: 1493204795
+guid: 9df1d03745e1e7345bb9151645753d3a
+timeCreated: 1494102759
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Coxe004
-    100002: //RootNode
-    100004: Object015
-    100006: Object016
-    100008: Object017
-    100010: Object018
-    100012: Object019
-    100014: Object020
-    400000: Coxe004
-    400002: //RootNode
-    400004: Object015
-    400006: Object016
-    400008: Object017
-    400010: Object018
-    400012: Object019
-    400014: Object020
-    2300000: Coxe004
-    2300002: Object015
-    2300004: Object016
-    2300006: Object017
-    2300008: Object018
-    2300010: Object019
-    2300012: Object020
-    3300000: Coxe004
-    3300002: Object015
-    3300004: Object016
-    3300006: Object017
-    3300008: Object018
-    3300010: Object019
-    3300012: Object020
-    4300000: Coxe004
-    4300002: Object015
-    4300004: Object016
-    4300006: Object017
-    4300008: Object018
-    4300010: Object019
-    4300012: Object020
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Box114
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -66,7 +35,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 39.37008
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -104,7 +73,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

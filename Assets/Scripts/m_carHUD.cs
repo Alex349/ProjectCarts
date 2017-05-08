@@ -95,7 +95,7 @@ public class m_carHUD : MonoBehaviour
     {
         countDown -= Time.deltaTime;
 
-        m_car.acceleration = 0;
+        m_car.currentAcc = 0;
 
         if (countDown <= 3 && countDown > 2)
         {
@@ -116,10 +116,8 @@ public class m_carHUD : MonoBehaviour
                 Debug.Log("Acceleration");
                 m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * m_car.miniTurboForce, ForceMode.Acceleration);
             }
-
             Destroy(numberImage);
             StartRace = true;
-            m_car.acceleration = 10f;
         }
 
     }

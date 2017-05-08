@@ -19,7 +19,7 @@ public class m_carHUD : MonoBehaviour
     private float currentPosition, time, secondsCount, minuteCount, milisecondsCount, currentLap, totalLaps;
 
     private float countDown = 3f;
-    private bool StartRace = false;
+    public bool StartRace = false;
     private m_carController m_car;
 
     void Start()

@@ -139,9 +139,10 @@ public class m_carController : MonoBehaviour {
             if (slowDownCounter > 1f)
             {                
                 Debug.Log("is slowing down");
-                currentAcc = 1 / 10;               
 
-                if (currentSpeed <= 0.1f)
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)).normalized * brakeTorque, ForceMode.Acceleration);
+
+                if (currentSpeed <= 1f)
                 {
                     slowDownCounter = 0;
                     isSlowingDown = false;

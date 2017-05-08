@@ -152,7 +152,7 @@ public class m_carItem : MonoBehaviour {
         if (bananaEffect < 0)
         {
             //carController.maxSpeed = carDefaultSpeed;
-            carController.currentAcc = carDefaultAcc;
+           // carController.currentAcc = carDefaultAcc;
         }
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
@@ -167,7 +167,7 @@ public class m_carItem : MonoBehaviour {
         if (turboEffect < 0)
         {
             //carController.maxSpeed = carDefaultSpeed;
-           carController.currentAcc = carDefaultAcc;
+           //carController.currentAcc = carDefaultAcc;
         }
     }
 

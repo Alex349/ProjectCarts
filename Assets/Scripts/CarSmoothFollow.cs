@@ -34,9 +34,12 @@ public class CarSmoothFollow : MonoBehaviour
     private float yVelocity = 0.0F;
     private float zVelocity = 0.0F;
 
+    private m_carController m_kart;
+
     void Start()
     {
         lookAtVector = new Vector3(0, lookAtHeight, 0);
+        m_kart = FindObjectOfType<m_carController>();
     }
 
     void FixedUpdate()
@@ -62,6 +65,14 @@ public class CarSmoothFollow : MonoBehaviour
 
         transform.LookAt(target.position + lookAtVector);
 
+        if (m_kart.Drifting == true)
+        {
+            rotationSnapTime = 0.25f;
+        }
+        else
+        {
+            rotationSnapTime = 0.125f;
+        }
         if (Input.GetKeyDown("z"))
         {
             distance = -distance;

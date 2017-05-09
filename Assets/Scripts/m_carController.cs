@@ -169,7 +169,8 @@ public class m_carController : MonoBehaviour {
                 }                 
             }            
         }
-        if (Input.GetKey("space") || Input.GetButton("Drift"))
+        if ((Input.GetKey("space") || Input.GetButton("Drift")) && 
+            (Input.GetAxis("Horizontal") < -0.5f || Input.GetAxis("Horizontal") > 0.5f))
         {
             driveMode = DriveMode.Drift;
         }
@@ -207,10 +208,10 @@ public class m_carController : MonoBehaviour {
         {            
             DriftBehaviour(wheelBR, wheelBL, wheelFR, wheelFL);
 
-            wheelBRDriftFriction = 5;
-            wheelBLDriftFriction = 5;
-            wheelFLDriftFriction = 5;
-            wheelFRDriftFriction = 5;
+            wheelBRDriftFriction = 100;
+            wheelBLDriftFriction = 100;
+            wheelFLDriftFriction = 100;
+            wheelFRDriftFriction = 100;
 
             driftCounter -= Time.deltaTime;
 
@@ -253,19 +254,19 @@ public class m_carController : MonoBehaviour {
             WheelBL.motorTorque = scaledTorque;
             if (Input.GetAxis("Vertical") > 0)
             {
-                //m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * driftForce/3, ForceMode.Acceleration);
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * driftForce, ForceMode.Force);
 
-                if (Input.GetAxis("Horizontal") > 0)
+                if (Input.GetAxis("Horizontal") > 0.5f)
                 {
                     //carMesh.transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
                     m_particleSystem1.Play();
-                    m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Acceleration);
+                    m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Force);
                 }
-                else if (Input.GetAxis("Horizontal") < 0)
+                else if (Input.GetAxis("Horizontal") < -0.5)
                 {
                     //carMesh.transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
                     m_particleSystem1.Stop();
-                    m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Acceleration);
+                    m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Force);
                 }
             }              
         }        
@@ -274,17 +275,17 @@ public class m_carController : MonoBehaviour {
             WheelBR.motorTorque = scaledTorque;
             if (Input.GetAxis("Vertical") > 0)
             {
-                //m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * driftForce/3, ForceMode.Acceleration);
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * driftForce, ForceMode.Force);
 
-                if (Input.GetAxis("Horizontal") > 0)
+                if (Input.GetAxis("Horizontal") > 0.5f)
                 {
                     m_particleSystem2.Stop();
-                    m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Acceleration);
+                    m_rigidbody.AddRelativeForce(new Vector3(Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Force);
                 }
-                else if (Input.GetAxis("Horizontal") < 0)
+                else if (Input.GetAxis("Horizontal") < -0.5f)
                 {
                     m_particleSystem2.Play();
-                    m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Acceleration);
+                    m_rigidbody.AddRelativeForce(new Vector3(-Mathf.Abs(transform.forward.x), 0, 0).normalized * driftForce, ForceMode.Force);
                 }
             }                         
         }      

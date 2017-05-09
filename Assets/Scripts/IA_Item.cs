@@ -9,6 +9,10 @@ public class IA_Item : MonoBehaviour
     public string currentIAItem = "none";
     public int money;
 
+    private PositionManager _positionManager;
+    public int myPosition;
+    bool keepChecking = true;
+
     private string lap1Time, lap2Time, lap3Time;
     private float lapCountdown;
 
@@ -55,6 +59,9 @@ public class IA_Item : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         hudManager = GameObject.Find("HudManager").GetComponent<HudManager>();
+        _positionManager = GameObject.Find("HudManager").GetComponent<PositionManager>();
+
+        StartCoroutine(CheckLeaderboards());
     }
     // Update is called once per frame
     void Update()
@@ -66,8 +73,12 @@ public class IA_Item : MonoBehaviour
         //IA uses the item when the cooldown is over
         if (IaUseItemCooldown < 0)
         {
-            UseItem();
+           // UseItem();
         }
+
+        //MyPosition
+        CheckLeaderboards();
+        //Invoke("CheckLeaderboards", 2);
 
 
         backSpawnVector = backSpawn.transform.position;
@@ -186,8 +197,8 @@ public class IA_Item : MonoBehaviour
 
         if (bananaEffect < 0)
         {
-            agent.speed = iADefaultSpeed;
-            agent.acceleration = iADefaultAcc;
+            //agent.speed = iADefaultSpeed;
+            //agent.acceleration = iADefaultAcc;
         }
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
@@ -201,8 +212,8 @@ public class IA_Item : MonoBehaviour
 
         if (turboEffect < 0)
         {
-            agent.speed = iADefaultSpeed;
-            agent.acceleration = iADefaultAcc;
+            //agent.speed = iADefaultSpeed;
+            //agent.acceleration = iADefaultAcc;
         }
     }
 
@@ -239,6 +250,15 @@ public class IA_Item : MonoBehaviour
         {
             lap3Time = hudManager.time_Text.text.ToString();
             lapCountdown = 400;
+        }
+    }
+
+    IEnumerator CheckLeaderboards()
+    {
+        while (keepChecking)
+        {
+            myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
+            yield return new WaitForSeconds(1f);
         }
     }
 }

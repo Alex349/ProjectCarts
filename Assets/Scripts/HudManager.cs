@@ -24,7 +24,9 @@ public class HudManager : MonoBehaviour
         UpdateItemUI();
 
         //Laps UI
+        currentPosition = ia_Item.myPosition;
         currentPosition_Text.text = currentPosition.ToString();
+
         currentLap = carCheckPoints.currentLap ;
         currentLap_Text.text = currentLap.ToString();
         totalLaps_Text.text = totalLaps.ToString();

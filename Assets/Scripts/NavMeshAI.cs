@@ -7,10 +7,14 @@ public class NavMeshAI : MonoBehaviour {
 
     public Transform path;
     private List<Transform> points;
-    private int destPoint = 0;
+    [SerializeField]
+    public int destPoint = 0;
     private NavMeshAgent agent;
     private Rigidbody m_rigidbody;
-    public float nodeRange = 10f;
+    [SerializeField]
+    private float nodeRange = 10f;
+
+    public float distanceToNextPoint;
 
     void Start()
     {
@@ -55,13 +59,20 @@ public class NavMeshAI : MonoBehaviour {
         // Choose the next destination point when the agent gets
         // close to the current one.
         if (agent.remainingDistance < nodeRange)
+        {
             GotoNextPoint();
+        }
+
+        distanceToNextPoint = Vector3.Distance(this.transform.position, points[destPoint].position);
+        
+        
     }
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Turbo")
         {
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * agent.acceleration / 3, ForceMode.VelocityChange);
+            Debug.Log("IATurbo");
+          //  m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * agent.acceleration / 3, ForceMode.VelocityChange);
         }
     }
 }

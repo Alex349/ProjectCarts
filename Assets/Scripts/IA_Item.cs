@@ -21,9 +21,9 @@ public class IA_Item : MonoBehaviour
 
     //Defaults
     [SerializeField]
-    private float iADefaultSpeed = 10;
+    public float iADefaultSpeed = 10;
     [SerializeField]
-    private float iADefaultAcc = 40;
+    public float iADefaultAcc = 40;
 
     [SerializeField]
     private float IaUseItemCooldown = 5;
@@ -197,8 +197,8 @@ public class IA_Item : MonoBehaviour
 
         if (bananaEffect < 0)
         {
-            //agent.speed = iADefaultSpeed;
-            //agent.acceleration = iADefaultAcc;
+            agent.speed = iADefaultSpeed;
+            agent.acceleration = iADefaultAcc;
         }
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
@@ -212,8 +212,8 @@ public class IA_Item : MonoBehaviour
 
         if (turboEffect < 0)
         {
-            //agent.speed = iADefaultSpeed;
-            //agent.acceleration = iADefaultAcc;
+            agent.speed = iADefaultSpeed;
+            agent.acceleration = iADefaultAcc;
         }
     }
 

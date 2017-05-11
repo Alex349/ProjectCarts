@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NavMeshAI : MonoBehaviour {
+public class NavMeshAI : MonoBehaviour
+{
 
     public Transform path;
     private List<Transform> points;
+    private List<Vector3> pointsVec;
 
     public int destPoint = 0;
     public float distanceToNextPoint;
-
+    public float camSpeed = 10f;
     public float changeVelocityTimer, changeVelocityCooldown = 15;
 
 
     private NavMeshAgent agent;
     private OffMeshLink link;
-    private float oldLinkCost;
 
     private Rigidbody m_rigidbody;
     private IA_Item ia_Item;
@@ -31,10 +32,7 @@ public class NavMeshAI : MonoBehaviour {
         m_rigidbody = GetComponent<Rigidbody>();
         ia_Item = GetComponent<IA_Item>();
         link = null;
-
-        // Disabling auto-braking allows for continuous movement
-        // between points (ie, the agent doesn't slow down as it
-        // approaches a destination point).
+        agent.updateRotation = false;
 
         agent.autoBraking = false;
 
@@ -48,24 +46,6 @@ public class NavMeshAI : MonoBehaviour {
                 points.Add(pathTransforms[i]);
             }
         }
-        GotoNextPoint();
-    }
-
-
-    void GotoNextPoint()
-    {
-        // Returns if no points have been set up
-        if (points.Count == 0)
-            return;
-
-        // Set the agent to go to the currently selected destination.
-        agent.destination = points[destPoint].position;
-
-        // Choose the next point in the array as the destination,
-        // cycling to the start if necessary.
-        destPoint = (destPoint + 1) % points.Count;
-
-
     }
 
 
@@ -105,14 +85,40 @@ public class NavMeshAI : MonoBehaviour {
             ReleaseOffmeshLink();
         }
 
+        //Quaternion lookRot = new Quaternion(
+        //      agent.destination.x / (distanceToNextPoint / agent.velocity.magnitude),
+        //      agent.destination.y / (distanceToNextPoint / agent.velocity.magnitude),
+        //      agent.destination.z / (distanceToNextPoint / agent.velocity.magnitude),
+        //      Quaternion.identity);
+
+        //transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime);
+
+        Vector3 relativePos = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(relativePos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * camSpeed);
+
     }
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Turbo")
         {
             Debug.Log("IATurbo");
-          //  m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * agent.acceleration / 3, ForceMode.VelocityChange);
+            //  m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * agent.acceleration / 3, ForceMode.VelocityChange);
         }
+    }
+
+    void GotoNextPoint()
+    {
+        // Returns if no points have been set up
+        if (points.Count == 0)
+            return;
+
+        // Set the agent to go to the currently selected destination.
+        agent.destination = points[destPoint].position;
+
+        // Choose the next point in the array as the destination,
+        // cycling to the start if necessary.
+        destPoint = (destPoint + 1) % points.Count;
     }
 
     void AcquireOffmeshLink()
@@ -120,8 +126,6 @@ public class NavMeshAI : MonoBehaviour {
         if (link == null)
         {
             link = agent.currentOffMeshLinkData.offMeshLink;
-            //oldLinkCost = link.costOverride;
-            //link.costOverride = 1000.0f;
             link.activated = false;
         }
     }
@@ -130,7 +134,6 @@ public class NavMeshAI : MonoBehaviour {
     {
         if (link != null)
         {
-            //link.costOverride = oldLinkCost;
             link.activated = true;
             link = null;
         }
@@ -138,7 +141,6 @@ public class NavMeshAI : MonoBehaviour {
 
     void OnDestroy()
     {
-        // Remember to release the link when the agent is killed/etc.
         ReleaseOffmeshLink();
     }
 

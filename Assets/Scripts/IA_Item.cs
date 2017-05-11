@@ -26,7 +26,7 @@ public class IA_Item : MonoBehaviour
     public float iADefaultAcc = 40;
 
     [SerializeField]
-    private float IaUseItemCooldown = 5;
+    private float IaUseItemCooldown = 5, startRaceCooldown = 3;
 
     //Banana
     [SerializeField]
@@ -62,6 +62,9 @@ public class IA_Item : MonoBehaviour
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
 
         StartCoroutine(CheckLeaderboards());
+
+        agent.speed = 0;
+        agent.acceleration = 0;
     }
     // Update is called once per frame
     void Update()
@@ -69,11 +72,18 @@ public class IA_Item : MonoBehaviour
         //CountDowns
         lapCountdown -= Time.deltaTime;
         IaUseItemCooldown -= Time.deltaTime;
+        startRaceCooldown -= Time.deltaTime;
 
         //IA uses the item when the cooldown is over
         if (IaUseItemCooldown < 0)
         {
             UseItem();
+        }
+
+        if (startRaceCooldown < 0)
+        {
+            agent.speed = iADefaultSpeed;
+            agent.acceleration = iADefaultAcc;
         }
 
         //MyPosition
@@ -195,7 +205,7 @@ public class IA_Item : MonoBehaviour
         //BananaItemUpdate
         bananaEffect -= Time.deltaTime;
 
-        if (bananaEffect < 0)
+        if (bananaEffect < 0 && startRaceCooldown < 0)
         {
             agent.speed = iADefaultSpeed;
             agent.acceleration = iADefaultAcc;
@@ -210,7 +220,7 @@ public class IA_Item : MonoBehaviour
 
         }
 
-        if (turboEffect < 0)
+        if (turboEffect < 0 && startRaceCooldown < 0)
         {
             agent.speed = iADefaultSpeed;
             agent.acceleration = iADefaultAcc;

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckPoints : MonoBehaviour {
+
     public Transform playerTransform;
     public CarCheckPoints carCheckPoints;
     public IA_Item ia_item;
-    // Use this for initialization
+
     void Start ()
     {
         ia_item = GameObject.FindGameObjectWithTag("Kart").GetComponent<IA_Item>();

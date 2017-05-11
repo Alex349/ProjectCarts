@@ -33,9 +33,14 @@ public class m_carItem : MonoBehaviour {
     private Transform frontSpawn;
     private Vector3 frontSpawnVector;
 
+    private string lap1Time, lap2Time, lap3Time;
+    private float lapCountdown;
+    private HudManager hudManager;
+
     void Start()
     {
-       // carController = GameObject.FindGameObjectWithTag("Kart").GetComponent<m_carController>();
+        // carController = GameObject.FindGameObjectWithTag("Kart").GetComponent<m_carController>();
+        hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
     }
     // Update is called once per frame
     void Update()
@@ -175,5 +180,28 @@ public class m_carItem : MonoBehaviour {
     {
         //carController.maxSpeed = carController.maxSpeed * ( 1 + money * 0.1f);
         carController.currentAcc = carController.currentAcc * (1 + money * 0.01f);
+    }
+
+    public void SetTimeLap()
+    {
+        if (lap1Time == string.Empty)
+        {
+            lap1Time = hudManager.time_Text.text.ToString();
+            Debug.Log("Lap1Set");
+            lapCountdown = 5;
+        }
+
+        if ((lap1Time != string.Empty && lap2Time == string.Empty) && lapCountdown < 0)
+        {
+            lap2Time = hudManager.time_Text.text.ToString();
+            Debug.Log("Lap2Set");
+            lapCountdown = 5;
+        }
+
+        if ((lap1Time != string.Empty && lap2Time != string.Empty) && lapCountdown < 0)
+        {
+            lap3Time = hudManager.time_Text.text.ToString();
+            lapCountdown = 400;
+        }
     }
 }

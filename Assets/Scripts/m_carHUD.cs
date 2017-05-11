@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class m_carHUD : MonoBehaviour
 {
-    //public CarCheckPoints carCheckPoints;
     public CarCheckPoints carCheckPoints;
     public Image itemImage;
     public Image numberImage;
@@ -16,7 +15,10 @@ public class m_carHUD : MonoBehaviour
     public Sprite[] numberSpriteList;
 
     public Text currentPosition_Text, time_Text, currentLap_Text, totalLaps_Text, coins_Text;
-    private float currentPosition, time, secondsCount, minuteCount, milisecondsCount, currentLap, totalLaps;
+    private float currentPosition, time, secondsCount, minuteCount, milisecondsCount, currentLap;
+
+    [SerializeField]
+    private float totalLaps;
 
     private float countDown = 3f;
     public bool StartRace = false;

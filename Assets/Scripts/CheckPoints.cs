@@ -6,11 +6,12 @@ public class CheckPoints : MonoBehaviour {
 
     public Transform playerTransform;
     public CarCheckPoints carCheckPoints;
-    public IA_Item ia_item;
+    //public IA_Item ia_item;
+    public m_carItem car_item;
 
     void Start ()
     {
-        ia_item = GameObject.FindGameObjectWithTag("Kart").GetComponent<IA_Item>();
+        //ia_item = GameObject.FindGameObjectWithTag("Kart").GetComponent<IA_Item>();
         //playerTransform = GameObject.FindGameObjectWithTag("Kart").GetComponent<Transform>();
         //carCheckPoints = GameObject.FindGameObjectWithTag("Kart").GetComponent<CarCheckPoints>();
     }
@@ -33,7 +34,8 @@ public class CheckPoints : MonoBehaviour {
                 if (carCheckPoints.currentCheckpoint == 0)
                 {
                     carCheckPoints.currentLap++;
-                    ia_item.SetTimeLap();
+                    //ia_item.SetTimeLap();
+                    car_item.SetTimeLap();
                 }
 
                 carCheckPoints.currentCheckpoint++;

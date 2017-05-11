@@ -13,8 +13,8 @@ public class RespawnItem : MonoBehaviour
 
     void Start()
     {
-        item_Instance = Instantiate(item, new Vector3(transform.localPosition.x,
-                        transform.localPosition.y + 0.7f, transform.localPosition.z),
+        item_Instance = Instantiate(item, new Vector3(transform.position.x,
+                        transform.position.y + 0.7f, transform.position.z),
                         this.transform.rotation, this.transform);
     }
 
@@ -23,7 +23,7 @@ public class RespawnItem : MonoBehaviour
         if (item_Instance != null)
         {
             item_Instance.transform.Rotate(new Vector3(0, 1, 0), deltaRotation * Time.deltaTime);
-            item_Instance.transform.position = new Vector3(transform.localPosition.x, transform.localPosition.y + (Mathf.Sin(Time.time) * 0.2f), transform.localPosition.z);
+            item_Instance.transform.position = new Vector3(transform.position.x, transform.position.y + (Mathf.Sin(Time.time) * 0.2f), transform.position.z);
         }
 
 
@@ -33,8 +33,8 @@ public class RespawnItem : MonoBehaviour
 
             if (itemCounter <= 0)
             {
-                item_Instance = Instantiate(item, new Vector3(transform.localPosition.x,
-                                transform.localPosition.y + 0.7f, transform.localPosition.z),
+                item_Instance = Instantiate(item, new Vector3(transform.position.x,
+                                transform.position.y + 0.7f, transform.position.z),
                                 this.transform.rotation, this.transform);
                 itemCounter = 10;
             }

@@ -7,7 +7,7 @@ public class wagonScript : MonoBehaviour {
     public GameObject startPoint, endPoint;
     public float speed = 5f;
     private float lifeTimeCounter;
-
+    private Vector3 distanceToEnd;
 	void Start ()
     {
         startPoint = GameObject.FindGameObjectWithTag("StartPoint");
@@ -17,11 +17,14 @@ public class wagonScript : MonoBehaviour {
 	
 	void Update ()
     {
+        distanceToEnd = endPoint.transform.position - this.transform.position;
+
         lifeTimeCounter += Time.deltaTime;
 
         transform.position = Vector3.MoveTowards(transform.position, endPoint.transform.position, speed * Time.deltaTime);
+        transform.Rotate(Vector3.right, 3);
 
-        if (lifeTimeCounter >= 15)
+        if (distanceToEnd.magnitude <= 1)
         {
             Destroy(gameObject);
         }

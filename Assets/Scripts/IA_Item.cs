@@ -58,8 +58,8 @@ public class IA_Item : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        hudManager = GameObject.Find("HudManager").GetComponent<HudManager>();
-        _positionManager = GameObject.Find("HudManager").GetComponent<PositionManager>();
+        hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
+        _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
 
         StartCoroutine(CheckLeaderboards());
     }
@@ -73,7 +73,7 @@ public class IA_Item : MonoBehaviour
         //IA uses the item when the cooldown is over
         if (IaUseItemCooldown < 0)
         {
-           // UseItem();
+            UseItem();
         }
 
         //MyPosition
@@ -166,7 +166,7 @@ public class IA_Item : MonoBehaviour
         if (currentIAItem == "rocket")
         {
             Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, frontSpawn.rotation);
-            //currentIAItem = "none";
+            currentIAItem = "none";
         }
         if (currentIAItem == "turbo")
         {

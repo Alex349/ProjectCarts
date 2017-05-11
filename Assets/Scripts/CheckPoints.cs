@@ -19,7 +19,7 @@ public class CheckPoints : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         //Is it the Player who enters the collider?
-        if (!other.CompareTag("Kart"))
+        if (!other.CompareTag("Player"))
         {
             return; //If it's not the player dont continue
         }

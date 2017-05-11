@@ -4,7 +4,7 @@ using System.Collections;
 public class CarSmoothFollow : MonoBehaviour
 {
 
-    public Transform target;
+    public Transform target, LeftDriftTarget, RightDriftTarget;
     public float distance = 20.0f;
     public float height = 5.0f;
     public float heightDamping = 2.0f;
@@ -44,6 +44,7 @@ public class CarSmoothFollow : MonoBehaviour
 
     void FixedUpdate()
     {
+        rotationSnapTime = 0.125f;
         wantedHeight = target.position.y + height;
         currentHeight = transform.position.y;
 
@@ -65,26 +66,28 @@ public class CarSmoothFollow : MonoBehaviour
 
         transform.LookAt(target.position + lookAtVector);
 
-        if (m_kart.Drifting == true)
+        if (m_kart.leftDrift)
         {
-            rotationSnapTime = 0.25f;
+            rotationSnapTime = 0.5f;
+            
+            transform.LookAt(LeftDriftTarget.position + lookAtVector);
+            
         }
-        else
+        else if (m_kart.rightDrift)
         {
-            rotationSnapTime = 0.125f;
+            rotationSnapTime = 0.5f;
+            transform.LookAt(RightDriftTarget.position + lookAtVector);
         }
-        if (Input.GetKeyDown("z"))
-        {
-            distance = -distance;
-            //wantedPosition = new Vector3(-target.position.x, currentHeight, -target.position.z);
-            //lookAtVector = -lookAtVector;
-            //wantedPosition += Quaternion.Euler(0, currentRotationAngle, 0) * new Vector3(0, 0, usedDistance);
-            //transform.LookAt(new Vector3 (-target.position.x, currentHeight, -target.position.z) + lookAtVector);
-        }
-        else if (Input.GetKeyUp("z"))
-        {
-            transform.position = wantedPosition;
-        }        
+        //transform.LookAt(m_kart.transform.position + lookAtVector);
+
+       // if (m_kart.Drifting == true)
+       // {
+       //     rotationSnapTime = 0.125f;
+       // }
+       // else
+       // {
+       //     rotationSnapTime = 0.125f;
+       // }            
     }
 
 }

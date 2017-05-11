@@ -348,6 +348,7 @@ public class m_carController : MonoBehaviour {
 
                 if (Input.GetAxis("Horizontal") > 0.5f)
                 {
+                    turnRadius = 5;
                     rightDrift = true;
                     leftDrift = false;
 
@@ -377,11 +378,13 @@ public class m_carController : MonoBehaviour {
                     
                     if (Input.GetAxis("Horizontal") == 1)
                     {
-                        turnRadius = 4;
+                        turnRadius = 10;
                     }                  
                 }
                 else if (Input.GetAxis("Horizontal") < -0.5)
                 {
+                    turnRadius = 5;
+
                     rightDrift = false;
                     leftDrift = true;
 
@@ -411,7 +414,7 @@ public class m_carController : MonoBehaviour {
 
                     if (Input.GetAxis("Horizontal") == -1)
                     {
-                        turnRadius = 4;
+                        turnRadius = 10;
                     }
                 }     
             }              

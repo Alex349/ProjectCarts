@@ -1,0 +1,152 @@
+fileFormatVersion: 2
+guid: c5ea70beeacf4b54f81d684ecb30e22f
+timeCreated: 1494701111
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Door_Stone_Curved
+    100002: Door_Stone_Straight
+    100004: Plane10x10
+    100006: Plane12x12
+    100008: Plane1x013
+    100010: Plane1x12
+    100012: Plane2x12
+    100014: Plane6x6
+    100016: Plane8x10
+    100018: //RootNode
+    100020: Plane8x8
+    100022: Triangle12x12_A
+    100024: Triangle12x12_B
+    100026: Triangle8x8_A
+    100028: Triangle8x8_B
+    400000: Door_Stone_Curved
+    400002: Door_Stone_Straight
+    400004: Plane10x10
+    400006: Plane12x12
+    400008: Plane1x013
+    400010: Plane1x12
+    400012: Plane2x12
+    400014: Plane6x6
+    400016: //RootNode
+    400018: Plane8x10
+    400020: Plane8x8
+    400022: Triangle12x12_A
+    400024: Triangle12x12_B
+    400026: Triangle8x8_A
+    400028: Triangle8x8_B
+    2300000: Door_Stone_Curved
+    2300002: Door_Stone_Straight
+    2300004: Plane10x10
+    2300006: Plane12x12
+    2300008: Plane1x013
+    2300010: Plane1x12
+    2300012: Plane2x12
+    2300014: Plane6x6
+    2300016: Plane8x10
+    2300018: Plane8x8
+    2300020: Triangle12x12_A
+    2300022: Triangle12x12_B
+    2300024: Triangle8x8_A
+    2300026: Triangle8x8_B
+    2300028: //RootNode
+    3300000: Door_Stone_Curved
+    3300002: Door_Stone_Straight
+    3300004: Plane10x10
+    3300006: Plane12x12
+    3300008: Plane1x013
+    3300010: Plane1x12
+    3300012: Plane2x12
+    3300014: Plane6x6
+    3300016: Plane8x10
+    3300018: Plane8x8
+    3300020: Triangle12x12_A
+    3300022: Triangle12x12_B
+    3300024: Triangle8x8_A
+    3300026: Triangle8x8_B
+    3300028: //RootNode
+    4300000: Door_Stone_Curved
+    4300002: Plane6x6
+    4300004: Plane12x12
+    4300006: Triangle12x12_A
+    4300008: Triangle12x12_B
+    4300010: Plane1x12
+    4300012: Plane8x8
+    4300014: Plane2x12
+    4300016: Triangle8x8_B
+    4300018: Triangle8x8_A
+    4300020: Plane10x10
+    4300022: Plane8x10
+    4300024: Door_Stone_Straight
+    4300026: Plane1x013
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

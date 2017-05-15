@@ -70,24 +70,15 @@ public class CarSmoothFollow : MonoBehaviour
         {
             rotationSnapTime = 0.5f;
             
-            transform.LookAt(LeftDriftTarget.position + lookAtVector);
+            transform.LookAt(Vector3.Lerp(target.position + lookAtVector, LeftDriftTarget.position + lookAtVector, 0.05f));
             
         }
         else if (m_kart.rightDrift)
         {
             rotationSnapTime = 0.5f;
-            transform.LookAt(RightDriftTarget.position + lookAtVector);
-        }
-        //transform.LookAt(m_kart.transform.position + lookAtVector);
-
-       // if (m_kart.Drifting == true)
-       // {
-       //     rotationSnapTime = 0.125f;
-       // }
-       // else
-       // {
-       //     rotationSnapTime = 0.125f;
-       // }            
+            transform.LookAt(Vector3.Lerp(target.position + lookAtVector, RightDriftTarget.position + lookAtVector, 0.05f));
+            //transform.LookAt(RightDriftTarget.position + lookAtVector);
+        }                
     }
 
 }

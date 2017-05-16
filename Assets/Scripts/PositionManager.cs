@@ -29,7 +29,7 @@ public class PositionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        racersGO.Sort((IComparer<GameObject>)new SortLap());
+       // racersGO.Sort((IComparer<GameObject>)new SortLap());
         racersGO.Sort((IComparer<GameObject>)new SortDestPoint());
         racersGO.Reverse();
         //racersGO.Sort((IComparer<GameObject>)new SortDistToPoint());

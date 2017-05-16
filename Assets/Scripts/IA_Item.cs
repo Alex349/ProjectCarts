@@ -244,21 +244,21 @@ public class IA_Item : MonoBehaviour
     {
         if (lap1Time == string.Empty)
         {
-            lap1Time = hudManager.time_Text.text.ToString();
+            //lap1Time = hudManager.time_Text.text.ToString();
             Debug.Log("Lap1Set");
             lapCountdown = 5;
         }
 
         if ((lap1Time != string.Empty && lap2Time == string.Empty) && lapCountdown < 0)
         {
-            lap2Time = hudManager.time_Text.text.ToString();
+            //lap2Time = hudManager.time_Text.text.ToString();
             Debug.Log("Lap2Set");
             lapCountdown = 5;
         }
 
         if ((lap1Time != string.Empty && lap2Time != string.Empty) && lapCountdown < 0)
         {
-            lap3Time = hudManager.time_Text.text.ToString();
+           // lap3Time = hudManager.time_Text.text.ToString();
             lapCountdown = 400;
         }
     }

@@ -74,7 +74,17 @@ public class m_carItem : MonoBehaviour {
         {
             Destroy(other.gameObject);
 
-            money = money + 0.5f;
+            Debug.Log("Coin");
+
+            if (money > 10)
+            {
+
+            }
+            else
+            {
+                money++;
+
+            }
 
         }
 
@@ -113,7 +123,15 @@ public class m_carItem : MonoBehaviour {
         }
         else if (rnd < 1)
         {
-            currentPlayerObject = "coin";
+            if (money > 10)
+            {
+                currentPlayerObject = "none";
+            }
+            else
+            {
+                currentPlayerObject = "FakeBox";
+
+            }
         }
     }
 
@@ -147,6 +165,12 @@ public class m_carItem : MonoBehaviour {
             currentPlayerObject = "none";
 
         }
+
+        if (currentPlayerObject == "FakeBox")
+        {
+            currentPlayerObject = "none";
+
+        }
     }
 
     void UpdateItems()
@@ -159,6 +183,7 @@ public class m_carItem : MonoBehaviour {
             //carController.maxSpeed = carDefaultSpeed;
            // carController.currentAcc = carDefaultAcc;
         }
+
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
 

@@ -1,0 +1,423 @@
+﻿Merge remote-tracking branch 'origin/master'
+
+# Conflicts:
+#	ProjectSettings/ProjectSettings.asset
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 6 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	new file:   Assets/Eduard/Armando Assets.meta
+#	new file:   Assets/Eduard/Armando Assets/Armchair.fbx
+#	new file:   Assets/Eduard/Armando Assets/Armchair.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/ArmoryWall.ma
+#	new file:   Assets/Eduard/Armando Assets/ArmoryWall.ma.meta
+#	new file:   Assets/Eduard/Armando Assets/ArmoryWindow.fbx
+#	new file:   Assets/Eduard/Armando Assets/ArmoryWindow.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/Barrel.fbx
+#	new file:   Assets/Eduard/Armando Assets/Barrel.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/BattleAxe.fbx
+#	new file:   Assets/Eduard/Armando Assets/BattleAxe.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/Bed.fbx
+#	new file:   Assets/Eduard/Armando Assets/Bed.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/Cypress.fbx
+#	new file:   Assets/Eduard/Armando Assets/Cypress.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/EscudoCircular.fbx
+#	renamed:    Assets/Eduard/PecesFBXImportades/Triangle_1m.FBX.meta -> Assets/Eduard/Armando Assets/EscudoCircular.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/EscudoCuadrado.fbx
+#	new file:   Assets/Eduard/Armando Assets/EscudoCuadrado.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/Fountain.fbx
+#	new file:   Assets/Eduard/Armando Assets/Fountain.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/Materials.meta
+#	new file:   Assets/Eduard/Armando Assets/Materials/lambert1.mat
+#	new file:   Assets/Eduard/Armando Assets/Materials/lambert1.mat.meta
+#	new file:   Assets/Eduard/Armando Assets/Spear.fbx
+#	new file:   Assets/Eduard/Armando Assets/Spear.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/WallNiche.fbx
+#	new file:   Assets/Eduard/Armando Assets/WallNiche.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/chainLinks.fbx
+#	new file:   Assets/Eduard/Armando Assets/chainLinks.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/chimenea.fbx
+#	renamed:    Assets/Eduard/PecesFBXImportades/Cub_1m.FBX.meta -> Assets/Eduard/Armando Assets/chimenea.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/morningStar.fbx
+#	new file:   Assets/Eduard/Armando Assets/morningStar.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/morningStar2.fbx
+#	new file:   Assets/Eduard/Armando Assets/morningStar2.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/morningStarWithChain.fbx
+#	new file:   Assets/Eduard/Armando Assets/morningStarWithChain.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/sword.fbx
+#	new file:   Assets/Eduard/Armando Assets/sword.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/taburete.fbx
+#	renamed:    "Assets/Eduard/PecesFBXImportades/Curva_15\302\272_1m.FBX.meta" -> Assets/Eduard/Armando Assets/taburete.fbx.meta
+#	new file:   Assets/Eduard/Armando Assets/wallWindow.fbx
+#	new file:   Assets/Eduard/Armando Assets/wallWindow.fbx.meta
+#	copied:     Assets/Eduard/Circuit.unity -> Assets/Eduard/Circuit Armando.unity
+#	new file:   Assets/Eduard/Circuit Armando.unity.meta
+#	modified:   Assets/Eduard/Circuit.unity
+#	new file:   Assets/Eduard/Circuit3DModels/Materials/No Name.mat
+#	new file:   Assets/Eduard/Circuit3DModels/Materials/No Name.mat.meta
+#	modified:   Assets/Eduard/Circuit3DModels/Materials/lambert1.mat
+#	new file:   Assets/Eduard/Copia.unity
+#	new file:   Assets/Eduard/Copia.unity.meta
+#	modified:   Assets/Eduard/Eduard.unity
+#	modified:   Assets/Eduard/Eduard.unity.meta
+#	new file:   Assets/Eduard/Materials/CheckPoint1/Central_Ceiling_CheckPoint3.mat
+#	renamed:    Assets/Eduard/Materials/CheckPoint1/Limits_CheckPoint1.mat.meta -> Assets/Eduard/Materials/CheckPoint1/Central_Ceiling_CheckPoint3.mat.meta
+#	modified:   Assets/Eduard/Materials/CheckPoint1/Floor_CheckPoint1.mat
+#	new file:   Assets/Eduard/Materials/CheckPoint1/Lateral_Ceiling_1x12_CheckPoint2.mat
+#	renamed:    Assets/Eduard/PecesFBXImportades/Materials/No Name.mat.meta -> Assets/Eduard/Materials/CheckPoint1/Lateral_Ceiling_1x12_CheckPoint2.mat.meta
+#	new file:   Assets/Eduard/Materials/CheckPoint1/Lateral_Floor_2x12_CheckPoint1.mat
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor_Square_12x12m_CheckPoint1.prefab.meta -> Assets/Eduard/Materials/CheckPoint1/Lateral_Floor_2x12_CheckPoint1.mat.meta
+#	deleted:    Assets/Eduard/Materials/CheckPoint1/Limits_CheckPoint1.mat
+#	new file:   Assets/Eduard/Materials/CheckPoint1/Under_Door.mat
+#	new file:   Assets/Eduard/Materials/CheckPoint1/Under_Door.mat.meta
+#	new file:   Assets/Eduard/Materials/CheckPoint1/Wall_CheckPoint1.mat
+#	new file:   Assets/Eduard/Materials/CheckPoint1/Wall_CheckPoint1.mat.meta
+#	modified:   Assets/Eduard/Materials/CheckPoint2/Floor_CheckPoint2.mat
+#	new file:   Assets/Eduard/Materials/CheckPoint2/Lateral_Ceiling_1x12_CheckPoint2.mat
+#	new file:   Assets/Eduard/Materials/CheckPoint2/Lateral_Ceiling_1x12_CheckPoint2.mat.meta
+#	new file:   Assets/Eduard/Materials/CheckPoint2/Lateral_Floor_2x12_CheckPoint2.mat
+#	new file:   Assets/Eduard/Materials/CheckPoint2/Lateral_Floor_2x12_CheckPoint2.mat.meta
+#	modified:   Assets/Eduard/Materials/CheckPoint2/Limits_CheckPoint2.mat
+#	deleted:    Assets/Eduard/Materials/CheckPoint2/Rough_Floor_CheckPoint2.mat
+#	modified:   Assets/Eduard/Materials/CheckPoint2/Slope_CheckPoint2.mat
+#	new file:   Assets/Eduard/Materials/CheckPoint2/Walls_CheckPoint2.mat
+#	renamed:    Assets/Eduard/Materials/CheckPoint2/Rough_Floor_CheckPoint2.mat.meta -> Assets/Eduard/Materials/CheckPoint2/Walls_CheckPoint2.mat.meta
+#	modified:   Assets/Eduard/Materials/CheckPoint4/Floor_CheckPoint4.mat
+#	renamed:    Assets/Eduard/PecesFBXImportades/Materials/No Name.mat -> Assets/Eduard/Materials/CheckPoint4/Rough_Floor_CheckPoint4.mat
+#	modified:   Assets/Eduard/Materials/Fountain.mat
+#	modified:   Assets/Eduard/Materials/No Name.mat
+#	modified:   Assets/Eduard/Materials/default.mat
+#	modified:   Assets/Eduard/PecesFBXImportades.meta
+#	deleted:    Assets/Eduard/PecesFBXImportades/Cub_1m.FBX
+#	deleted:    "Assets/Eduard/PecesFBXImportades/Curva_15\302\272_1m.FBX"
+#	new file:   Assets/Eduard/PecesFBXImportades/Door_Stone_Curved.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Door_Stone_Curved.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Door_Stone_Straight.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Door_Stone_Straight.FBX.meta
+#	modified:   Assets/Eduard/PecesFBXImportades/Materials.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Materials/02 - Default.mat
+#	new file:   Assets/Eduard/PecesFBXImportades/Materials/02 - Default.mat.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane10x10.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane10x10.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane10x12.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane10x12.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane12x12.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane12x12.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane14x14.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane14x14.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane1x10.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane1x10.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane1x12.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane1x12.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane1x8.FBX
+#	renamed:    Assets/Eduard/PecesFBXImportades/column_model.FBX.meta -> Assets/Eduard/PecesFBXImportades/Plane1x8.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane2x10.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane2x10.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane2x12.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane2x12.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane6x6.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane6x6.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane8x10.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane8x10.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane8x12.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane8x12.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane8x8.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane8x8.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane9x10.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Plane9x10.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle10x10A.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle10x10A.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle10x10B.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle10x10B.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle12x12A.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle12x12A.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle12x12B.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle12x12B.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle8x8A.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle8x8A.FBX.meta
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle8x8B.FBX
+#	new file:   Assets/Eduard/PecesFBXImportades/Triangle8x8B.FBX.meta
+#	deleted:    Assets/Eduard/PecesFBXImportades/Triangle_1m.FBX
+#	deleted:    Assets/Eduard/PecesFBXImportades/column_model.FBX
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Ceiling.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor_Triangle_12x12m_CheckPoint1.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint1/Ceiling/Ceiling_Triangle_10x10A.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Ceiling/Ceiling_Triangle_10x10A.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Ceiling/Central_Ceiling_10x10m_CheckPoint1.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Ceiling/Central_Ceiling_10x10m_CheckPoint1.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Ceiling/Lateral_Ceiling_1x12.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Ceiling/Lateral_Ceiling_1x12.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/CorridorStair.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/CorridorStair.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/StoneDoor 1.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/StoneDoor 1.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/StoneDoor.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/StoneDoor.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/StoneDoorLong 1.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/StoneDoorLong 1.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/StoneDoorLong.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/StoneDoorLong.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/Stone_Door_Curved.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/Stone_Door_Curved.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/Stone_Door_Straight.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Door/Stone_Door_Straight.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Central_Floor_Square_10x10m_CheckPoint1.prefab
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Triangle_12x12m_CheckPoint2.prefab.meta -> Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Central_Floor_Square_10x10m_CheckPoint1.prefab.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Triangle_10x10m_CheckPoint2.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Floor_Triangle_10x10A.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Floor_Triangle_10x10A.prefab.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor_Square_12x12m_CheckPoint1.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Floor_Triangle_10x10B.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Floor_Triangle_10x10B.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Floor_Under_Door_2x12.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Floor_Under_Door_2x12.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Lateral_Floor_1x10 1.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Lateral_Floor_1x10 1.prefab.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Triangle_10x12m_CheckPoint2.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Lateral_Floor_1x10.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Lateral_Floor_1x10.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Slope_Floor_8x8.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor/Slope_Floor_8x8.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor_Triangle_12x12m_A_CheckPoint1.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor_Triangle_12x12m_A_CheckPoint1.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor_Triangle_12x12m_B_CheckPoint1.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor_Triangle_12x12m_B_CheckPoint1.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint1/Floor_Triangle_12x12m_CheckPoint1.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Plane2x10.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Plane2x10.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint1/Rough_Floor_Triangle_8x8m_CheckPoint1.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Walls.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Walls/Wall_Plane_8x10.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint1/Walls/Wall_Plane_8x10.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint1/Rough_Floor_Triangle_8x8m_CheckPoint1.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Ceiling_Triangle_10x10A.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Ceiling_Triangle_10x10A.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Central_Ceiling_10x10m_CheckPoint1.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Central_Ceiling_10x10m_CheckPoint1.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Central_Ceiling_10x10m_CheckPoint2.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Central_Ceiling_10x10m_CheckPoint2.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Lateral_Ceiling_1x12_CheckPoint2.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Lateral_Ceiling_1x12_CheckPoint2.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Lateral_Ceiling_1x12_CheckPoint3.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Ceiling/Lateral_Ceiling_1x12_CheckPoint3.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Central_Floor_Square_10x10m_CheckPoint2.prefab
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Square_10x10m_CheckPoint2.prefab.meta -> Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Central_Floor_Square_10x10m_CheckPoint2.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Central_Floor_Square_12x12m_CheckPoint2.prefab
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Square_12x12m_CheckPoint2.prefab.meta -> Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Central_Floor_Square_12x12m_CheckPoint2.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Central_Floor_Triangle12x12A.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Central_Floor_Triangle12x12A.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Central_Floor_Triangle12x12B.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Central_Floor_Triangle12x12B.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Floor_Triangle_10x10m_CheckPoint2.prefab
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Triangle_10x10m_CheckPoint2.prefab.meta -> Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Floor_Triangle_10x10m_CheckPoint2.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Lateral_Floor_2x12_CheckPoint2 (9).prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Lateral_Floor_2x12_CheckPoint2 (9).prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Lateral_Floor_2x12_CheckPoint2.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Lateral_Floor_2x12_CheckPoint2.prefab.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Slope_Square_10x10m_CheckPoint2.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Slope_Square_10x10m_CheckPoint2.prefab
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Slope_Square_10x10m_CheckPoint2.prefab.meta -> Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor/Slope_Square_10x10m_CheckPoint2.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Square_12x12m_CheckPoint2.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Triangle_10x12m_CheckPoint2.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Rough_Floor_Triangle_8x8m_CheckPoint2.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Walls.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Walls/Wall_Plane_8x10_CheckPoint2.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Walls/Wall_Plane_8x10_CheckPoint2.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Walls/Wall_Plane_8x12_CheckPoint2.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint2/Walls/Wall_Plane_8x12_CheckPoint2.prefab.meta
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint3/Balcony_Square_12x12m_CheckPoint3.prefab
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint3/Floor_Bot_Triangle_12x12m_CheckPoint.prefab
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint3/Floor_Triangle_12x12m_CheckPoint3.prefab
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint3/Rough_Floor_Triangle_12x12m_CheckPoint3.prefab
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint4/Floor_Square_12x12m_CheckPoint4.prefab
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint4/Floor_Triangle_12x12m_CheckPoint4.prefab
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint4/Rough_Floor_Square_12x12m_CheckPoint4.prefab
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint4/Rough_Floor_Triangle_12x12m_CheckPoint4.prefab
+#	renamed:    "Assets/Eduard/PrefabsCircuit/CheckPoint6/Curva_15\302\272 .prefab" -> "Assets/Eduard/PrefabsCircuit/CheckPoint5/Curva_15\302\272 .prefab"
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint5/Floor_Square_12x12m_CheckPoint5 1.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint5/Floor_Square_12x12m_CheckPoint5 1.prefab.meta
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint5/Floor_Square_12x12m_CheckPoint5.prefab
+#	modified:   Assets/Eduard/PrefabsCircuit/CheckPoint5/Floor_Square_8.4x12m_CheckPoint5.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint5/Floor_Triangle_12x12m_CheckPoint5.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint5/Floor_Triangle_12x12m_CheckPoint5.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint5/Rough_Floor_Square_12x12m_CheckPoint5.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint5/Rough_Floor_Square_12x12m_CheckPoint5.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint5/Rough_Floor_Triangle_12x12m_CheckPoint5.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint5/Rough_Floor_Triangle_12x12m_CheckPoint5.prefab.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Square_10x10m_CheckPoint2.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint6/Central_Ceiling_12x12.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Central_Ceiling_12x12.prefab.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Rough_Floor_Triangle_8x8m_CheckPoint2.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint6/Central_Floor_Square_10x10m_CheckPoint1.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Central_Floor_Square_10x10m_CheckPoint1.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Central_Floor_Square_12x12m.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Central_Floor_Square_12x12m.prefab.meta
+#	deleted:    "Assets/Eduard/PrefabsCircuit/CheckPoint6/Curva_15\302\272 .prefab.meta"
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint6/Floor_Square_12x12m_CheckPoint6.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint6/Floor_Square_12x12m_CheckPoint6.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint6/Floor_Triangle_12x12m_CheckPoint6.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint6/Floor_Triangle_12x12m_CheckPoint6.prefab.meta
+#	renamed:    Assets/Eduard/PrefabsCircuit/CheckPoint2/Floor_Triangle_12x12m_CheckPoint2.prefab -> Assets/Eduard/PrefabsCircuit/CheckPoint6/Lateral_Floor_1x10.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Lateral_Floor_1x10.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Lateral_Floor_2x10.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Lateral_Floor_2x10.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Lateral_Floor_2x12.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Lateral_Floor_2x12.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Lateral_Wall_2x12.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Lateral_Wall_2x12.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint6/Rough_Floor_Square_12x12m_CheckPoint6.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint6/Rough_Floor_Square_12x12m_CheckPoint6.prefab.meta
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint6/Rough_Floor_Triangle_12x12m_CheckPoint6.prefab
+#	deleted:    Assets/Eduard/PrefabsCircuit/CheckPoint6/Rough_Floor_Triangle_12x12m_CheckPoint6.prefab.meta
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Wall_Plane_12x12.prefab
+#	new file:   Assets/Eduard/PrefabsCircuit/CheckPoint6/Wall_Plane_12x12.prefab.meta
+#	new file:   Assets/Eduard/Proves.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_01_Disable.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_01_Disable.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_01_Normal.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_01_Normal.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_01_Pressed.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_01_Pressed.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_02_Disable.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_02_Disable.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_02_Normal.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_02_Normal.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_02_Pressed.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Button_02_Pressed.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Icon_Help.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Icon_Help.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Icon_Minimize.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Icon_Minimize.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/MessageBar.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/MessageBar.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Toggle_Background.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Toggle_Background.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Toggle_Checkmark.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Toggle_Checkmark.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Window_01_Black.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Window_01_Black.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Window_01_Blue.psd
+#	deleted:    Assets/Eduard/Skybox/Demo/Sprites/Window_01_Blue.psd.meta
+#	deleted:    Assets/Eduard/Skybox/Presets.meta
+#	deleted:    Assets/Eduard/Skybox/Presets/Night_01A_Light.png
+#	deleted:    Assets/Eduard/Skybox/Presets/Night_01A_RenderSettings.png
+#	deleted:    Assets/Eduard/Skybox/Presets/Night_01B_Light.png
+#	deleted:    Assets/Eduard/Skybox/Presets/Night_01B_RenderSettings.png
+#	deleted:    Assets/Eduard/Skybox/Presets/Sunny_01A_Light.png
+#	deleted:    Assets/Eduard/Skybox/Presets/Sunny_01A_Light.png.meta
+#	deleted:    Assets/Eduard/Skybox/Presets/Sunny_01A_RenderSettings.png
+#	deleted:    Assets/Eduard/Skybox/Presets/Sunny_01A_RenderSettings.png.meta
+#	deleted:    Assets/Eduard/Skybox/Presets/Sunny_01B_Light.png
+#	deleted:    Assets/Eduard/Skybox/Presets/Sunny_01B_Light.png.meta
+#	deleted:    Assets/Eduard/Skybox/Presets/Sunny_01B_RenderSettings.png
+#	deleted:    Assets/Eduard/Skybox/Presets/Sunny_01B_RenderSettings.png.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/19e5f0d8c6c96a1378618da36aa699cf.jpg
+#	renamed:    Assets/Eduard/Skybox/Presets/Night_01A_RenderSettings.png.meta -> Assets/Eduard/TexturesPlaceHolder/19e5f0d8c6c96a1378618da36aa699cf.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/2b6df0a747f40fd8be1336b7ed875441.jpg
+#	renamed:    Assets/Eduard/Skybox/Presets/Night_01B_Light.png.meta -> Assets/Eduard/TexturesPlaceHolder/2b6df0a747f40fd8be1336b7ed875441.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/327fce6c0655b8f903f587e0c7dee315.jpg
+#	renamed:    Assets/Eduard/Skybox/Presets/Night_01B_RenderSettings.png.meta -> Assets/Eduard/TexturesPlaceHolder/327fce6c0655b8f903f587e0c7dee315.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/34bfa600e8ba4957fa0a8b3b5f7dfed1.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/34bfa600e8ba4957fa0a8b3b5f7dfed1.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/3a29ce782807ecb60a80dbde353d885c.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/3a29ce782807ecb60a80dbde353d885c.jpg.meta
+#	modified:   Assets/Eduard/TexturesPlaceHolder/472056223.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/47a3c20a0d6d5622fdcea8fac0a2903d.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/47a3c20a0d6d5622fdcea8fac0a2903d.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/490f3b5af228d0f4bec205c1999e47b9.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/490f3b5af228d0f4bec205c1999e47b9.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/6624ef3d78952176fc37efdfa5330dc9.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/6624ef3d78952176fc37efdfa5330dc9.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/7726fcf760531959f9addd658ea0ddfd.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/7726fcf760531959f9addd658ea0ddfd.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/7ca839a14f3b4ac7181220ee4b3f7977.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/7ca839a14f3b4ac7181220ee4b3f7977.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/7d05108a75dc542fccac48a2c62f7f93.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/7d05108a75dc542fccac48a2c62f7f93.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/7edb8292d55bfa11c6581e2877090cd3.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/7edb8292d55bfa11c6581e2877090cd3.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/85415f81039a191128aad636f55cea86.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/85415f81039a191128aad636f55cea86.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/8db86d09b6435af243a33927faeb137f.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/8db86d09b6435af243a33927faeb137f.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/9b5d01af9ad5e95ae23a0e176361b1a5.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/9b5d01af9ad5e95ae23a0e176361b1a5.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Archway Dyf.tif
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Archway Dyf.tif.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Archway Normal.tif
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Archway Normal.tif.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Crystal-diffuse.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Crystal-diffuse.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Crystal-normal.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Crystal-normal.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Crystal-spec.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Crystal-spec.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Materials.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Materials/34bfa600e8ba4957fa0a8b3b5f7dfed1.mat
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Materials/34bfa600e8ba4957fa0a8b3b5f7dfed1.mat.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Materials/7d05108a75dc542fccac48a2c62f7f93.mat
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Materials/7d05108a75dc542fccac48a2c62f7f93.mat.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Materials/8db86d09b6435af243a33927faeb137f.mat
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Materials/8db86d09b6435af243a33927faeb137f.mat.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/Thumbs.db.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/ab8cdfd1eb736bd49ab5a47abae1a911.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/ab8cdfd1eb736bd49ab5a47abae1a911.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/artstation.com var n=document.getElementById('i-vij0');if (n.complete) {P.lazy.onImageLoad(n);}n.onload=function(){P.lazy.onImageLoad(this);};.url
+#	new file:   Assets/Eduard/TexturesPlaceHolder/artstation.com var n=document.getElementById('i-vij0');if (n.complete) {P.lazy.onImageLoad(n);}n.onload=function(){P.lazy.onImageLoad(this);};.url.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/bec092f19fd1a7a4c53481b89cc7724cd2a7c06627561-S1HmI1_fw658.webp
+#	new file:   Assets/Eduard/TexturesPlaceHolder/bec092f19fd1a7a4c53481b89cc7724cd2a7c06627561-S1HmI1_fw658.webp.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/c52eeaaa78c6b028fdc2f948de4c82d8.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/c52eeaaa78c6b028fdc2f948de4c82d8.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/c895c8c2d5f0498d33eef70816d6e9ba.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/c895c8c2d5f0498d33eef70816d6e9ba.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/crystal 3D.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/crystal 3D.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/crystal_Tile.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/crystal_Tile.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/d03ea904385d4172088a7404ec7f350c1a77246bda53-gjem8F_fw658.webp
+#	new file:   Assets/Eduard/TexturesPlaceHolder/d03ea904385d4172088a7404ec7f350c1a77246bda53-gjem8F_fw658.webp.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/d3df415d3e600e7842fe58a0180a4072.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/d3df415d3e600e7842fe58a0180a4072.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/daniel-donghyun-kim-tile-wip.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/daniel-donghyun-kim-tile-wip.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/daniel-donghyun-kim-wip02.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/daniel-donghyun-kim-wip02.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/dbae8bb8ea9e5f0ad983a6a447d978ad.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/dbae8bb8ea9e5f0ad983a6a447d978ad.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/ef3703a380232ad714ef72ca0bcf863d.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/ef3703a380232ad714ef72ca0bcf863d.jpg.meta
+#	new file:   Assets/Eduard/TexturesPlaceHolder/naroznik lp.jpg
+#	new file:   Assets/Eduard/TexturesPlaceHolder/naroznik lp.jpg.meta
+#	new file:   Assets/OBJExport.meta
+#	new file:   Assets/OBJExport/Documentation.meta
+#	new file:   Assets/OBJExport/Documentation/docs.meta
+#	new file:   Assets/OBJExport/Documentation/docs/export.html
+#	new file:   Assets/OBJExport/Documentation/docs/export.html.meta
+#	new file:   Assets/OBJExport/Documentation/docs/export_a.html
+#	new file:   Assets/OBJExport/Documentation/docs/export_a.html.meta
+#	new file:   Assets/OBJExport/Documentation/docs/intro.html
+#	new file:   Assets/OBJExport/Documentation/docs/intro.html.meta
+#	new file:   Assets/OBJExport/Documentation/docs/troubleshooting.html
+#	new file:   Assets/OBJExport/Documentation/docs/troubleshooting.html.meta
+#	new file:   Assets/OBJExport/Documentation/imgs.meta
+#	new file:   Assets/OBJExport/Documentation/imgs/d_be.png
+#	renamed:    Assets/Eduard/Skybox/Presets/Night_01A_Light.png.meta -> Assets/OBJExport/Documentation/imgs/d_be.png.meta
+#	new file:   Assets/OBJExport/Documentation/index.html
+#	new file:   Assets/OBJExport/Documentation/index.html.meta
+#	new file:   Assets/OBJExport/Documentation/style.css
+#	new file:   Assets/OBJExport/Documentation/style.css.meta
+#	new file:   Assets/OBJExport/OBJExporter.cs
+#	new file:   Assets/OBJExport/OBJExporter.cs.meta
+#	new file:   Assets/Scene_Jofre/Thumbs.db.meta
+#
+

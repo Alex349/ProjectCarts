@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class StraightRocket : MonoBehaviour
 {
-
     [SerializeField]
     private float rocketSpeed = -30;
     [SerializeField]
-    private float rocketBounces;
+    private float rocketBounces, distanceAwayFromSurface;
     private Rigidbody bulletBody;
 
-    public float hoverHeight = 2f, hoverForce = 2f, distanceToGround;
-    public float minDistance,maxDistance;
+    Vector3 myTransform;
+
+    public float distanceToGround;
 
     // Use this for initialization
     void Start()
     {
         bulletBody = GetComponent<Rigidbody>();
 
-        this.GetComponent<Rigidbody>().AddForce(transform.forward * rocketSpeed, ForceMode.Impulse);
+        bulletBody.AddForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)) * rocketSpeed, ForceMode.Impulse);
+
+        myTransform = this.transform.position;
 
     }
 
@@ -33,41 +35,17 @@ public class StraightRocket : MonoBehaviour
 
         RaycastHit hit = new RaycastHit();
 
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+        Debug.DrawRay(transform.position, -Vector3.up, Color.green);
+
+        if (Physics.Raycast(bulletBody.transform.position, -Vector3.up, out hit))
         {
-            distanceToGround = hit.distance;
+            myTransform.x = transform.position.x;
+            myTransform.z = transform.position.z;
+            transform.position = hit.point + hit.normal * distanceAwayFromSurface;
+
         }
 
-        if (distanceToGround < minDistance)
-        {
-            //float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
-            //Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
-            bulletBody.AddForce(Vector3.up * 500, ForceMode.Acceleration);
-            //Debug.Log("Im too low");
-        }
-        if (distanceToGround > maxDistance)
-        {
-            //float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
-            //Vector3 appliedHoverForce = Vector3.up * -1 * proportionalHeight * hoverForce;
-            bulletBody.AddForce(Vector3.down * 500, ForceMode.Acceleration);
-           // Debug.Log("Im too high");
-        }
     }
-
-    //void FixedUpdate()
-    //{
-    //    Ray ray = new Ray(transform.position, -transform.up);
-    //    RaycastHit hit;
-
-    //    if (Physics.Raycast(ray, out hit, hoverHeight))
-    //    {
-    //        Debug.Log(hit.distance);
-
-    //        float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
-    //        Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
-    //        bulletBody.AddForce(appliedHoverForce, ForceMode.Force);
-    //    }
-    //}
 
     void OnCollisionEnter(Collision collision)
     {

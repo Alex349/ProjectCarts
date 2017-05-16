@@ -82,17 +82,12 @@ public class NavMeshAI : MonoBehaviour
             ReleaseOffmeshLink();
         }
 
-        //Quaternion lookRot = new Quaternion(
-        //      agent.destination.x / (distanceToNextPoint / agent.velocity.magnitude),
-        //      agent.destination.y / (distanceToNextPoint / agent.velocity.magnitude),
-        //      agent.destination.z / (distanceToNextPoint / agent.velocity.magnitude),
-        //      Quaternion.identity);
 
-        //transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime);
 
-        Vector3 relativePos = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(relativePos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * camSpeed);
+
+        //Vector3 relativePos = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
+        //Quaternion rotation = Quaternion.LookRotation(relativePos);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * camSpeed);
 
     }
     void OnTriggerEnter(Collider col)

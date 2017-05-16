@@ -69,9 +69,6 @@ public class NavMeshAI : MonoBehaviour
 
             ia_Item.iADefaultSpeed = spd;
             ia_Item.iADefaultAcc = acc;
-
-            Debug.Log("Velocity Change");
-
             changeVelocityTimer = changeVelocityCooldown;
 
         }

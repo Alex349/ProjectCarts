@@ -57,6 +57,6 @@ public class TireToWheel : MonoBehaviour {
 
         //wheelTransform.localRotation = Quaternion.Euler(collider.rpm, collider.steerAngle, 0);
         //this is the good one, we can add the correct rotation when the centers (assets) changed
-        wheelTransform.localRotation = Quaternion.Euler(wheelCollider.transform.rotation.x, collider.steerAngle, 0);
+        wheelTransform.localRotation = Quaternion.Euler(collider.steerAngle, collider.rpm, transform.rotation.z);
     }
 }

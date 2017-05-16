@@ -123,7 +123,7 @@ public class IA_Item : MonoBehaviour
 
             if (money > 10)
             {
-               
+
             }
             else
             {
@@ -146,6 +146,21 @@ public class IA_Item : MonoBehaviour
             }
         }
 
+        if (other.tag == "RoughTerrain")
+        {
+            agent.speed = agent.speed / 2;
+            agent.acceleration = agent.acceleration / 2;
+        }
+
+    }
+
+    void OnTriggerExit (Collider other)
+    {
+        if (other.tag == "RoughTerrain")
+        {
+            agent.speed = agent.speed * 2;
+            agent.acceleration = agent.acceleration * 2;
+        }
     }
 
     void GetRandomItem()
@@ -297,4 +312,6 @@ public class IA_Item : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
     }
+
+
 }

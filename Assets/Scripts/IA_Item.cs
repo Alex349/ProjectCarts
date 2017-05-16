@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class IA_Item : MonoBehaviour
 {
     public string currentIAItem = "none";
+    private bool bananaDefending = false, triplebananaDefending = false;
     public int money;
 
     private PositionManager _positionManager;
@@ -49,8 +50,8 @@ public class IA_Item : MonoBehaviour
 
     //ItemSpawners
     [SerializeField]
-    private Transform backSpawn;
-    private Vector3 backSpawnVector;
+    private Transform backSpawn, backSpawnMiddle, backSpawnLast;
+    private Vector3 backSpawnVector, backSpawnVectorMiddle, backSpawnVectorLast;
     [SerializeField]
     private Transform frontSpawn;
     private Vector3 frontSpawnVector;
@@ -77,7 +78,7 @@ public class IA_Item : MonoBehaviour
         //IA uses the item when the cooldown is over
         if (IaUseItemCooldown < 0)
         {
-            UseItem();
+            //UseItem();
         }
 
         if (startRaceCooldown < 0)
@@ -88,19 +89,49 @@ public class IA_Item : MonoBehaviour
 
         //MyPosition
         CheckLeaderboards();
-        //Invoke("CheckLeaderboards", 2);
-
 
         backSpawnVector = backSpawn.transform.position;
+        backSpawnVectorMiddle = backSpawnMiddle.transform.position;
+        backSpawnVectorLast = backSpawnLast.transform.position;
         frontSpawnVector = frontSpawn.transform.position;
 
         UpdateItems();
         IncreaseSpeedOnMoney();
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (currentIAItem == "banana" || bananaDefending == true)
         {
-            // Debug.Log("Item");
-            UseItem();
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                UseBanana();
+            }
+            else
+            {
+                if (Input.GetKeyUp(KeyCode.L))
+                {
+                    ReleaseBanana();
+                }
+            }
+        }
+        else if (currentIAItem == "triplebanana" || triplebananaDefending == true)
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                UseTripleBanana();
+            }
+            else
+            {
+                if (Input.GetKeyUp(KeyCode.L))
+                {
+                    ReleaseTripleBanana();
+                }
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                UseItem();
+            }
         }
     }
 
@@ -128,7 +159,6 @@ public class IA_Item : MonoBehaviour
             else
             {
                 money++;
-
             }
 
         }
@@ -140,7 +170,6 @@ public class IA_Item : MonoBehaviour
 
             if (bananaEffect > 0)
             {
-                Debug.Log("Slowed");
                 agent.speed = bananaSlowedSpeed;
                 agent.acceleration = bananaSlowedAcc;
             }
@@ -154,7 +183,7 @@ public class IA_Item : MonoBehaviour
 
     }
 
-    void OnTriggerExit (Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.tag == "RoughTerrain")
         {
@@ -166,7 +195,6 @@ public class IA_Item : MonoBehaviour
     void GetRandomItem()
     {
         float rnd = (Random.Range(0f, 1f));
-
 
         if (rnd < 0.2)
         {
@@ -216,12 +244,6 @@ public class IA_Item : MonoBehaviour
             turboEffect = turboEffectDuration;
             currentIAItem = "none";
         }
-        if (currentIAItem == "banana")
-        {
-            Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity);
-            currentIAItem = "none";
-
-        }
 
         if (currentIAItem == "coins")
         {
@@ -234,12 +256,49 @@ public class IA_Item : MonoBehaviour
             {
                 money = money + 5;
                 currentIAItem = "none";
-
             }
+        }
+    }
 
+    void UseBanana()
+    {
+        if (currentIAItem == "banana")
+        {
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
+            currentIAItem = "none";
+            bananaDefending = true;
 
         }
     }
+
+    void ReleaseBanana()
+    {
+        backSpawn.DetachChildren();
+        bananaDefending = false;
+    }
+
+    void UseTripleBanana()
+    {
+        if (currentIAItem == "triplebanana")
+        {
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorLast, Quaternion.identity) as GameObject).transform.parent = backSpawnLast.transform;
+            currentIAItem = "none";
+            triplebananaDefending = true;
+
+        }
+    }
+
+    void ReleaseTripleBanana()
+    {
+        backSpawn.DetachChildren();
+        backSpawnMiddle.DetachChildren();
+        backSpawnLast.DetachChildren();
+        triplebananaDefending = false;
+    }
+
+
 
     void UpdateItems()
     {

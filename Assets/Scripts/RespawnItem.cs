@@ -40,4 +40,10 @@ public class RespawnItem : MonoBehaviour
             }
         }
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(transform.position, new Vector3 (1,1,1));
+    }
 }

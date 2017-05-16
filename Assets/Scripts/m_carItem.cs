@@ -5,8 +5,10 @@ using UnityEngine;
 public class m_carItem : MonoBehaviour {
 
 	public string currentPlayerObject = "none";
+    private bool bananaDefending = false;
     public m_carController carController;
     public float money;
+
     [SerializeField]
     private float carDefaultSpeed = 10;
     [SerializeField]
@@ -51,10 +53,26 @@ public class m_carItem : MonoBehaviour {
         UpdateItems();
         IncreaseSpeedOnMoney();
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (currentPlayerObject == "banana" || bananaDefending == true)
         {
-            Debug.Log("Item");
-            UseItem();
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                UseBanana();
+            }
+            else
+            {
+                if (Input.GetKeyUp(KeyCode.L))
+                {
+                    ReleaseBanana();
+                }
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                UseItem();
+            }
         }
     }
 
@@ -153,11 +171,6 @@ public class m_carItem : MonoBehaviour {
             turboEffect = turboEffectDuration;
             currentPlayerObject = "none";
         }
-        if (currentPlayerObject == "banana")
-        {
-            Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity);
-            currentPlayerObject = "none";
-        }
 
         if (currentPlayerObject == "coin")
         {
@@ -171,6 +184,22 @@ public class m_carItem : MonoBehaviour {
             currentPlayerObject = "none";
 
         }
+    }
+
+    void UseBanana()
+    {
+        if (currentPlayerObject == "banana")
+        {
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
+            currentPlayerObject = "none";
+            bananaDefending = true;
+        }
+    }
+
+    void ReleaseBanana()
+    {
+        backSpawn.DetachChildren();
+        bananaDefending = false;
     }
 
     void UpdateItems()

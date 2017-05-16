@@ -43,14 +43,14 @@ public class StraightRocket : MonoBehaviour
             //float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
             //Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
             bulletBody.AddForce(Vector3.up * 500, ForceMode.Acceleration);
-            Debug.Log("Im too low");
+            //Debug.Log("Im too low");
         }
         if (distanceToGround > maxDistance)
         {
             //float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
             //Vector3 appliedHoverForce = Vector3.up * -1 * proportionalHeight * hoverForce;
             bulletBody.AddForce(Vector3.down * 500, ForceMode.Acceleration);
-            Debug.Log("Im too high");
+           // Debug.Log("Im too high");
         }
     }
 

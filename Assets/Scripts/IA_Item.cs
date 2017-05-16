@@ -99,7 +99,7 @@ public class IA_Item : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-           // Debug.Log("Item");
+            // Debug.Log("Item");
             UseItem();
         }
     }
@@ -121,7 +121,15 @@ public class IA_Item : MonoBehaviour
         {
             Destroy(other.gameObject);
 
-            money++;
+            if (money > 10)
+            {
+               
+            }
+            else
+            {
+                money++;
+
+            }
 
         }
 
@@ -159,7 +167,15 @@ public class IA_Item : MonoBehaviour
         }
         else if (rnd < 1)
         {
-            currentIAItem = "coins";
+            if (money > 10)
+            {
+                currentIAItem = "none";
+            }
+            else
+            {
+                currentIAItem = "none";
+
+            }
         }
         else
         {
@@ -194,8 +210,18 @@ public class IA_Item : MonoBehaviour
 
         if (currentIAItem == "coins")
         {
-            money = money + 5;
-            currentIAItem = "none";
+            if (money > 10)
+            {
+                currentIAItem = "none";
+                Debug.Log("10");
+            }
+            else
+            {
+                money = money + 5;
+                currentIAItem = "none";
+
+            }
+
 
         }
     }
@@ -230,7 +256,7 @@ public class IA_Item : MonoBehaviour
     void IncreaseSpeedOnMoney()
     {
         agent.speed = agent.speed * (1 + money * 0.1f);
-        agent.acceleration = agent.acceleration * (1 + money * 0.4f);
+        agent.acceleration = agent.acceleration * (1 + money * 0.1f);
     }
 
     void IaUseItem()
@@ -258,7 +284,7 @@ public class IA_Item : MonoBehaviour
 
         if ((lap1Time != string.Empty && lap2Time != string.Empty) && lapCountdown < 0)
         {
-           // lap3Time = hudManager.time_Text.text.ToString();
+            // lap3Time = hudManager.time_Text.text.ToString();
             lapCountdown = 400;
         }
     }

@@ -1,6 +1,6 @@
 //Maya ASCII 2015 scene
 //Name: kart.ma
-//Last modified: Tue, May 16, 2017 12:58:08 PM
+//Last modified: Tue, May 16, 2017 01:03:21 PM
 //Codeset: UTF-8
 requires maya "2015";
 currentUnit -l centimeter -a degree -t film;
@@ -12,12 +12,12 @@ fileInfo "osv" "Mac OS X 10.9.6";
 fileInfo "license" "student";
 createNode transform -s -n "persp";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 296.29222662283325 44.125968899478835 -45.204091588292378 ;
-	setAttr ".r" -type "double3" 350.66164726959948 -629.80000000010784 -4.5799987413074647e-13 ;
+	setAttr ".t" -type "double3" 247.37136010046882 35.917276598521227 -134.94025400579122 ;
+	setAttr ".r" -type "double3" 351.26164727109608 -609.80000000008272 0 ;
 createNode camera -s -n "perspShape" -p "persp";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 299.59350016455039;
+	setAttr ".coi" 265.95577807573835;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";

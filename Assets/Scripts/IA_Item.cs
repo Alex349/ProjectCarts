@@ -44,9 +44,20 @@ public class IA_Item : MonoBehaviour
     [SerializeField]
     private float turboSpeed = 30;
     [SerializeField]
-    private float turboEffectDuration = 3;
-    [SerializeField]
     private float turboAcc = 120;
+    [SerializeField]
+    private float turboEffectDuration = 3;
+
+
+    //Froze
+    private float frozeEffect;
+    [SerializeField]
+    private float frozeSpeed = 0;
+    [SerializeField]
+    private float frozeboAcc = 0;
+    [SerializeField]
+    private float frozeEffectDuration = 5;
+
 
     //ItemSpawners
     [SerializeField]
@@ -64,8 +75,8 @@ public class IA_Item : MonoBehaviour
 
         StartCoroutine(CheckLeaderboards());
 
-        agent.speed = 0;
-        agent.acceleration = 0;
+        agent.speed = 10;
+        agent.acceleration = 40;
     }
     // Update is called once per frame
     void Update()
@@ -83,8 +94,8 @@ public class IA_Item : MonoBehaviour
 
         if (startRaceCooldown < 0)
         {
-            agent.speed = iADefaultSpeed;
-            agent.acceleration = iADefaultAcc;
+            //agent.speed = iADefaultSpeed;
+            //agent.acceleration = iADefaultAcc;
         }
 
         //MyPosition
@@ -239,8 +250,6 @@ public class IA_Item : MonoBehaviour
         }
         if (currentIAItem == "turbo")
         {
-            Debug.Log("Turbo");
-
             turboEffect = turboEffectDuration;
             currentIAItem = "none";
         }
@@ -257,6 +266,12 @@ public class IA_Item : MonoBehaviour
                 money = money + 5;
                 currentIAItem = "none";
             }
+        }
+
+        if (currentIAItem == "froze")
+        {
+            frozeEffect = frozeEffectDuration;
+            currentIAItem = "none";
         }
     }
 
@@ -310,6 +325,7 @@ public class IA_Item : MonoBehaviour
             agent.speed = iADefaultSpeed;
             agent.acceleration = iADefaultAcc;
         }
+
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
 
@@ -324,6 +340,45 @@ public class IA_Item : MonoBehaviour
         {
             agent.speed = iADefaultSpeed;
             agent.acceleration = iADefaultAcc;
+        }
+
+        //FrostItemUpdate
+        frozeEffect -= Time.deltaTime;
+
+        if (frozeEffect > 0)
+        {
+            List<GameObject> karts = new List<GameObject>();
+
+            foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
+            {
+                if (kart.Equals(this.gameObject))
+                    continue;
+                karts.Add(kart);
+            }
+
+            for (int i = 0; i < karts.Count; i++)
+            {
+                karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
+                Debug.Log(karts[i].GetComponent<IA_Item>().name);
+            }
+
+        }
+
+        if (frozeEffect < 0 && startRaceCooldown < 0)
+        {
+            List<GameObject> gos = new List<GameObject>();
+
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("Kart"))
+            {
+                if (go.Equals(this.gameObject))
+                    continue;
+                gos.Add(go);
+            }
+
+            for (int i = 0; i < gos.Count; i++)
+            {
+                gos[i].GetComponent<IA_Item>().iADefaultSpeed = gos[i].GetComponent<IA_Item>().iADefaultAcc / 4;
+            }
         }
     }
 

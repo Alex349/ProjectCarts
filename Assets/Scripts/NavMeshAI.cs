@@ -55,6 +55,7 @@ public class NavMeshAI : MonoBehaviour
 
         // Choose the next destination point when the agent gets
         // close to the current one.
+
         if (agent.remainingDistance < nodeRange)
         {
             GotoNextPoint();
@@ -64,13 +65,9 @@ public class NavMeshAI : MonoBehaviour
 
         if (changeVelocityTimer < 0)
         {
-            float spd = (Random.Range(10f, 15f));
-            float acc = (Random.Range(45f, 70f));
-
-            ia_Item.iADefaultSpeed = spd;
-            ia_Item.iADefaultAcc = acc;
+            VelocityandAccelerationRandom();
+            Debug.Log("Velochng");
             changeVelocityTimer = changeVelocityCooldown;
-
         }
 
         if (agent.currentOffMeshLinkData.valid)
@@ -136,4 +133,12 @@ public class NavMeshAI : MonoBehaviour
         ReleaseOffmeshLink();
     }
 
+    void VelocityandAccelerationRandom()
+    {
+        float spd = (Random.Range(10f, 15f));
+        float acc = (Random.Range(45f, 70f));
+
+        ia_Item.iADefaultSpeed = spd;
+        ia_Item.iADefaultAcc = acc;
+    }
 }

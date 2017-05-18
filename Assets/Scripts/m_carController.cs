@@ -377,8 +377,8 @@ public class m_carController : MonoBehaviour {
             {
                 WheelFL.motorTorque = scaledTorque * 5;
                 WheelFR.motorTorque = scaledTorque * 5;
-                WheelBL.motorTorque = scaledTorque;
-                WheelBR.motorTorque = scaledTorque;
+                WheelBL.motorTorque = scaledTorque * 5;
+                WheelBR.motorTorque = scaledTorque * 5;
 
                 if (Input.GetAxis("Horizontal") > 0.5f && rightDrift)
                 {
@@ -436,7 +436,7 @@ public class m_carController : MonoBehaviour {
                     wheelBLDriftFriction.stiffness = 0f;
                     if (Input.GetAxis("Horizontal") == -1)
                     {
-                        wheelBLDriftFriction.stiffness = 0.5f;                    
+                        wheelBLDriftFriction.stiffness = 0.3f;                    
                     }                    
                     WheelBL.sidewaysFriction = wheelBLDriftFriction;
 
@@ -452,7 +452,7 @@ public class m_carController : MonoBehaviour {
                     wheelFLDriftFriction.stiffness = 0f;
                     if (Input.GetAxis("Horizontal") == -1)
                     {
-                        wheelFLDriftFriction.stiffness = 0.6f;
+                        wheelFLDriftFriction.stiffness = 0.3f;
                     }
                     WheelFL.sidewaysFriction = wheelFLDriftFriction;
 
@@ -467,8 +467,8 @@ public class m_carController : MonoBehaviour {
                     m_particleSystem1.Stop();
                     m_particleSystem2.Play();
 
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, ForceMode.Force);
-                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.green);
+                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 - driftFrwd * Input.GetAxis("Horizontal")) * driftForce, ForceMode.Force);
+                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 - driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.green);
                 }     
             }              
         }       

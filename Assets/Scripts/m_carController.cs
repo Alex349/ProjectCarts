@@ -183,21 +183,21 @@ public class m_carController : MonoBehaviour {
 
                 if (Input.GetAxis("Horizontal") < -0.5f)
                 {
-                    m_rigidbody.transform.Rotate(Vector3.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y - 50f, 0.5f));
+                    m_rigidbody.transform.Rotate(Vector3.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y - 45f, 0.5f));
                     leftDrift = true;
                     rightDrift = false;
                     driveMode = DriveMode.Drift;
                 }
                 else if (Input.GetAxis("Horizontal") > 0.5f)
                 {
-                    m_rigidbody.transform.Rotate(Vector3.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y + 50f, 0.5f));
+                    m_rigidbody.transform.Rotate(Vector3.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y + 45f, 0.5f));
                     rightDrift = true;
                     leftDrift = false;
                     driveMode = DriveMode.Drift;
                 }               
             }            
         }
-        else if (Input.GetKeyUp("space") && Input.GetAxis("Vertical") > 0)
+        else if (Input.GetKeyUp("space") || Input.GetButtonUp("Drift"))
         {
             driveMode = DriveMode.Front;
             Drifting = false;            
@@ -329,15 +329,15 @@ public class m_carController : MonoBehaviour {
             }
             if (rightDrift)
             {
-                m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 - driftFrwd * Input.GetAxis("Horizontal")) * driftForce, ForceMode.Force);
-                Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 - driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.green);
+                m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") + driftFrwd * Input.GetAxis("Horizontal")/3) * driftForce, ForceMode.Acceleration);
+                Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.green);
                 Debug.Log("inverse right drift");
             }
             else if (leftDrift)
             {
-                m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, ForceMode.Force);
-                Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.red);
-                Debug.Log("inverse right drift");
+                m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") + driftFrwd * Input.GetAxis("Horizontal")/3) * driftForce, ForceMode.Acceleration);
+                Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.red);
+                Debug.Log("inverse left drift");
             }            
         }        
 
@@ -380,54 +380,46 @@ public class m_carController : MonoBehaviour {
                 WheelBL.motorTorque = scaledTorque * 5;
                 WheelBR.motorTorque = scaledTorque * 5;
 
-                if (Input.GetAxis("Horizontal") > 0.5f && rightDrift)
+                if (rightDrift)
                 {
-                    m_rigidbody.transform.Rotate(Vector3.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y + Input.GetAxis("Horizontal") * 5, 0.05f));
+                    m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y + 10, 0.05f));
                     rightDrift = true;
                     leftDrift = false;                    
 
                     wheelBLDriftFriction = WheelBL.sidewaysFriction;
-                    wheelBLDriftFriction.stiffness = 0f;
-                    if (Input.GetAxis("Horizontal") == 1)
-                    {
-                        //wheelBLDriftFriction.stiffness = 0.5f;                        
-                    }                                       
+                    wheelBLDriftFriction.stiffness = 0f;                                                         
                     WheelBL.sidewaysFriction = wheelBLDriftFriction;
 
                     wheelBRDriftFriction = WheelBR.sidewaysFriction;
                     wheelBRDriftFriction.stiffness = 0f;
                     if (Input.GetAxis("Horizontal") == 1)
                     {
-                        wheelBRDriftFriction.stiffness = 0.5f;
+                        wheelBRDriftFriction.stiffness = 0.3f;
                     }
                     WheelBR.sidewaysFriction = wheelBRDriftFriction;
 
                     wheelFLDriftFriction = WheelFL.sidewaysFriction;
-                    wheelFLDriftFriction.stiffness = 0f;
-                    if (Input.GetAxis("Horizontal") == 1)
-                    {
-                        //wheelFLDriftFriction.stiffness = 0.1f;
-                    }
+                    wheelFLDriftFriction.stiffness = 0f;                    
                     WheelFL.sidewaysFriction = wheelFLDriftFriction;                    
 
                     wheelFRDriftFriction = WheelFR.sidewaysFriction;
                     wheelFRDriftFriction.stiffness = 0f;
                     if (Input.GetAxis("Horizontal") == 1)
                     {
-                        wheelFRDriftFriction.stiffness = 0.5f;
+                        wheelFRDriftFriction.stiffness = 0.3f;
                     }
                     WheelFR.sidewaysFriction = wheelFRDriftFriction;
 
                     m_particleSystem1.Play();
                     m_particleSystem2.Stop();
 
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, ForceMode.Force);
-                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.red);
+                    //m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 3 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, ForceMode.Force);
+                    //Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 3 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.red);
                 }
 
-                else if (Input.GetAxis("Horizontal") < -0.5f && leftDrift)
+                else if (leftDrift)
                 {
-                    m_rigidbody.transform.Rotate(Vector3.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y + Input.GetAxis("Horizontal") * 5, 0.05f));
+                    m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y - 10, 0.05f));
 
                     rightDrift = false;
                     leftDrift = true;
@@ -442,10 +434,6 @@ public class m_carController : MonoBehaviour {
 
                     wheelBRDriftFriction = WheelBR.sidewaysFriction;
                     wheelBRDriftFriction.stiffness = 0f;
-                    if (Input.GetAxis("Horizontal") == -1)
-                    {
-                        //wheelBRDriftFriction.stiffness = 0.5f;
-                    }
                     WheelBR.sidewaysFriction = wheelBRDriftFriction;
 
                     wheelFLDriftFriction = WheelFL.sidewaysFriction;
@@ -458,17 +446,13 @@ public class m_carController : MonoBehaviour {
 
                     wheelFRDriftFriction = WheelFR.sidewaysFriction;
                     wheelFRDriftFriction.stiffness = 0f;
-                    if (Input.GetAxis("Horizontal") == -1)
-                    {
-                        //wheelFRDriftFriction.stiffness = 0.1f;
-                    }
                     WheelFR.sidewaysFriction = wheelFRDriftFriction;
 
                     m_particleSystem1.Stop();
                     m_particleSystem2.Play();
 
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 - driftFrwd * Input.GetAxis("Horizontal")) * driftForce, ForceMode.Force);
-                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 5 - driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.green);
+                    //m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 3 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, ForceMode.Force);
+                    //Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 3 + driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.green);
                 }     
             }              
         }       

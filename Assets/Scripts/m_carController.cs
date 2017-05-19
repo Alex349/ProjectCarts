@@ -61,6 +61,8 @@ public class m_carController : MonoBehaviour {
 
     private Vector3 driftFrwd;
     private float stifness = 0;
+    //GameObject fire1L, fire2L, fire3L, fire4L, fire1R, fire2R, fire3R, fire4R;
+    public ParticleSystem Sfire1L, Sfire2L, Sfire3L, Sfire4L, Sfire1R, Sfire2R, Sfire3R, Sfire4R;
 
     void Start()
     {
@@ -110,10 +112,12 @@ public class m_carController : MonoBehaviour {
             if (currentSpeed >= maxSpeed)
             {
                 currentAcc = 0;
+                
             }
             else if (currentSpeed < maxSpeed)
             {
                 currentAcc = baseAcc;
+                
             }
         }       
 
@@ -131,6 +135,11 @@ public class m_carController : MonoBehaviour {
             wheelFL.brakeTorque = 0;
             wheelBR.brakeTorque = 0;
             wheelBL.brakeTorque = 0;
+
+            Sfire1L.Play();
+            Sfire1R.Play();
+            Sfire3L.Play();
+            Sfire3R.Play();
         }
         else if (Input.GetAxis("Vertical") < 0 && !Drifting && currentSpeed < 0)
         {
@@ -141,9 +150,19 @@ public class m_carController : MonoBehaviour {
             wheelFL.brakeTorque = 0;
             wheelBR.brakeTorque = 0;
             wheelBL.brakeTorque = 0;
+
+            Sfire1L.Stop();
+            Sfire1R.Stop();
+            Sfire3L.Stop();
+            Sfire3R.Stop();
         }
         else if (Input.GetAxis("Vertical") == 0 && (currentSpeed < 0 || currentSpeed > 0))
         {
+            Sfire1L.Stop();
+            Sfire1R.Stop();
+            Sfire3L.Stop();
+            Sfire3R.Stop();
+
             slowDownCounter += Time.deltaTime;
             isSlowingDown = true;              
 
@@ -157,7 +176,6 @@ public class m_carController : MonoBehaviour {
                     {
                         slowDownCounter = 0;
                         isSlowingDown = false;
-
                     }
                 }
                 else if (driveMode == DriveMode.Rear)
@@ -168,7 +186,6 @@ public class m_carController : MonoBehaviour {
                     {
                         slowDownCounter = 0;
                         isSlowingDown = false;
-
                     }
                 }                 
             }            
@@ -311,7 +328,7 @@ public class m_carController : MonoBehaviour {
         {          
             stifness += Time.deltaTime;
 
-            if (stifness >= 0.1f)
+            if (stifness >= 0f)
             {
                 stifness = 0f;
             }
@@ -325,13 +342,33 @@ public class m_carController : MonoBehaviour {
            
             if (driftCounter <= 0 && Input.GetKey("left shift"))
             {
-                m_rigidbody.AddRelativeForce(m_rigidbody.transform.forward * miniTurboForce, ForceMode.VelocityChange);
+                if (rightDrift)
+                {
+                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f +
+                                                      driftFrwd * miniTurboForce), ForceMode.Acceleration);
+                }
+                else if (leftDrift)
+                {
+                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f -
+                                                      driftFrwd * miniTurboForce), ForceMode.Acceleration);
+                }
                 Debug.Log("DriftTurbo");
                 driftCounter = 2f;
                 Drifting = false;
+                driveMode = DriveMode.Front;
             }
             if (rightDrift)
             {
+                Sfire1R.Play();
+                Sfire2R.Play();
+                Sfire3R.Play();
+                Sfire4R.Play();
+
+                Sfire1L.Stop();
+                Sfire2L.Stop();
+                Sfire3L.Stop();
+                Sfire4L.Stop();
+
                 if (Input.GetAxis("Horizontal") == -1)
                 {
                     m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
@@ -345,6 +382,16 @@ public class m_carController : MonoBehaviour {
             }
             else if (leftDrift)
             {
+                Sfire1L.Play();
+                Sfire2L.Play();
+                Sfire3L.Play();
+                Sfire4L.Play();
+
+                Sfire1R.Stop();
+                Sfire2R.Stop();
+                Sfire3R.Stop();
+                Sfire4R.Stop();
+
                 if (Input.GetAxis("Horizontal") == 1)
                 {
                     m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward - driftFrwd) * driftForce, ForceMode.Force);
@@ -427,7 +474,7 @@ public class m_carController : MonoBehaviour {
                                                       driftFrwd * driftForce), ForceMode.Force);
 
                         Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f + 
-                                                                       driftFrwd * Input.GetAxis("Horizontal")) * driftForce, Color.yellow);
+                                                                       driftFrwd) * driftForce, Color.yellow);
                     }
                 }
 
@@ -457,10 +504,10 @@ public class m_carController : MonoBehaviour {
                     if (Input.GetAxis("Horizontal") > -1)
                     {
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f - 
-                                                      driftFrwd * driftForce), ForceMode.Force);
+                                                      driftFrwd) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position, ((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f - 
-                                                                        driftFrwd * driftForce)), Color.green);
+                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f - 
+                                                                        driftFrwd) * driftForce, Color.black);
                     }                   
                     
                 }     

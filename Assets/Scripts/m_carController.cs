@@ -197,7 +197,7 @@ public class m_carController : MonoBehaviour {
             if (!Drifting && driftDelay >= 0.9f)
             {
                 driftDelay = 0;
-                m_rigidbody.AddRelativeForce(Vector3.up * 100, ForceMode.Acceleration);
+                m_rigidbody.AddRelativeForce(Vector3.up * 150, ForceMode.Acceleration);
 
                 if (Input.GetAxis("Horizontal") < -0.5f)
                 {
@@ -371,8 +371,8 @@ public class m_carController : MonoBehaviour {
 
                 if (Input.GetAxis("Horizontal") == -1)
                 {
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
-                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward + driftFrwd) * driftForce, Color.green);
+                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, ForceMode.Force);
+                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.green);
 
                     m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, 
                                                                                       m_rigidbody.transform.rotation.y - 10, 0.1f));
@@ -394,8 +394,8 @@ public class m_carController : MonoBehaviour {
 
                 if (Input.GetAxis("Horizontal") == 1)
                 {
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward - driftFrwd) * driftForce, ForceMode.Force);
-                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward - driftFrwd) * driftForce, Color.magenta);
+                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
+                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.magenta);
 
                     m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, 
                                                                                       m_rigidbody.transform.rotation.y + 10, 0.1f));
@@ -470,11 +470,11 @@ public class m_carController : MonoBehaviour {
 
                     if (Input.GetAxis("Horizontal") < 1)
                     {
-                        m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f + 
-                                                      driftFrwd * driftForce), ForceMode.Force);
+                        m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") - 
+                                                      driftFrwd) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f + 
-                                                                       driftFrwd) * driftForce, Color.yellow);
+                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 3f + 
+                                                                       driftFrwd * 3) * driftForce, Color.yellow);
                     }
                 }
 
@@ -503,11 +503,11 @@ public class m_carController : MonoBehaviour {
 
                     if (Input.GetAxis("Horizontal") > -1)
                     {
-                        m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f - 
+                        m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") + 
                                                       driftFrwd) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f - 
-                                                                        driftFrwd) * driftForce, Color.black);
+                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 3f - 
+                                                                        driftFrwd * 3) * driftForce, Color.black);
                     }                   
                     
                 }     

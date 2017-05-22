@@ -11,7 +11,7 @@ public class CarSmoothFollow : MonoBehaviour
 
     public float lookAtHeight = 0.0f;
 
-    public Rigidbody parentRigidbody;
+    public Transform parentObject;
 
     public float rotationSnapTime = 0.3F;
 
@@ -19,6 +19,7 @@ public class CarSmoothFollow : MonoBehaviour
     public float distanceMultiplier;
 
     private Vector3 lookAtVector;
+    private Vector3 distanceToKart;
 
     private float usedDistance;
 
@@ -44,6 +45,8 @@ public class CarSmoothFollow : MonoBehaviour
 
     void FixedUpdate()
     {
+        distanceToKart = parentObject.transform.position - transform.position;
+
         rotationSnapTime = 0.125f;
         wantedHeight = target.position.y + height;
         currentHeight = transform.position.y;
@@ -58,7 +61,7 @@ public class CarSmoothFollow : MonoBehaviour
         wantedPosition = target.position;
         wantedPosition.y = currentHeight;
 
-        usedDistance = Mathf.SmoothDampAngle(usedDistance, distance + (parentRigidbody.velocity.magnitude * distanceMultiplier), ref zVelocity, distanceSnapTime);
+        usedDistance = Mathf.SmoothDampAngle(usedDistance, distance + (distanceToKart.magnitude * distanceMultiplier), ref zVelocity, distanceSnapTime);
 
         wantedPosition += Quaternion.Euler(0, currentRotationAngle, 0) * new Vector3(0, 0, -usedDistance);
 

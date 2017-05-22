@@ -81,7 +81,7 @@ public class m_carController : MonoBehaviour {
         nodes = GameObject.FindGameObjectsWithTag("Node");
         m_hud = FindObjectOfType<m_carHUD>();
 
-        m_rigidbody = GetComponent<Rigidbody>();
+        m_rigidbody = GetComponentInChildren<Rigidbody>();
 		m_rigidbody.centerOfMass = centerOfGravity.localPosition;
 
         m_particleSystem1 = wheelBL.GetComponent<ParticleSystem>();
@@ -161,9 +161,9 @@ public class m_carController : MonoBehaviour {
         }
         if (Input.GetAxis("Vertical") < 0 && !Drifting)
         {
-            currentAcc = baseAcc/3;
+            currentAcc = brakeTorque;
 
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)).normalized * currentAcc, ForceMode.Acceleration);
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)).normalized * currentAcc * 10, ForceMode.Force);
 
             wheelFR.brakeTorque = 0;
             wheelFL.brakeTorque = 0;
@@ -187,7 +187,7 @@ public class m_carController : MonoBehaviour {
 
             if (driveMode == DriveMode.Front)
             {               
-                if (currentSpeed <= 2f)
+                if (currentSpeed <= 3f)
                 {
                     wheelFR.brakeTorque = brakeTorque;
                     wheelFL.brakeTorque = brakeTorque;
@@ -202,7 +202,7 @@ public class m_carController : MonoBehaviour {
             }
             else if (driveMode == DriveMode.Rear)
             {             
-                if (currentSpeed <= 2f)
+                if (currentSpeed <= 0.2f)
                 {
                     wheelFR.brakeTorque = brakeTorque;
                     wheelFL.brakeTorque = brakeTorque;
@@ -402,19 +402,19 @@ public class m_carController : MonoBehaviour {
             wheelFR.sidewaysFriction = wheelFRDriftFriction;
 
             wheelBLDriftFriction = wheelBL.forwardFriction;
-            wheelBLFrontFriction.stiffness = 0;
+            wheelBLFrontFriction.stiffness = 1;
             wheelBL.forwardFriction = wheelBLFrontFriction;
 
             wheelBRFrontFriction = wheelBR.forwardFriction;
-            wheelBRFrontFriction.stiffness = 0;
+            wheelBRFrontFriction.stiffness = 1;
             wheelBR.forwardFriction = wheelBRFrontFriction;
 
             wheelFLFrontFriction = wheelFL.forwardFriction;
-            wheelFLFrontFriction.stiffness = 0;
+            wheelFLFrontFriction.stiffness = 1;
             wheelFL.forwardFriction = wheelFLFrontFriction;
 
             wheelFRFrontFriction = wheelFR.forwardFriction;
-            wheelFRFrontFriction.stiffness = 0;
+            wheelFRFrontFriction.stiffness = 1;
             wheelFR.forwardFriction = wheelFRFrontFriction;
 
             driftCounter = 2;
@@ -461,16 +461,8 @@ public class m_carController : MonoBehaviour {
            
             if (driftCounter <= 0 && Input.GetKey("left shift"))
             {
-                if (rightDrift)
-                {
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f +
-                                                      driftFrwd * miniTurboForce), ForceMode.Acceleration);
-                }
-                else if (leftDrift)
-                {
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") * 2f -
-                                                      driftFrwd * miniTurboForce), ForceMode.Acceleration);
-                }
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)) * miniTurboForce, ForceMode.Acceleration);
+
                 Debug.Log("DriftTurbo");
                 driftCounter = 2f;
                 Drifting = false;
@@ -490,8 +482,8 @@ public class m_carController : MonoBehaviour {
 
                 if (Input.GetAxis("Horizontal") == -1)
                 {
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward - driftFrwd) * driftForce, ForceMode.Force);
-                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.green);
+                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
+                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.green);
 
                     m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, 
                                                                                       m_rigidbody.transform.rotation.y - 10, 0.1f));
@@ -586,11 +578,11 @@ public class m_carController : MonoBehaviour {
 
                     if (Input.GetAxis("Horizontal") < 1)
                     {
-                        m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") - 
+                        m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") + 
                                                       driftFrwd * 2) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") + 
-                                                                       driftFrwd) * driftForce, Color.yellow);
+                        Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * Input.GetAxis("Vertical") + 
+                                                                       driftFrwd * 2) * driftForce, Color.yellow);
                     }
                 }
 
@@ -681,19 +673,19 @@ public class m_carController : MonoBehaviour {
         if ((!groundedFR && !groundedFL) || (!groundedBL && !groundedBR))
         {
             wheelBLDamp = wheelBL.wheelDampingRate;
-            wheelBLDamp = 3f;
+            wheelBLDamp = 20f;
             wheelBL.wheelDampingRate = wheelBLDamp;
 
             wheelBRDamp = wheelBR.wheelDampingRate;
-            wheelBRDamp = 3f;
+            wheelBRDamp = 20f;
             wheelBR.wheelDampingRate = wheelBRDamp;
 
             wheelFLDamp = wheelFL.wheelDampingRate;
-            wheelFLDamp = 3f;
+            wheelFLDamp = 50f;
             wheelFL.wheelDampingRate = wheelFLDamp;
 
             wheelFRDamp = wheelFR.wheelDampingRate;
-            wheelFRDamp = 3f;
+            wheelFRDamp = 50f;
             wheelFR.wheelDampingRate = wheelFRDamp;
 
             if (Physics.Raycast(transform.position, -m_rigidbody.transform.up, out hitFloor, 50f))
@@ -706,19 +698,19 @@ public class m_carController : MonoBehaviour {
                 gravity = 30;
 
                 wheelBLFrontFriction = wheelBL.forwardFriction;
-                wheelBLFrontFriction.stiffness = 0;
+                wheelBLFrontFriction.stiffness = 0.2f;
                 wheelBL.forwardFriction = wheelBLFrontFriction;
 
                 wheelBRFrontFriction = wheelBR.forwardFriction;
-                wheelBRFrontFriction.stiffness = 0;
+                wheelBRFrontFriction.stiffness = 0.2f;
                 wheelBR.forwardFriction = wheelBRFrontFriction;
 
                 wheelFLFrontFriction = wheelFL.forwardFriction;
-                wheelFLFrontFriction.stiffness = 0;
+                wheelFLFrontFriction.stiffness = 0.2f;
                 wheelFL.forwardFriction = wheelFLFrontFriction;
 
                 wheelFRFrontFriction = wheelFR.forwardFriction;
-                wheelFRFrontFriction.stiffness = 0;
+                wheelFRFrontFriction.stiffness = 0.2f;
                 wheelFR.forwardFriction = wheelFRFrontFriction;                
             }
             else if (Physics.Raycast(transform.position, -m_rigidbody.transform.right, out hitFloor, 50f))
@@ -731,19 +723,19 @@ public class m_carController : MonoBehaviour {
                 gravity = 30;
 
                 wheelBLDriftFriction = wheelBL.forwardFriction;
-                wheelBLFrontFriction.stiffness = 0;
+                wheelBLFrontFriction.stiffness = 0.2f;
                 wheelBL.forwardFriction = wheelBLFrontFriction;
 
                 wheelBRFrontFriction = wheelBR.forwardFriction;
-                wheelBRFrontFriction.stiffness = 0;
+                wheelBRFrontFriction.stiffness = 0.2f;
                 wheelBR.forwardFriction = wheelBRFrontFriction;
 
                 wheelFLFrontFriction = wheelFL.forwardFriction;
-                wheelFLFrontFriction.stiffness = 0;
+                wheelFLFrontFriction.stiffness = 0.2f;
                 wheelFL.forwardFriction = wheelFLFrontFriction;
 
                 wheelFRFrontFriction = wheelFR.forwardFriction;
-                wheelFRFrontFriction.stiffness = 0;
+                wheelFRFrontFriction.stiffness = 0.2f;
                 wheelFR.forwardFriction = wheelFRFrontFriction;
             }          
         }

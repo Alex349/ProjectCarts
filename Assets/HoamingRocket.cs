@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StraightRocket : MonoBehaviour
-{
+public class HoamingRocket : MonoBehaviour {
+
     [SerializeField]
     private float rocketSpeed = 1000;
     [SerializeField]
     private float rocketBounces, distanceAwayFromSurface;
-    private Rigidbody bulletBody,carBody;
+    private Rigidbody bulletBody, carBody;
 
     Vector3 myTransform;
+
+    public float distanceToGround;
 
     // Use this for initialization
     void Start()
@@ -18,7 +20,7 @@ public class StraightRocket : MonoBehaviour
         bulletBody = GetComponent<Rigidbody>();
         bulletBody = GetComponent<Rigidbody>();
 
-        bulletBody.AddForce(this.transform.forward * rocketSpeed) ;
+        bulletBody.AddForce(this.transform.forward * rocketSpeed);
 
         myTransform = this.transform.position;
 
@@ -34,7 +36,7 @@ public class StraightRocket : MonoBehaviour
 
         RaycastHit hit = new RaycastHit();
 
-        Debug.DrawRay(transform.position, -Vector3.up, Color.green);
+        Debug.DrawRay(transform.position, -Vector3.up, Color.red);
 
         if (Physics.Raycast(bulletBody.transform.position, -Vector3.up, out hit))
         {
@@ -51,7 +53,4 @@ public class StraightRocket : MonoBehaviour
         rocketBounces++;
 
     }
-
-
-
 }

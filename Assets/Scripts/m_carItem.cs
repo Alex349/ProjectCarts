@@ -5,32 +5,69 @@ using UnityEngine;
 public class m_carItem : MonoBehaviour {
 
 	public string currentPlayerObject = "none";
-    private bool bananaDefending = false;
+    private bool bananaDefending = false, triplebananaDefending = false;
     public m_carController carController;
     public float money;
 
+    //Defaults
     [SerializeField]
     private float carDefaultSpeed = 10;
     [SerializeField]
     private float carDefaultAcc = 10;
+
+    [SerializeField]
+    public int myPosition;
+
+    //Banana
     [SerializeField]
     private float bananaEffect;
     [SerializeField]
     private float bananaEffectDuration = 3;
+    [SerializeField]
+    private float bananaSlowedSpeed = -1.5f;
+    [SerializeField]
+    private float bananaSlowedAcc = -1.5f;
+
+    //Turbo
+    [SerializeField]
     private float turboEffect;
     [SerializeField]
+    private float turboSpeed = 1.1f;
+    [SerializeField]
+    private float turboAcc = 1.1f;
+    [SerializeField]
     private float turboEffectDuration = 3;
+    private bool turboReset = false;
+    //TurboTriple
+    private int turbosUsed = 0;
+
+    //Rocket
     [SerializeField]
-    private float bananaSlowedSpeed = 2;
+    private float rocketEffect;
     [SerializeField]
-    private float bananaSlowedAcc = 8;
+    private float rocketSpeed = 0f;
     [SerializeField]
-    private float turboSpeed = 30;
+    private float rocketAcc = 1.1f;
     [SerializeField]
-    private float turboAcc = 120;
+    private float rocketEffectDuration = 1;
+    //TripleRocket
     [SerializeField]
-    private Transform backSpawn;
-    private Vector3 backSpawnVector;
+    private int rocketsShooted = 0;
+
+    //Froze
+    [SerializeField]
+    private float frozeEffect;
+    [SerializeField]
+    private float frozeSpeed = 0;
+    [SerializeField]
+    private float frozeAcc = 0;
+    [SerializeField]
+    private float frozeEffectDuration = 5;
+
+    //ItemSpawners
+    [SerializeField]
+    private Transform backSpawn, backSpawnMiddle, backSpawnLast;
+    private Vector3 backSpawnVector, backSpawnVectorMiddle, backSpawnVectorLast;
     [SerializeField]
     private Transform frontSpawn;
     private Vector3 frontSpawnVector;
@@ -48,6 +85,8 @@ public class m_carItem : MonoBehaviour {
     void Update()
     {
         backSpawnVector = backSpawn.transform.position;
+        backSpawnVectorMiddle = backSpawnMiddle.transform.position;
+        backSpawnVectorLast = backSpawnLast.transform.position;
         frontSpawnVector = frontSpawn.transform.position;
 
         UpdateItems();
@@ -64,6 +103,20 @@ public class m_carItem : MonoBehaviour {
                 if (Input.GetKeyUp(KeyCode.L))
                 {
                     ReleaseBanana();
+                }
+            }
+        }
+        else if (currentPlayerObject == "triplebanana" || triplebananaDefending == true)
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                UseTripleBanana();
+            }
+            else
+            {
+                if (Input.GetKeyUp(KeyCode.L))
+                {
+                    ReleaseTripleBanana();
                 }
             }
         }
@@ -202,15 +255,58 @@ public class m_carItem : MonoBehaviour {
         bananaDefending = false;
     }
 
+    void UseTripleBanana()
+    {
+        if (currentPlayerObject == "triplebanana")
+        {
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorLast, Quaternion.identity) as GameObject).transform.parent = backSpawnLast.transform;
+            //currentIAItem = "none";
+            triplebananaDefending = true;
+
+        }
+    }
+
+    void ReleaseTripleBanana()
+    {
+        backSpawn.DetachChildren();
+        backSpawnMiddle.DetachChildren();
+        backSpawnLast.DetachChildren();
+        triplebananaDefending = false;
+    }
+
     void UpdateItems()
     {
         //BananaItemUpdate
         bananaEffect -= Time.deltaTime;
 
-        if (bananaEffect < 0)
+        if (bananaEffect > 0)
         {
-            //carController.maxSpeed = carDefaultSpeed;
-           // carController.currentAcc = carDefaultAcc;
+            Debug.Log("Bananed");
+            //agent.speed = iADefaultSpeed - 30;
+        }
+
+        if (bananaEffect < 0 && bananaEffect > -0.1f) //&& startRaceCooldown < 0
+        {
+            Debug.Log("ResetBanana");
+            //navmeshAI.changeVelocityTimer = -1f;
+        }
+
+        //RocketItemUpdate
+        rocketEffect -= Time.deltaTime;
+
+        if (rocketEffect > 0)
+        {
+            Debug.Log("Rocked");
+            //agent.speed = iADefaultSpeed - 30;
+        }
+
+        if (rocketEffect < 0 && rocketEffect > -0.1f) //&& startRaceCooldown < 0
+        {
+            Debug.Log("ResetRocket");
+
+            //navmeshAI.changeVelocityTimer = -1f;
         }
 
         //TurboItemUpdate
@@ -218,22 +314,63 @@ public class m_carItem : MonoBehaviour {
 
         if (turboEffect > 0)
         {
-            //carController.maxSpeed = turboSpeed;
-            carController.currentAcc = turboAcc;
+            //agent.speed = iADefaultSpeed + turboSpeed;
+            //agent.acceleration = iADefaultAcc + turboAcc;
+            Debug.Log("Turbo is on");
 
         }
 
-        if (turboEffect < 0)
+        if (turboEffect < 0 && turboEffect > -0.1f)
         {
-            //carController.maxSpeed = carDefaultSpeed;
-           //carController.currentAcc = carDefaultAcc;
+            //navmeshAI.changeVelocityTimer = -1f;
+            Debug.Log("Turbo is reset");
+
+        }
+
+        //FrostItemUpdate
+        frozeEffect -= Time.deltaTime;
+
+        if (frozeEffect > 0)
+        {
+            List<GameObject> karts = new List<GameObject>();
+
+            foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
+            {
+                if (kart.Equals(this.gameObject))
+                    continue;
+                karts.Add(kart);
+            }
+
+            for (int i = 0; i < karts.Count; i++)
+            {
+                karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
+                Debug.Log(karts[i].GetComponent<IA_Item>().name);
+            }
+
+        }
+
+        if (frozeEffect < 0 && frozeEffect > 0.1f) //&& startRaceCooldown < 0
+        {
+            List<GameObject> karts = new List<GameObject>();
+
+            foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
+            {
+                if (kart.Equals(this.gameObject))
+                    continue;
+                karts.Add(kart);
+            }
+
+            for (int i = 0; i < karts.Count; i++)
+            {
+                karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
+            }
         }
     }
 
     void IncreaseSpeedOnMoney()
     {
         //carController.maxSpeed = carController.maxSpeed * ( 1 + money * 0.1f);
-        carController.currentAcc = carController.currentAcc * (1 + money * 0.01f);
+        //carController.currentAcc = carController.currentAcc * (1 + money * 0.01f);
     }
 
     public void SetTimeLap()

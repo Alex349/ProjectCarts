@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-
 public class IA_Item : MonoBehaviour
 {
     public string currentIAItem = "none";
@@ -11,6 +10,7 @@ public class IA_Item : MonoBehaviour
     public int money;
 
     private PositionManager _positionManager;
+    [SerializeField]
     public int myPosition;
     bool keepChecking = true;
 
@@ -19,6 +19,7 @@ public class IA_Item : MonoBehaviour
 
     private HudManager hudManager;
     private NavMeshAgent agent;
+    private NavMeshAI navmeshAI;
 
     //Defaults
     [SerializeField]
@@ -35,26 +36,44 @@ public class IA_Item : MonoBehaviour
     [SerializeField]
     private float bananaEffectDuration = 3;
     [SerializeField]
-    private float bananaSlowedSpeed = 2;
+    private float bananaSlowedSpeed = -1.5f;
     [SerializeField]
-    private float bananaSlowedAcc = 8;
+    private float bananaSlowedAcc = -1.5f;
 
     //Turbo
+    [SerializeField]
     private float turboEffect;
     [SerializeField]
-    private float turboSpeed = 30;
+    private float turboSpeed = 1.1f;
     [SerializeField]
-    private float turboAcc = 120;
+    private float turboAcc = 1.1f;
     [SerializeField]
     private float turboEffectDuration = 3;
+    private bool turboReset = false;
+    //TurboTriple
+    private int turbosUsed = 0;
 
+    //Rocket
+    [SerializeField]
+    private float rocketEffect;
+    [SerializeField]
+    private float rocketSpeed = 0f;
+    [SerializeField]
+    private float rocketAcc = 1.1f;
+    [SerializeField]
+    private float rocketEffectDuration = 1;
+
+    //TripleRocket
+    [SerializeField]
+    private int rocketsShooted = 0;
 
     //Froze
+    [SerializeField]
     private float frozeEffect;
     [SerializeField]
     private float frozeSpeed = 0;
     [SerializeField]
-    private float frozeboAcc = 0;
+    private float frozeAcc = 0;
     [SerializeField]
     private float frozeEffectDuration = 5;
 
@@ -70,6 +89,7 @@ public class IA_Item : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        navmeshAI = GetComponent<NavMeshAI>();
         hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
 
@@ -94,9 +114,12 @@ public class IA_Item : MonoBehaviour
 
         if (startRaceCooldown < 0)
         {
-            //agent.speed = iADefaultSpeed;
-            //agent.acceleration = iADefaultAcc;
+
         }
+
+        agent.speed = iADefaultSpeed;
+        agent.acceleration = iADefaultAcc;
+ 
 
         //MyPosition
         CheckLeaderboards();
@@ -165,10 +188,11 @@ public class IA_Item : MonoBehaviour
 
             if (money > 10)
             {
-
+                Debug.Log("TooMuchMoney");
             }
             else
             {
+                Debug.Log("GotIt");
                 money++;
             }
 
@@ -177,13 +201,15 @@ public class IA_Item : MonoBehaviour
         if (other.tag == "Banana")
         {
             Destroy(other.gameObject);
-            bananaEffect = bananaEffectDuration;
 
-            if (bananaEffect > 0)
-            {
-                agent.speed = bananaSlowedSpeed;
-                agent.acceleration = bananaSlowedAcc;
-            }
+            bananaEffect = bananaEffectDuration;
+        }
+
+        if (other.tag == "Rocket")
+        {
+            Destroy(other.gameObject);
+
+            rocketEffect = rocketEffectDuration;
         }
 
         if (other.tag == "RoughTerrain")
@@ -243,10 +269,15 @@ public class IA_Item : MonoBehaviour
         {
 
         }
-        if (currentIAItem == "rocket")
+        if (currentIAItem == "rocketstraight")
         {
-            Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, frontSpawn.rotation);
-            currentIAItem = "none";
+            Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
+            //currentIAItem = "none";
+        }
+        if (currentIAItem == "rockettracker")
+        {
+            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+            //currentIAItem = "none";
         }
         if (currentIAItem == "turbo")
         {
@@ -273,6 +304,34 @@ public class IA_Item : MonoBehaviour
             frozeEffect = frozeEffectDuration;
             currentIAItem = "none";
         }
+
+        if (currentIAItem == "triplerocket")
+        {
+            Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, frontSpawn.rotation);
+
+            rocketsShooted++;
+
+            if (rocketsShooted >= 3)
+            {
+                Debug.Log("NoMoreRockets");
+                currentIAItem = "none";
+                rocketsShooted = 0;
+            }
+        }
+
+        if (currentIAItem == "tripleturbo")
+        {
+            turboEffect = turboEffectDuration;
+
+            turbosUsed++;
+
+            if (turbosUsed >= 3)
+            {
+                Debug.Log("NoMoreTurvos");
+                currentIAItem = "none";
+                turbosUsed = 0;
+            }
+        }
     }
 
     void UseBanana()
@@ -280,7 +339,7 @@ public class IA_Item : MonoBehaviour
         if (currentIAItem == "banana")
         {
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
-            currentIAItem = "none";
+            //currentIAItem = "none";
             bananaDefending = true;
 
         }
@@ -299,7 +358,7 @@ public class IA_Item : MonoBehaviour
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorLast, Quaternion.identity) as GameObject).transform.parent = backSpawnLast.transform;
-            currentIAItem = "none";
+            //currentIAItem = "none";
             triplebananaDefending = true;
 
         }
@@ -320,10 +379,32 @@ public class IA_Item : MonoBehaviour
         //BananaItemUpdate
         bananaEffect -= Time.deltaTime;
 
-        if (bananaEffect < 0 && startRaceCooldown < 0)
+        if (bananaEffect > 0)
         {
-            agent.speed = iADefaultSpeed;
-            agent.acceleration = iADefaultAcc;
+            Debug.Log("Bananed");
+            agent.speed = iADefaultSpeed -30;
+        }
+
+        if (bananaEffect < 0 && bananaEffect > -0.1f) //&& startRaceCooldown < 0
+        {
+            Debug.Log("ResetBanana");
+            navmeshAI.changeVelocityTimer = -1f;
+        }
+
+        //RocketItemUpdate
+        rocketEffect -= Time.deltaTime;
+
+        if (rocketEffect > 0)
+        {
+            Debug.Log("Rocked");
+            agent.speed = iADefaultSpeed - 30;
+        }
+
+        if (rocketEffect < 0 && rocketEffect > -0.1f) //&& startRaceCooldown < 0
+        {
+            Debug.Log("ResetRocket");
+
+            navmeshAI.changeVelocityTimer = -1f;
         }
 
         //TurboItemUpdate
@@ -331,15 +412,17 @@ public class IA_Item : MonoBehaviour
 
         if (turboEffect > 0)
         {
-            agent.speed = turboSpeed;
-            agent.acceleration = turboAcc;
+            agent.speed = iADefaultSpeed + turboSpeed;
+            agent.acceleration = iADefaultAcc + turboAcc;
+            Debug.Log("Turbo is on");
 
         }
 
-        if (turboEffect < 0 && startRaceCooldown < 0)
+        if (turboEffect < 0 && turboEffect > -0.1f)
         {
-            agent.speed = iADefaultSpeed;
-            agent.acceleration = iADefaultAcc;
+            navmeshAI.changeVelocityTimer = -1f;
+            Debug.Log("Turbo is reset");
+
         }
 
         //FrostItemUpdate
@@ -364,20 +447,20 @@ public class IA_Item : MonoBehaviour
 
         }
 
-        if (frozeEffect < 0 && startRaceCooldown < 0)
+        if (frozeEffect < 0 && frozeEffect > 0.1f && startRaceCooldown < 0)
         {
-            List<GameObject> gos = new List<GameObject>();
+            List<GameObject> karts = new List<GameObject>();
 
-            foreach (GameObject go in GameObject.FindGameObjectsWithTag("Kart"))
+            foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
             {
-                if (go.Equals(this.gameObject))
+                if (kart.Equals(this.gameObject))
                     continue;
-                gos.Add(go);
+                karts.Add(kart);
             }
 
-            for (int i = 0; i < gos.Count; i++)
+            for (int i = 0; i < karts.Count; i++)
             {
-                gos[i].GetComponent<IA_Item>().iADefaultSpeed = gos[i].GetComponent<IA_Item>().iADefaultAcc / 4;
+                karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
             }
         }
     }

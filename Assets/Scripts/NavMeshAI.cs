@@ -53,6 +53,9 @@ public class NavMeshAI : MonoBehaviour
     {
         changeVelocityTimer -= Time.deltaTime;
 
+        var rotation = Quaternion.LookRotation(points[destPoint].position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
+
         // Choose the next destination point when the agent gets
         // close to the current one.
 
@@ -133,10 +136,10 @@ public class NavMeshAI : MonoBehaviour
         ReleaseOffmeshLink();
     }
 
-    void VelocityandAccelerationRandom()
+    public void VelocityandAccelerationRandom()
     {
         float spd = (Random.Range(10f, 15f));
-        float acc = (Random.Range(45f, 70f));
+        float acc = (Random.Range(40f, 60f));
 
         ia_Item.iADefaultSpeed = spd;
         ia_Item.iADefaultAcc = acc;

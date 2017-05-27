@@ -214,7 +214,7 @@ public class m_carItem : MonoBehaviour {
         }
         if (currentPlayerObject == "rocket")
         {
-            Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, Quaternion.identity);
+            Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, Quaternion.identity);
             currentPlayerObject = "none";
         }
         if (currentPlayerObject == "turbo")

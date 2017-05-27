@@ -505,7 +505,7 @@ public class IA_Item : MonoBehaviour
     {
         while (keepChecking)
         {
-            myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
+            //myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
             yield return new WaitForSeconds(1f);
         }
     }

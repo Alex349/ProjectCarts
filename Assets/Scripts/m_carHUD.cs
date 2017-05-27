@@ -115,7 +115,7 @@ public class m_carHUD : MonoBehaviour
         {
             if (Input.GetAxis("Vertical") == 1)
             {
-                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * m_car.miniTurboForce, ForceMode.Acceleration);
+                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, 1) * m_car.startTurboForce, ForceMode.Acceleration);
             }
             Destroy(numberImage);
             StartRace = true;

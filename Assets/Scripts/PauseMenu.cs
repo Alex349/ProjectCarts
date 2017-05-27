@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
-{    
+{
+    public GameObject pauseMenu, optionsMenu, mainPauseMenu;
     public Slider volumeSlider;
     public Toggle[] TogglesOfResolution;
     public int[] screenRectWidth;
@@ -18,8 +19,29 @@ public class PauseMenu : MonoBehaviour
         activeScreenResIndex = PlayerPrefs.GetInt("screen res index");
         bool isFullScreen = (PlayerPrefs.GetInt("fullscreen") == 1) ? true : false;        
         cameraListener = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioListener>();
-
-        //cameraListener = FindObjectOfType<Camera>().GetComponent<AudioListener>();
+        pauseMenu.SetActive(false);
+        mainPauseMenu.SetActive(true);
+        optionsMenu.SetActive(false);
+    }
+    public void ResumeGame()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+        m_pauseMng.CanPause = true;
+    }
+    public void OptionsMenu()
+    {
+        mainPauseMenu.SetActive(false);
+        optionsMenu.SetActive(true);
+    }
+    public void Exit()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void Back()
+    {
+        mainPauseMenu.SetActive(true);
+        optionsMenu.SetActive(false);
     }
     public void SetResolutionOfScreen(int i)
     {

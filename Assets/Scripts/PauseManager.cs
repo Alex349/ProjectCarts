@@ -12,7 +12,7 @@ public class PauseManager : MonoBehaviour {
 
     void Start ()
     {
-        pauseImage = PauseScreen.GetComponentInChildren<Image>();
+        //pauseImage = PauseScreen.GetComponentInChildren<Image>();
     }
 	
 	void Update ()
@@ -29,7 +29,7 @@ public class PauseManager : MonoBehaviour {
                 Time.timeScale = 0;
                 CanPause = false;
                 PauseScreen.SetActive(true);
-                pauseImage.fillAmount = Screen.width;               
+                pauseImage.fillAmount = Screen.dpi;               
 
             }
             else

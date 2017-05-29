@@ -76,6 +76,7 @@ public class IA_Item : MonoBehaviour
     private float frozeAcc = 0;
     [SerializeField]
     private float frozeEffectDuration = 5;
+    private GameObject thePlayer;
 
 
     //ItemSpawners
@@ -182,22 +183,6 @@ public class IA_Item : MonoBehaviour
             }
         }
 
-        if (other.tag == "Coin")
-        {
-            Destroy(other.gameObject);
-
-            if (money > 10)
-            {
-                Debug.Log("TooMuchMoney");
-            }
-            else
-            {
-                Debug.Log("GotIt");
-                money++;
-            }
-
-        }
-
         if (other.tag == "Banana")
         {
             Destroy(other.gameObject);
@@ -274,10 +259,17 @@ public class IA_Item : MonoBehaviour
             Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
             //currentIAItem = "none";
         }
+
         if (currentIAItem == "rockettracker")
         {
             Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
             //currentIAItem = "none";
+        }
+
+        if (currentIAItem == "rockettofirst")
+        {
+            Instantiate(Resources.Load("Items/RocketToFirst"), frontSpawnVector, frontSpawn.rotation);
+            //currentPlayerObject = "none";
         }
         if (currentIAItem == "turbo")
         {
@@ -305,9 +297,23 @@ public class IA_Item : MonoBehaviour
             currentIAItem = "none";
         }
 
-        if (currentIAItem == "triplerocket")
+        if (currentIAItem == "triplerocketstraight")
         {
-            Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, frontSpawn.rotation);
+            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+
+            rocketsShooted++;
+
+            if (rocketsShooted >= 3)
+            {
+                Debug.Log("NoMoreRockets");
+                currentIAItem = "none";
+                rocketsShooted = 0;
+            }
+        }
+
+        if (currentIAItem == "triplerockettracker")
+        {
+            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
 
             rocketsShooted++;
 
@@ -381,13 +387,13 @@ public class IA_Item : MonoBehaviour
 
         if (bananaEffect > 0)
         {
-            Debug.Log("Bananed");
+
             agent.speed = iADefaultSpeed -30;
         }
 
         if (bananaEffect < 0 && bananaEffect > -0.1f) //&& startRaceCooldown < 0
         {
-            Debug.Log("ResetBanana");
+
             navmeshAI.changeVelocityTimer = -1f;
         }
 
@@ -402,7 +408,7 @@ public class IA_Item : MonoBehaviour
 
         if (rocketEffect < 0 && rocketEffect > -0.1f) //&& startRaceCooldown < 0
         {
-            Debug.Log("ResetRocket");
+
 
             navmeshAI.changeVelocityTimer = -1f;
         }
@@ -421,7 +427,7 @@ public class IA_Item : MonoBehaviour
         if (turboEffect < 0 && turboEffect > -0.1f)
         {
             navmeshAI.changeVelocityTimer = -1f;
-            Debug.Log("Turbo is reset");
+
 
         }
 
@@ -439,6 +445,9 @@ public class IA_Item : MonoBehaviour
                 karts.Add(kart);
             }
 
+            thePlayer = GameObject.FindWithTag("Player");
+            thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX;
+
             for (int i = 0; i < karts.Count; i++)
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
@@ -447,7 +456,7 @@ public class IA_Item : MonoBehaviour
 
         }
 
-        if (frozeEffect < 0 && frozeEffect > 0.1f && startRaceCooldown < 0)
+        if (frozeEffect < 0 && frozeEffect > 0.5f) //&& startRaceCooldown < 0
         {
             List<GameObject> karts = new List<GameObject>();
 
@@ -462,13 +471,24 @@ public class IA_Item : MonoBehaviour
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
             }
+            Debug.Log("Unfreez");
+            thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
+
+        if (frozeEffect < 0)
+        {
+
+            thePlayer = GameObject.FindWithTag("Player");
+            //OPTIMIZE
+            //Debug.Log("Unfreez");
+            thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
     }
 
     void IncreaseSpeedOnMoney()
     {
-        agent.speed = agent.speed * (1 + money * 0.1f);
-        agent.acceleration = agent.acceleration * (1 + money * 0.1f);
+        agent.speed = agent.speed * (1 + money * 0.01f);
+        agent.acceleration = agent.acceleration * (1 + money * 0.01f);
     }
 
     void IaUseItem()

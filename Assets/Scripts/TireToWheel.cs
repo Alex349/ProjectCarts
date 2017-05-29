@@ -55,11 +55,11 @@ public class TireToWheel : MonoBehaviour {
 		}		
         if (gameObject.CompareTag("BackWheel"))
         {
-            wheelTransform.localPosition = new Vector3(localPosition.x, 0.1f, localPosition.z);
+            wheelTransform.localPosition = new Vector3(localPosition.x, -0.05f, localPosition.z);
         }
         else if (gameObject.CompareTag("FrontWheel"))
         {
-            wheelTransform.localPosition = new Vector3(localPosition.x, localPosition.y, localPosition.z);
+            wheelTransform.localPosition = new Vector3(localPosition.x, -0.01f, localPosition.z);
         }
 
         if (collider.rpm < 1500)

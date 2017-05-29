@@ -94,13 +94,13 @@ public class m_carItem : MonoBehaviour {
 
         if (currentPlayerObject == "banana" || bananaDefending == true)
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
             {
                 UseBanana();
             }
             else
             {
-                if (Input.GetKeyUp(KeyCode.L))
+                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
                 {
                     ReleaseBanana();
                 }

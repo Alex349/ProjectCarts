@@ -4,25 +4,41 @@ using UnityEngine;
 
 public class CheckPoints : MonoBehaviour {
 
+    /*
+  
+    Yeah you have to stagger that into a series of checks.
+    The AI and player vehicles would continuously check: 
+    1.) What lap is this AI or player currently on
+    2.) Which waypoint is this AI or player currently at
+    3.) What is the current distance to the next waypoint for this AI or the player
+
+     */
     public Transform playerTransform;
     public CarCheckPoints carCheckPoints;
     //public IA_Item ia_item;
-    public m_carItem car_item;
+    //public m_carItem car_item;
 
     void Start ()
     {
-        //ia_item = GameObject.FindGameObjectWithTag("Kart").GetComponent<IA_Item>();
-        //playerTransform = GameObject.FindGameObjectWithTag("Kart").GetComponent<Transform>();
-        //carCheckPoints = GameObject.FindGameObjectWithTag("Kart").GetComponent<CarCheckPoints>();
+
     }
 
     void OnTriggerEnter(Collider other)
     {
         //Is it the Player who enters the collider?
-        if (!other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Kart"))
         {
-            return; //If it's not the player dont continue
+            Debug.Log("Assign");
+            playerTransform = other.GetComponent<Transform>();
+            carCheckPoints = other.GetComponent<CarCheckPoints>();
+
+           // return; //If it's not the player dont continue
         }
+        else
+        {
+            return;
+        }
+
 
         //Is this transform equal to the transform of checkpointArrays[currentCheckpoint]?
         if (transform == carCheckPoints.checkPointArray[carCheckPoints.currentCheckpoint].transform)
@@ -35,7 +51,7 @@ public class CheckPoints : MonoBehaviour {
                 {
                     carCheckPoints.currentLap++;
                     //ia_item.SetTimeLap();
-                    car_item.SetTimeLap();
+                    //car_item.SetTimeLap();
                 }
 
                 carCheckPoints.currentCheckpoint++;

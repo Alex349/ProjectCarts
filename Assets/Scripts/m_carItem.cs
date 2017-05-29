@@ -7,6 +7,7 @@ public class m_carItem : MonoBehaviour {
 	public string currentPlayerObject = "none";
     private bool bananaDefending = false, triplebananaDefending = false;
     public m_carController carController;
+    public Rigidbody myRigidbody;
     public float money;
 
     //Defaults
@@ -141,24 +142,6 @@ public class m_carItem : MonoBehaviour {
             }
         }
 
-        if (other.tag == "Coin")
-        {
-            Destroy(other.gameObject);
-
-            Debug.Log("Coin");
-
-            if (money > 10)
-            {
-
-            }
-            else
-            {
-                money++;
-
-            }
-
-        }
-
         if (other.tag == "Banana")
         {
             Destroy(other.gameObject);
@@ -173,7 +156,7 @@ public class m_carItem : MonoBehaviour {
             }
         }
 
-    }
+    }   
 
     void GetRandomItem()
     {
@@ -212,17 +195,71 @@ public class m_carItem : MonoBehaviour {
         {
 
         }
-        if (currentPlayerObject == "rocket")
+        if (currentPlayerObject == "rocketstraight")
         {
-            Instantiate(Resources.Load("Items/Rocket"), frontSpawnVector, Quaternion.identity);
-            currentPlayerObject = "none";
+            Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
+            //currentPlayerObject = "none";
         }
+
+        if (currentPlayerObject == "rockettracker")
+        {
+            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+            //currentPlayerObject = "none";
+        }
+
+        if (currentPlayerObject == "rockettofirst")
+        {
+            Instantiate(Resources.Load("Items/RocketToFirst"), frontSpawnVector, frontSpawn.rotation);
+            //currentPlayerObject = "none";
+        }
+
+        if (currentPlayerObject == "triplerocketstraight")
+        {
+            Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
+
+            rocketsShooted++;
+
+            if (rocketsShooted >= 3)
+            {
+                currentPlayerObject = "none";
+                rocketsShooted = 0;
+            }
+        }
+
+        if (currentPlayerObject == "triplerockettracker")
+        {
+            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+
+            rocketsShooted++;
+
+            if (rocketsShooted >= 3)
+            {
+                Debug.Log("NoMoreRockets");
+                currentPlayerObject = "none";
+                rocketsShooted = 0;
+            }
+        }
+
         if (currentPlayerObject == "turbo")
         {
             Debug.Log("Turbo");
 
             turboEffect = turboEffectDuration;
-            currentPlayerObject = "none";
+            //currentPlayerObject = "none";
+        }
+
+        if (currentPlayerObject == "tripleturbo")
+        {
+            turboEffect = turboEffectDuration;
+
+            turbosUsed++;
+
+            if (turbosUsed >= 3)
+            {
+                Debug.Log("NoMoreTurvos");
+                currentPlayerObject = "none";
+                turbosUsed = 0;
+            }
         }
 
         if (currentPlayerObject == "coin")
@@ -230,6 +267,12 @@ public class m_carItem : MonoBehaviour {
             money = money + 5;
             currentPlayerObject = "none";
 
+        }
+
+        if (currentPlayerObject == "froze")
+        {
+            frozeEffect = frozeEffectDuration;
+            currentPlayerObject = "none";
         }
 
         if (currentPlayerObject == "FakeBox")
@@ -284,13 +327,13 @@ public class m_carItem : MonoBehaviour {
         if (bananaEffect > 0)
         {
             Debug.Log("Bananed");
-            //agent.speed = iADefaultSpeed - 30;
+           carController.frontMaxSpeed = carController.frontMaxSpeed * 0.5f;
         }
 
         if (bananaEffect < 0 && bananaEffect > -0.1f) //&& startRaceCooldown < 0
         {
-            Debug.Log("ResetBanana");
-            //navmeshAI.changeVelocityTimer = -1f;
+
+            carController.frontMaxSpeed = 17f;
         }
 
         //RocketItemUpdate
@@ -299,14 +342,14 @@ public class m_carItem : MonoBehaviour {
         if (rocketEffect > 0)
         {
             Debug.Log("Rocked");
-            //agent.speed = iADefaultSpeed - 30;
+            carController.frontMaxSpeed = carController.frontMaxSpeed * 0.5f;
         }
 
         if (rocketEffect < 0 && rocketEffect > -0.1f) //&& startRaceCooldown < 0
         {
-            Debug.Log("ResetRocket");
 
-            //navmeshAI.changeVelocityTimer = -1f;
+
+            carController.frontMaxSpeed = 17f;
         }
 
         //TurboItemUpdate
@@ -314,18 +357,11 @@ public class m_carItem : MonoBehaviour {
 
         if (turboEffect > 0)
         {
-            //agent.speed = iADefaultSpeed + turboSpeed;
-            //agent.acceleration = iADefaultAcc + turboAcc;
+            myRigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(myRigidbody.transform.forward.z)).normalized * carController.turboForce, ForceMode.Impulse);
             Debug.Log("Turbo is on");
 
         }
 
-        if (turboEffect < 0 && turboEffect > -0.1f)
-        {
-            //navmeshAI.changeVelocityTimer = -1f;
-            Debug.Log("Turbo is reset");
-
-        }
 
         //FrostItemUpdate
         frozeEffect -= Time.deltaTime;

@@ -53,10 +53,19 @@ public class CarSmoothFollow : MonoBehaviour
 
         wantedRotationAngle = target.eulerAngles.y;
         currentRotationAngle = transform.eulerAngles.y;
-
+        
         currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);
 
-        currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+        //
+        if (m_kart.currentSpeed <= 0.1f)
+        {
+            currentHeight = wantedHeight;
+        }
+        else
+        {
+            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+        }
+        
 
         wantedPosition = target.position;
         wantedPosition.y = currentHeight;

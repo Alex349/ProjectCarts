@@ -4,19 +4,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MenuScript : MonoBehaviour {
-
+public class MenuScript : MonoBehaviour
+{
     public GameObject mainMenuHolder;
     public GameObject optionsMenuHolder;
 
-    public Slider[] volumeSliders;
+    public Slider volumeSlider;
     public Toggle[] resolutionToggles;
     public int[] screenWidths;
     int activeScreenResIndex;
 
+    void Start()
+    {
+        activeScreenResIndex = PlayerPrefs.GetInt("screen res index");
+        bool isFullScreen = (PlayerPrefs.GetInt("fullscreen") == 1) ? true : false;
+    }
     public void Play()
     {
-        SceneManager.LoadScene("Scene_Jofre");
+        SceneManager.LoadScene("Scene_Jofre");        
     }
     public void Quit()
     {
@@ -39,6 +44,8 @@ public class MenuScript : MonoBehaviour {
             activeScreenResIndex = i;
             float aspectRatio = 16 / 9;
             Screen.SetResolution(screenWidths[i], (int)(screenWidths[i] / aspectRatio), false);
+            PlayerPrefs.SetInt("screen res index", activeScreenResIndex);
+            PlayerPrefs.Save();
         }
     }
     public void SetFullScreen (bool isFullScreen)
@@ -59,18 +66,11 @@ public class MenuScript : MonoBehaviour {
             SetScreenResolution(activeScreenResIndex);
         }
         PlayerPrefs.SetInt("fullscreen", ((isFullScreen) ? 1 : 0));
+        PlayerPrefs.Save();
 
     }
-	public void SetMasterVolume(float value)
+	public void SetVolume(float value)
     {
-        
-    }
-    public void SetMusicVolume(float value)
-    {
-
-    }
-    public void SetSFXVolume(float value)
-    {
-
-    }
+        AudioListener.volume = volumeSlider.value;
+    }   
 }

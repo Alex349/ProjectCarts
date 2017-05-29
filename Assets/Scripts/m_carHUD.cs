@@ -23,6 +23,9 @@ public class m_carHUD : MonoBehaviour
     private float countDown = 3f;
     public bool StartRace = false;
     private m_carController m_car;
+    private int randomItem = 0;
+    private float itemRandomCounter = 0;
+    //private float scrollSpeed = 3f;
 
     void Start()
     {
@@ -48,6 +51,8 @@ public class m_carHUD : MonoBehaviour
         totalLaps_Text.text = totalLaps.ToString();
         //Coins UI
         coins_Text.text = "Coins:" + car_Item.money.ToString();
+
+        randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
     }
 
     public void UpdateTimerUI()
@@ -74,23 +79,50 @@ public class m_carHUD : MonoBehaviour
         if (car_Item.currentPlayerObject == "none")
         {
             itemImage.sprite = itemSpriteList[0];
+            itemRandomCounter = 0;
         }
-        if (car_Item.currentPlayerObject == "rocket")
+        else
         {
-            itemImage.sprite = itemSpriteList[1];
-        }
-        if (car_Item.currentPlayerObject == "turbo")
-        {
-            itemImage.sprite = itemSpriteList[2];
-        }
-        if (car_Item.currentPlayerObject == "banana")
-        {
-            itemImage.sprite = itemSpriteList[3];
-        }
-        if (car_Item.currentPlayerObject == "coin")
-        {
-            itemImage.sprite = itemSpriteList[4];
-        }
+            itemRandomCounter += Time.deltaTime;
+
+            itemImage.sprite = itemSpriteList[randomItem];
+
+            if (itemRandomCounter >= 2)
+            {
+                if (itemImage.sprite = itemSpriteList[1])
+                {
+                    car_Item.currentPlayerObject = "rocket";
+                }
+                else if (itemImage.sprite = itemSpriteList[2])
+                {
+                    car_Item.currentPlayerObject = "turbo";
+                }
+                else if (itemImage.sprite = itemSpriteList[3])
+                {
+                    car_Item.currentPlayerObject = "banana";
+                }
+                else if (itemImage.sprite = itemSpriteList[4])
+                {
+                    car_Item.currentPlayerObject = "coin";
+                }
+                //if (car_Item.currentPlayerObject == "rocket")
+                //{
+                //    itemImage.sprite = itemSpriteList[1];
+                //}
+                //else if (car_Item.currentPlayerObject == "turbo")
+                //{
+                //    itemImage.sprite = itemSpriteList[2];
+                //}
+                //else if (car_Item.currentPlayerObject == "banana")
+                //{
+                //    itemImage.sprite = itemSpriteList[3];
+                //}
+                //else if (car_Item.currentPlayerObject == "coin")
+                //{
+                //    itemImage.sprite = itemSpriteList[4];
+                //}               
+            }         
+        }        
     }
 
     void CountDown()
@@ -120,6 +152,10 @@ public class m_carHUD : MonoBehaviour
             Destroy(numberImage);
             StartRace = true;
         }
+
+    }
+    void isRandomizing(Sprite[] intemSpriteList)
+    {
 
     }
 }

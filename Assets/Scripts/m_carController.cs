@@ -130,11 +130,11 @@ public class m_carController : MonoBehaviour
 
         if (m_hud.StartRace == true)
         {
-            if (Input.GetJoystickNames() != null)
+            if (Input.GetAxis("HorizontalXbox") != 0 || inputAcc != 0 || Input.GetButton("Brake"))
             {
                 scaledTorque = inputAcc * torque * currentAcc;
                 wheelFR.steerAngle = Input.GetAxis("HorizontalXbox") * turnRadius;
-                wheelFL.steerAngle = Input.GetAxis("HorizontalXbox") * turnRadius;
+                wheelFL.steerAngle = Input.GetAxis("HorizontalXbox") * turnRadius;             
             }
             else
             {
@@ -176,14 +176,14 @@ public class m_carController : MonoBehaviour
 
                 if (Drifting)
                 {
-                    fireColor.color = Color.blue / 2;
-                    fireVelocity.x = -currentSpeed / 2;
-                    fireVelocity.z = -currentSpeed / 2f;
+                    //fireColor.color = Color.blue / 2;
+                    //fireVelocity.x = -currentSpeed / 2;
+                    //fireVelocity.z = -currentSpeed / 2f;
                 }
-                else
-                {
-                    fireColor.color = Color.red / 2;
-                }
+                //else
+                //{
+                //    fireColor.color = Color.gray;
+                //}
             }
 
         }
@@ -202,11 +202,15 @@ public class m_carController : MonoBehaviour
             Sfire[4].Play();
             Sfire[5].Play();
 
+            m_particleSystem1.Stop();
+            m_particleSystem2.Stop();
+
         }
+
         else if ((Input.GetAxis("Vertical") < 0 || Input.GetButton("Brake")) && !Drifting)
         {
             driveMode = DriveMode.Rear;
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)).normalized * currentAcc, ForceMode.Acceleration);
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(transform.forward.z)).normalized * currentAcc * 3, ForceMode.Acceleration);
 
             wheelFR.brakeTorque = 0;
             wheelFL.brakeTorque = 0;
@@ -218,10 +222,8 @@ public class m_carController : MonoBehaviour
             Sfire[4].Stop();
             Sfire[5].Stop();
 
-            //if (driveMode == DriveMode.Front && currentSpeed >= 0.5f)
-            //{
-            //    driveMode = DriveMode.Front;
-            //}           
+            m_particleSystem1.Stop();
+            m_particleSystem2.Stop();
         }
         else if ((Input.GetAxis("Vertical") == 0 && !Input.GetButton("Accelerate") && !Input.GetButton("Brake")) && currentSpeed > 0.2f)
         {
@@ -532,7 +534,6 @@ public class m_carController : MonoBehaviour
 
             if (rightDrift)
             {
-
                 if (Input.GetAxis("Horizontal") == -1 || Input.GetAxis("HorizontalXbox") == -1)
                 {
                     m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
@@ -544,16 +545,6 @@ public class m_carController : MonoBehaviour
             }
             else if (leftDrift)
             {
-                //Sfire[0].Play();
-                //Sfire[1].Play();
-                //Sfire[2].Play();
-                //Sfire[3].Play();
-                //
-                //Sfire[4].Stop();
-                //Sfire[5].Stop();
-                //Sfire[6].Stop();
-                //Sfire[7].Stop();
-
                 if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("HorizontalXbox") == 1)
                 {
                     m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
@@ -671,6 +662,9 @@ public class m_carController : MonoBehaviour
                 WheelBL.motorTorque = scaledTorque * 5;
                 WheelBR.motorTorque = scaledTorque * 5;
 
+                m_particleSystem1.Play();
+                m_particleSystem2.Play();
+
                 if (rightDrift)
                 {
                     wheelBLDriftFriction = WheelBL.sidewaysFriction;
@@ -688,9 +682,6 @@ public class m_carController : MonoBehaviour
                     wheelFRDriftFriction = WheelFR.sidewaysFriction;
                     wheelFRDriftFriction.stiffness = 0;
                     WheelFR.sidewaysFriction = wheelFRDriftFriction;
-
-                    m_particleSystem1.Play();
-                    m_particleSystem2.Stop();
 
                     if ((Input.GetAxis("Horizontal") <= 1 && Input.GetAxis("Horizontal") > 0))
                     {
@@ -729,9 +720,6 @@ public class m_carController : MonoBehaviour
                     wheelFRDriftFriction = WheelFR.sidewaysFriction;
                     wheelFRDriftFriction.stiffness = stifness;
                     WheelFR.sidewaysFriction = wheelFRDriftFriction;
-
-                    m_particleSystem1.Stop();
-                    m_particleSystem2.Play();
 
                     if (Input.GetAxis("Horizontal") >= -1 && Input.GetAxis("Horizontal") < 0)
                     {

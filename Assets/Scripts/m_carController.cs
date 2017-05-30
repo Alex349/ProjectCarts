@@ -431,6 +431,11 @@ public class m_carController : MonoBehaviour
             {
                 turnRadius = frontTurnRadius;
             }
+
+            wheelBLTrail.startColor = Color.red;
+            wheelBRTrail.startColor = Color.red;
+            wheelBLTrail.endColor = Color.black;
+            wheelBRTrail.endColor = Color.black;
         }
         if (driveMode == DriveMode.Rear)
         {
@@ -508,9 +513,9 @@ public class m_carController : MonoBehaviour
 
             stifness += Time.deltaTime;
 
-            if (stifness >= 0.2f)
+            if (stifness >= 0.1f)
             {
-                stifness = 0.2f;
+                stifness = 0.1f;
             }
             driftFrwd = m_rigidbody.transform.right;
 
@@ -518,13 +523,21 @@ public class m_carController : MonoBehaviour
 
             driftCounter -= Time.deltaTime;
 
-            if (driftCounter <= 0 && (Input.GetKey("left shift") || Input.GetButton("TurboDrift")))
+            if (driftCounter <= 0)
             {
-                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)) * endDriftTurboForce, ForceMode.VelocityChange);
+                wheelBLTrail.startColor = Color.blue;
+                wheelBRTrail.startColor = Color.blue;
+                wheelBLTrail.endColor = Color.blue;
+                wheelBRTrail.endColor = Color.blue;
 
-                driftCounter = 2f;
-                Drifting = false;
-                driveMode = DriveMode.Front;
+                if ((Input.GetKey("left shift") || Input.GetButton("TurboDrift")))
+                {
+                    m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)) * endDriftTurboForce, ForceMode.VelocityChange);
+
+                    driftCounter = 2f;
+                    Drifting = false;
+                    driveMode = DriveMode.Front;
+                }               
             }
             Sfire[0].Play();
             Sfire[1].Play();
@@ -535,28 +548,7 @@ public class m_carController : MonoBehaviour
             Sfire[6].Play();
             Sfire[7].Play();
 
-            if (rightDrift)
-            {
-                if (Input.GetAxis("Horizontal") == -1 || Input.GetAxis("HorizontalXbox") == -1)
-                {
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
-                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.green);
-
-                    m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
-                                                                                      m_rigidbody.transform.rotation.y - 10, 0.1f));
-                }
-            }
-            else if (leftDrift)
-            {
-                if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("HorizontalXbox") == 1)
-                {
-                    m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
-                    Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
-
-                    m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
-                                                                                      m_rigidbody.transform.rotation.y + 10, 0.1f));
-                }
-            }
+           
         }
 
         WheelHit hit;
@@ -592,22 +584,6 @@ public class m_carController : MonoBehaviour
             else
             {
                 gravity = 15;
-
-                //wheelBLDamp = wheelBL.wheelDampingRate;
-                //wheelBLDamp = 4f;
-                //wheelBL.wheelDampingRate = wheelBLDamp;
-                //
-                //wheelBRDamp = wheelBR.wheelDampingRate;
-                //wheelBRDamp = 4f;
-                //wheelBR.wheelDampingRate = wheelBRDamp;
-                //
-                //wheelFLDamp = wheelFL.wheelDampingRate;
-                //wheelFLDamp = 6f;
-                //wheelFL.wheelDampingRate = wheelFLDamp;
-                //
-                //wheelFRDamp = wheelFR.wheelDampingRate;
-                //wheelFRDamp = 6f;
-                //wheelFR.wheelDampingRate = wheelFRDamp;
 
                 wheelBLDriftFriction = wheelBL.forwardFriction;
                 wheelBLFrontFriction.stiffness = 0;
@@ -668,22 +644,22 @@ public class m_carController : MonoBehaviour
                 if (rightDrift)
                 {
                     wheelBLDriftFriction = WheelBL.sidewaysFriction;
-                    wheelBLDriftFriction.stiffness = stifness;
+                    wheelBLDriftFriction.stiffness = stifness / 1.5f;
                     WheelBL.sidewaysFriction = wheelBLDriftFriction;
 
                     wheelBRDriftFriction = WheelBR.sidewaysFriction;
-                    wheelBRDriftFriction.stiffness = 0;
+                    wheelBRDriftFriction.stiffness = stifness / 1.5f;
                     WheelBR.sidewaysFriction = wheelBRDriftFriction;
 
                     wheelFLDriftFriction = WheelFL.sidewaysFriction;
-                    wheelFLDriftFriction.stiffness = stifness;
+                    wheelFLDriftFriction.stiffness = stifness / 1.5f;
                     WheelFL.sidewaysFriction = wheelFLDriftFriction;
 
                     wheelFRDriftFriction = WheelFR.sidewaysFriction;
-                    wheelFRDriftFriction.stiffness = 0;
+                    wheelFRDriftFriction.stiffness = stifness / 1.5f;
                     WheelFR.sidewaysFriction = wheelFRDriftFriction;
 
-                    if ((Input.GetAxis("Horizontal") <= 1 && Input.GetAxis("Horizontal") > 0))
+                    if ((Input.GetAxis("Horizontal") >= 1 && Input.GetAxis("Horizontal") > 0))
                     {
                         m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * Input.GetAxis("Vertical") +
                                                       driftFrwd * 2) * driftForce, ForceMode.Force);
@@ -699,29 +675,46 @@ public class m_carController : MonoBehaviour
                         Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward +
                                                                        driftFrwd * 2) * driftForce, Color.yellow);
                     }
+
+                    else if (Input.GetAxis("Horizontal") == -1)
+                    {
+                        Debug.Log("contravolant R");
+                        m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
+                        Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.green);
+
+                        m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
+                                                                                          m_rigidbody.transform.rotation.y - 10, 0.1f));
+                    }
+                    else if (Input.GetAxis("HorizontalXbox") == -1)
+                    {
+                        Debug.Log("contravolant R");
+                        m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
+                        Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.green);
+
+                        m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
+                                                                                          m_rigidbody.transform.rotation.y - 10, 0.1f));
+                    }
                 }
 
                 else if (leftDrift)
                 {
-                    //m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y, m_rigidbody.transform.rotation.y - 10, 0.01f));
-
                     wheelBLDriftFriction = WheelBL.sidewaysFriction;
-                    wheelBLDriftFriction.stiffness = 0;
+                    wheelBLDriftFriction.stiffness = stifness / 1.5f;
                     WheelBL.sidewaysFriction = wheelBLDriftFriction;
 
                     wheelBRDriftFriction = WheelBR.sidewaysFriction;
-                    wheelBRDriftFriction.stiffness = stifness;
+                    wheelBRDriftFriction.stiffness = stifness / 1.5f;
                     WheelBR.sidewaysFriction = wheelBRDriftFriction;
 
                     wheelFLDriftFriction = WheelFL.sidewaysFriction;
-                    wheelFLDriftFriction.stiffness = 0;
+                    wheelFLDriftFriction.stiffness = stifness / 1.5f;
                     WheelFL.sidewaysFriction = wheelFLDriftFriction;
 
                     wheelFRDriftFriction = WheelFR.sidewaysFriction;
-                    wheelFRDriftFriction.stiffness = stifness;
+                    wheelFRDriftFriction.stiffness = stifness / 1.5f;
                     WheelFR.sidewaysFriction = wheelFRDriftFriction;
 
-                    if (Input.GetAxis("Horizontal") >= -1 && Input.GetAxis("Horizontal") < 0)
+                    if (Input.GetAxis("Horizontal") <= -1 && Input.GetAxis("Horizontal") < 0)
                     {
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") -
                                                       driftFrwd) * driftForce, ForceMode.Force);
@@ -736,6 +729,24 @@ public class m_carController : MonoBehaviour
 
                         Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward -
                                                                         driftFrwd) * driftForce, Color.black);
+                    }
+                    else if (Input.GetAxis("Horizontal") == 1)
+                    {
+                        Debug.Log("contravolant L");
+                        m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
+                        Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
+
+                        m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
+                                                                                          m_rigidbody.transform.rotation.y + 10, 0.1f));
+                    }
+                    else if (Input.GetAxis("HorizontalXbox") == 1)
+                    {
+                        Debug.Log("contravolant L");
+                        m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
+                        Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
+
+                        m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
+                                                                                          m_rigidbody.transform.rotation.y + 10, 0.1f));
                     }
 
                 }
@@ -835,14 +846,12 @@ public class m_carController : MonoBehaviour
         {
             maxSpeed = 10;
 
+            wheelBLTrail.startColor = Color.green;
             wheelBLTrail.endColor = Color.green;
+            wheelBRTrail.startColor = Color.green;
             wheelBRTrail.endColor = Color.green;
         }
-        else
-        {
-            wheelBLTrail.endColor = Color.gray;
-            wheelBRTrail.endColor = Color.gray;
-        }
+        
         if (col.tag == "IA")
         {
             rebufoCounter += Time.deltaTime;
@@ -864,6 +873,11 @@ public class m_carController : MonoBehaviour
         if (col.tag == "RoughFloor")
         {
             maxSpeed = frontMaxSpeed;
+
+            wheelBLTrail.startColor = Color.gray;
+            wheelBLTrail.endColor = Color.gray;
+            wheelBRTrail.startColor = Color.gray;
+            wheelBRTrail.endColor = Color.gray;
         }
     }
 

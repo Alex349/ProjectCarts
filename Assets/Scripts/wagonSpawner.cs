@@ -32,7 +32,7 @@ public class wagonSpawner : MonoBehaviour
         if (currentTime > spawningTime)
         {
             barrelSpawned = true;
-            instanceWagon = Instantiate(Resources.Load("Barrel"), initPoint.position, new Quaternion (90, 90, 0, 0), null) as GameObject;
+            Instantiate(Resources.Load("Hazards/Barrel_Def"), initPoint.position, new Quaternion (0, 0, 0, 0));
             currentTime = 0;
         }
         if (barrelSpawned == true && firstBarrelDestroyed)

@@ -80,6 +80,7 @@ public class m_carController : MonoBehaviour
     public float frontTurnRadius, rearTurnRadius, driftTurnRadius;
     public Animator m_animator;
     private int inputAcc;
+    public TrailRenderer wheelBRTrail, wheelBLTrail;
 
     void Start()
     {
@@ -202,9 +203,8 @@ public class m_carController : MonoBehaviour
             Sfire[4].Play();
             Sfire[5].Play();
 
-            m_particleSystem1.Stop();
-            m_particleSystem2.Stop();
-
+            wheelBLTrail.enabled = false;
+            wheelBRTrail.enabled = false;
         }
 
         else if ((Input.GetAxis("Vertical") < 0 || Input.GetButton("Brake")) && !Drifting)
@@ -222,8 +222,8 @@ public class m_carController : MonoBehaviour
             Sfire[4].Stop();
             Sfire[5].Stop();
 
-            m_particleSystem1.Stop();
-            m_particleSystem2.Stop();
+            wheelBLTrail.enabled = false;
+            wheelBRTrail.enabled = false;
         }
         else if ((Input.GetAxis("Vertical") == 0 && !Input.GetButton("Accelerate") && !Input.GetButton("Brake")) && currentSpeed > 0.2f)
         {
@@ -487,6 +487,9 @@ public class m_carController : MonoBehaviour
         {
             Drifting = true;
 
+            wheelBLTrail.enabled = true;
+            wheelBRTrail.enabled = true;
+
             wheelBLFrontFriction = wheelBL.forwardFriction;
             wheelBLFrontFriction.stiffness = 1;
             wheelBL.forwardFriction = wheelBLFrontFriction;
@@ -662,9 +665,6 @@ public class m_carController : MonoBehaviour
                 WheelBL.motorTorque = scaledTorque * 5;
                 WheelBR.motorTorque = scaledTorque * 5;
 
-                m_particleSystem1.Play();
-                m_particleSystem2.Play();
-
                 if (rightDrift)
                 {
                     wheelBLDriftFriction = WheelBL.sidewaysFriction;
@@ -834,6 +834,14 @@ public class m_carController : MonoBehaviour
         if (col.tag == "RoughFloor")
         {
             maxSpeed = 10;
+
+            wheelBLTrail.endColor = Color.green;
+            wheelBRTrail.endColor = Color.green;
+        }
+        else
+        {
+            wheelBLTrail.endColor = Color.gray;
+            wheelBRTrail.endColor = Color.gray;
         }
         if (col.tag == "IA")
         {

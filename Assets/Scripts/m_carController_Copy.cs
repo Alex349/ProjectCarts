@@ -16,9 +16,6 @@ public class m_carController_Copy : MonoBehaviour
     public WheelCollider wheelBR;
     public WheelCollider wheelBL;
 
-    private ParticleSystem m_particleSystem1;
-    private ParticleSystem m_particleSystem2;
-
     public float baseAcc;
     public float currentAcc;
     public float gravity = 9.81f;
@@ -39,8 +36,6 @@ public class m_carController_Copy : MonoBehaviour
 
     private GameObject[] nodes;
     private Vector3 distanceToRespawnPoint;
-
-    private float cameraSpeed = 0.01f;
     public float AntiRoll = 1000f;
 
     private WheelFrictionCurve wheelBLDriftFriction;
@@ -91,9 +86,6 @@ public class m_carController_Copy : MonoBehaviour
 
         m_rigidbody = GetComponentInChildren<Rigidbody>();
         m_rigidbody.centerOfMass = centerOfGravity.localPosition;
-
-        m_particleSystem1 = wheelBL.GetComponent<ParticleSystem>();
-        m_particleSystem2 = wheelBR.GetComponent<ParticleSystem>();
 
         currentAcc = 0;
         driftForce = baseDriftForce;

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class ToFirstRocket : MonoBehaviour {
 
     [SerializeField]
-    private float rocketSpeed = 20, rocketAcc = 80, selfDestruct = 10;
+    private float rocketSpeed = 20, rocketAcc = 80;
 
     private NavMeshAgent agent;
     public Transform target;
@@ -37,13 +37,6 @@ public class ToFirstRocket : MonoBehaviour {
 
         agent.speed = rocketSpeed;
         agent.acceleration = rocketAcc;
-
-        selfDestruct -= Time.deltaTime;
-
-        if (selfDestruct < 0)
-        {
-            Destroy(this.gameObject);
-        }
 
     }
 

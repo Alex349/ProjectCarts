@@ -412,7 +412,7 @@ public class IA_Item : MonoBehaviour
         if (currentIAItem == "banana")
         {
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
-            //currentIAItem = "none";
+            currentIAItem = "none";
         }
     }
 

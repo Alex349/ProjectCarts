@@ -1,0 +1,566 @@
+fileFormatVersion: 2
+guid: e882ad3d8d3e38f49a0dfe4e05ab1c91
+timeCreated: 1496237651
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: HUD_SpriteSheet_B_0
+    21300002: HUD_SpriteSheet_B_1
+    21300004: HUD_SpriteSheet_B_2
+    21300006: HUD_SpriteSheet_B_3
+    21300008: HUD_SpriteSheet_B_4
+    21300010: HUD_SpriteSheet_B_5
+    21300012: HUD_SpriteSheet_B_6
+    21300014: HUD_SpriteSheet_B_7
+    21300016: HUD_SpriteSheet_B_8
+    21300018: HUD_SpriteSheet_B_9
+    21300020: HUD_SpriteSheet_B_10
+    21300022: HUD_SpriteSheet_B_11
+    21300024: HUD_SpriteSheet_B_12
+    21300026: HUD_SpriteSheet_B_13
+    21300028: HUD_SpriteSheet_B_14
+    21300030: HUD_SpriteSheet_B_15
+    21300032: HUD_SpriteSheet_B_16
+    21300034: HUD_SpriteSheet_B_17
+    21300036: HUD_SpriteSheet_B_18
+    21300038: HUD_SpriteSheet_B_19
+    21300040: HUD_SpriteSheet_B_20
+    21300042: HUD_SpriteSheet_B_21
+    21300044: HUD_SpriteSheet_B_22
+    21300046: HUD_SpriteSheet_B_23
+    21300048: HUD_SpriteSheet_B_24
+    21300050: HUD_SpriteSheet_B_25
+    21300052: HUD_SpriteSheet_B_26
+    21300054: HUD_SpriteSheet_B_27
+    21300056: HUD_SpriteSheet_B_28
+    21300058: HUD_SpriteSheet_B_29
+    21300060: HUD_SpriteSheet_B_30
+    21300062: HUD_SpriteSheet_B_31
+    21300064: HUD_SpriteSheet_B_32
+    21300066: HUD_SpriteSheet_B_33
+    21300068: HUD_SpriteSheet_B_34
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 761
+        width: 287
+        height: 287
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_1
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 874
+        width: 96
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_2
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 875
+        width: 47
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_3
+      rect:
+        serializedVersion: 2
+        x: 819
+        y: 875
+        width: 28
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_4
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 878
+        width: 45
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_5
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 878
+        width: 26
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_6
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 878
+        width: 46
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_7
+      rect:
+        serializedVersion: 2
+        x: 1018
+        y: 878
+        width: 46
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_8
+      rect:
+        serializedVersion: 2
+        x: 1075
+        y: 878
+        width: 44
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_9
+      rect:
+        serializedVersion: 2
+        x: 1134
+        y: 878
+        width: 46
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_10
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 878
+        width: 45
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_11
+      rect:
+        serializedVersion: 2
+        x: 1251
+        y: 878
+        width: 44
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_12
+      rect:
+        serializedVersion: 2
+        x: 1305
+        y: 878
+        width: 45
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_13
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 878
+        width: 45
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_14
+      rect:
+        serializedVersion: 2
+        x: 1423
+        y: 878
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_15
+      rect:
+        serializedVersion: 2
+        x: 1461
+        y: 869
+        width: 24
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_16
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 878
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_17
+      rect:
+        serializedVersion: 2
+        x: 1517
+        y: 958
+        width: 379
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_18
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 872
+        width: 45
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_19
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 518
+        width: 385
+        height: 219
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_20
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 622
+        width: 122
+        height: 212
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_21
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 624
+        width: 122
+        height: 212
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_22
+      rect:
+        serializedVersion: 2
+        x: 970
+        y: 626
+        width: 169
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_23
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 628
+        width: 169
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_24
+      rect:
+        serializedVersion: 2
+        x: 1385
+        y: 622
+        width: 184
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_25
+      rect:
+        serializedVersion: 2
+        x: 1608
+        y: 618
+        width: 184
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_26
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 277
+        width: 385
+        height: 219
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_27
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 337
+        width: 292
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_28
+      rect:
+        serializedVersion: 2
+        x: 1074
+        y: 343
+        width: 344
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_29
+      rect:
+        serializedVersion: 2
+        x: 1483
+        y: 335
+        width: 351
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_30
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 48
+        width: 353
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_31
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 39
+        width: 341
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_32
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 33
+        width: 341
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_33
+      rect:
+        serializedVersion: 2
+        x: 1173
+        y: 35
+        width: 348
+        height: 205
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HUD_SpriteSheet_B_34
+      rect:
+        serializedVersion: 2
+        x: 1547
+        y: 33
+        width: 334
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

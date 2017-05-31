@@ -833,7 +833,7 @@ public class m_carController : MonoBehaviour
             Debug.Log("Trubo");
             m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * turboForce, ForceMode.Impulse);
         }
-        if (col.tag == "Kart" || col.tag == "Barrel")
+        if (col.tag == "Spear" || col.tag == "Barrel")
         {
             Debug.Log("is knocked");
             m_animator.SetBool("isKnockedUp", true);

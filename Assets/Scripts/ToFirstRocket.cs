@@ -42,6 +42,13 @@ public class ToFirstRocket : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-
+        if (col.tag == "Player" || col.tag == "Kart")
+        {
+            Destroy(this.gameObject);
+        }
+        if (col.tag == "Banana" || col.tag == "FakeMysteryBox")
+        {
+            Destroy(col.gameObject);
+        }
     }
 }

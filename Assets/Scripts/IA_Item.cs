@@ -6,9 +6,13 @@ using UnityEngine.AI;
 public class IA_Item : MonoBehaviour
 {
     public string currentIAItem = "none";
-    private bool bananaDefending = false, triplebananaDefending = false;
+    private bool rainbowPotion = false;
     public int money;
 
+    public bool spin, knockUp, canUseItems;
+    public float spinCountDown, knockUpCountDown, spinDuration = 1, knockUpDuration = 1;
+
+    private float slipstream, slipstreamDuration, slipstreamCountDown;
     private PositionManager _positionManager;
     [SerializeField]
     public int myPosition;
@@ -73,7 +77,7 @@ public class IA_Item : MonoBehaviour
     [SerializeField]
     private float frozeSpeed = 0;
     [SerializeField]
-    private float frozeAcc = 0;
+    private float frozeAcc = 1000;
     [SerializeField]
     private float frozeEffectDuration = 5;
     private GameObject thePlayer;
@@ -106,6 +110,41 @@ public class IA_Item : MonoBehaviour
         lapCountdown -= Time.deltaTime;
         IaUseItemCooldown -= Time.deltaTime;
         startRaceCooldown -= Time.deltaTime;
+        knockUpCountDown -= Time.deltaTime;
+        spinCountDown -= Time.deltaTime;
+
+        if (rainbowPotion == false)
+        {
+            if (spin == true)
+            {
+                iADefaultSpeed = 0;
+                iADefaultAcc = 25;
+                canUseItems = false;
+                //SpinAnimation
+                if (spinCountDown < 0 && spinCountDown > -0.1f)
+                {
+                    spin = false;
+                    canUseItems = true;
+                    UseItem();
+                    navmeshAI.changeVelocityTimer = -1f;
+                }
+            }
+
+            if (knockUp == true)
+            {
+                iADefaultSpeed = 0;
+                iADefaultAcc = 5000;
+                canUseItems = false;
+                //KnockUpAnimation
+                if (knockUpCountDown < 0 && knockUpCountDown > -0.1f)
+                {
+                    knockUp = false;
+                    canUseItems = true;
+                    UseItem();
+                    navmeshAI.changeVelocityTimer = -1f;
+                }
+            }
+        }
 
         //IA uses the item when the cooldown is over
         if (IaUseItemCooldown < 0)
@@ -120,7 +159,19 @@ public class IA_Item : MonoBehaviour
 
         agent.speed = iADefaultSpeed;
         agent.acceleration = iADefaultAcc;
- 
+
+        if (turboEffect < 0 && currentIAItem == "tripleturbo")
+        {
+            UseItem();
+        }
+        if (rocketsShooted < 4 && currentIAItem == "triplerocketstraight")
+        {
+            UseItem();
+        }
+        if (rocketsShooted < 4 && currentIAItem == "triplerockettracker")
+        {
+            UseItem();
+        }
 
         //MyPosition
         CheckLeaderboards();
@@ -133,33 +184,22 @@ public class IA_Item : MonoBehaviour
         UpdateItems();
         IncreaseSpeedOnMoney();
 
-        if (currentIAItem == "banana" || bananaDefending == true)
+        if (currentIAItem == "banana" )
         {
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                UseBanana();
-            }
-            else
-            {
-                if (Input.GetKeyUp(KeyCode.L))
-                {
-                    ReleaseBanana();
-                }
-            }
+            UseBanana();
+            ReleaseBanana();
         }
-        else if (currentIAItem == "triplebanana" || triplebananaDefending == true)
+        else if (currentIAItem == "triplebanana")
         {
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                UseTripleBanana();
-            }
-            else
-            {
-                if (Input.GetKeyUp(KeyCode.L))
-                {
-                    ReleaseTripleBanana();
-                }
-            }
+            UseTripleBanana();
+            ReleaseTripleBanana();
+            currentIAItem = "none";
+        }
+        else if (currentIAItem == "fakemysterybox")
+        {
+            UseFakeBox();
+            ReleaseFakeBox();
+            currentIAItem = "none";
         }
         else
         {
@@ -187,14 +227,38 @@ public class IA_Item : MonoBehaviour
         {
             Destroy(other.gameObject);
 
-            bananaEffect = bananaEffectDuration;
+            if (spin == false)
+            {
+                spin = true;
+                spinCountDown = spinDuration;
+            }
+
         }
 
         if (other.tag == "Rocket")
         {
             Destroy(other.gameObject);
 
-            rocketEffect = rocketEffectDuration;
+            if (knockUp == false)
+            {
+                knockUp = true;
+                knockUpCountDown = knockUpDuration;
+                turboEffectDuration = -1;
+            }
+        }
+
+        if (other.tag == "FakeMysteryBox")
+        {
+            Destroy(other.gameObject);
+
+            if (knockUp == false)
+            {
+                knockUp = true;
+                knockUpCountDown = knockUpDuration;
+                turboEffectDuration = -1;
+
+            }
+
         }
 
         if (other.tag == "RoughTerrain")
@@ -207,7 +271,7 @@ public class IA_Item : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "RoughTerrain")
+        if (other.tag == "RoughTerrain" && rainbowPotion == false)
         {
             agent.speed = agent.speed * 2;
             agent.acceleration = agent.acceleration * 2;
@@ -262,7 +326,8 @@ public class IA_Item : MonoBehaviour
 
         if (currentIAItem == "rockettracker")
         {
-            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+            GameObject rocketTracker = (GameObject)Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation) as GameObject;
+            rocketTracker.GetComponent<HoamingRocket>().shooterListPosition = myPosition;
             //currentIAItem = "none";
         }
 
@@ -299,7 +364,7 @@ public class IA_Item : MonoBehaviour
 
         if (currentIAItem == "triplerocketstraight")
         {
-            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+            Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
 
             rocketsShooted++;
 
@@ -313,7 +378,8 @@ public class IA_Item : MonoBehaviour
 
         if (currentIAItem == "triplerockettracker")
         {
-            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+            GameObject rocketTracker = (GameObject)Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation) as GameObject;
+            rocketTracker.GetComponent<HoamingRocket>().shooterListPosition = myPosition;
 
             rocketsShooted++;
 
@@ -337,6 +403,7 @@ public class IA_Item : MonoBehaviour
                 currentIAItem = "none";
                 turbosUsed = 0;
             }
+
         }
     }
 
@@ -345,16 +412,28 @@ public class IA_Item : MonoBehaviour
         if (currentIAItem == "banana")
         {
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
-            //currentIAItem = "none";
-            bananaDefending = true;
-
+            currentIAItem = "none";
         }
     }
 
     void ReleaseBanana()
     {
         backSpawn.DetachChildren();
-        bananaDefending = false;
+    }
+
+    void UseFakeBox()
+    {
+        if (currentIAItem == "fakemysterybox")
+        {
+            (Instantiate(Resources.Load("Items/FakeMysteryBox"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
+            //currentIAItem = "none";
+
+        }
+    }
+
+    void ReleaseFakeBox()
+    {
+        backSpawnMiddle.DetachChildren();
     }
 
     void UseTripleBanana()
@@ -365,7 +444,6 @@ public class IA_Item : MonoBehaviour
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorLast, Quaternion.identity) as GameObject).transform.parent = backSpawnLast.transform;
             //currentIAItem = "none";
-            triplebananaDefending = true;
 
         }
     }
@@ -375,44 +453,13 @@ public class IA_Item : MonoBehaviour
         backSpawn.DetachChildren();
         backSpawnMiddle.DetachChildren();
         backSpawnLast.DetachChildren();
-        triplebananaDefending = false;
     }
 
 
 
     void UpdateItems()
     {
-        //BananaItemUpdate
-        bananaEffect -= Time.deltaTime;
-
-        if (bananaEffect > 0)
-        {
-
-            agent.speed = iADefaultSpeed -30;
-        }
-
-        if (bananaEffect < 0 && bananaEffect > -0.1f) //&& startRaceCooldown < 0
-        {
-
-            navmeshAI.changeVelocityTimer = -1f;
-        }
-
-        //RocketItemUpdate
-        rocketEffect -= Time.deltaTime;
-
-        if (rocketEffect > 0)
-        {
-            Debug.Log("Rocked");
-            agent.speed = iADefaultSpeed - 30;
-        }
-
-        if (rocketEffect < 0 && rocketEffect > -0.1f) //&& startRaceCooldown < 0
-        {
-
-
-            navmeshAI.changeVelocityTimer = -1f;
-        }
-
+       
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
 
@@ -427,8 +474,6 @@ public class IA_Item : MonoBehaviour
         if (turboEffect < 0 && turboEffect > -0.1f)
         {
             navmeshAI.changeVelocityTimer = -1f;
-
-
         }
 
         //FrostItemUpdate
@@ -451,6 +496,7 @@ public class IA_Item : MonoBehaviour
             for (int i = 0; i < karts.Count; i++)
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
+                karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeAcc;
                 Debug.Log(karts[i].GetComponent<IA_Item>().name);
             }
 
@@ -493,9 +539,12 @@ public class IA_Item : MonoBehaviour
 
     void IaUseItem()
     {
-        float rnd = (Random.Range(1f, 15f));
+        if (canUseItems == true)
+        {
+            float rnd = (Random.Range(5f, 15f));
 
-        IaUseItemCooldown = rnd;
+            IaUseItemCooldown = rnd;
+        }
     }
 
     public void SetTimeLap()
@@ -525,7 +574,7 @@ public class IA_Item : MonoBehaviour
     {
         while (keepChecking)
         {
-            //myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
+            myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
             yield return new WaitForSeconds(1f);
         }
     }

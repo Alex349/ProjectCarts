@@ -135,26 +135,26 @@ public class m_carHUD : MonoBehaviour
         {
             itemRandomCounter += Time.deltaTime;
 
-            itemImage.sprite = itemSpriteList[randomItem];
+          //  itemImage.sprite = itemSpriteList[randomItem];
 
             if (itemRandomCounter >= 2)
             {
-                if (itemImage.sprite = itemSpriteList[1])
-                {
-                    car_Item.currentPlayerObject = "rocket";
-                }
-                else if (itemImage.sprite = itemSpriteList[2])
-                {
-                    car_Item.currentPlayerObject = "turbo";
-                }
-                else if (itemImage.sprite = itemSpriteList[3])
-                {
-                    car_Item.currentPlayerObject = "banana";
-                }
-                else if (itemImage.sprite = itemSpriteList[4])
-                {
-                    car_Item.currentPlayerObject = "coin";
-                }
+                //if (itemImage.sprite = itemSpriteList[1])
+                //{
+                //    car_Item.currentPlayerObject = "rocket";
+                //}
+                //else if (itemImage.sprite = itemSpriteList[2])
+                //{
+                //    car_Item.currentPlayerObject = "turbo";
+                //}
+                //else if (itemImage.sprite = itemSpriteList[3])
+                //{
+                //    car_Item.currentPlayerObject = "banana";
+                //}
+                //else if (itemImage.sprite = itemSpriteList[4])
+                //{
+                //    car_Item.currentPlayerObject = "coin";
+                //}
                 //if (car_Item.currentPlayerObject == "rocket")
                 //{
                 //    itemImage.sprite = itemSpriteList[1];

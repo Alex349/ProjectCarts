@@ -5,7 +5,7 @@ using UnityEngine;
 public class m_carItem : MonoBehaviour {
 
 	public string currentPlayerObject = "none";
-    private bool bananaDefending = false, triplebananaDefending = false;
+    private bool bananaDefending = false, triplebananaDefending = false, fakeboxDefending = false;
     public m_carController carController;
     public Rigidbody myRigidbody;
     public float money;
@@ -61,7 +61,7 @@ public class m_carItem : MonoBehaviour {
     [SerializeField]
     private float frozeSpeed = 0;
     [SerializeField]
-    private float frozeAcc = 0;
+    private float frozeAcc = 1000;
     [SerializeField]
     private float frozeEffectDuration = 5;
 
@@ -118,6 +118,20 @@ public class m_carItem : MonoBehaviour {
                 if (Input.GetKeyUp(KeyCode.L))
                 {
                     ReleaseTripleBanana();
+                }
+            }
+        }
+        else if (currentPlayerObject == "fakemysterybox" || fakeboxDefending == true)
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                UseFakeBox();
+            }
+            else
+            {
+                if (Input.GetKeyUp(KeyCode.L))
+                {
+                    ReleaseFakeBox();
                 }
             }
         }
@@ -203,7 +217,8 @@ public class m_carItem : MonoBehaviour {
 
         if (currentPlayerObject == "rockettracker")
         {
-            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+            GameObject rocketTracker = (GameObject)Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation) as GameObject;
+            rocketTracker.GetComponent<HoamingRocket>().shooterListPosition = myPosition;
             //currentPlayerObject = "none";
         }
 
@@ -228,7 +243,8 @@ public class m_carItem : MonoBehaviour {
 
         if (currentPlayerObject == "triplerockettracker")
         {
-            Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation);
+            GameObject rocketTracker = (GameObject)Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation) as GameObject;
+            rocketTracker.GetComponent<HoamingRocket>().shooterListPosition = myPosition;
 
             rocketsShooted++;
 
@@ -296,6 +312,23 @@ public class m_carItem : MonoBehaviour {
     {
         backSpawn.DetachChildren();
         bananaDefending = false;
+    }
+
+    void UseFakeBox()
+    {
+        if (currentPlayerObject == "fakemysterybox")
+        {
+            (Instantiate(Resources.Load("Items/FakeMysteryBox"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
+            //currentIAItem = "none";
+            fakeboxDefending = true;
+
+        }
+    }
+
+    void ReleaseFakeBox()
+    {
+        backSpawnMiddle.DetachChildren();
+        fakeboxDefending = false;
     }
 
     void UseTripleBanana()
@@ -380,6 +413,7 @@ public class m_carItem : MonoBehaviour {
             for (int i = 0; i < karts.Count; i++)
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
+                karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeAcc;
                 Debug.Log(karts[i].GetComponent<IA_Item>().name);
             }
 

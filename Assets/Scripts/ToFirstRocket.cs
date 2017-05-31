@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class ToFirstRocket : MonoBehaviour {
 
     [SerializeField]
-    private float rocketSpeed = 20, rocketAcc = 80;
+    private float rocketSpeed = 20, rocketAcc = 80, selfDestruct = 10;
 
     private NavMeshAgent agent;
     public Transform target;
@@ -38,10 +38,24 @@ public class ToFirstRocket : MonoBehaviour {
         agent.speed = rocketSpeed;
         agent.acceleration = rocketAcc;
 
+        selfDestruct -= Time.deltaTime;
+
+        if (selfDestruct < 0)
+        {
+            Destroy(this.gameObject);
+        }
+
     }
 
     void OnTriggerEnter(Collider col)
     {
-
+        if (col.tag == "Player" || col.tag == "Kart")
+        {
+            Destroy(this.gameObject);
+        }
+        if (col.tag == "Banana" || col.tag == "FakeMysteryBox")
+        {
+            Destroy(col.gameObject);
+        }
     }
 }

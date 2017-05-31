@@ -22,7 +22,7 @@ public class wagonScript : MonoBehaviour {
         lifeTimeCounter += Time.deltaTime;
 
         transform.position = Vector3.MoveTowards(transform.position, endPoint.transform.position, speed * Time.deltaTime);
-        transform.Rotate(Vector3.right, 3);
+        transform.Rotate(Vector3.forward, 3);
 
         if (distanceToEnd.magnitude <= 1)
         {

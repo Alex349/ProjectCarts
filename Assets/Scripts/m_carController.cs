@@ -16,9 +16,6 @@ public class m_carController : MonoBehaviour
     public WheelCollider wheelBR;
     public WheelCollider wheelBL;
 
-    private ParticleSystem m_particleSystem1;
-    private ParticleSystem m_particleSystem2;
-
     public float baseAcc;
     public float currentAcc;
     public float gravity = 9.81f;
@@ -40,7 +37,6 @@ public class m_carController : MonoBehaviour
     private GameObject[] nodes;
     private Vector3 distanceToRespawnPoint;
 
-    private float cameraSpeed = 0.01f;
     public float AntiRoll = 1000f;
 
     private WheelFrictionCurve wheelBLDriftFriction;
@@ -55,7 +51,7 @@ public class m_carController : MonoBehaviour
 
     private float wheelFRDamp, wheelFLDamp, wheelBRDamp, wheelBLDamp;
 
-    private float driftForce;
+    public float driftForce;
     public float currentSpeed;
     private float driftCounter = 2f;
     private float rebufoCounter = 0;
@@ -65,7 +61,6 @@ public class m_carController : MonoBehaviour
     private float driftDelay = 1f;
     public bool leftDrift, rightDrift;
     private bool isDrifting = false;
-    public float baseDriftForce;
 
     private Vector3 driftFrwd;
     private float stifness = 0;
@@ -82,7 +77,6 @@ public class m_carController : MonoBehaviour
     private int inputAcc;
     public TrailRenderer wheelBRTrail, wheelBLTrail;
     public float knockUpForce, slipperyForce;
-    private bool canControl;
 
     void Start()
     {
@@ -92,16 +86,11 @@ public class m_carController : MonoBehaviour
         m_rigidbody = GetComponentInChildren<Rigidbody>();
         m_rigidbody.centerOfMass = centerOfGravity.localPosition;
 
-        m_particleSystem1 = wheelBL.GetComponent<ParticleSystem>();
-        m_particleSystem2 = wheelBR.GetComponent<ParticleSystem>();
-
         currentAcc = 0;
-        driftForce = baseDriftForce;
 
         wheelBLTrail.enabled = false;
         wheelBRTrail.enabled = false;
 
-        canControl = true;
     }
 
     public float Speed()
@@ -519,7 +508,7 @@ public class m_carController : MonoBehaviour
 
             if (stifness >= 0.1f)
             {
-                stifness = 0.2f;
+                stifness = 0.1f;
             }           
 
             if (rightDrift)
@@ -533,7 +522,7 @@ public class m_carController : MonoBehaviour
                     m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                       m_rigidbody.transform.rotation.y - 10, 0.1f));
                 }
-                if (Input.GetAxis("Horizontal") == -1)
+                else if (Input.GetAxis("Horizontal") == -1)
                 {
                     Debug.Log("contravolant R");
                     m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
@@ -554,7 +543,7 @@ public class m_carController : MonoBehaviour
                     m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                       m_rigidbody.transform.rotation.y + 10, 0.1f));
                 }
-                if (Input.GetAxis("Horizontal") == 1)
+                else if (Input.GetAxis("Horizontal") == 1)
                 {
                     Debug.Log("contravolant L");
                     m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
@@ -644,7 +633,6 @@ public class m_carController : MonoBehaviour
                 wheelFRFrontFriction.stiffness = 0;
                 wheelFR.forwardFriction = wheelFRFrontFriction;
             }
-
 
             timeCounter += Time.deltaTime;
 
@@ -838,13 +826,11 @@ public class m_carController : MonoBehaviour
             Debug.Log("is knocked");
             m_animator.SetBool("isKnockedUp", true);
             m_rigidbody.AddRelativeForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
-            canControl = false;
         }
         else if (col.tag == "Water")
         {
             m_animator.SetBool("isSpinning", true);
             m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * slipperyForce, ForceMode.Force);
-            canControl = false;
         }
         else
         {

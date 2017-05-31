@@ -9,8 +9,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenu, optionsMenu, mainPauseMenu;
     public Slider volumeSlider;
     public Toggle[] TogglesOfResolution;
+    public Button[] mainPauseMenuButtons;
     public int[] screenRectWidth;
-    public PauseManager m_pauseMng;
     int activeScreenResIndex;
     private AudioListener cameraListener;
 
@@ -19,15 +19,99 @@ public class PauseMenu : MonoBehaviour
         activeScreenResIndex = PlayerPrefs.GetInt("screen res index");
         bool isFullScreen = (PlayerPrefs.GetInt("fullscreen") == 1) ? true : false;        
         cameraListener = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioListener>();
+
         pauseMenu.SetActive(false);
         mainPauseMenu.SetActive(true);
         optionsMenu.SetActive(false);
+        
+    }
+    void Update()
+    {
+        if (mainPauseMenu != null)
+        {
+            mainPauseMenuButtons[0].Select();
+
+            if (Input.GetAxis("Vertical") < 0)
+            {
+                if (mainPauseMenuButtons[0].isActiveAndEnabled)
+                {
+                    mainPauseMenuButtons[1].Select();
+                }
+                else if (mainPauseMenuButtons[1].isActiveAndEnabled)
+                {
+                    mainPauseMenuButtons[2].Select();
+                }
+                else if (mainPauseMenuButtons[2].isActiveAndEnabled)
+                {
+                    mainPauseMenuButtons[0].Select();
+                }
+            }            
+            else if (Input.GetAxis("Vertical") > 0)
+            {
+                if (mainPauseMenuButtons[0].isActiveAndEnabled)
+                {
+                    mainPauseMenuButtons[2].Select();
+                }
+                else if (mainPauseMenuButtons[1].isActiveAndEnabled)
+                {
+                    mainPauseMenuButtons[0].Select();
+                }
+                else if (mainPauseMenuButtons[2].isActiveAndEnabled)
+                {
+                    mainPauseMenuButtons[1].Select();
+                }
+            }
+        }
+        else if (pauseMenu != null)
+        {
+            TogglesOfResolution[0].Select();
+
+            if (Input.GetAxis("Vertical") < 0)
+            {
+                if (TogglesOfResolution[0].isActiveAndEnabled)
+                {
+                    TogglesOfResolution[1].Select();
+                }
+                else if (TogglesOfResolution[1].isActiveAndEnabled)
+                {
+                    TogglesOfResolution[2].Select();
+                }
+                else if (TogglesOfResolution[2].isActiveAndEnabled)
+                {
+                    TogglesOfResolution[3].Select();
+                }
+                else if (TogglesOfResolution[3].isActiveAndEnabled)
+                {
+                    TogglesOfResolution[0].Select();
+                }
+            }           
+
+            else if (Input.GetAxis("Vertical") > 0)
+            {
+                if (TogglesOfResolution[0].isActiveAndEnabled)
+                {
+                    TogglesOfResolution[3].Select();
+                }
+                else if (TogglesOfResolution[1].isActiveAndEnabled)
+                {
+                    TogglesOfResolution[0].Select();
+                }
+                else if (TogglesOfResolution[2].isActiveAndEnabled)
+                {
+                    TogglesOfResolution[3].Select();
+                }
+                else if (TogglesOfResolution[3].isActiveAndEnabled)
+                {
+                    TogglesOfResolution[0].Select();
+                }
+            }            
+        }       
+        
     }
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
-        Time.timeScale = 1;
-        m_pauseMng.CanPause = true;
+        
     }
     public void OptionsMenu()
     {

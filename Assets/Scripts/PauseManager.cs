@@ -12,12 +12,12 @@ public class PauseManager : MonoBehaviour {
 
     void Start ()
     {
-        //pauseImage = PauseScreen.GetComponentInChildren<Image>();
+        CanPause = true;
     }
 	
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.P) ||Input.GetButton("Pause"))
+        if (Input.GetKeyDown(KeyCode.P) ||Input.GetButtonDown("Pause"))
         {
             if (CanPause)
             {

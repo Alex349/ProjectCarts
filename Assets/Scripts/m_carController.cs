@@ -198,10 +198,10 @@ public class m_carController : MonoBehaviour
             wheelBR.brakeTorque = 0;
             wheelBL.brakeTorque = 0;
 
-            Sfire[1].Play();
-            Sfire[2].Play();
-            Sfire[4].Play();
-            Sfire[5].Play();
+            //Sfire[1].Play();
+            //Sfire[2].Play();
+            //Sfire[4].Play();
+            //Sfire[5].Play();
 
             wheelBLTrail.enabled = false;
             wheelBRTrail.enabled = false;
@@ -217,20 +217,20 @@ public class m_carController : MonoBehaviour
             wheelBR.brakeTorque = 0;
             wheelBL.brakeTorque = 0;
 
-            Sfire[1].Stop();
-            Sfire[2].Stop();
-            Sfire[4].Stop();
-            Sfire[5].Stop();
+            //Sfire[1].Stop();
+            //Sfire[2].Stop();
+            //Sfire[4].Stop();
+            //Sfire[5].Stop();
 
             wheelBLTrail.enabled = false;
             wheelBRTrail.enabled = false;
         }
         else if ((Input.GetAxis("Vertical") == 0 && !Input.GetButton("Accelerate") && !Input.GetButton("Brake")) && currentSpeed > 0.2f)
         {
-            Sfire[1].Stop();
-            Sfire[2].Stop();
-            Sfire[4].Stop();
-            Sfire[5].Stop();
+            //Sfire[1].Stop();
+            //Sfire[2].Stop();
+            //Sfire[4].Stop();
+            //Sfire[5].Stop();
 
             if (driveMode == DriveMode.Front)
             {

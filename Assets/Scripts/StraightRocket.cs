@@ -7,7 +7,7 @@ public class StraightRocket : MonoBehaviour
     [SerializeField]
     private float rocketSpeed = 1000;
     [SerializeField]
-    private float rocketBounces, distanceAwayFromSurface;
+    private float rocketBounces, distanceAwayFromSurface, selfDestruct = 10;
     private Rigidbody bulletBody,carBody;
 
     Vector3 myTransform;
@@ -44,6 +44,26 @@ public class StraightRocket : MonoBehaviour
 
         }
 
+        selfDestruct -= Time.deltaTime;
+
+        if (selfDestruct < 0)
+        {
+            Destroy(this.gameObject);
+        }
+
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Player" || col.tag == "Kart")
+        {
+            Destroy(this.gameObject);
+        }
+        if (col.tag == "Banana" || col.tag == "FakeMysteryBox")
+        {
+            Destroy(this.gameObject);
+            Destroy(col.gameObject);
+        }
     }
 
     void OnCollisionEnter(Collision collision)

@@ -29,7 +29,13 @@ public class PauseMenu : MonoBehaviour
     {
         if (mainPauseMenu != null)
         {
-            mainPauseMenuButtons[0].Select();
+            for (int i = 0; i < mainPauseMenuButtons.Length; i++)
+            {
+                if (mainPauseMenuButtons[i].isActiveAndEnabled == false)
+                {
+                    mainPauseMenuButtons[0].Select();
+                }
+            }
 
             if (Input.GetAxis("Vertical") < 0)
             {
@@ -63,9 +69,14 @@ public class PauseMenu : MonoBehaviour
             }
         }
         else if (pauseMenu != null)
-        {
-            TogglesOfResolution[0].Select();
-
+        {            
+            for (int i = 0; i < TogglesOfResolution.Length; i++)
+            {
+                if (TogglesOfResolution[i].isActiveAndEnabled == false)
+                {
+                    TogglesOfResolution[0].Select();
+                }
+            }
             if (Input.GetAxis("Vertical") < 0)
             {
                 if (TogglesOfResolution[0].isActiveAndEnabled)
@@ -111,7 +122,7 @@ public class PauseMenu : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
-        
+        Time.timeScale = 1;
     }
     public void OptionsMenu()
     {

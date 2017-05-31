@@ -10,7 +10,7 @@ public class HoamingRocket : MonoBehaviour
     private float rocketSpeed = 20, rocketAcc = 80, selfDestruct = 10;
     [SerializeField]
     private float rocketBounces;
-    public int targetListPosition,shooterListPosition;
+    public int targetListPosition, shooterListPosition;
     Vector3 myTransform;
 
     private NavMeshAgent agent;
@@ -68,7 +68,7 @@ public class HoamingRocket : MonoBehaviour
 
     }
 
-    void OnTriggerEnter (Collider col)
+    void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Player" || col.tag == "Kart")
         {

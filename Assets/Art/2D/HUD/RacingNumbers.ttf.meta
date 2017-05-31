@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 497c4472938fedf44adc30a51248cfc4
+timeCreated: 1496238925
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: RacingNumbers
+  fontNames:
+  - RacingNumbers
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

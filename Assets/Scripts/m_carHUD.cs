@@ -9,10 +9,14 @@ public class m_carHUD : MonoBehaviour
     public CarCheckPoints carCheckPoints;
     public Image itemImage;
     public Image numberImage;
+    public Image positionImage;
+    public Image currentLapImage;
 
     public m_carItem car_Item;
     public Sprite[] itemSpriteList;
     public Sprite[] numberSpriteList;
+    public Sprite[] numberPosition;
+    public Sprite[] currentLapSprite;
 
     public Text currentPosition_Text, time_Text, currentLap_Text, totalLaps_Text, coins_Text;
     private float currentPosition, time, secondsCount, minuteCount, milisecondsCount, currentLap;
@@ -32,7 +36,6 @@ public class m_carHUD : MonoBehaviour
         m_car = FindObjectOfType<m_carController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (StartRace == false)
@@ -46,8 +49,55 @@ public class m_carHUD : MonoBehaviour
         }
         //Laps UI
         currentPosition_Text.text = currentPosition.ToString();
+
+        if (currentPosition.ToString("1") != null)
+        {
+            positionImage.sprite = numberPosition[0];
+        }
+        else if (currentPosition.ToString("2") != null)
+        {
+            positionImage.sprite = numberPosition[1];
+        }
+        else if (currentPosition.ToString("3") != null)
+        {
+            positionImage.sprite = numberPosition[2];
+        }
+        else if (currentPosition.ToString("4") != null)
+        {
+            positionImage.sprite = numberPosition[3];
+        }
+        else if (currentPosition.ToString("5") != null)
+        {
+            positionImage.sprite = numberPosition[4];
+        }
+        else if (currentPosition.ToString("6") != null)
+        {
+            positionImage.sprite = numberPosition[5];
+        }
+        else if (currentPosition.ToString("7") != null)
+        {
+            positionImage.sprite = numberPosition[6];
+        }
+        else if (currentPosition.ToString("8") != null)
+        {
+            positionImage.sprite = numberPosition[7];
+        }
+
         currentLap = carCheckPoints.currentLap;
         currentLap_Text.text = currentLap.ToString();
+
+        if (currentLap.ToString("1") != null)
+        {
+            currentLapImage.sprite = currentLapSprite[0];
+        }
+        else if (currentLap.ToString("2") != null)
+        {
+            currentLapImage.sprite = currentLapSprite[1];
+        }
+        else if (currentLap.ToString("3") != null)
+        {
+            currentLapImage.sprite = currentLapSprite[2];
+        }
         totalLaps_Text.text = totalLaps.ToString();
         //Coins UI
         coins_Text.text = "Coins:" + car_Item.money.ToString();
@@ -127,6 +177,8 @@ public class m_carHUD : MonoBehaviour
 
     void CountDown()
     {
+        
+
         countDown -= Time.deltaTime;
 
         m_car.currentAcc = 0;
@@ -141,18 +193,28 @@ public class m_carHUD : MonoBehaviour
         }
         else if (countDown <= 1 && countDown > 0)
         {
+            //RectTransform m_desiredRectSize = numberSpriteList[2].textureRect;
+            //Rect m_rectSize = numberSpriteList[2].rect;
+
             numberImage.sprite = numberSpriteList[2];
+            //m_desiredRectSize.size = new Vector2(60, 70);
+            //m_rectSize.size = m_desiredRectSize.size;
         }
         else if (countDown <= 0)
-        {
+        {            
+            numberImage.sprite = numberSpriteList[3];
+            //numberSpriteList[2].border.Scale(new Vector4(1.2f, 1, 1, 1));
+
             if (Input.GetAxis("Vertical") == 1 || Input.GetButton("Accelerate"))
             {
-                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, 1) * m_car.startTurboForce, ForceMode.Acceleration);
+                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_car.m_rigidbody.transform.forward.z)) * m_car.startTurboForce, ForceMode.Acceleration);
             }
-            Destroy(numberImage);
-            StartRace = true;
-        }
-
+            if (countDown <= -0.2f)
+            {
+                Destroy(numberImage);
+                StartRace = true;
+            }            
+        }       
     }
     void isRandomizing(Sprite[] intemSpriteList)
     {

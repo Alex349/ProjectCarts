@@ -81,12 +81,10 @@ public class m_carItem : MonoBehaviour {
 
     void Start()
     {
-        // carController = GameObject.FindGameObjectWithTag("Kart").GetComponent<m_carController>();
         hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
         myRigidbody = carController.GetComponent<Rigidbody>();
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
 
-        //StartCoroutine(CheckLeaderboards());
     }
     // Update is called once per frame
     void Update()
@@ -184,28 +182,59 @@ public class m_carItem : MonoBehaviour {
     {
         float rnd = (Random.Range(0f, 1f));
 
-
-        if (rnd < 0.2)
+        if (rnd < 0.15)
         {
             currentPlayerObject = "banana";
         }
-        else if (rnd < 0.4)
+        else if (rnd < 0.2)
+        {
+            currentPlayerObject = "tripleturbo";
+        }
+        else if (rnd < 0.3)
         {
             currentPlayerObject = "turbo";
         }
-        else if (rnd < 0.6)
+        else if (rnd < 0.4)
         {
             currentPlayerObject = "straightrocket";
+        }
+        else if (rnd < 0.5)
+        {
+            currentPlayerObject = "rockettracker";
+        }
+        else if (rnd < 0.55)
+        {
+            currentPlayerObject = "rockettofirst";
+        }
+        else if (rnd < 0.6)
+        {
+            currentPlayerObject = "triplerocketstraight";
+        }
+        else if (rnd < 0.65)
+        {
+            currentPlayerObject = "triplerockettracker";
+        }
+        else if (rnd < 0.75)
+        {
+            currentPlayerObject = "fakemysterybox";
+        }
+        else if (rnd < 0.85)
+        {
+            currentPlayerObject = "rainbowPotion";
+        }
+        else if (rnd < 0.90)
+        {
+            currentPlayerObject = "froze";
         }
         else if (rnd < 1)
         {
             if (money > 10)
             {
-                currentPlayerObject = "none";
+                currentPlayerObject = "coin";
             }
             else
             {
-                currentPlayerObject = "FakeBox";
+                currentPlayerObject = "none";
 
             }
         }
@@ -326,7 +355,7 @@ public class m_carItem : MonoBehaviour {
         if (currentPlayerObject == "fakemysterybox")
         {
             (Instantiate(Resources.Load("Items/FakeMysteryBox"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
-            //currentIAItem = "none";
+            currentPlayerObject = "none";
             fakeboxDefending = true;
 
         }
@@ -345,7 +374,7 @@ public class m_carItem : MonoBehaviour {
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorLast, Quaternion.identity) as GameObject).transform.parent = backSpawnLast.transform;
-            //currentIAItem = "none";
+            currentPlayerObject = "none";
             triplebananaDefending = true;
 
         }
@@ -471,13 +500,4 @@ public class m_carItem : MonoBehaviour {
             lapCountdown = 400;
         }
     }
-
-    //IEnumerator CheckLeaderboards()
-    //{
-    //    while (keepChecking)
-    //    {
-    //        myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
-    //        yield return new WaitForSeconds(1f);
-    //    }
-    //}
 }

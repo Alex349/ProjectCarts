@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d0545a3dab72edb4582ff474cfbe1461
-timeCreated: 1496337423
+timeCreated: 1496338353
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -10,6 +10,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: DoorMargin
+    4300002: DoorMargin012
   materials:
     importMaterials: 1
     materialName: 0

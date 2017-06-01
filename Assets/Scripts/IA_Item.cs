@@ -100,8 +100,8 @@ public class IA_Item : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         StartCoroutine(CheckLeaderboards());
 
-        agent.speed = 10;
-        agent.acceleration = 40;
+        agent.speed = 0;
+        agent.acceleration = 0;
     }
     // Update is called once per frame
     void Update()
@@ -149,16 +149,15 @@ public class IA_Item : MonoBehaviour
         //IA uses the item when the cooldown is over
         if (IaUseItemCooldown < 0)
         {
-            //UseItem();
+            UseItem();
         }
 
         if (startRaceCooldown < 0)
         {
-
+            agent.speed = iADefaultSpeed;
+            agent.acceleration = iADefaultAcc;
         }
 
-        agent.speed = iADefaultSpeed;
-        agent.acceleration = iADefaultAcc;
 
         if (knockUpDuration < 0)
         {
@@ -326,20 +325,20 @@ public class IA_Item : MonoBehaviour
         if (currentIAItem == "rocketstraight")
         {
             Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
-            //currentIAItem = "none";
+            currentIAItem = "none";
         }
 
         if (currentIAItem == "rockettracker")
         {
             GameObject rocketTracker = (GameObject)Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation) as GameObject;
             rocketTracker.GetComponent<HoamingRocket>().shooterListPosition = myPosition;
-            //currentIAItem = "none";
+            currentIAItem = "none";
         }
 
         if (currentIAItem == "rockettofirst")
         {
             Instantiate(Resources.Load("Items/RocketToFirst"), frontSpawnVector, frontSpawn.rotation);
-            //currentPlayerObject = "none";
+            currentIAItem = "none";
         }
         if (currentIAItem == "turbo")
         {
@@ -431,7 +430,7 @@ public class IA_Item : MonoBehaviour
         if (currentIAItem == "fakemysterybox")
         {
             (Instantiate(Resources.Load("Items/FakeMysteryBox"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
-            //currentIAItem = "none";
+            currentIAItem = "none";
 
         }
     }
@@ -448,7 +447,7 @@ public class IA_Item : MonoBehaviour
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVectorLast, Quaternion.identity) as GameObject).transform.parent = backSpawnLast.transform;
-            //currentIAItem = "none";
+            currentIAItem = "none";
 
         }
     }

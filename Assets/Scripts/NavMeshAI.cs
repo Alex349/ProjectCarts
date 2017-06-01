@@ -92,26 +92,26 @@ public class NavMeshAI : MonoBehaviour
         //Quaternion rotation = Quaternion.LookRotation(relativePos);
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * camSpeed);
 
-        Physics.Raycast(backLeft.position + Vector3.up, Vector3.down, out lr);
-        Physics.Raycast(backRight.position + Vector3.up, Vector3.down, out rr);
-        Physics.Raycast(frontLeft.position + Vector3.up, Vector3.down, out lf);
-        Physics.Raycast(frontRight.position + Vector3.up, Vector3.down, out rf);
+        //Physics.Raycast(backLeft.position + Vector3.up, Vector3.down, out lr);
+        //Physics.Raycast(backRight.position + Vector3.up, Vector3.down, out rr);
+        //Physics.Raycast(frontLeft.position + Vector3.up, Vector3.down, out lf);
+        //Physics.Raycast(frontRight.position + Vector3.up, Vector3.down, out rf);
 
-        upDir = (Vector3.Cross(rr.point - Vector3.up, lr.point - Vector3.up) +
-                 Vector3.Cross(lr.point - Vector3.up, lf.point - Vector3.up) +
-                 Vector3.Cross(lf.point - Vector3.up, rf.point - Vector3.up) +
-                 Vector3.Cross(rf.point - Vector3.up, rr.point - Vector3.up)
-                ).normalized;
+        //upDir = (Vector3.Cross(rr.point - Vector3.up, lr.point - Vector3.up) +
+        //         Vector3.Cross(lr.point - Vector3.up, lf.point - Vector3.up) +
+        //         Vector3.Cross(lf.point - Vector3.up, rf.point - Vector3.up) +
+        //         Vector3.Cross(rf.point - Vector3.up, rr.point - Vector3.up)
+        //        ).normalized;
 
-        Debug.DrawRay(rr.point, Vector3.up);
-        Debug.DrawRay(lr.point, Vector3.up);
-        Debug.DrawRay(lf.point, Vector3.up);
-        Debug.DrawRay(rf.point, Vector3.up);
+        //Debug.DrawRay(rr.point, Vector3.up);
+        //Debug.DrawRay(lr.point, Vector3.up);
+        //Debug.DrawRay(lf.point, Vector3.up);
+        //Debug.DrawRay(rf.point, Vector3.up);
 
         //transform.up = upDir;
 
-        //var rotation = Quaternion.LookRotation(points[destPoint].position - new Vector3(transform.position.x, transform.position.y -upDir, ));
-        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
+        var rotation = Quaternion.LookRotation(points[destPoint].position -transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
     }
 
     void OnTriggerEnter(Collider col)

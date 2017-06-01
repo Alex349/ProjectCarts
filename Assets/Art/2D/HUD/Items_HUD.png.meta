@@ -1,9 +1,27 @@
 fileFormatVersion: 2
 guid: 1a6e5e20657fd214f957f38bbce8e583
-timeCreated: 1496270438
+timeCreated: 1496320201
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Items_HUD_0
+    21300002: Items_HUD_1
+    21300004: Items_HUD_2
+    21300006: Items_HUD_3
+    21300008: Items_HUD_4
+    21300010: Items_HUD_5
+    21300012: Items_HUD_6
+    21300014: Items_HUD_7
+    21300016: Items_HUD_8
+    21300018: Items_HUD_9
+    21300020: Items_HUD_10
+    21300022: Items_HUD_11
+    21300024: Items_HUD_12
+    21300026: Items_HUD_13
+    21300028: Items_HUD_14
+    21300030: Items_HUD_15
+    21300032: Items_HUD_16
+    21300034: Items_HUD_17
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -28,13 +46,13 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: -1
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -44,7 +62,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
@@ -58,9 +76,251 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Items_HUD_0
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 798
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_1
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 802
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_2
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 800
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_3
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 800
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_4
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 800
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_5
+      rect:
+        serializedVersion: 2
+        x: 1351
+        y: 798
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_6
+      rect:
+        serializedVersion: 2
+        x: 1625
+        y: 800
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_7
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 539
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_8
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 539
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_9
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 532
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_10
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 532
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_11
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 532
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_12
+      rect:
+        serializedVersion: 2
+        x: 1357
+        y: 534
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_13
+      rect:
+        serializedVersion: 2
+        x: 1628
+        y: 535
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_14
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 275
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_15
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 275
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_16
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 273
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Items_HUD_17
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 268
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

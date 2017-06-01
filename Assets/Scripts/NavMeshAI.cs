@@ -56,6 +56,27 @@ public class NavMeshAI : MonoBehaviour
         var rotation = Quaternion.LookRotation(points[destPoint].position - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
 
+        Vector3 temp;
+        Vector3 myrotation;
+        Quaternion rotationN;
+
+        RaycastHit hit;
+        Debug.DrawRay(transform.position, -transform.up * 5f, Color.red);
+
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 2f))
+        {
+            if (hit.transform.gameObject.layer == 9)
+            {
+                temp = Vector3.Cross(hit.normal, transform.forward);
+                myrotation = Vector3.Cross(temp, hit.normal) * Time.deltaTime;
+                rotation = Quaternion.LookRotation(myrotation);
+                // transform.rotation = rotation;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 3f);
+                Debug.Log("Applying rotation");
+
+            }
+        }
+
         // Choose the next destination point when the agent gets
         // close to the current one.
 
@@ -82,14 +103,11 @@ public class NavMeshAI : MonoBehaviour
             ReleaseOffmeshLink();
         }
 
-
-
-
         //Vector3 relativePos = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
         //Quaternion rotation = Quaternion.LookRotation(relativePos);
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * camSpeed);
-
     }
+
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Turbo")

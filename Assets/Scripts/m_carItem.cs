@@ -16,8 +16,10 @@ public class m_carItem : MonoBehaviour {
     [SerializeField]
     private float carDefaultAcc = 10;
 
+    private PositionManager _positionManager;
     [SerializeField]
     public int myPosition;
+    bool keepChecking = true;
 
     //Banana
     [SerializeField]
@@ -40,7 +42,7 @@ public class m_carItem : MonoBehaviour {
     private float turboEffectDuration = 3;
     private bool turboReset = false;
     //TurboTriple
-    private int turbosUsed = 0;
+    public int turbosUsed = 0;
 
     //Rocket
     [SerializeField]
@@ -53,7 +55,7 @@ public class m_carItem : MonoBehaviour {
     private float rocketEffectDuration = 1;
     //TripleRocket
     [SerializeField]
-    private int rocketsShooted = 0;
+    public int rocketsShooted = 0;
 
     //Froze
     [SerializeField]
@@ -82,6 +84,9 @@ public class m_carItem : MonoBehaviour {
         // carController = GameObject.FindGameObjectWithTag("Kart").GetComponent<m_carController>();
         hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
         myRigidbody = carController.GetComponent<Rigidbody>();
+        _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+
+        //StartCoroutine(CheckLeaderboards());
     }
     // Update is called once per frame
     void Update()
@@ -90,6 +95,8 @@ public class m_carItem : MonoBehaviour {
         backSpawnVectorMiddle = backSpawnMiddle.transform.position;
         backSpawnVectorLast = backSpawnLast.transform.position;
         frontSpawnVector = frontSpawn.transform.position;
+
+        myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
 
         UpdateItems();
         IncreaseSpeedOnMoney();
@@ -212,22 +219,21 @@ public class m_carItem : MonoBehaviour {
         }
         if (currentPlayerObject == "straightrocket")
         {
-            //Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
-            //currentPlayerObject = "none";
             Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
+            currentPlayerObject = "none";
         }
 
         if (currentPlayerObject == "rockettracker")
         {
             GameObject rocketTracker = (GameObject)Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation) as GameObject;
             rocketTracker.GetComponent<HoamingRocket>().shooterListPosition = myPosition;
-            //currentPlayerObject = "none";
+            currentPlayerObject = "none";
         }
 
         if (currentPlayerObject == "rockettofirst")
         {
             Instantiate(Resources.Load("Items/RocketToFirst"), frontSpawnVector, frontSpawn.rotation);
-            //currentPlayerObject = "none";
+            currentPlayerObject = "none";
         }
 
         if (currentPlayerObject == "triplerocketstraight")
@@ -262,7 +268,7 @@ public class m_carItem : MonoBehaviour {
         {
             Debug.Log("Turbo");
             turboEffect = turboEffectDuration;
-            //currentPlayerObject = "none";
+            currentPlayerObject = "none";
         }
 
         if (currentPlayerObject == "tripleturbo")
@@ -465,4 +471,13 @@ public class m_carItem : MonoBehaviour {
             lapCountdown = 400;
         }
     }
+
+    //IEnumerator CheckLeaderboards()
+    //{
+    //    while (keepChecking)
+    //    {
+    //        myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
+    //        yield return new WaitForSeconds(1f);
+    //    }
+    //}
 }

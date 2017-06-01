@@ -12,14 +12,16 @@ public class m_carHUD : MonoBehaviour
     public Image positionImage;
     public Image currentLapImage;
 
-    public m_carItem car_Item;
+    private m_carItem car_Item;
+    private CarCheckPoints car_Checkpoint;
     public Sprite[] itemSpriteList;
     public Sprite[] numberSpriteList;
     public Sprite[] numberPosition;
     public Sprite[] currentLapSprite;
 
-    public Text currentPosition_Text, time_Text, currentLap_Text, totalLaps_Text, coins_Text;
-    private float currentPosition, time, secondsCount, minuteCount, milisecondsCount, currentLap;
+    public Text time_Text, totalLaps_Text, coins_Text;
+    private float time, secondsCount, minuteCount, milisecondsCount;
+    private int currentPosition;
 
     [SerializeField]
     private float totalLaps;
@@ -34,6 +36,8 @@ public class m_carHUD : MonoBehaviour
     void Start()
     {
         m_car = FindObjectOfType<m_carController>();
+        car_Item = FindObjectOfType<m_carItem>();
+        car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
     }
 
     void Update()
@@ -47,58 +51,12 @@ public class m_carHUD : MonoBehaviour
             UpdateTimerUI();
             UpdateItemUI();
         }
-        //Laps UI
-        currentPosition_Text.text = currentPosition.ToString();
 
-        if (currentPosition.ToString("1") != null)
-        {
-            positionImage.sprite = numberPosition[0];
-        }
-        else if (currentPosition.ToString("2") != null)
-        {
-            positionImage.sprite = numberPosition[1];
-        }
-        else if (currentPosition.ToString("3") != null)
-        {
-            positionImage.sprite = numberPosition[2];
-        }
-        else if (currentPosition.ToString("4") != null)
-        {
-            positionImage.sprite = numberPosition[3];
-        }
-        else if (currentPosition.ToString("5") != null)
-        {
-            positionImage.sprite = numberPosition[4];
-        }
-        else if (currentPosition.ToString("6") != null)
-        {
-            positionImage.sprite = numberPosition[5];
-        }
-        else if (currentPosition.ToString("7") != null)
-        {
-            positionImage.sprite = numberPosition[6];
-        }
-        else if (currentPosition.ToString("8") != null)
-        {
-            positionImage.sprite = numberPosition[7];
-        }
+        PositionIconUpdate();
+        UpdateLap();
 
-        currentLap = carCheckPoints.currentLap;
-        currentLap_Text.text = currentLap.ToString();
 
-        if (currentLap.ToString("1") != null)
-        {
-            currentLapImage.sprite = currentLapSprite[0];
-        }
-        else if (currentLap.ToString("2") != null)
-        {
-            currentLapImage.sprite = currentLapSprite[1];
-        }
-        else if (currentLap.ToString("3") != null)
-        {
-            currentLapImage.sprite = currentLapSprite[2];
-        }
-        totalLaps_Text.text = totalLaps.ToString();
+
         //Coins UI
         coins_Text.text = "Coins:" + car_Item.money.ToString();
 
@@ -126,58 +84,145 @@ public class m_carHUD : MonoBehaviour
 
     public void UpdateItemUI()
     {
-        if (car_Item.currentPlayerObject == "none")
+        if (car_Item.currentPlayerObject == "turbo")
         {
-            itemImage.sprite = itemSpriteList[0];
-            itemRandomCounter = 0;
+            itemImage.sprite = itemSpriteList[1];
         }
-        else
+        if (car_Item.currentPlayerObject == "turbo" && car_Item.turbosUsed == 2)
         {
-            itemRandomCounter += Time.deltaTime;
-
-          //  itemImage.sprite = itemSpriteList[randomItem];
-
-            if (itemRandomCounter >= 2)
-            {
-                //if (itemImage.sprite = itemSpriteList[1])
-                //{
-                //    car_Item.currentPlayerObject = "rocket";
-                //}
-                //else if (itemImage.sprite = itemSpriteList[2])
-                //{
-                //    car_Item.currentPlayerObject = "turbo";
-                //}
-                //else if (itemImage.sprite = itemSpriteList[3])
-                //{
-                //    car_Item.currentPlayerObject = "banana";
-                //}
-                //else if (itemImage.sprite = itemSpriteList[4])
-                //{
-                //    car_Item.currentPlayerObject = "coin";
-                //}
-                //if (car_Item.currentPlayerObject == "rocket")
-                //{
-                //    itemImage.sprite = itemSpriteList[1];
-                //}
-                //else if (car_Item.currentPlayerObject == "turbo")
-                //{
-                //    itemImage.sprite = itemSpriteList[2];
-                //}
-                //else if (car_Item.currentPlayerObject == "banana")
-                //{
-                //    itemImage.sprite = itemSpriteList[3];
-                //}
-                //else if (car_Item.currentPlayerObject == "coin")
-                //{
-                //    itemImage.sprite = itemSpriteList[4];
-                //}               
-            }         
-        }        
+            itemImage.sprite = itemSpriteList[2];
+        }
+        if (car_Item.currentPlayerObject == "tripleturbo")
+        {
+            itemImage.sprite = itemSpriteList[3];
+        }
+        if (car_Item.currentPlayerObject == "coin")
+        {
+            itemImage.sprite = itemSpriteList[4];
+        }
+        if (car_Item.currentPlayerObject == "banana")
+        {
+            itemImage.sprite = itemSpriteList[5];
+        }
+        if (car_Item.currentPlayerObject == "triplebanana")
+        {
+            itemImage.sprite = itemSpriteList[6];
+        }
+        if (car_Item.currentPlayerObject == "fakemysterybox")
+        {
+            itemImage.sprite = itemSpriteList[7];
+        }
+        if (car_Item.currentPlayerObject == "straightrocket")
+        {
+            itemImage.sprite = itemSpriteList[8];
+        }
+        if (car_Item.currentPlayerObject == "straightrocket" && car_Item.rocketsShooted == 2)
+        {
+            itemImage.sprite = itemSpriteList[9];
+        }
+        if (car_Item.currentPlayerObject == "triplerocketstraight")
+        {
+            itemImage.sprite = itemSpriteList[10];
+        }
+        if (car_Item.currentPlayerObject == "rockettracker")
+        {
+            itemImage.sprite = itemSpriteList[11];
+        }
+        if (car_Item.currentPlayerObject == "rockettracker" && car_Item.rocketsShooted == 2)
+        {
+            itemImage.sprite = itemSpriteList[12];
+        }
+        if (car_Item.currentPlayerObject == "triplerockettracker")
+        {
+            itemImage.sprite = itemSpriteList[13];
+        }
+        if (car_Item.currentPlayerObject == "rockettofirst")
+        {
+            itemImage.sprite = itemSpriteList[14];
+        }
+        if (car_Item.currentPlayerObject == "froze")
+        {
+            itemImage.sprite = itemSpriteList[15];
+        }
+        if (car_Item.currentPlayerObject == "rainbowPotion")
+        {
+            itemImage.sprite = itemSpriteList[16];
+        }
     }
+
+    public void UpdateLap()
+    {
+
+        if (car_Checkpoint.currentLap == 0)
+        {
+            currentLapImage.sprite = currentLapSprite[0];
+        }
+        if (car_Checkpoint.currentLap == 1)
+        {
+            currentLapImage.sprite = currentLapSprite[0];
+        }
+        if (car_Checkpoint.currentLap == 2)
+        {
+            currentLapImage.sprite = currentLapSprite[1];
+        }
+        if (car_Checkpoint.currentLap == 3)
+        {
+            currentLapImage.sprite = currentLapSprite[2];
+        }
+    }
+    //public void UpdateItemUI()
+    //{
+    //    if (car_Item.currentPlayerObject == "none")
+    //    {
+    //        itemImage.sprite = itemSpriteList[0];
+    //        itemRandomCounter = 0;
+    //    }
+    //    else
+    //    {
+    //        itemRandomCounter += Time.deltaTime;
+
+    //      //  itemImage.sprite = itemSpriteList[randomItem];
+
+    //        if (itemRandomCounter >= 2)
+    //        {
+    //            //if (itemImage.sprite = itemSpriteList[1])
+    //            //{
+    //            //    car_Item.currentPlayerObject = "rocket";
+    //            //}
+    //            //else if (itemImage.sprite = itemSpriteList[2])
+    //            //{
+    //            //    car_Item.currentPlayerObject = "turbo";
+    //            //}
+    //            //else if (itemImage.sprite = itemSpriteList[3])
+    //            //{
+    //            //    car_Item.currentPlayerObject = "banana";
+    //            //}
+    //            //else if (itemImage.sprite = itemSpriteList[4])
+    //            //{
+    //            //    car_Item.currentPlayerObject = "coin";
+    //            //}
+    //            //if (car_Item.currentPlayerObject == "rocket")
+    //            //{
+    //            //    itemImage.sprite = itemSpriteList[1];
+    //            //}
+    //            //else if (car_Item.currentPlayerObject == "turbo")
+    //            //{
+    //            //    itemImage.sprite = itemSpriteList[2];
+    //            //}
+    //            //else if (car_Item.currentPlayerObject == "banana")
+    //            //{
+    //            //    itemImage.sprite = itemSpriteList[3];
+    //            //}
+    //            //else if (car_Item.currentPlayerObject == "coin")
+    //            //{
+    //            //    itemImage.sprite = itemSpriteList[4];
+    //            //}               
+    //        }         
+    //    }        
+    //}
 
     void CountDown()
     {
-        
 
         countDown -= Time.deltaTime;
 
@@ -202,7 +247,7 @@ public class m_carHUD : MonoBehaviour
         }
         else if (countDown <= 0)
         {            
-            numberImage.sprite = numberSpriteList[3];
+            //numberImage.sprite = numberSpriteList[3];
             //numberSpriteList[2].border.Scale(new Vector4(1.2f, 1, 1, 1));
 
             if (Input.GetAxis("Vertical") == 1 || Input.GetButton("Accelerate"))
@@ -216,11 +261,51 @@ public class m_carHUD : MonoBehaviour
             }            
         }       
     }
-    void isRandomizing(Sprite[] intemSpriteList)
+
+    void IsRandomizing(Sprite[] intemSpriteList)
     {
 
     }
+
+    void PositionIconUpdate ()
+    {
+        //car_Item.myPosition = currentPosition;
+
+        if (car_Item.myPosition == 1)
+        {
+            positionImage.sprite = numberPosition[0];
+        }
+        if (car_Item.myPosition == 2)
+        {
+            positionImage.sprite = numberPosition[1];
+        }
+        if (car_Item.myPosition == 3)
+        {
+            positionImage.sprite = numberPosition[2];
+        }
+        if (car_Item.myPosition == 4)
+        {
+            positionImage.sprite = numberPosition[3];
+        }
+        if (car_Item.myPosition == 5)
+        {
+            positionImage.sprite = numberPosition[4];
+        }
+        if (car_Item.myPosition == 6)
+        {
+            positionImage.sprite = numberPosition[5];
+        }
+        if (car_Item.myPosition == 7)
+        {
+            positionImage.sprite = numberPosition[6];
+        }
+        if (car_Item.myPosition == 8)
+        {
+            positionImage.sprite = numberPosition[7];
+        }
+    }
 }
+
 
 public static class StringExt
 {

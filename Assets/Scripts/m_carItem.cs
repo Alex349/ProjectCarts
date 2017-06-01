@@ -212,8 +212,9 @@ public class m_carItem : MonoBehaviour {
         }
         if (currentPlayerObject == "straightrocket")
         {
-            Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
+            //Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
             //currentPlayerObject = "none";
+            Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
         }
 
         if (currentPlayerObject == "rockettracker")
@@ -391,7 +392,7 @@ public class m_carItem : MonoBehaviour {
         if (turboEffect > 0)
         {
             myRigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(myRigidbody.transform.forward.z)).normalized * 3, ForceMode.Acceleration);
-            Debug.Log("Turbo is on");
+
         }
 
 

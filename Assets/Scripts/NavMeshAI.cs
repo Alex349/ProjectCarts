@@ -110,8 +110,8 @@ public class NavMeshAI : MonoBehaviour
 
         //transform.up = upDir;
 
-        var rotation = Quaternion.LookRotation(points[destPoint].position - new Vector3(transform.position.x, transform.position.y -upDir, ));
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
+        //var rotation = Quaternion.LookRotation(points[destPoint].position - new Vector3(transform.position.x, transform.position.y -upDir, ));
+        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
     }
 
     void OnTriggerEnter(Collider col)

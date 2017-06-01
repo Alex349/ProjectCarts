@@ -188,7 +188,7 @@ public class m_carItem : MonoBehaviour {
         }
         else if (rnd < 0.6)
         {
-            currentPlayerObject = "rocket";
+            currentPlayerObject = "straightrocket";
         }
         else if (rnd < 1)
         {
@@ -210,7 +210,7 @@ public class m_carItem : MonoBehaviour {
         {
 
         }
-        if (currentPlayerObject == "rocketstraight")
+        if (currentPlayerObject == "straightrocket")
         {
             Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
             //currentPlayerObject = "none";

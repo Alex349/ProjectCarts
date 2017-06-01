@@ -4,8 +4,7 @@ using System.Collections;
 public class CarSmoothFollow : MonoBehaviour
 {
 
-    public Transform target, LeftDriftTarget, RightDriftTarget, animationTarget;
-    private Transform currentTarget;
+    public Transform target, LeftDriftTarget, RightDriftTarget;
     public float distance = 20.0f;
     public float height = 5.0f;
     public float heightDamping = 2.0f;
@@ -37,15 +36,11 @@ public class CarSmoothFollow : MonoBehaviour
     private float zVelocity = 0.0F;
 
     private m_carController m_kart;
-    public Animator kart_animator;
-
-    public float targetTime;
 
     void Start()
     {
         lookAtVector = new Vector3(0, lookAtHeight, 0);
         m_kart = FindObjectOfType<m_carController>();
-        currentTarget = target;
     }
 
     void FixedUpdate()
@@ -53,10 +48,10 @@ public class CarSmoothFollow : MonoBehaviour
         distanceToKart = parentObject.transform.position - transform.position;
 
         rotationSnapTime = 0.125f;
-        wantedHeight = currentTarget.position.y + height;
+        wantedHeight = target.position.y + height;
         currentHeight = transform.position.y;
 
-        wantedRotationAngle = currentTarget.eulerAngles.y;
+        wantedRotationAngle = target.eulerAngles.y;
         currentRotationAngle = transform.eulerAngles.y;
         
         currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);
@@ -71,7 +66,7 @@ public class CarSmoothFollow : MonoBehaviour
         }
         
 
-        wantedPosition = currentTarget.position;
+        wantedPosition = target.position;
         wantedPosition.y = currentHeight;
 
         usedDistance = Mathf.SmoothDampAngle(usedDistance, distance + (distanceToKart.magnitude * distanceMultiplier), ref zVelocity, distanceSnapTime);
@@ -80,29 +75,20 @@ public class CarSmoothFollow : MonoBehaviour
 
         transform.position = wantedPosition;
 
-        transform.LookAt(currentTarget.position + lookAtVector);
+        transform.LookAt(target.position + lookAtVector);
 
         if (m_kart.leftDrift)
         {
-            rotationSnapTime = 0.5f;
-            
-            transform.LookAt(Vector3.Lerp(currentTarget.position + lookAtVector, LeftDriftTarget.position + lookAtVector, 0.05f));
+            rotationSnapTime = 0.5f;            
+            transform.LookAt(Vector3.Lerp(target.position + lookAtVector, LeftDriftTarget.position + lookAtVector, 0.05f));
             
         }
         else if (m_kart.rightDrift)
         {
             rotationSnapTime = 0.5f;
-            transform.LookAt(Vector3.Lerp(currentTarget.position + lookAtVector, RightDriftTarget.position + lookAtVector, 0.05f));
+            transform.LookAt(Vector3.Lerp(target.position + lookAtVector, RightDriftTarget.position + lookAtVector, 0.05f));
             //transform.LookAt(RightDriftTarget.position + lookAtVector);
-        } 
-        //else if (kart_animator.GetBool("isKnockedUp") || kart_animator.GetBool("isSpinning"))
-        //{
-        //    currentTarget.position = Vector3.Lerp(currentTarget.position ,animationTarget.position, targetTime * Time.deltaTime);
-        //}
-        //else
-        //{
-        //    currentTarget.position = Vector3.Lerp(currentTarget.position, target.position, targetTime * Time.deltaTime);
-        //}
+        }         
     }
 
 }

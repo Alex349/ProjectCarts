@@ -11,7 +11,7 @@ public class IA_Item : MonoBehaviour
 
     public bool spin, knockUp, canUseItems;
     public float spinCountDown, knockUpCountDown, spinDuration = 1, knockUpDuration = 1;
-
+    private Animator anim;
     private float slipstream, slipstreamDuration, slipstreamCountDown;
     private PositionManager _positionManager;
     [SerializeField]
@@ -97,7 +97,7 @@ public class IA_Item : MonoBehaviour
         navmeshAI = GetComponent<NavMeshAI>();
         hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-
+        anim = GetComponentInChildren<Animator>();
         StartCoroutine(CheckLeaderboards());
 
         agent.speed = 10;
@@ -159,6 +159,11 @@ public class IA_Item : MonoBehaviour
 
         agent.speed = iADefaultSpeed;
         agent.acceleration = iADefaultAcc;
+
+        if (knockUpDuration < 0)
+        {
+            anim.SetBool("isKnockedUp", false);
+        }
 
         if (turboEffect < 0 && currentIAItem == "tripleturbo")
         {
@@ -238,25 +243,25 @@ public class IA_Item : MonoBehaviour
         if (other.tag == "Rocket")
         {
             Destroy(other.gameObject);
-
             if (knockUp == false)
             {
+                anim.SetBool("isKnockedUp", true);
                 knockUp = true;
                 knockUpCountDown = knockUpDuration;
                 turboEffectDuration = -1;
             }
+
         }
 
         if (other.tag == "FakeMysteryBox")
         {
             Destroy(other.gameObject);
-
             if (knockUp == false)
             {
+                anim.SetBool("isKnockedUp", true);
                 knockUp = true;
                 knockUpCountDown = knockUpDuration;
                 turboEffectDuration = -1;
-
             }
 
         }

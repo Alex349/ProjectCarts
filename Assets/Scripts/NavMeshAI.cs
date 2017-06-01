@@ -7,8 +7,7 @@ public class NavMeshAI : MonoBehaviour
 {
 
     public Transform path;
-    private List<Transform> points;
-    private List<Vector3> pointsVec;
+    public List<Transform> points;
 
     public int destPoint = 0;
     public float distanceToNextPoint;
@@ -25,6 +24,16 @@ public class NavMeshAI : MonoBehaviour
     [SerializeField]
     private float nodeRange = 10f;
 
+    public Transform backLeft;
+    public Transform backRight;
+    public Transform frontLeft;
+    public Transform frontRight;
+    public RaycastHit hit;
+    public RaycastHit lr;
+    public RaycastHit rr;
+    public RaycastHit lf;
+    public RaycastHit rf;
+    public Vector3 upDir;
 
     void Start()
     {
@@ -32,7 +41,7 @@ public class NavMeshAI : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         ia_Item = GetComponent<IA_Item>();
         link = null;
-        agent.updateRotation = false;
+        agent.updateRotation = true;
 
         agent.autoBraking = false;
 
@@ -52,30 +61,6 @@ public class NavMeshAI : MonoBehaviour
     void Update()
     {
         changeVelocityTimer -= Time.deltaTime;
-
-        var rotation = Quaternion.LookRotation(points[destPoint].position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
-
-        Vector3 temp;
-        Vector3 myrotation;
-        Quaternion rotationN;
-
-        RaycastHit hit;
-        Debug.DrawRay(transform.position, -transform.up * 5f, Color.red);
-
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 2f))
-        {
-            if (hit.transform.gameObject.layer == 9)
-            {
-                temp = Vector3.Cross(hit.normal, transform.forward);
-                myrotation = Vector3.Cross(temp, hit.normal) * Time.deltaTime;
-                rotation = Quaternion.LookRotation(myrotation);
-                // transform.rotation = rotation;
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 3f);
-                Debug.Log("Applying rotation");
-
-            }
-        }
 
         // Choose the next destination point when the agent gets
         // close to the current one.
@@ -106,6 +91,27 @@ public class NavMeshAI : MonoBehaviour
         //Vector3 relativePos = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
         //Quaternion rotation = Quaternion.LookRotation(relativePos);
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * camSpeed);
+
+        Physics.Raycast(backLeft.position + Vector3.up, Vector3.down, out lr);
+        Physics.Raycast(backRight.position + Vector3.up, Vector3.down, out rr);
+        Physics.Raycast(frontLeft.position + Vector3.up, Vector3.down, out lf);
+        Physics.Raycast(frontRight.position + Vector3.up, Vector3.down, out rf);
+
+        upDir = (Vector3.Cross(rr.point - Vector3.up, lr.point - Vector3.up) +
+                 Vector3.Cross(lr.point - Vector3.up, lf.point - Vector3.up) +
+                 Vector3.Cross(lf.point - Vector3.up, rf.point - Vector3.up) +
+                 Vector3.Cross(rf.point - Vector3.up, rr.point - Vector3.up)
+                ).normalized;
+
+        Debug.DrawRay(rr.point, Vector3.up);
+        Debug.DrawRay(lr.point, Vector3.up);
+        Debug.DrawRay(lf.point, Vector3.up);
+        Debug.DrawRay(rf.point, Vector3.up);
+
+        //transform.up = upDir;
+
+        //var rotation = Quaternion.LookRotation(points[destPoint].position - new Vector3(transform.position.x, transform.position.y -upDir, ));
+        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
     }
 
     void OnTriggerEnter(Collider col)

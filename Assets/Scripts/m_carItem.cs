@@ -7,7 +7,7 @@ public class m_carItem : MonoBehaviour {
 	public string currentPlayerObject = "none";
     private bool bananaDefending = false, triplebananaDefending = false, fakeboxDefending = false;
     public m_carController carController;
-    public Rigidbody myRigidbody;
+    private Rigidbody myRigidbody;
     public float money;
 
     //Defaults
@@ -81,6 +81,7 @@ public class m_carItem : MonoBehaviour {
     {
         // carController = GameObject.FindGameObjectWithTag("Kart").GetComponent<m_carController>();
         hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
+        myRigidbody = carController.GetComponent<Rigidbody>();
     }
     // Update is called once per frame
     void Update()
@@ -259,7 +260,6 @@ public class m_carItem : MonoBehaviour {
         if (currentPlayerObject == "turbo")
         {
             Debug.Log("Turbo");
-
             turboEffect = turboEffectDuration;
             //currentPlayerObject = "none";
         }
@@ -390,9 +390,8 @@ public class m_carItem : MonoBehaviour {
 
         if (turboEffect > 0)
         {
-            myRigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(myRigidbody.transform.forward.z)).normalized * carController.turboForce, ForceMode.Impulse);
+            myRigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(myRigidbody.transform.forward.z)).normalized * 3, ForceMode.Acceleration);
             Debug.Log("Turbo is on");
-
         }
 
 

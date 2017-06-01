@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 6c314c3567aa4414aa07276cb87a5619
-timeCreated: 1496274476
+guid: b4a02250356bfea46aa1e4ca10e4fa99
+timeCreated: 1496291209
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: CircuitCeilings
+    4300000: CircuitWalls
     9500000: //RootNode
   materials:
     importMaterials: 1

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class ToFirstRocket : MonoBehaviour {
 
     [SerializeField]
-    private float rocketSpeed = 20, rocketAcc = 80;
+    private float rocketSpeed = 20, rocketAcc = 80, selfDestruct = 10;
 
     private NavMeshAgent agent;
     public Transform target;
@@ -32,12 +32,20 @@ public class ToFirstRocket : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        selfDestruct -= Time.deltaTime;
         destination = target.position;
         agent.destination = destination;
 
         agent.speed = rocketSpeed;
         agent.acceleration = rocketAcc;
 
+        if (selfDestruct < 8)
+        {
+            Component[] shpheres;
+            shpheres = GetComponents(typeof(SphereCollider));
+            foreach (SphereCollider a in shpheres)
+                a.enabled = true;
+        }
     }
 
     void OnTriggerEnter(Collider col)

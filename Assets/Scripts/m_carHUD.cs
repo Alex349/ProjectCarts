@@ -84,6 +84,10 @@ public class m_carHUD : MonoBehaviour
 
     public void UpdateItemUI()
     {
+        if (car_Item.currentPlayerObject == "none")
+        {
+            itemImage.sprite = itemSpriteList[0];
+        }
         if (car_Item.currentPlayerObject == "turbo")
         {
             itemImage.sprite = itemSpriteList[1];

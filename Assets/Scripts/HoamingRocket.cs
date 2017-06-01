@@ -63,7 +63,10 @@ public class HoamingRocket : MonoBehaviour
 
         if (selfDestruct < 8)
         {
-            gameObject.GetComponent<SphereCollider>().enabled = true;
+            Component[] shpheres;
+            shpheres = GetComponents(typeof(SphereCollider));
+            foreach (SphereCollider a in shpheres)
+                a.enabled = true;
         }
 
     }

@@ -16,7 +16,6 @@ public class StraightRocket : MonoBehaviour
     void Start()
     {
         bulletBody = GetComponent<Rigidbody>();
-        bulletBody = GetComponent<Rigidbody>();
 
         bulletBody.AddForce(this.transform.forward * rocketSpeed) ;
 
@@ -49,6 +48,13 @@ public class StraightRocket : MonoBehaviour
         if (selfDestruct < 0)
         {
             Destroy(this.gameObject);
+        }
+        if (selfDestruct < 8)
+        {
+            Component[] shpheres;
+            shpheres = GetComponents(typeof(SphereCollider));
+            foreach (SphereCollider a in shpheres)
+                a.enabled = true;
         }
 
     }

@@ -22,7 +22,7 @@ public class wagonSpaner_Copy : MonoBehaviour
 
         if (currentTime > spawningTime)
         {
-            Instantiate(Resources.Load("Hazards/Barrel_Def 1"), startPoint.position, new Quaternion(0, 0, 0, 0));
+            Instantiate(Resources.Load("Hazards/Barrel_Def"), startPoint.position, new Quaternion(0, 0, 0, 0));
             currentTime = 0;
         }        
     }

@@ -49,7 +49,7 @@ public class StraightRocket : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        if (selfDestruct < 8)
+        if (selfDestruct < 9.5)
         {
             Component[] shpheres;
             shpheres = GetComponents(typeof(SphereCollider));

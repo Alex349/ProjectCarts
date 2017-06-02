@@ -246,6 +246,10 @@ public class m_carItem : MonoBehaviour {
         {
 
         }
+        if (currentPlayerObject == "rainbowPotion")
+        {
+            currentPlayerObject = "none";
+        }
         if (currentPlayerObject == "straightrocket")
         {
             Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);

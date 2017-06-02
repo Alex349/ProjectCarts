@@ -10,23 +10,43 @@ ModelImporter:
     100004: Checkpoint3_ceiling
     100006: Checkpoint4_Ceiling
     100008: //RootNode
+    100010: Checkpoint4_005
+    100012: Checkpoint4_006
+    100014: Checkpoint4_007
+    100016: Checkpoint4_4
     400000: Checkoint0_Ceiling
     400002: Checkpoint1_ceiling
     400004: Checkpoint3_ceiling
     400006: Checkpoint4_Ceiling
     400008: //RootNode
+    400010: Checkpoint4_005
+    400012: Checkpoint4_006
+    400014: Checkpoint4_007
+    400016: Checkpoint4_4
     2300000: Checkoint0_Ceiling
     2300002: Checkpoint1_ceiling
     2300004: Checkpoint3_ceiling
     2300006: Checkpoint4_Ceiling
+    2300008: Checkpoint4_005
+    2300010: Checkpoint4_006
+    2300012: Checkpoint4_007
+    2300014: Checkpoint4_4
     3300000: Checkoint0_Ceiling
     3300002: Checkpoint1_ceiling
     3300004: Checkpoint3_ceiling
     3300006: Checkpoint4_Ceiling
+    3300008: Checkpoint4_005
+    3300010: Checkpoint4_006
+    3300012: Checkpoint4_007
+    3300014: Checkpoint4_4
     4300000: Checkpoint1_ceiling
     4300002: Checkpoint4_Ceiling
     4300004: Checkoint0_Ceiling
     4300006: Checkpoint3_ceiling
+    4300008: Checkpoint4_4
+    4300010: Checkpoint4_005
+    4300012: Checkpoint4_006
+    4300014: Checkpoint4_007
   materials:
     importMaterials: 1
     materialName: 0

@@ -13,6 +13,10 @@ ModelImporter:
     100010: Checpoint3
     100012: //RootNode
     100014: Garden_Lados
+    100016: Checkpoint4_003
+    100018: Checkpoint4_004
+    100020: Checkpoint4_3
+    100022: Checkpoint4_4
     400000: Camino
     400002: CheckPoint0
     400004: Checkpoint1
@@ -21,6 +25,10 @@ ModelImporter:
     400010: Checpoint3
     400012: //RootNode
     400014: Garden_Lados
+    400016: Checkpoint4_003
+    400018: Checkpoint4_004
+    400020: Checkpoint4_3
+    400022: Checkpoint4_4
     2300000: Camino
     2300002: CheckPoint0
     2300004: Checkpoint1
@@ -28,6 +36,10 @@ ModelImporter:
     2300008: Checkpoint_3
     2300010: Checpoint3
     2300012: Garden_Lados
+    2300014: Checkpoint4_003
+    2300016: Checkpoint4_004
+    2300018: Checkpoint4_3
+    2300020: Checkpoint4_4
     3300000: Camino
     3300002: CheckPoint0
     3300004: Checkpoint1
@@ -35,6 +47,10 @@ ModelImporter:
     3300008: Checkpoint_3
     3300010: Checpoint3
     3300012: Garden_Lados
+    3300014: Checkpoint4_003
+    3300016: Checkpoint4_004
+    3300018: Checkpoint4_3
+    3300020: Checkpoint4_4
     4300000: Checkpoint2
     4300002: Checkpoint_3
     4300004: Checpoint3
@@ -42,6 +58,10 @@ ModelImporter:
     4300008: Checkpoint1
     4300010: Camino
     4300012: Garden_Lados
+    4300014: Checkpoint4_4
+    4300016: Checkpoint4_003
+    4300018: Checkpoint4_004
+    4300020: Checkpoint4_3
   materials:
     importMaterials: 1
     materialName: 0

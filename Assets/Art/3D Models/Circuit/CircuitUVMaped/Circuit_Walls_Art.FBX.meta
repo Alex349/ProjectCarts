@@ -11,27 +11,49 @@ ModelImporter:
     100006: Checkpoint3_walls
     100008: Checkpoint4
     100010: //RootNode
+    100012: Checkpoint4_1
+    100014: Checkpoint4_2
+    100016: Checpoint4_3
+    100018: Checpoint4_4
     400000: Checkpoint003
     400002: Checkpoint1_walls
     400004: Checkpoint2_walls
     400006: Checkpoint3_walls
     400008: Checkpoint4
     400010: //RootNode
+    400012: Checkpoint4_1
+    400014: Checkpoint4_2
+    400016: Checpoint4_3
+    400018: Checpoint4_4
     2300000: Checkpoint003
     2300002: Checkpoint1_walls
     2300004: Checkpoint2_walls
     2300006: Checkpoint3_walls
     2300008: Checkpoint4
+    2300010: //RootNode
+    2300012: Checkpoint4_1
+    2300014: Checkpoint4_2
+    2300016: Checpoint4_3
+    2300018: Checpoint4_4
     3300000: Checkpoint003
     3300002: Checkpoint1_walls
     3300004: Checkpoint2_walls
     3300006: Checkpoint3_walls
     3300008: Checkpoint4
+    3300010: //RootNode
+    3300012: Checkpoint4_1
+    3300014: Checkpoint4_2
+    3300016: Checpoint4_3
+    3300018: Checpoint4_4
     4300000: Checkpoint4
     4300002: Checkpoint1_walls
     4300004: Checkpoint2_walls
     4300006: Checkpoint3_walls
     4300008: Checkpoint003
+    4300010: Checpoint4_4
+    4300012: Checkpoint4_1
+    4300014: Checkpoint4_2
+    4300016: Checpoint4_3
   materials:
     importMaterials: 1
     materialName: 0

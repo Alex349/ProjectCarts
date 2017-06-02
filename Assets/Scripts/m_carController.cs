@@ -488,7 +488,7 @@ public class m_carController : MonoBehaviour
             {
                 Debug.Log("contravolant R");
                 m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
-                Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.green);
+                //Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.green);
 
                 m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                   m_rigidbody.transform.rotation.y - 10, 0.1f));
@@ -500,7 +500,7 @@ public class m_carController : MonoBehaviour
             {
                 Debug.Log("contravolant L");
                 m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
-                Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
+                //Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
 
                 m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                   m_rigidbody.transform.rotation.y + 10, 0.1f));
@@ -671,8 +671,8 @@ public class m_carController : MonoBehaviour
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") +
                                                       driftFrwd * 2) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") +
-                                                                       driftFrwd * 2) * driftForce, Color.yellow);
+                        //Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") +
+                        //                                               driftFrwd * 2) * driftForce, Color.yellow);
                     }                    
 
                     //else if (Input.GetAxis("Horizontal") == -1)
@@ -689,14 +689,14 @@ public class m_carController : MonoBehaviour
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward +
                                                       driftFrwd * 2) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward +
-                                                                       driftFrwd * 2) * driftForce, Color.yellow);
+                        //Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward +
+                        //                                               driftFrwd * 2) * driftForce, Color.yellow);
                     }
                     else if (Input.GetAxis("HorizontalXbox") == -1)
                     {
                         Debug.Log("contravolant R");
                         m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, ForceMode.Force);
-                        Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.green);
+                        //Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 - driftFrwd) * driftForce, Color.green);
 
                         m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                           m_rigidbody.transform.rotation.y - 10, 0.1f));
@@ -727,14 +727,14 @@ public class m_carController : MonoBehaviour
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * Input.GetAxis("Vertical") -
                                                       driftFrwd * 2) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") -
-                                                                        driftFrwd * 2) * driftForce, Color.black);
+                        //Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * Input.GetAxis("Vertical") -
+                        //                                                driftFrwd * 2) * driftForce, Color.black);
                     }
                     else if (Input.GetAxis("Horizontal") == 1)
                     {
                         Debug.Log("contravolant L");
                         m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
-                        Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
+                        //Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
 
                         m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                           m_rigidbody.transform.rotation.y + 10, 0.1f));
@@ -744,13 +744,13 @@ public class m_carController : MonoBehaviour
                     {
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward - driftFrwd) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward - driftFrwd) * driftForce, Color.black);
+                        //Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward - driftFrwd) * driftForce, Color.black);
                     }                   
                     else if (Input.GetAxis("HorizontalXbox") == 1)
                     {
                         Debug.Log("contravolant L");
                         m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
-                        Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
+                        //Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward * 2 + driftFrwd) * driftForce, Color.magenta);
 
                         m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                           m_rigidbody.transform.rotation.y + 10, 0.1f));

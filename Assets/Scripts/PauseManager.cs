@@ -7,7 +7,7 @@ public class PauseManager : MonoBehaviour {
 
     public GameObject PauseScreen;
     public Image pauseImage;
-    public GameObject[] m_HUD;
+    public GameObject m_HUD;
     public bool CanPause;
 
     void Start ()
@@ -21,10 +21,8 @@ public class PauseManager : MonoBehaviour {
         {
             if (CanPause)
             {
-                for (int i = 0; i < m_HUD.Length; i++)
-                {
-                    m_HUD[i].SetActive(false);
-                }
+                m_HUD.SetActive(false);
+
                 Debug.Log("pause");
                 Time.timeScale = 0;
                 CanPause = false;
@@ -34,10 +32,8 @@ public class PauseManager : MonoBehaviour {
             }
             else
             {
-                for (int i = 0; i < m_HUD.Length; i++)
-                {
-                    m_HUD[i].SetActive(true);
-                }
+                m_HUD.SetActive(true);
+
                 Debug.Log("Running");
                 Time.timeScale = 1;
                 CanPause = true;

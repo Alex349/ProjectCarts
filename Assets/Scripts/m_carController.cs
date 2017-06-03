@@ -78,6 +78,8 @@ public class m_carController : MonoBehaviour
     public TrailRenderer wheelBRTrail, wheelBLTrail;
     public float knockUpForce, slipperyForce;
     private bool canTurn, notDriftingXbox, canTurbo;
+    public GameObject particleSystemBLWheel, particleSystemBRWheel;
+    public Material sparkMaterialYellow, sparkMaterialBlue;
 
     void Start()
     {
@@ -92,6 +94,8 @@ public class m_carController : MonoBehaviour
         wheelBLTrail.enabled = false;
         wheelBRTrail.enabled = false;
 
+        particleSystemBLWheel.SetActive(false);
+        particleSystemBRWheel.SetActive(false);
     }
 
     public float Speed()
@@ -248,6 +252,9 @@ public class m_carController : MonoBehaviour
         if (driveMode == DriveMode.Stopped)
         {
             maxSpeed = 0;
+            Drifting = false;
+            rightDrift = false;
+            leftDrift = false;
 
             if ((Input.GetAxis("Vertical") > 0 || Input.GetButton("Accelerate")) && !Drifting)
             {
@@ -330,7 +337,8 @@ public class m_carController : MonoBehaviour
             }
         }
 
-        if ((isSpaceDown || isDriftingXbox) && (Input.GetAxis("Horizontal") < -0.5f || Input.GetAxis("Horizontal") > 0.5f))            
+        if ((isSpaceDown || isDriftingXbox) && (Input.GetAxis("Horizontal") < -0.5f || Input.GetAxis("Horizontal") > 0.5f)
+            && (Input.GetAxis("Vertical") > 0 || inputAcc == 1))            
         {                       
             if (!Drifting && driftDelay >= 0.9f)
             {
@@ -478,11 +486,14 @@ public class m_carController : MonoBehaviour
             {
                 turnRadius = frontTurnRadius;
             }
+            particleSystemBLWheel.SetActive(false);
+            particleSystemBRWheel.SetActive(false);
 
-            wheelBLTrail.startColor = Color.red;
-            wheelBRTrail.startColor = Color.red;
-            wheelBLTrail.endColor = Color.black;
-            wheelBRTrail.endColor = Color.black;
+
+            //wheelBLTrail.startColor = Color.red;
+            //wheelBRTrail.startColor = Color.red;
+            //wheelBLTrail.endColor = Color.black;
+            //wheelBRTrail.endColor = Color.black;
 
             if (Input.GetAxis("Vertical") < 0)
             {
@@ -550,27 +561,17 @@ public class m_carController : MonoBehaviour
 
             turnRadius = rearTurnRadius;
 
-            if (Input.GetAxis("Vertical") > 0)
-            {
-                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(transform.forward.z)).normalized * currentAcc * 2, ForceMode.Acceleration);
-
-                if (currentSpeed <= 0.5f)
-                {
-                    driveMode = DriveMode.Front;
-                }
-                else
-                {
-                    driveMode = DriveMode.Rear;
-                }
-            }
+            particleSystemBLWheel.SetActive(false);
+            particleSystemBRWheel.SetActive(false);
         }
 
         if (driveMode == DriveMode.Drift)
         {
             Drifting = true;
 
-            wheelBLTrail.enabled = true;
-            wheelBRTrail.enabled = true;
+            //wheelBLTrail.enabled = true;
+            //wheelBRTrail.enabled = true;
+            
 
             driftFrwd = m_rigidbody.transform.right;            
 
@@ -627,10 +628,10 @@ public class m_carController : MonoBehaviour
             {
                 if (driftCounter <= 0 && isSpaceDown)
                 {
-                    wheelBLTrail.startColor = Color.blue;
-                    wheelBRTrail.startColor = Color.blue;
-                    wheelBLTrail.endColor = Color.blue;
-                    wheelBRTrail.endColor = Color.blue;
+                   //wheelBLTrail.startColor = Color.blue;
+                   //wheelBRTrail.startColor = Color.blue;
+                   //wheelBLTrail.endColor = Color.blue;
+                   //wheelBRTrail.endColor = Color.blue;
 
                     canTurbo = true;
                 }
@@ -668,10 +669,10 @@ public class m_carController : MonoBehaviour
             {
                 if (driftCounter <= 0 && isDriftingXbox)
                 {
-                    wheelBLTrail.startColor = Color.blue;
-                    wheelBRTrail.startColor = Color.blue;
-                    wheelBLTrail.endColor = Color.blue;
-                    wheelBRTrail.endColor = Color.blue;
+                    //wheelBLTrail.startColor = Color.blue;
+                    //wheelBRTrail.startColor = Color.blue;
+                    //wheelBLTrail.endColor = Color.blue;
+                    //wheelBRTrail.endColor = Color.blue;
 
                     canTurbo = true;
 
@@ -704,7 +705,42 @@ public class m_carController : MonoBehaviour
                         driveMode = DriveMode.Front;
                     }
                 }
-            }                
+            }
+
+            particleSystemBLWheel.SetActive(true);
+            particleSystemBRWheel.SetActive(true);
+
+            if (particleSystemBLWheel.activeInHierarchy)
+            {
+                ParticleSystem m_PSBackLeft = particleSystemBLWheel.GetComponent<ParticleSystem>();
+                ParticleSystem m_PSBackRight = particleSystemBRWheel.GetComponent<ParticleSystem>();
+
+                Light lightBL = particleSystemBLWheel.GetComponent<Light>();
+                Light lightBR = particleSystemBRWheel.GetComponent<Light>();
+
+                m_PSBackLeft.GetComponent<Renderer>().material = null;
+                m_PSBackRight.GetComponent<Renderer>().material = null;
+
+                m_PSBackLeft.Play();
+                m_PSBackRight.Play();
+                
+                if (driftCounter <= 0)
+                {                   
+                    m_PSBackLeft.GetComponent<Renderer>().material = sparkMaterialBlue;
+                    m_PSBackRight.GetComponent<Renderer>().material = sparkMaterialBlue;
+
+                    lightBL.color = Color.red;
+                    lightBR.color = Color.red;
+                }
+                else
+                {
+                    m_PSBackLeft.GetComponent<Renderer>().material = sparkMaterialYellow;
+                    m_PSBackRight.GetComponent<Renderer>().material = sparkMaterialYellow;
+
+                    lightBL.color = Color.yellow;
+                    lightBR.color = Color.yellow;
+                }
+            }
 
             Sfire[0].Play();
             Sfire[1].Play();
@@ -967,11 +1003,6 @@ public class m_carController : MonoBehaviour
         if (col.tag == "RoughFloor")
         {
             maxSpeed = 10;
-
-            wheelBLTrail.startColor = Color.green;
-            wheelBLTrail.endColor = Color.green;
-            wheelBRTrail.startColor = Color.green;
-            wheelBRTrail.endColor = Color.green;
         }
         
         if (col.tag == "IA")
@@ -987,39 +1018,7 @@ public class m_carController : MonoBehaviour
         if (col.tag == "Cheese" || col.tag == "Ramp")
         {
             m_rigidbody.AddRelativeForce(new Vector3(col.gameObject.transform.rotation.y, 0, 0) * 5, ForceMode.Force);
-            //forwardFriction
-            //wheelBLDriftFriction = wheelBL.forwardFriction;
-            //wheelBLFrontFriction.stiffness = 3;
-            //wheelBL.forwardFriction = wheelBLFrontFriction;
-            //
-            //wheelBRFrontFriction = wheelBR.forwardFriction;
-            //wheelBRFrontFriction.stiffness = 3;
-            //wheelBR.forwardFriction = wheelBRFrontFriction;
-            //
-            //wheelFLFrontFriction = wheelFL.forwardFriction;
-            //wheelFLFrontFriction.stiffness = 3;
-            //wheelFL.forwardFriction = wheelFLFrontFriction;
-            //
-            //wheelFRFrontFriction = wheelFR.forwardFriction;
-            //wheelFRFrontFriction.stiffness = 3;
-            //wheelFR.forwardFriction = wheelFRFrontFriction;
-            //
-            ////sideawaysFriction
-            //wheelBRDriftFriction = wheelBR.sidewaysFriction;
-            //wheelBRDriftFriction.stiffness = 3;
-            //wheelBR.sidewaysFriction = wheelBRDriftFriction;
-            //
-            //wheelBLDriftFriction = wheelBL.sidewaysFriction;
-            //wheelBLDriftFriction.stiffness = 3;
-            //wheelBL.sidewaysFriction = wheelBLDriftFriction;
-            //
-            //wheelFLDriftFriction = wheelFL.sidewaysFriction;
-            //wheelFLDriftFriction.stiffness = 3;
-            //wheelFL.sidewaysFriction = wheelFLDriftFriction;
-            //
-            //wheelFRDriftFriction = wheelFR.sidewaysFriction;
-            //wheelFRDriftFriction.stiffness = 3;
-            //wheelFR.sidewaysFriction = wheelFRDriftFriction;
+            
         }
     }
     void OnTriggerExit(Collider col)
@@ -1032,10 +1031,6 @@ public class m_carController : MonoBehaviour
         {
             maxSpeed = frontMaxSpeed;
 
-            wheelBLTrail.startColor = Color.gray;
-            wheelBLTrail.endColor = Color.gray;
-            wheelBRTrail.startColor = Color.gray;
-            wheelBRTrail.endColor = Color.gray;
         }       
     }
 

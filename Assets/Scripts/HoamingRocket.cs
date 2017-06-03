@@ -7,9 +7,8 @@ public class HoamingRocket : MonoBehaviour
 {
 
     [SerializeField]
-    private float rocketSpeed = 20, rocketAcc = 80, selfDestruct = 10;
-    [SerializeField]
-    private float rocketBounces;
+    private float rocketSpeed = 20, rocketAcc = 80, selfDestruct = 10, triggerDelay;
+
     public int targetListPosition, shooterListPosition;
     Vector3 myTransform;
 
@@ -22,7 +21,7 @@ public class HoamingRocket : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        triggerDelay = selfDestruct - 1;
         agent = GetComponent<NavMeshAgent>();
 
         myTransform = this.transform.position;
@@ -50,18 +49,12 @@ public class HoamingRocket : MonoBehaviour
         agent.speed = rocketSpeed;
         agent.acceleration = rocketAcc;
 
-
-        if (rocketBounces >= 5)
-        {
-            Destroy(this.gameObject);
-        }
-
         if (selfDestruct < 0)
         {
             Destroy(this.gameObject);
         }
 
-        if (selfDestruct < 8)
+        if (selfDestruct < triggerDelay)
         {
             Component[] shpheres;
             shpheres = GetComponents(typeof(SphereCollider));
@@ -82,10 +75,5 @@ public class HoamingRocket : MonoBehaviour
             Destroy(this.gameObject);
             Destroy(col.gameObject);
         }
-    }
-    void OnCollisionEnter(Collision collision)
-    {
-        rocketBounces++;
-
     }
 }

@@ -12,22 +12,21 @@ public class ToFirstRocket : MonoBehaviour {
     public Transform target;
     private Vector3 destination;
 
-    private PositionManager _positionManager;
+    public float scaleSpeed = 2.0f;
 
+    private PositionManager _positionManager;
 
     // Use this for initialization
     void Start()
     {
 
         agent = GetComponent<NavMeshAgent>();
-
+        agent.updateRotation = false;
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
 
         target = _positionManager.racersGO[0].transform;
         destination = agent.destination;
-
-
-    }
+            }
 
     // Update is called once per frame
     void Update()
@@ -46,6 +45,10 @@ public class ToFirstRocket : MonoBehaviour {
             foreach (SphereCollider a in shpheres)
                 a.enabled = true;
         }
+        if (transform.localScale.x < 1)
+        {
+            IncreaseOnTime();
+        }
     }
 
     void OnTriggerEnter(Collider col)
@@ -58,5 +61,10 @@ public class ToFirstRocket : MonoBehaviour {
         {
             Destroy(col.gameObject);
         }
+    }
+
+    void IncreaseOnTime ()
+    {
+        transform.localScale += Vector3.one * scaleSpeed * Time.deltaTime;
     }
 }

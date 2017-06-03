@@ -28,7 +28,6 @@ public class CheckPoints : MonoBehaviour {
         //Is it the Player who enters the collider?
         if (other.CompareTag("Player") || other.CompareTag("Kart"))
         {
-            Debug.Log("Assign");
             playerTransform = other.GetComponent<Transform>();
             carCheckPoints = other.GetComponent<CarCheckPoints>();
 

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e882ad3d8d3e38f49a0dfe4e05ab1c91
-timeCreated: 1496323366
+timeCreated: 1496487237
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -368,10 +368,10 @@ TextureImporter:
       name: HUD_SpriteSheet_B_20
       rect:
         serializedVersion: 2
-        x: 660
-        y: 622
-        width: 122
-        height: 212
+        x: 635
+        y: 629
+        width: 169
+        height: 208
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -381,10 +381,10 @@ TextureImporter:
       name: HUD_SpriteSheet_B_21
       rect:
         serializedVersion: 2
-        x: 810
-        y: 624
-        width: 122
-        height: 212
+        x: 792
+        y: 629
+        width: 169
+        height: 208
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

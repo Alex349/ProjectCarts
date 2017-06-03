@@ -12,7 +12,7 @@ public class m_carHUD : MonoBehaviour
     public Image positionImage;
     public Image currentLapImage;
 
-    private m_carItem car_Item;
+    public m_carItem car_Item;
     private CarCheckPoints car_Checkpoint;
     public Sprite[] itemSpriteList;
     public Sprite[] numberSpriteList;
@@ -38,6 +38,7 @@ public class m_carHUD : MonoBehaviour
         m_car = FindObjectOfType<m_carController>();
         car_Item = FindObjectOfType<m_carItem>();
         car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+        InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
     }
 
     void Update()
@@ -52,13 +53,23 @@ public class m_carHUD : MonoBehaviour
             UpdateItemUI();
         }
 
-        PositionIconUpdate();
+        //PositionIconUpdate();
         UpdateLap();
 
 
 
         //Coins UI
-        coins_Text.text = "Coins:" + car_Item.money.ToString();
+        coins_Text.text = car_Item.money.ToString();
+
+        if (coins_Text.text == "10")
+        {
+            coins_Text.color = Color.blue; 
+        }
+        else 
+        {
+            coins_Text.color = Color.white;
+        }
+
 
         randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
     }
@@ -88,15 +99,15 @@ public class m_carHUD : MonoBehaviour
         {
             itemImage.sprite = itemSpriteList[0];
         }
-        if (car_Item.currentPlayerObject == "turbo")
+        if (car_Item.currentPlayerObject == "turbo" || (car_Item.currentPlayerObject == "tripleturbo" && car_Item.turbosUsed == 2))
         {
             itemImage.sprite = itemSpriteList[1];
         }
-        if (car_Item.currentPlayerObject == "turbo" && car_Item.turbosUsed == 2)
+        if (car_Item.currentPlayerObject == "tripleturbo" && car_Item.turbosUsed == 1)
         {
             itemImage.sprite = itemSpriteList[2];
         }
-        if (car_Item.currentPlayerObject == "tripleturbo")
+        if (car_Item.currentPlayerObject == "tripleturbo" && car_Item.turbosUsed == 0)
         {
             itemImage.sprite = itemSpriteList[3];
         }
@@ -116,27 +127,27 @@ public class m_carHUD : MonoBehaviour
         {
             itemImage.sprite = itemSpriteList[7];
         }
-        if (car_Item.currentPlayerObject == "straightrocket")
+        if (car_Item.currentPlayerObject == "straightrocket" || (car_Item.currentPlayerObject == "triplerocketstraight" && car_Item.rocketsShooted == 2))
         {
             itemImage.sprite = itemSpriteList[8];
         }
-        if (car_Item.currentPlayerObject == "straightrocket" && car_Item.rocketsShooted == 2)
+        if (car_Item.currentPlayerObject == "triplerocketstraight" && car_Item.rocketsShooted == 1)
         {
             itemImage.sprite = itemSpriteList[9];
         }
-        if (car_Item.currentPlayerObject == "triplerocketstraight")
+        if (car_Item.currentPlayerObject == "triplerocketstraight" && car_Item.rocketsShooted == 0)
         {
             itemImage.sprite = itemSpriteList[10];
         }
-        if (car_Item.currentPlayerObject == "rockettracker")
+        if (car_Item.currentPlayerObject == "rockettracker" || (car_Item.currentPlayerObject == "triplerockettracker" && car_Item.rocketsShooted == 2))
         {
             itemImage.sprite = itemSpriteList[11];
         }
-        if (car_Item.currentPlayerObject == "rockettracker" && car_Item.rocketsShooted == 2)
+        if (car_Item.currentPlayerObject == "triplerockettracker" && car_Item.rocketsShooted == 1)
         {
             itemImage.sprite = itemSpriteList[12];
         }
-        if (car_Item.currentPlayerObject == "triplerockettracker")
+        if (car_Item.currentPlayerObject == "triplerockettracker" && car_Item.rocketsShooted == 0)
         {
             itemImage.sprite = itemSpriteList[13];
         }
@@ -174,56 +185,6 @@ public class m_carHUD : MonoBehaviour
             currentLapImage.sprite = currentLapSprite[2];
         }
     }
-    //public void UpdateItemUI()
-    //{
-    //    if (car_Item.currentPlayerObject == "none")
-    //    {
-    //        itemImage.sprite = itemSpriteList[0];
-    //        itemRandomCounter = 0;
-    //    }
-    //    else
-    //    {
-    //        itemRandomCounter += Time.deltaTime;
-
-    //      //  itemImage.sprite = itemSpriteList[randomItem];
-
-    //        if (itemRandomCounter >= 2)
-    //        {
-    //            //if (itemImage.sprite = itemSpriteList[1])
-    //            //{
-    //            //    car_Item.currentPlayerObject = "rocket";
-    //            //}
-    //            //else if (itemImage.sprite = itemSpriteList[2])
-    //            //{
-    //            //    car_Item.currentPlayerObject = "turbo";
-    //            //}
-    //            //else if (itemImage.sprite = itemSpriteList[3])
-    //            //{
-    //            //    car_Item.currentPlayerObject = "banana";
-    //            //}
-    //            //else if (itemImage.sprite = itemSpriteList[4])
-    //            //{
-    //            //    car_Item.currentPlayerObject = "coin";
-    //            //}
-    //            //if (car_Item.currentPlayerObject == "rocket")
-    //            //{
-    //            //    itemImage.sprite = itemSpriteList[1];
-    //            //}
-    //            //else if (car_Item.currentPlayerObject == "turbo")
-    //            //{
-    //            //    itemImage.sprite = itemSpriteList[2];
-    //            //}
-    //            //else if (car_Item.currentPlayerObject == "banana")
-    //            //{
-    //            //    itemImage.sprite = itemSpriteList[3];
-    //            //}
-    //            //else if (car_Item.currentPlayerObject == "coin")
-    //            //{
-    //            //    itemImage.sprite = itemSpriteList[4];
-    //            //}               
-    //        }         
-    //    }        
-    //}
 
     void CountDown()
     {
@@ -273,8 +234,6 @@ public class m_carHUD : MonoBehaviour
 
     void PositionIconUpdate ()
     {
-        //car_Item.myPosition = currentPosition;
-
         if (car_Item.myPosition == 1)
         {
             positionImage.sprite = numberPosition[0];

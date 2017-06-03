@@ -405,7 +405,6 @@ public class m_carItem : MonoBehaviour {
 
         if (bananaEffect < 0 && bananaEffect > -0.1f) //&& startRaceCooldown < 0
         {
-
             carController.frontMaxSpeed = 17f;
         }
 

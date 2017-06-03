@@ -36,11 +36,13 @@ public class CarSmoothFollow : MonoBehaviour
     private float zVelocity = 0.0F;
 
     private m_carController m_kart;
+    private Camera thisCamera;
 
     void Start()
     {
         lookAtVector = new Vector3(0, lookAtHeight, 0);
         m_kart = FindObjectOfType<m_carController>();
+        thisCamera = GetComponent<Camera>();
     }
 
     void FixedUpdate()
@@ -88,7 +90,20 @@ public class CarSmoothFollow : MonoBehaviour
             rotationSnapTime = 0.5f;
             transform.LookAt(Vector3.Lerp(target.position + lookAtVector, RightDriftTarget.position + lookAtVector, 0.05f));
             //transform.LookAt(RightDriftTarget.position + lookAtVector);
-        }         
+        }
+        if (m_kart.currentSpeed > m_kart.frontMaxSpeed - 2)
+        {
+            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 50, 1f * Time.deltaTime);
+        }
+        else if (m_kart.currentSpeed >= 25)
+        {
+            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 70, 1f * Time.deltaTime);
+        }
+        else if (thisCamera.fieldOfView > 45 && m_kart.currentSpeed < m_kart.frontMaxSpeed - 2)
+        {
+            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 50, 1f * Time.deltaTime);
+        }
+                 
     }
 
 }

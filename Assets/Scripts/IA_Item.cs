@@ -188,30 +188,12 @@ public class IA_Item : MonoBehaviour
         UpdateItems();
         IncreaseSpeedOnMoney();
 
-        if (currentIAItem == "banana" )
+
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            UseBanana();
-            ReleaseBanana();
+            UseItem();
         }
-        else if (currentIAItem == "triplebanana")
-        {
-            UseTripleBanana();
-            ReleaseTripleBanana();
-            currentIAItem = "none";
-        }
-        else if (currentIAItem == "fakemysterybox")
-        {
-            UseFakeBox();
-            ReleaseFakeBox();
-            currentIAItem = "none";
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                UseItem();
-            }
-        }
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -219,7 +201,6 @@ public class IA_Item : MonoBehaviour
         if (other.tag == "MysteryBox")
         {
             Destroy(other.gameObject);
-
             if (currentIAItem == "none")
             {
                 GetRandomItem();
@@ -286,33 +267,65 @@ public class IA_Item : MonoBehaviour
     {
         float rnd = (Random.Range(0f, 1f));
 
-        if (rnd < 0.2)
+        if (rnd < 0.05)
+        {
+            currentIAItem = "        triplebanana";
+        }
+        if (rnd < 0.15)
         {
             currentIAItem = "banana";
         }
-        else if (rnd < 0.4)
+        else if (rnd < 0.2)
+        {
+            currentIAItem = "tripleturbo";
+        }
+        else if (rnd < 0.3)
         {
             currentIAItem = "turbo";
         }
+        else if (rnd < 0.4)
+        {
+            currentIAItem = "straightrocket";
+        }
+        else if (rnd < 0.5)
+        {
+            currentIAItem = "rockettracker";
+        }
+        else if (rnd < 0.55)
+        {
+            currentIAItem = "rockettofirst";
+        }
         else if (rnd < 0.6)
         {
-            currentIAItem = "rocket";
+            currentIAItem = "triplerocketstraight";
+        }
+        else if (rnd < 0.65)
+        {
+            currentIAItem = "triplerockettracker";
+        }
+        else if (rnd < 0.75)
+        {
+            currentIAItem = "fakemysterybox";
+        }
+        else if (rnd < 0.85)
+        {
+            currentIAItem = "rainbowPotion";
+        }
+        else if (rnd < 0.90)
+        {
+            currentIAItem = "froze";
         }
         else if (rnd < 1)
         {
             if (money > 10)
             {
-                currentIAItem = "none";
+                currentIAItem = "coin";
             }
             else
             {
                 currentIAItem = "none";
 
             }
-        }
-        else
-        {
-
         }
     }
 
@@ -322,7 +335,7 @@ public class IA_Item : MonoBehaviour
         {
 
         }
-        if (currentIAItem == "rocketstraight")
+        if (currentIAItem == "straightrocket")
         {
             Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
             currentIAItem = "none";
@@ -409,6 +422,23 @@ public class IA_Item : MonoBehaviour
             }
 
         }
+
+        if (currentIAItem == "banana")
+        {
+            UseBanana();
+            ReleaseBanana();
+        }
+        if (currentIAItem == "triplebanana")
+        {
+            UseTripleBanana();
+            ReleaseTripleBanana();
+        }
+        if (currentIAItem == "fakemysterybox")
+        {
+            UseFakeBox();
+            ReleaseFakeBox();
+            currentIAItem = "none";
+        }
     }
 
     void UseBanana()
@@ -463,7 +493,7 @@ public class IA_Item : MonoBehaviour
 
     void UpdateItems()
     {
-       
+
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
 
@@ -495,18 +525,20 @@ public class IA_Item : MonoBehaviour
             }
 
             thePlayer = GameObject.FindWithTag("Player");
+            thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX;
 
             for (int i = 0; i < karts.Count; i++)
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeAcc;
+                karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
                 Debug.Log(karts[i].GetComponent<IA_Item>().name);
             }
 
         }
 
-        if (frozeEffect < 0 && frozeEffect > 0.5f) //&& startRaceCooldown < 0
+        if (frozeEffect < 0 && frozeEffect > -0.5f) //&& startRaceCooldown < 0
         {
             List<GameObject> karts = new List<GameObject>();
 
@@ -520,17 +552,11 @@ public class IA_Item : MonoBehaviour
             for (int i = 0; i < karts.Count; i++)
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
+                karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             }
             Debug.Log("Unfreez");
-            thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        }
-
-        if (frozeEffect < 0)
-        {
-
             thePlayer = GameObject.FindWithTag("Player");
-            //OPTIMIZE
-            //Debug.Log("Unfreez");
+            thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class m_carItem : MonoBehaviour {
 
@@ -78,6 +79,7 @@ public class m_carItem : MonoBehaviour {
     private string lap1Time, lap2Time, lap3Time;
     private float lapCountdown;
     private HudManager hudManager;
+    public Image[] cakeStains;
 
     void Start()
     {
@@ -85,6 +87,10 @@ public class m_carItem : MonoBehaviour {
         myRigidbody = carController.GetComponent<Rigidbody>();
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
 
+        cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
+
+        foreach (Image img in cakeStains)
+            img.enabled = false;
     }
     // Update is called once per frame
     void Update()
@@ -167,13 +173,6 @@ public class m_carItem : MonoBehaviour {
             Destroy(other.gameObject);
 
             bananaEffect = bananaEffectDuration;
-
-            if (bananaEffect > 0)
-            {
-                Debug.Log("Slowed");
-                //carController.maxSpeed = bananaSlowedSpeed;
-                carController.currentAcc = bananaSlowedAcc;
-            }
         }
 
     }   
@@ -312,7 +311,6 @@ public class m_carItem : MonoBehaviour {
 
             if (turbosUsed >= 3)
             {
-                Debug.Log("NoMoreTurvos");
                 currentPlayerObject = "none";
                 turbosUsed = 0;
             }
@@ -402,10 +400,19 @@ public class m_carItem : MonoBehaviour {
             Debug.Log("Bananed");
            carController.frontMaxSpeed = carController.frontMaxSpeed * 0.5f;
         }
+        if (bananaEffect > 0)
+        {
+            foreach (Image img in cakeStains)
+                img.enabled = true;
+
+            carController.currentAcc = bananaSlowedAcc;
+
+        }
 
         if (bananaEffect < 0 && bananaEffect > -0.1f) //&& startRaceCooldown < 0
         {
-
+            foreach (Image img in cakeStains)
+                img.enabled = false;
             carController.frontMaxSpeed = 17f;
         }
 
@@ -453,15 +460,16 @@ public class m_carItem : MonoBehaviour {
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeAcc;
+                karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
                 Debug.Log(karts[i].GetComponent<IA_Item>().name);
             }
-
+            Debug.Log("Froze");
         }
 
-        if (frozeEffect < 0 && frozeEffect > 0.1f) //&& startRaceCooldown < 0
+        if (frozeEffect < 0 && frozeEffect > -0.1f) //&& startRaceCooldown < 0
         {
             List<GameObject> karts = new List<GameObject>();
-
+            Debug.Log("Defroze");
             foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
             {
                 if (kart.Equals(this.gameObject))
@@ -472,6 +480,7 @@ public class m_carItem : MonoBehaviour {
             for (int i = 0; i < karts.Count; i++)
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
+                karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             }
         }
     }

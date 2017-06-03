@@ -21,7 +21,7 @@ public class MenuScript : MonoBehaviour
     }
     public void Play()
     {
-        SceneManager.LoadScene("Scene_Jofre");        
+        SceneManager.LoadScene("Beta");        
     }
     public void Quit()
     {

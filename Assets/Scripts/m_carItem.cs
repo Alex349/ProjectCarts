@@ -227,7 +227,7 @@ public class m_carItem : MonoBehaviour {
         }
         else if (rnd < 1)
         {
-            if (money > 10)
+            if (money < 10)
             {
                 currentPlayerObject = "coin";
             }
@@ -413,7 +413,7 @@ public class m_carItem : MonoBehaviour {
         {
             foreach (Image img in cakeStains)
                 img.enabled = false;
-            carController.frontMaxSpeed = 17f;
+            carController.maxSpeed = carController.frontMaxSpeed;
         }
 
         //RocketItemUpdate
@@ -422,14 +422,12 @@ public class m_carItem : MonoBehaviour {
         if (rocketEffect > 0)
         {
             Debug.Log("Rocked");
-            carController.frontMaxSpeed = carController.frontMaxSpeed * 0.5f;
+            carController.maxSpeed = carController.frontMaxSpeed * 0.5f;
         }
 
         if (rocketEffect < 0 && rocketEffect > -0.1f) //&& startRaceCooldown < 0
         {
-
-
-            carController.frontMaxSpeed = 17f;
+            carController.maxSpeed = carController.frontMaxSpeed;
         }
 
         //TurboItemUpdate
@@ -437,7 +435,7 @@ public class m_carItem : MonoBehaviour {
 
         if (turboEffect > 0)
         {
-            myRigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(myRigidbody.transform.forward.z)).normalized * 3, ForceMode.Acceleration);
+            myRigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(myRigidbody.transform.forward.z)).normalized * carController.turboForce, ForceMode.Acceleration);
 
         }
 

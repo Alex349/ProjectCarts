@@ -507,6 +507,7 @@ public class m_carController : MonoBehaviour
             wheelFR.motorTorque = scaledTorque;
             wheelFL.motorTorque = scaledTorque;
 
+            //sideawaysFriction
             wheelBRDriftFriction = wheelBR.sidewaysFriction;
             wheelBRDriftFriction.stiffness = 1;
             wheelBR.sidewaysFriction = wheelBRDriftFriction;
@@ -523,10 +524,11 @@ public class m_carController : MonoBehaviour
             wheelFRDriftFriction.stiffness = 1;
             wheelFR.sidewaysFriction = wheelFRDriftFriction;
 
-            wheelBLDriftFriction = wheelBL.forwardFriction;
+            //frontFriction
+            wheelBLFrontFriction = wheelBL.forwardFriction;
             wheelBLFrontFriction.stiffness = 1;
             wheelBL.forwardFriction = wheelBLFrontFriction;
-
+            
             wheelBRFrontFriction = wheelBR.forwardFriction;
             wheelBRFrontFriction.stiffness = 1;
             wheelBR.forwardFriction = wheelBRFrontFriction;
@@ -984,21 +986,40 @@ public class m_carController : MonoBehaviour
         }
         if (col.tag == "Cheese" || col.tag == "Ramp")
         {
-            wheelBLDriftFriction = wheelBL.forwardFriction;
-            wheelBLFrontFriction.stiffness = 3;
-            wheelBL.forwardFriction = wheelBLFrontFriction;
-
-            wheelBRFrontFriction = wheelBR.forwardFriction;
-            wheelBRFrontFriction.stiffness = 3;
-            wheelBR.forwardFriction = wheelBRFrontFriction;
-
-            wheelFLFrontFriction = wheelFL.forwardFriction;
-            wheelFLFrontFriction.stiffness = 3;
-            wheelFL.forwardFriction = wheelFLFrontFriction;
-
-            wheelFRFrontFriction = wheelFR.forwardFriction;
-            wheelFRFrontFriction.stiffness = 3;
-            wheelFR.forwardFriction = wheelFRFrontFriction;
+            m_rigidbody.AddRelativeForce(new Vector3(col.gameObject.transform.rotation.y, 0, 0) * 5, ForceMode.Force);
+            //forwardFriction
+            //wheelBLDriftFriction = wheelBL.forwardFriction;
+            //wheelBLFrontFriction.stiffness = 3;
+            //wheelBL.forwardFriction = wheelBLFrontFriction;
+            //
+            //wheelBRFrontFriction = wheelBR.forwardFriction;
+            //wheelBRFrontFriction.stiffness = 3;
+            //wheelBR.forwardFriction = wheelBRFrontFriction;
+            //
+            //wheelFLFrontFriction = wheelFL.forwardFriction;
+            //wheelFLFrontFriction.stiffness = 3;
+            //wheelFL.forwardFriction = wheelFLFrontFriction;
+            //
+            //wheelFRFrontFriction = wheelFR.forwardFriction;
+            //wheelFRFrontFriction.stiffness = 3;
+            //wheelFR.forwardFriction = wheelFRFrontFriction;
+            //
+            ////sideawaysFriction
+            //wheelBRDriftFriction = wheelBR.sidewaysFriction;
+            //wheelBRDriftFriction.stiffness = 3;
+            //wheelBR.sidewaysFriction = wheelBRDriftFriction;
+            //
+            //wheelBLDriftFriction = wheelBL.sidewaysFriction;
+            //wheelBLDriftFriction.stiffness = 3;
+            //wheelBL.sidewaysFriction = wheelBLDriftFriction;
+            //
+            //wheelFLDriftFriction = wheelFL.sidewaysFriction;
+            //wheelFLDriftFriction.stiffness = 3;
+            //wheelFL.sidewaysFriction = wheelFLDriftFriction;
+            //
+            //wheelFRDriftFriction = wheelFR.sidewaysFriction;
+            //wheelFRDriftFriction.stiffness = 3;
+            //wheelFR.sidewaysFriction = wheelFRDriftFriction;
         }
     }
     void OnTriggerExit(Collider col)

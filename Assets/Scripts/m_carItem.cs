@@ -398,10 +398,8 @@ public class m_carItem : MonoBehaviour {
         if (bananaEffect > 0)
         {
             Debug.Log("Bananed");
-           carController.frontMaxSpeed = carController.frontMaxSpeed * 0.5f;
-        }
-        if (bananaEffect > 0)
-        {
+            carController.frontMaxSpeed = carController.frontMaxSpeed * 0.5f;
+
             foreach (Image img in cakeStains)
                 img.enabled = true;
 
@@ -414,6 +412,7 @@ public class m_carItem : MonoBehaviour {
             foreach (Image img in cakeStains)
                 img.enabled = false;
             carController.maxSpeed = carController.frontMaxSpeed;
+            carController.frontMaxSpeed = 20;
         }
 
         //RocketItemUpdate

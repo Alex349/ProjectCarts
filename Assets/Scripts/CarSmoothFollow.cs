@@ -93,9 +93,9 @@ public class CarSmoothFollow : MonoBehaviour
         }
         if (m_kart.currentSpeed > m_kart.frontMaxSpeed - 2)
         {
-            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 50, 1f * Time.deltaTime);
+            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 55, 1f * Time.deltaTime);
         }
-        else if (m_kart.currentSpeed >= 25)
+        else if (m_kart.currentSpeed >= 20)
         {
             thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 70, 1f * Time.deltaTime);
         }

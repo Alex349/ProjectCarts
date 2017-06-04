@@ -26,11 +26,15 @@ public class m_carHUD : MonoBehaviour
     [SerializeField]
     private float totalLaps;
 
-    private float countDown = 3f;
+    [HideInInspector]public float countDown = 3f;
     public bool StartRace = false;
     private m_carController m_car;
     private int randomItem = 0;
     private float itemRandomCounter = 0;
+
+    public float scaleSpeed = 1f;
+    private bool hasImageChanged0, hasImageChanged1, hasImageChanged2, hasImageChanged3;
+
     //private float scrollSpeed = 3f;
 
     void Start()
@@ -43,29 +47,24 @@ public class m_carHUD : MonoBehaviour
 
     void Update()
     {
-        if (StartRace == false)
-        {
-            CountDown();
-        }
-        else if (StartRace == true)
+        CountDown();
+
+        if (StartRace == true)
         {
             UpdateTimerUI();
             UpdateItemUI();
         }
 
-        //PositionIconUpdate();
         UpdateLap();
-
-
 
         //Coins UI
         coins_Text.text = car_Item.money.ToString();
 
         if (coins_Text.text == "10")
         {
-            coins_Text.color = Color.blue; 
+            coins_Text.color = Color.blue;
         }
-        else 
+        else
         {
             coins_Text.color = Color.white;
         }
@@ -188,37 +187,67 @@ public class m_carHUD : MonoBehaviour
 
     void CountDown()
     {
-
         countDown -= Time.deltaTime;
 
-        m_car.currentAcc = 0;
+        if (countDown <= 3 && countDown > 2.1 || countDown <= 2 && countDown > 1.1 || countDown <= 1 && countDown > 0.1 || countDown < 0 && countDown > -0.8)
+        {
+            numberImage.transform.localScale += Vector3.one * scaleSpeed * Time.deltaTime;
+        }
 
         if (countDown <= 3 && countDown > 2)
         {
+            
+            if (hasImageChanged0 == false)
+            {
+                numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+                hasImageChanged0 = true;
+            }
+
             numberImage.sprite = numberSpriteList[0];
         }
         else if (countDown <= 2 && countDown > 1)
         {
+           
+            if (hasImageChanged1 == false)
+            {
+                numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+                hasImageChanged1 = true;
+            }
+
             numberImage.sprite = numberSpriteList[1];
         }
         else if (countDown <= 1 && countDown > 0)
         {
+
+            if (hasImageChanged2 == false)
+            {
+                numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+                hasImageChanged2 = true;
+            }
+
             numberImage.sprite = numberSpriteList[2];
         }
         else if (countDown <= 0)
-        {            
-            numberImage.sprite = numberSpriteList[3];
+        {           
 
             if (Input.GetAxis("Vertical") == 1 || Input.GetButton("Accelerate"))
             {
                 m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_car.m_rigidbody.transform.forward.z)) * m_car.startTurboForce, ForceMode.Acceleration);
             }
-            if (countDown <= -1f)
+            if (hasImageChanged3 == false)
             {
-                Destroy(numberImage);
-                StartRace = true;
-            }            
-        }       
+                numberImage.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                hasImageChanged3 = true;
+            }
+
+            numberImage.sprite = numberSpriteList[3];
+            
+            if (countDown <= -1.1f)
+            {
+                numberImage.GetComponent<Image>().enabled = false;
+            }
+            StartRace = true;
+        }
     }
 
     void IsRandomizing(Sprite[] intemSpriteList)
@@ -226,7 +255,7 @@ public class m_carHUD : MonoBehaviour
 
     }
 
-    void PositionIconUpdate ()
+    void PositionIconUpdate()
     {
         if (car_Item.myPosition == 1)
         {

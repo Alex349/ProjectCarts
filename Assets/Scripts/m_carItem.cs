@@ -78,12 +78,12 @@ public class m_carItem : MonoBehaviour {
 
     private string lap1Time, lap2Time, lap3Time;
     private float lapCountdown;
-    private HudManager hudManager;
+    private m_carHUD carHUD;
     public Image[] cakeStains;
 
     void Start()
     {
-        hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
+        carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
         myRigidbody = carController.GetComponent<Rigidbody>();
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
 
@@ -492,21 +492,21 @@ public class m_carItem : MonoBehaviour {
     {
         if (lap1Time == string.Empty)
         {
-            lap1Time = hudManager.time_Text.text.ToString();
+            lap1Time = carHUD.time_Text.text.ToString();
             Debug.Log("Lap1Set");
             lapCountdown = 5;
         }
 
         if ((lap1Time != string.Empty && lap2Time == string.Empty) && lapCountdown < 0)
         {
-            lap2Time = hudManager.time_Text.text.ToString();
+            lap2Time = carHUD.time_Text.text.ToString();
             Debug.Log("Lap2Set");
             lapCountdown = 5;
         }
 
         if ((lap1Time != string.Empty && lap2Time != string.Empty) && lapCountdown < 0)
         {
-            lap3Time = hudManager.time_Text.text.ToString();
+            lap3Time = carHUD.time_Text.text.ToString();
             lapCountdown = 400;
         }
     }

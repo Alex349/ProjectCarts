@@ -8,20 +8,45 @@ public class MenuScript : MonoBehaviour
 {
     public GameObject mainMenuHolder;
     public GameObject optionsMenuHolder;
+    public GameObject ArcadeMenuHolder;
+    public GameObject CharacterMenuHolder;
+    public GameObject[] models;
 
     public Slider volumeSlider;
     public Toggle[] resolutionToggles;
     public int[] screenWidths;
     int activeScreenResIndex;
+    private int SelectionIndex = 0;
 
     void Start()
     {
         activeScreenResIndex = PlayerPrefs.GetInt("screen res index");
         bool isFullScreen = (PlayerPrefs.GetInt("fullscreen") == 1) ? true : false;
+
+        mainMenuHolder.SetActive(true);
+        optionsMenuHolder.SetActive(false);
+        ArcadeMenuHolder.SetActive(false);
+        CharacterMenuHolder.SetActive(false);        
+    }
+    void Update()
+    {
+        
     }
     public void Play()
     {
         SceneManager.LoadScene("Beta");        
+    }
+    public void ArcadeMenu()
+    {
+        mainMenuHolder.SetActive(false);
+        ArcadeMenuHolder.SetActive(true);
+        CharacterMenuHolder.SetActive(false);
+    }
+    public void CharacterMenu()
+    {
+        ArcadeMenuHolder.SetActive(false);
+        CharacterMenuHolder.SetActive(true);
+        models[0].SetActive(true);
     }
     public void Quit()
     {
@@ -73,4 +98,18 @@ public class MenuScript : MonoBehaviour
     {
         AudioListener.volume = volumeSlider.value;
     }   
+    public void Select (int index)
+    {
+        if (index == SelectionIndex)
+        {
+            return;
+        }
+        if (index < 0 || index >= models.Length)
+        {
+            return;
+        }
+        models[SelectionIndex].SetActive(false);
+        SelectionIndex = index;
+        models[SelectionIndex].SetActive(true);
+    }
 }

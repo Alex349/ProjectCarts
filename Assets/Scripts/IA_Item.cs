@@ -502,7 +502,6 @@ public class IA_Item : MonoBehaviour
         {
             agent.speed = iADefaultSpeed + turboSpeed;
             agent.acceleration = iADefaultAcc + turboAcc;
-            Debug.Log("Turbo is on");
 
         }
 

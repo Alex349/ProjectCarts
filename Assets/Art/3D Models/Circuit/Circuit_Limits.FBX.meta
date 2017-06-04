@@ -1,58 +1,15 @@
 fileFormatVersion: 2
-guid: 0cf0e53dcafabff419990682f91cd34b
-timeCreated: 1496521367
+guid: efa49d0498a1b9f4793f6951433268c6
+timeCreated: 1496582744
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Cheese
-    100002: //RootNode
-    100004: MeshCollider_CheckPoint0
-    100006: MeshCollider_CheckPoint2
-    100008: MeshCollider_CheckPoint3
-    100010: MeshCollider_CheckPoint5
-    100012: MeshCollider_CheckPoint6
-    100014: MeshCollider_CheclPoint1
-    100016: MesjCollider_CheckPoint4
-    100018: Circuit_Limits
-    400000: Cheese
-    400002: //RootNode
-    400004: MeshCollider_CheckPoint0
-    400006: MeshCollider_CheckPoint2
-    400008: MeshCollider_CheckPoint3
-    400010: MeshCollider_CheckPoint5
-    400012: MeshCollider_CheckPoint6
-    400014: MeshCollider_CheclPoint1
-    400016: MesjCollider_CheckPoint4
-    400018: Circuit_Limits
-    2300000: Cheese
-    2300002: MeshCollider_CheckPoint0
-    2300004: MeshCollider_CheckPoint2
-    2300006: MeshCollider_CheckPoint3
-    2300008: MeshCollider_CheckPoint5
-    2300010: MeshCollider_CheckPoint6
-    2300012: MeshCollider_CheclPoint1
-    2300014: MesjCollider_CheckPoint4
-    2300016: Circuit_Limits
-    3300000: Cheese
-    3300002: MeshCollider_CheckPoint0
-    3300004: MeshCollider_CheckPoint2
-    3300006: MeshCollider_CheckPoint3
-    3300008: MeshCollider_CheckPoint5
-    3300010: MeshCollider_CheckPoint6
-    3300012: MeshCollider_CheclPoint1
-    3300014: MesjCollider_CheckPoint4
-    3300016: Circuit_Limits
-    4300000: MeshCollider_CheckPoint2
-    4300002: MeshCollider_CheckPoint6
-    4300004: MeshCollider_CheclPoint1
-    4300006: MeshCollider_CheckPoint5
-    4300008: MeshCollider_CheckPoint0
-    4300010: MeshCollider_CheckPoint3
-    4300012: MesjCollider_CheckPoint4
-    4300014: Cheese
-    4300016: Circuit_Limits
-    7400000: Take 001
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Circuit_Limits
     9500000: //RootNode
   materials:
     importMaterials: 1

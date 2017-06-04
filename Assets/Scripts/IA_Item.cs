@@ -317,14 +317,15 @@ public class IA_Item : MonoBehaviour
         }
         else if (rnd < 1)
         {
-            if (money > 10)
+            if (money < 10)
             {
                 currentIAItem = "coin";
+                Debug.Log("Coin");
             }
             else
             {
-                currentIAItem = "none";
-
+                currentIAItem = "fakemysterybox";
+                Debug.Log("MaxCoins");
             }
         }
     }

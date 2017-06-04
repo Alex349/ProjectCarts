@@ -203,23 +203,17 @@ public class m_carHUD : MonoBehaviour
         }
         else if (countDown <= 1 && countDown > 0)
         {
-            //RectTransform m_desiredRectSize = numberSpriteList[2].textureRect;
-            //Rect m_rectSize = numberSpriteList[2].rect;
-
             numberImage.sprite = numberSpriteList[2];
-            //m_desiredRectSize.size = new Vector2(60, 70);
-            //m_rectSize.size = m_desiredRectSize.size;
         }
         else if (countDown <= 0)
         {            
-            //numberImage.sprite = numberSpriteList[3];
-            //numberSpriteList[2].border.Scale(new Vector4(1.2f, 1, 1, 1));
+            numberImage.sprite = numberSpriteList[3];
 
             if (Input.GetAxis("Vertical") == 1 || Input.GetButton("Accelerate"))
             {
                 m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_car.m_rigidbody.transform.forward.z)) * m_car.startTurboForce, ForceMode.Acceleration);
             }
-            if (countDown <= -0.2f)
+            if (countDown <= -1f)
             {
                 Destroy(numberImage);
                 StartRace = true;
@@ -265,6 +259,22 @@ public class m_carHUD : MonoBehaviour
         if (car_Item.myPosition == 8)
         {
             positionImage.sprite = numberPosition[7];
+        }
+        if (car_Item.myPosition == 9)
+        {
+            positionImage.sprite = numberPosition[8];
+        }
+        if (car_Item.myPosition == 10)
+        {
+            positionImage.sprite = numberPosition[9];
+        }
+        if (car_Item.myPosition == 11)
+        {
+            positionImage.sprite = numberPosition[10];
+        }
+        if (car_Item.myPosition == 12)
+        {
+            positionImage.sprite = numberPosition[11];
         }
     }
 }

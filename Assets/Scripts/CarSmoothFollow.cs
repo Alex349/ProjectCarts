@@ -91,7 +91,7 @@ public class CarSmoothFollow : MonoBehaviour
             transform.LookAt(Vector3.Lerp(target.position + lookAtVector, RightDriftTarget.position + lookAtVector, 0.05f));
             //transform.LookAt(RightDriftTarget.position + lookAtVector);
         }
-        if (m_kart.currentSpeed > m_kart.frontMaxSpeed - 2)
+        if (m_kart.currentSpeed > m_kart.frontMaxSpeed - 1)
         {
             thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 55, 1f * Time.deltaTime);
         }
@@ -99,9 +99,9 @@ public class CarSmoothFollow : MonoBehaviour
         {
             thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 70, 1f * Time.deltaTime);
         }
-        else if (thisCamera.fieldOfView > 45 && m_kart.currentSpeed < m_kart.frontMaxSpeed - 2)
+        else if (thisCamera.fieldOfView > 45 && m_kart.currentSpeed < m_kart.frontMaxSpeed - 1)
         {
-            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 50, 1f * Time.deltaTime);
+            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 45, 1f * Time.deltaTime);
         }
                  
     }

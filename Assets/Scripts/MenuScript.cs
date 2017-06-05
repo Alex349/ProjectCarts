@@ -56,11 +56,13 @@ public class MenuScript : MonoBehaviour
     {
         mainMenuHolder.SetActive(false);
         optionsMenuHolder.SetActive(true);
+        ArcadeMenuHolder.SetActive(false);
     }
     public void MainMenu()
     {
         mainMenuHolder.SetActive(true);
         optionsMenuHolder.SetActive(false);
+        ArcadeMenuHolder.SetActive(false);
     }
     public void SetScreenResolution(int i)
     {

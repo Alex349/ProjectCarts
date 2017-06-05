@@ -30,11 +30,14 @@ public class MenuScript : MonoBehaviour
     }
     void Update()
     {
-        
+        if (mainMenuHolder.activeInHierarchy)
+        {
+
+        }
     }
     public void Play()
     {
-        SceneManager.LoadScene("Beta");        
+        SceneManager.LoadScene("Scene_Copia");        
     }
     public void ArcadeMenu()
     {
@@ -46,7 +49,7 @@ public class MenuScript : MonoBehaviour
     {
         ArcadeMenuHolder.SetActive(false);
         CharacterMenuHolder.SetActive(true);
-        models[0].SetActive(true);
+        models[SelectionIndex].SetActive(true);
     }
     public void Quit()
     {

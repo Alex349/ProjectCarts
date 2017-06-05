@@ -8,6 +8,7 @@ public class StraightRocket : MonoBehaviour
     private float rocketSpeed = 1000;
     [SerializeField]
     private float rocketBounces, distanceAwayFromSurface, selfDestruct = 10;
+    [HideInInspector]public float fromHoaming = 0;
     private Rigidbody bulletBody,carBody;
 
     Vector3 myTransform;
@@ -26,6 +27,8 @@ public class StraightRocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        fromHoaming -= Time.deltaTime;
+
         if (rocketBounces >= 5)
         {
             Destroy(this.gameObject);
@@ -49,13 +52,21 @@ public class StraightRocket : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        if (selfDestruct < 9.7)
+
+        if (fromHoaming < 1 && fromHoaming > 0.1)
         {
-            Component[] shpheres;
-            shpheres = GetComponents(typeof(SphereCollider));
-            foreach (SphereCollider a in shpheres)
+            Component[] capsules;
+            capsules = GetComponents(typeof(CapsuleCollider));
+            foreach (CapsuleCollider a in capsules)
                 a.enabled = true;
         }
+        //if (selfDestruct < 9.7)
+        //{
+        //    Component[] shpheres;
+        //    shpheres = GetComponents(typeof(SphereCollider));
+        //    foreach (SphereCollider a in shpheres)
+        //        a.enabled = true;
+        //}
 
     }
 
@@ -75,7 +86,6 @@ public class StraightRocket : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         rocketBounces++;
-
     }
 
 

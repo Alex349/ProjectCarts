@@ -320,7 +320,6 @@ public class IA_Item : MonoBehaviour
             if (money < 10)
             {
                 currentIAItem = "coin";
-                Debug.Log("Coin");
             }
             else
             {

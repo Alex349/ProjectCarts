@@ -993,12 +993,10 @@ public class m_carController : MonoBehaviour
     {
         if (col.tag == "Turbo")
         {
-            Debug.Log("Trubo");
             m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * turboForce, ForceMode.Impulse);
         }
-        if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "Rocket" || col.tag == "FakeMysteryBox")
+        if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "FakeMysteryBox" || col.tag == "Rocket")
         {
-            Debug.Log("is knocked");
             m_animator.SetBool("isKnockedUp", true);
             m_rigidbody.AddRelativeForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
         }

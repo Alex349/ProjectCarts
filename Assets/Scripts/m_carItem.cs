@@ -76,8 +76,11 @@ public class m_carItem : MonoBehaviour {
     private Transform frontSpawn;
     private Vector3 frontSpawnVector;
 
-    private string lap1Time, lap2Time, lap3Time;
+    //Laps
+    public string lap1Time, lap2Time, lap3Time;
     private float lapCountdown;
+    private CarCheckPoints checkPoints;
+
     private m_carHUD carHUD;
     public Image[] cakeStains;
 
@@ -86,7 +89,7 @@ public class m_carItem : MonoBehaviour {
         carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
         myRigidbody = carController.GetComponent<Rigidbody>();
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-
+        checkPoints= GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
         cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
 
         foreach (Image img in cakeStains)
@@ -173,6 +176,12 @@ public class m_carItem : MonoBehaviour {
             Destroy(other.gameObject);
 
             bananaEffect = bananaEffectDuration;
+        }
+
+        if (other.tag == "StartCheckPoint")
+        {
+            carHUD.stretchTime = 3;
+            SetTimeLap();
         }
 
     }   
@@ -290,7 +299,6 @@ public class m_carItem : MonoBehaviour {
 
             if (rocketsShooted >= 3)
             {
-                Debug.Log("NoMoreRockets");
                 currentPlayerObject = "none";
                 rocketsShooted = 0;
             }
@@ -397,7 +405,6 @@ public class m_carItem : MonoBehaviour {
 
         if (bananaEffect > 0)
         {
-            Debug.Log("Bananed");
             carController.maxSpeed = carController.frontMaxSpeed * 0.5f;
 
             foreach (Image img in cakeStains)
@@ -465,7 +472,6 @@ public class m_carItem : MonoBehaviour {
         if (frozeEffect < 0 && frozeEffect > -0.1f) //&& startRaceCooldown < 0
         {
             List<GameObject> karts = new List<GameObject>();
-            Debug.Log("Defroze");
             foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
             {
                 if (kart.Equals(this.gameObject))
@@ -489,24 +495,22 @@ public class m_carItem : MonoBehaviour {
 
     public void SetTimeLap()
     {
-        if (lap1Time == string.Empty)
+        
+        if (lap1Time == string.Empty && checkPoints.currentLap == 1)
         {
             lap1Time = carHUD.time_Text.text.ToString();
             Debug.Log("Lap1Set");
-            lapCountdown = 5;
         }
 
-        if ((lap1Time != string.Empty && lap2Time == string.Empty) && lapCountdown < 0)
+        if (lap2Time == string.Empty && checkPoints.currentLap == 2)
         {
             lap2Time = carHUD.time_Text.text.ToString();
             Debug.Log("Lap2Set");
-            lapCountdown = 5;
         }
 
-        if ((lap1Time != string.Empty && lap2Time != string.Empty) && lapCountdown < 0)
+        if (lap3Time == string.Empty && checkPoints.currentLap == 3)
         {
             lap3Time = carHUD.time_Text.text.ToString();
-            lapCountdown = 400;
         }
     }
 }

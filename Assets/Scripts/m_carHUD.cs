@@ -12,6 +12,8 @@ public class m_carHUD : MonoBehaviour
     public Image positionImage;
     public Image currentLapImage;
 
+    public GameObject timeNumbers;
+
     public m_carItem car_Item;
     private CarCheckPoints car_Checkpoint;
     public Sprite[] itemSpriteList;
@@ -20,7 +22,7 @@ public class m_carHUD : MonoBehaviour
     public Sprite[] currentLapSprite;
 
     public Text time_Text, totalLaps_Text, coins_Text;
-    private float time, secondsCount, minuteCount, milisecondsCount;
+    public float time, secondsCount, minuteCount, milisecondsCount;
     private int currentPosition;
 
     [SerializeField]
@@ -31,7 +33,7 @@ public class m_carHUD : MonoBehaviour
     private m_carController m_car;
     private int randomItem = 0;
     private float itemRandomCounter = 0;
-
+    [HideInInspector] public float stretchTime = 0;
     public float scaleSpeed = 1f;
     private bool hasImageChanged0, hasImageChanged1, hasImageChanged2, hasImageChanged3;
 
@@ -40,6 +42,7 @@ public class m_carHUD : MonoBehaviour
     void Start()
     {
         m_car = FindObjectOfType<m_carController>();
+        timeNumbers = GameObject.Find("Time");
         car_Item = FindObjectOfType<m_carItem>();
         car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
         InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
@@ -47,14 +50,38 @@ public class m_carHUD : MonoBehaviour
 
     void Update()
     {
+        stretchTime -= Time.deltaTime;
+
         CountDown();
 
         if (StartRace == true)
         {
-            UpdateTimerUI();
+            milisecondsCount += Time.deltaTime * 1000;
+
+            if (milisecondsCount >= 999)
+            {
+                secondsCount++;
+                milisecondsCount = 0;
+            }
+            else if (secondsCount >= 60)
+            {
+                minuteCount++;
+                secondsCount = 0;
+            }
+
             UpdateItemUI();
         }
 
+        if (stretchTime > 0)
+        {
+            StretchTime();
+            time_Text.color = Color.yellow;
+        }
+        else
+        {
+            UpdateTimerUI();
+            time_Text.color = Color.white;
+        }
         UpdateLap();
 
         //Coins UI
@@ -75,21 +102,7 @@ public class m_carHUD : MonoBehaviour
 
     public void UpdateTimerUI()
     {
-        //set timer UI 3 digits als milisegons
-        milisecondsCount += Time.deltaTime * 1000;
-
-        time_Text.text = minuteCount + ": " + (int)secondsCount + ", " + milisecondsCount.ToString("000").Truncate(3);
-
-        if (milisecondsCount >= 999)
-        {
-            secondsCount++;
-            milisecondsCount = 0;
-        }
-        else if (secondsCount >= 60)
-        {
-            minuteCount++;
-            secondsCount = 0;
-        }
+        time_Text.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
     }
 
     public void UpdateItemUI()
@@ -247,6 +260,11 @@ public class m_carHUD : MonoBehaviour
                 numberImage.GetComponent<Image>().enabled = false;
             }
             StartRace = true;
+
+            if (countDown <= -10)
+            {
+               GameObject.Find("InitialCheckPoint").transform.gameObject.tag = "StartCheckPoint";
+            }
         }
     }
 
@@ -305,6 +323,16 @@ public class m_carHUD : MonoBehaviour
         {
             positionImage.sprite = numberPosition[11];
         }
+    }
+
+    void StretchTime()
+    {
+        timeNumbers.transform.localScale = new Vector3(PingPong(Time.time * 0.5f, 0.9f, 1.1f), PingPong(Time.time * 0.5f, 0.9f, 1.1f), PingPong(Time.time * 0.5f, 0.9f, 1.1f));
+    }
+
+    float PingPong(float aValue, float aMin, float aMax)
+    {
+        return Mathf.PingPong(aValue, aMax - aMin) + aMin;
     }
 }
 

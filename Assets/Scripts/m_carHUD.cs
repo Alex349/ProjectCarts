@@ -208,8 +208,7 @@ public class m_carHUD : MonoBehaviour
         }
 
         if (countDown <= 3 && countDown > 2)
-        {
-            
+        {            
             if (hasImageChanged0 == false)
             {
                 numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
@@ -219,8 +218,7 @@ public class m_carHUD : MonoBehaviour
             numberImage.sprite = numberSpriteList[0];
         }
         else if (countDown <= 2 && countDown > 1)
-        {
-           
+        {           
             if (hasImageChanged1 == false)
             {
                 numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
@@ -231,7 +229,6 @@ public class m_carHUD : MonoBehaviour
         }
         else if (countDown <= 1 && countDown > 0)
         {
-
             if (hasImageChanged2 == false)
             {
                 numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
@@ -240,12 +237,12 @@ public class m_carHUD : MonoBehaviour
 
             numberImage.sprite = numberSpriteList[2];
         }
-        else if (countDown <= 0)
-        {           
-
+        else if (countDown <= 0 && StartRace == false)
+        {         
             if (Input.GetAxis("Vertical") == 1 || Input.GetButton("Accelerate"))
             {
-                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_car.m_rigidbody.transform.forward.z)) * m_car.startTurboForce, ForceMode.Acceleration);
+                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_car.transform.forward.z)).normalized * m_car.startTurboForce, ForceMode.Acceleration);
+                Debug.Log("is accelerating");
             }
             if (hasImageChanged3 == false)
             {
@@ -253,18 +250,19 @@ public class m_carHUD : MonoBehaviour
                 hasImageChanged3 = true;
             }
 
-            numberImage.sprite = numberSpriteList[3];
+            numberImage.sprite = numberSpriteList[3];            
             
-            if (countDown <= -1.1f)
-            {
-                numberImage.GetComponent<Image>().enabled = false;
-            }
             StartRace = true;
 
             if (countDown <= -10)
             {
                GameObject.Find("InitialCheckPoint").transform.gameObject.tag = "StartCheckPoint";
             }
+        }
+        else if (countDown <= -1.1f)
+        {
+            numberImage.GetComponent<Image>().enabled = false;
+            countDown = 10000;
         }
     }
 

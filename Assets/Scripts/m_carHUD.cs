@@ -241,7 +241,7 @@ public class m_carHUD : MonoBehaviour
         {         
             if (Input.GetAxis("Vertical") == 1 || Input.GetButton("Accelerate"))
             {
-                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_car.transform.forward.z)).normalized * m_car.startTurboForce, ForceMode.Acceleration);
+                m_car.m_rigidbody.AddRelativeForce(m_car.m_rigidbody.transform.forward * m_car.startTurboForce, ForceMode.VelocityChange);
                 Debug.Log("is accelerating");
             }
             if (hasImageChanged3 == false)

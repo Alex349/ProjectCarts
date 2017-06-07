@@ -81,6 +81,8 @@ public class m_carController : MonoBehaviour
 
     public GameObject particleSystemBLWheel, particleSystemBRWheel;
     public Material sparkMaterialYellow, sparkMaterialBlue;
+    public AudioSource[] m_AudioListMotor;
+
 
     void Start()
     {
@@ -97,6 +99,8 @@ public class m_carController : MonoBehaviour
 
         particleSystemBLWheel.SetActive(false);
         particleSystemBRWheel.SetActive(false);
+
+        driveMode = DriveMode.Stopped;
     }
 
     public float Speed()
@@ -138,6 +142,17 @@ public class m_carController : MonoBehaviour
             if (Input.GetButton("Accelerate") || Input.GetAxis("Vertical") > 0)
             {
                 inputAcc = 1;
+
+                m_AudioListMotor[1].PlayOneShot(m_AudioListMotor[1].clip, 0f);
+                
+                if (m_AudioListMotor[1].isPlaying)
+                {
+                    Debug.Log("Está acelerando SONIDO!!");
+                    m_AudioListMotor[0].enabled = false;
+                    m_AudioListMotor[2].enabled = false;
+                    m_AudioListMotor[3].enabled = false;
+                }
+                
             }
             else if (Input.GetButton("Brake") || Input.GetAxis("Vertical") < 0)
             {
@@ -166,9 +181,11 @@ public class m_carController : MonoBehaviour
         }
         if (currentSpeed <= 1f)
         {
-            driveMode = DriveMode.Stopped;
+            driveMode = DriveMode.Stopped;           
         }
         m_rigidbody.drag = 0.5f;
+
+        EngineSound();
     }
 
     void FixedUpdate()
@@ -203,9 +220,14 @@ public class m_carController : MonoBehaviour
             wheelBRTrail.enabled = false;
 
             if (inputAcc > 0)
+            {             
                 driveMode = DriveMode.Front;
+            }
+                
             else if (inputAcc < 0)
+            {                
                 driveMode = DriveMode.Rear;
+            }                
         }
         else if (inputAcc == 0 && driveMode != DriveMode.Stopped)
         {          
@@ -293,13 +315,15 @@ public class m_carController : MonoBehaviour
             wheelFL.brakeTorque = brakeTorque;
             wheelBR.brakeTorque = brakeTorque;
             wheelBL.brakeTorque = brakeTorque;
+
+                  
         }
 
         //driveMode front
         if (driveMode == DriveMode.Front)
         {
-            maxSpeed = frontMaxSpeed;         
-
+            maxSpeed = frontMaxSpeed;
+            
             wheelBLFrontFriction = wheelBL.forwardFriction;
 
             if (wheelBLFrontFriction.stiffness < 0.9f)
@@ -418,7 +442,8 @@ public class m_carController : MonoBehaviour
         //drivemode rear
         if (driveMode == DriveMode.Rear)
         {
-            maxSpeed = rearMaxSpeed;
+            maxSpeed = rearMaxSpeed;                    
+
             //sideawaysFriction
             wheelBRDriftFriction = wheelBR.sidewaysFriction;
             wheelBRDriftFriction.stiffness = 1;
@@ -957,5 +982,41 @@ public class m_carController : MonoBehaviour
             }
         }
         return transform.position;
+    }
+    void EngineSound()
+    {
+        if (inputAcc > 0)
+        {
+            m_AudioListMotor[2].PlayOneShot(m_AudioListMotor[2].clip, 0f);
+
+            if (m_AudioListMotor[2].isPlaying)
+            {
+                m_AudioListMotor[0].Stop();
+                m_AudioListMotor[1].Stop();
+                m_AudioListMotor[3].Stop();
+            }
+        }
+        else if (inputAcc < 0)
+        {
+            m_AudioListMotor[3].PlayOneShot(m_AudioListMotor[3].clip, 0f);
+
+            if (m_AudioListMotor[3].isPlaying)
+            {
+                m_AudioListMotor[0].Stop();
+                m_AudioListMotor[1].Stop();
+                m_AudioListMotor[2].Stop();
+            }
+        }
+        else if (inputAcc == 0)
+        {
+            m_AudioListMotor[0].PlayOneShot(m_AudioListMotor[0].clip, 0f);
+
+            if (m_AudioListMotor[0].isPlaying)
+            {
+                m_AudioListMotor[1].Stop();
+                m_AudioListMotor[2].Stop();
+                m_AudioListMotor[3].Stop();
+            }
+        }
     }
 }

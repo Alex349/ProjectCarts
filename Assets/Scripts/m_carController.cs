@@ -26,7 +26,7 @@ public class m_carController : MonoBehaviour
     public float maxSpeed;
     public enum DriveMode {Front, Rear, Drift, Stopped, All};
     public float turboForce, startTurboForce;
-    public float miniTurboForce, endDriftTurboForce;
+    public float rebufoTurboForce, endDriftTurboForce;
 
     public DriveMode driveMode = DriveMode.All;
 
@@ -208,8 +208,7 @@ public class m_carController : MonoBehaviour
                 driveMode = DriveMode.Rear;
         }
         else if (inputAcc == 0 && driveMode != DriveMode.Stopped)
-        {
-           
+        {          
 
             if (driveMode == DriveMode.Front)
             {
@@ -223,7 +222,7 @@ public class m_carController : MonoBehaviour
                 }
                 else
                 {
-                    m_rigidbody.drag = 10;
+                    m_rigidbody.drag = 3;
                     //m_rigidbody.AddForce(-m_rigidbody.transform.forward * slowDownForce, ForceMode.Force);
                     //Debug.DrawRay(m_rigidbody.transform.position, -m_rigidbody.transform.forward * slowDownForce, Color.black);
                 }
@@ -241,7 +240,7 @@ public class m_carController : MonoBehaviour
                 }
                 else
                 {
-                    m_rigidbody.drag = 10;
+                    m_rigidbody.drag = 3;
                     //m_rigidbody.AddRelativeForce(m_rigidbody.transform.forward * slowDownForce, ForceMode.Force);
                     //Debug.DrawRay(m_rigidbody.transform.position, m_rigidbody.transform.forward * slowDownForce, Color.green);
 
@@ -532,7 +531,7 @@ public class m_carController : MonoBehaviour
                 }
                 else if (isSpaceJustUp && canTurbo)
                 {
-                    m_rigidbody.AddRelativeForce(m_rigidbody.transform.forward * endDriftTurboForce, ForceMode.VelocityChange);
+                    m_rigidbody.AddRelativeForce(m_rigidbody.transform.forward * endDriftTurboForce, ForceMode.Acceleration);
                     Debug.DrawRay(m_rigidbody.transform.position, m_rigidbody.transform.forward * endDriftTurboForce, Color.blue);
                     driftCounter = 2f;
             
@@ -569,7 +568,7 @@ public class m_carController : MonoBehaviour
                 }
                 else if (!isDriftingXbox && canTurbo)
                 {
-                    m_rigidbody.AddRelativeForce(m_rigidbody.transform.forward * endDriftTurboForce, ForceMode.VelocityChange);
+                    m_rigidbody.AddRelativeForce(m_rigidbody.transform.forward * endDriftTurboForce, ForceMode.Acceleration);
                     Debug.DrawRay(m_rigidbody.transform.position, m_rigidbody.transform.forward * endDriftTurboForce, Color.blue);
                     driftCounter = 2f;
 
@@ -910,7 +909,7 @@ public class m_carController : MonoBehaviour
 
             if (rebufoCounter >= 2)
             {
-                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * miniTurboForce, ForceMode.Acceleration);
+                m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * rebufoTurboForce, ForceMode.Acceleration);
                 rebufoCounter = 0;
             }
         }
@@ -923,7 +922,8 @@ public class m_carController : MonoBehaviour
         }
         if (col.tag == "Ramp")
         {
-
+            scaledTorque = 20;
+            m_rigidbody.AddRelativeForce(new Vector3(0, 0, -col.transform.right.x) * slowDownForce, ForceMode.Force);
         }
     }
     void OnTriggerExit(Collider col)

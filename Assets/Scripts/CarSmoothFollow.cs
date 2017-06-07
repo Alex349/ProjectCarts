@@ -60,7 +60,7 @@ public class CarSmoothFollow : MonoBehaviour
         
         currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);
 
-        if (m_kart.currentSpeed <= 0.1f)
+        if (m_kart.currentSpeed <= 5f)
         {
             currentHeight = wantedHeight;
         }
@@ -81,7 +81,7 @@ public class CarSmoothFollow : MonoBehaviour
 
         transform.LookAt(target.position + lookAtVector);
 
-        if (m_kart.GetComponent<m_carController>().leftDrift)
+        if (m_kart.leftDrift)
         {
             rotationSnapTime = 0.5f;            
             transform.LookAt(Vector3.Lerp(target.position + lookAtVector, LeftDriftTarget.position + lookAtVector, 0.05f));

@@ -35,13 +35,15 @@ public class CarSmoothFollow : MonoBehaviour
     private float yVelocity = 0.0F;
     private float zVelocity = 0.0F;
 
-    private m_carController m_kart;
     private Camera thisCamera;
+    private m_carController m_kart;
 
     void Start()
     {
         lookAtVector = new Vector3(0, lookAtHeight, 0);
+
         m_kart = FindObjectOfType<m_carController>();
+                
         thisCamera = GetComponent<Camera>();
     }
 
@@ -58,7 +60,7 @@ public class CarSmoothFollow : MonoBehaviour
         
         currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);
 
-        if (m_kart.currentSpeed <= 0.1f)
+        if (m_kart.currentSpeed <= 5f)
         {
             currentHeight = wantedHeight;
         }

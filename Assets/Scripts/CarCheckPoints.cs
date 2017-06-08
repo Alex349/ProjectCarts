@@ -8,13 +8,8 @@ public class CarCheckPoints : MonoBehaviour
     public int currentCheckpoint = 0; //Current checkpoint
     public int currentLap; //Current lap
 
-
-
-    private m_carHUD carHUD;
-
     void Start()
     {
-        carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
     }
 
 

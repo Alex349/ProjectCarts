@@ -517,8 +517,7 @@ public class m_carItem : MonoBehaviour
 
         if (turboEffect > 0)
         {
-            myRigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(myRigidbody.transform.forward.z)).normalized * carController.turboForce, ForceMode.Acceleration);
-
+            myRigidbody.AddRelativeForce(myRigidbody.transform.forward * carController.turboForce, ForceMode.Acceleration);
         }
 
 

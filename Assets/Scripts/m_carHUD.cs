@@ -13,9 +13,11 @@ public class m_carHUD : MonoBehaviour
     public Image currentLapImage;
 
     public GameObject timeNumbers;
+    public GameObject LeaderboardEndGO;
 
     public m_carItem car_Item;
     private CarCheckPoints car_Checkpoint;
+    private PositionManager positionManager;
     public Sprite[] itemSpriteList;
     public Sprite[] numberSpriteList;
     public Sprite[] numberPosition;
@@ -37,6 +39,9 @@ public class m_carHUD : MonoBehaviour
     public float scaleSpeed = 1f;
     private bool hasImageChanged0, hasImageChanged1, hasImageChanged2, hasImageChanged3;
 
+    public Text pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12;
+    public Image pos1Img, pos2Img, pos3Img, pos4Img, pos5Img, pos6Img, pos7Img, pos8Img, pos9Img, pos10Img, pos11Img, pos12Img;
+
     //private float scrollSpeed = 3f;
 
     void Start()
@@ -45,7 +50,10 @@ public class m_carHUD : MonoBehaviour
         timeNumbers = GameObject.Find("Time");
         car_Item = FindObjectOfType<m_carItem>();
         car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+        positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
         InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
+        LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
+        LeaderboardEndGO.SetActive(false);
     }
 
     void Update()
@@ -82,18 +90,22 @@ public class m_carHUD : MonoBehaviour
             UpdateTimerUI();
             time_Text.color = Color.white;
         }
+
         UpdateLap();
 
-        //Coins UI
-        coins_Text.text = car_Item.money.ToString();
+        CoinUIFix();
 
-        if (coins_Text.text == "10")
+        if (Input.GetKey(KeyCode.U))
         {
-            coins_Text.color = Color.blue;
+            LeaderboardEnd();
+        }
+        else if (carCheckPoints.currentLap == 4)
+        {
+           LeaderboardEnd();
         }
         else
         {
-            coins_Text.color = Color.white;
+            LeaderboardEndGO.SetActive(false);
         }
 
 
@@ -328,6 +340,47 @@ public class m_carHUD : MonoBehaviour
     void StretchTime()
     {
         timeNumbers.transform.localScale = new Vector3(PingPong(Time.time * 0.5f, 0.9f, 1.1f), PingPong(Time.time * 0.5f, 0.9f, 1.1f), PingPong(Time.time * 0.5f, 0.9f, 1.1f));
+    }
+
+    void LeaderboardEnd()
+    {
+        LeaderboardEndGO.SetActive(true);
+        Debug.Log("U");
+    }
+
+    void CoinUIFix()
+    {
+        //Coins UI
+        coins_Text.text = car_Item.money.ToString();
+
+        if (coins_Text.text == "10")
+        {
+            coins_Text.color = Color.blue;
+        }
+        else
+        {
+            coins_Text.color = Color.white;
+        }
+        if (coins_Text.text == "11")
+        {
+            coins_Text.text = "10";
+        }
+        else if (coins_Text.text == "12")
+        {
+            coins_Text.text = "10";
+        }
+        else if (coins_Text.text == "13")
+        {
+            coins_Text.text = "10";
+        }
+        else if (coins_Text.text == "14")
+        {
+            coins_Text.text = "10";
+        }
+        else if (coins_Text.text == "15")
+        {
+            coins_Text.text = "10";
+        }
     }
 
     float PingPong(float aValue, float aMin, float aMax)

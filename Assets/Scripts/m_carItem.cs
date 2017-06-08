@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class m_carItem : MonoBehaviour {
+public class m_carItem : MonoBehaviour
+{
 
-	public string currentPlayerObject = "none";
+    public string currentPlayerObject = "none";
     private bool bananaDefending = false, triplebananaDefending = false, fakeboxDefending = false;
     public m_carController carController;
     private Rigidbody myRigidbody;
@@ -89,7 +90,7 @@ public class m_carItem : MonoBehaviour {
         carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
         myRigidbody = carController.GetComponent<Rigidbody>();
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-        checkPoints= GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+        checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
         cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
 
         foreach (Image img in cakeStains)
@@ -180,11 +181,87 @@ public class m_carItem : MonoBehaviour {
 
         if (other.tag == "StartCheckPoint")
         {
-            carHUD.stretchTime = 3;
             SetTimeLap();
         }
 
-    }   
+        if (other.tag == "StartCheckPoint" && checkPoints.currentLap == 4)
+        {
+            if (myPosition == 1)
+            {
+                carHUD.pos1.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos1.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player first position" + myPosition);
+            }
+            else if (myPosition == 2)
+            {
+                carHUD.pos2.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos2.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player secont position" + myPosition);
+            }
+            else if (myPosition == 3)
+            {
+                carHUD.pos3.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos3.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 3 position" + myPosition);
+            }
+            else if (myPosition == 4)
+            {
+                carHUD.pos4.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos4.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 4 position" + myPosition);
+            }
+            else if (myPosition == 5)
+            {
+                carHUD.pos5.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos5.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 5 position" + myPosition);
+            }
+            else if (myPosition == 6)
+            {
+                carHUD.pos6.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos6.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 6 position" + myPosition);
+            }
+            else if (myPosition == 7)
+            {
+                carHUD.pos7.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos7.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 7 position" + myPosition);
+            }
+            else if (myPosition == 8)
+            {
+                carHUD.pos8.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos8.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 8 position" + myPosition);
+            }
+            else if (myPosition == 9)
+            {
+                carHUD.pos9.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos9.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 9 position" + myPosition);
+            }
+            else if (myPosition == 10)
+            {
+                carHUD.pos10.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos10.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 10 position" + myPosition);
+            }
+            else if (myPosition == 11)
+            {
+                carHUD.pos11.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos11.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 11 position" + myPosition);
+            }
+            else if (myPosition == 12)
+            {
+                carHUD.pos12.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+                carHUD.pos12.GetComponentInParent<Image>().color = Color.yellow;
+                Debug.Log("Player 12 position" + myPosition);
+            }
+        }
+
+
+    }
 
     void GetRandomItem()
     {
@@ -495,16 +572,18 @@ public class m_carItem : MonoBehaviour {
 
     public void SetTimeLap()
     {
-        
+
         if (lap1Time == string.Empty && checkPoints.currentLap == 1)
         {
             lap1Time = carHUD.time_Text.text.ToString();
+            carHUD.stretchTime = 3;
             Debug.Log("Lap1Set");
         }
 
         if (lap2Time == string.Empty && checkPoints.currentLap == 2)
         {
             lap2Time = carHUD.time_Text.text.ToString();
+            carHUD.stretchTime = 3;
             Debug.Log("Lap2Set");
         }
 

@@ -157,8 +157,8 @@ public class m_carController : MonoBehaviour
         if (Input.GetAxis("Vertical") > 0 || inputAcc != 0)
         {
             scaledTorque = torque * currentAcc;
-            Debug.Log("Scaled torque: " + scaledTorque);
-            Debug.Log("Current speed: " + currentSpeed + "Current acceleration: " + currentAcc);
+            //Debug.Log("Scaled torque: " + scaledTorque);
+            //Debug.Log("Current speed: " + currentSpeed + "Current acceleration: " + currentAcc);
 
             wheelFR.brakeTorque = 0;
             wheelFL.brakeTorque = 0;

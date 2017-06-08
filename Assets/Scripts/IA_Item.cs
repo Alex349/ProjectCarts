@@ -14,14 +14,16 @@ public class IA_Item : MonoBehaviour
     private Animator anim;
     private float slipstream, slipstreamDuration, slipstreamCountDown;
     private PositionManager _positionManager;
+    private CarCheckPoints carCheckPoints;
     [SerializeField]
     public int myPosition;
     bool keepChecking = true;
 
     private string lap1Time, lap2Time, lap3Time;
     private float lapCountdown;
+    public float secondsCount, minuteCount, milisecondsCount;
 
-    private HudManager hudManager;
+    private m_carHUD hudManager;
     private NavMeshAgent agent;
     private NavMeshAI navmeshAI;
 
@@ -95,8 +97,9 @@ public class IA_Item : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         navmeshAI = GetComponent<NavMeshAI>();
-        hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
+        hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+        carCheckPoints = GetComponent<CarCheckPoints>();
         anim = GetComponentInChildren<Animator>();
         StartCoroutine(CheckLeaderboards());
 
@@ -112,6 +115,22 @@ public class IA_Item : MonoBehaviour
         startRaceCooldown -= Time.deltaTime;
         knockUpCountDown -= Time.deltaTime;
         spinCountDown -= Time.deltaTime;
+
+        if (hudManager.StartRace == true)
+        {
+            milisecondsCount += Time.deltaTime * 1000;
+
+            if (milisecondsCount >= 999)
+            {
+                secondsCount++;
+                milisecondsCount = 0;
+            }
+            else if (secondsCount >= 60)
+            {
+                minuteCount++;
+                secondsCount = 0;
+            }
+        }
 
         if (rainbowPotion == false)
         {
@@ -252,6 +271,70 @@ public class IA_Item : MonoBehaviour
             agent.acceleration = agent.acceleration / 2;
         }
 
+        if (carCheckPoints.currentLap == 4 && other.tag == "StartCheckPoint" )
+        {
+            if (myPosition == 1)
+            {
+                hudManager.pos1.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia first position" + " " + myPosition);
+            }
+            else if (myPosition == 2)
+            {
+                hudManager.pos2.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia second position" + " " + myPosition);
+            }
+            else if(myPosition == 3)
+            {
+                hudManager.pos3.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 3 position" + " " + myPosition);
+            }
+            else if(myPosition == 4)
+            {
+                hudManager.pos4.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 4 position" + " " + myPosition);
+            }
+            else if(myPosition == 5)
+            {
+                hudManager.pos5.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 5 position" + myPosition);
+            }
+            else if(myPosition == 6)
+            {
+                hudManager.pos6.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 6 position" + myPosition);
+            }
+            if (myPosition == 7)
+            {
+                hudManager.pos7.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 7 position" + myPosition);
+            }
+            if (myPosition == 8)
+            {
+                hudManager.pos8.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 8 position" + myPosition);
+            }
+            if (myPosition == 9)
+            {
+                hudManager.pos9.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 9 position" + myPosition);
+            }
+            if (myPosition == 10)
+            {
+                hudManager.pos10.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 10 position" + " " + myPosition);
+            }
+            if (myPosition == 11)
+            {
+                hudManager.pos11.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 11 position" + myPosition);
+            }
+            if (myPosition == 12)
+            {
+                hudManager.pos12.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 12 position" + myPosition);
+            }
+        }
+
     }
 
     void OnTriggerExit(Collider other)
@@ -269,7 +352,7 @@ public class IA_Item : MonoBehaviour
 
         if (rnd < 0.05)
         {
-            currentIAItem = "        triplebanana";
+            currentIAItem = "triplebanana";
         }
         if (rnd < 0.15)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FadeImage : MonoBehaviour {
+public class FadeImageGO : MonoBehaviour {
 
     private m_carHUD carHUD;
 

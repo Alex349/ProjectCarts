@@ -25,7 +25,7 @@ public class m_carItem : MonoBehaviour
 
     //Banana
     [SerializeField]
-    private float bananaEffect;
+    public float bananaEffect;
     [SerializeField]
     private float bananaEffectDuration = 3;
     [SerializeField]
@@ -84,6 +84,7 @@ public class m_carItem : MonoBehaviour
 
     private m_carHUD carHUD;
     public Image[] cakeStains;
+    private float randomMaxLeftStainSize, randomMaxMiddleStainSize, randomMaxRightStainSize;
 
     void Start()
     {
@@ -176,6 +177,10 @@ public class m_carItem : MonoBehaviour
         {
             Destroy(other.gameObject);
 
+            randomMaxLeftStainSize = (Random.Range(0.2f, 1f));
+            randomMaxMiddleStainSize = (Random.Range(0.2f, 1f));
+            randomMaxRightStainSize = (Random.Range(0.2f, 1f));
+
             bananaEffect = bananaEffectDuration;
         }
 
@@ -260,6 +265,18 @@ public class m_carItem : MonoBehaviour
             }
         }
 
+        if (other.tag == "CheckPoint")  ///checkPoints.checkPointArray[checkPoints.currentCheckpoint-2].index)
+        {
+            Debug.Log("CheckPoint");
+            Debug.Log("test " + checkPoints.checkPointArray[checkPoints.currentCheckpoint - 2]);
+
+            //if (checkPoints.currentCheckpoint < checkPoints.checkPointArray[checkPoints.currentCheckpoint - 2])
+            //{
+            //    carHUD.WrongWay();
+            //    Debug.Log("reverse");
+            //}
+
+        }
 
     }
 
@@ -485,16 +502,34 @@ public class m_carItem : MonoBehaviour
             carController.maxSpeed = carController.frontMaxSpeed * 0.5f;
 
             foreach (Image img in cakeStains)
+            {
                 img.enabled = true;
+            }
+
+            if (cakeStains[0].transform.localScale.x < randomMaxRightStainSize)
+            {
+                cakeStains[0].transform.localScale += Vector3.one * Time.deltaTime * 2;
+            }
+            if (cakeStains[1].transform.localScale.x < randomMaxMiddleStainSize)
+            {
+                cakeStains[1].transform.localScale += Vector3.one * Time.deltaTime * 2;
+            }
+            if (cakeStains[2].transform.localScale.x < randomMaxRightStainSize)
+            {
+                cakeStains[2].transform.localScale += Vector3.one * Time.deltaTime * 2;
+            }
 
             carController.currentAcc = bananaSlowedAcc;
-
         }
 
-        if (bananaEffect < 0 && bananaEffect > -0.1f) //&& startRaceCooldown < 0
+        if (bananaEffect < 0 && bananaEffect > -5.5f)
         {
             foreach (Image img in cakeStains)
                 img.enabled = false;
+
+            cakeStains[0].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            cakeStains[1].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            cakeStains[2].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             carController.maxSpeed = carController.frontMaxSpeed;
         }
 

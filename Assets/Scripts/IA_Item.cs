@@ -636,7 +636,7 @@ public class IA_Item : MonoBehaviour
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             }
-            Debug.Log("Unfreez");
+
             thePlayer = GameObject.FindWithTag("Player");
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -656,29 +656,6 @@ public class IA_Item : MonoBehaviour
             float rnd = (Random.Range(5f, 15f));
 
             IaUseItemCooldown = rnd;
-        }
-    }
-
-    public void SetTimeLap()
-    {
-        if (lap1Time == string.Empty)
-        {
-            //lap1Time = hudManager.time_Text.text.ToString();
-            Debug.Log("Lap1Set");
-            lapCountdown = 5;
-        }
-
-        if ((lap1Time != string.Empty && lap2Time == string.Empty) && lapCountdown < 0)
-        {
-            //lap2Time = hudManager.time_Text.text.ToString();
-            Debug.Log("Lap2Set");
-            lapCountdown = 5;
-        }
-
-        if ((lap1Time != string.Empty && lap2Time != string.Empty) && lapCountdown < 0)
-        {
-            // lap3Time = hudManager.time_Text.text.ToString();
-            lapCountdown = 400;
         }
     }
 

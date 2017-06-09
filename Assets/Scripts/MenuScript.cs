@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour
 {
+    public static MenuScript m_mainMenu;
     public GameObject mainMenuHolder;
     public GameObject optionsMenuHolder;
     public GameObject ArcadeMenuHolder;
@@ -16,8 +17,19 @@ public class MenuScript : MonoBehaviour
     public Toggle[] resolutionToggles;
     public int[] screenWidths;
     int activeScreenResIndex;
-    private int SelectionIndex = 0;
+    public static int SelectionIndex = 0;
 
+    void Awake()
+    {
+        if (m_mainMenu == null)
+        {
+            m_mainMenu = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         activeScreenResIndex = PlayerPrefs.GetInt("screen res index");
@@ -30,39 +42,43 @@ public class MenuScript : MonoBehaviour
     }
     void Update()
     {
-        if (mainMenuHolder.activeInHierarchy)
-        {
-
-        }
+        
     }
     public void Play()
     {
-        SceneManager.LoadScene("Scene_Copia");        
+        audioManager.audioInstance.ButtonMenuOK();
+        SceneManager.LoadScene("Gold_Version"); 
+               
     }
     public void ArcadeMenu()
     {
+        audioManager.audioInstance.ButtonMenuNext();
         mainMenuHolder.SetActive(false);
         ArcadeMenuHolder.SetActive(true);
         CharacterMenuHolder.SetActive(false);
     }
     public void CharacterMenu()
     {
+        audioManager.audioInstance.ButtonMenuNext();
         ArcadeMenuHolder.SetActive(false);
         CharacterMenuHolder.SetActive(true);
         models[SelectionIndex].SetActive(true);
     }
     public void Quit()
     {
+        audioManager.audioInstance.ButtonMenuBack();
         Application.Quit();
     }
     public void OptionsMenu()
     {
+        audioManager.audioInstance.ButtonMenuNext();
         mainMenuHolder.SetActive(false);
         optionsMenuHolder.SetActive(true);
         ArcadeMenuHolder.SetActive(false);
     }
     public void MainMenu()
     {
+        audioManager.audioInstance.ButtonMenuBack();
         mainMenuHolder.SetActive(true);
         optionsMenuHolder.SetActive(false);
         ArcadeMenuHolder.SetActive(false);
@@ -82,8 +98,7 @@ public class MenuScript : MonoBehaviour
     {
         for (int i = 0; i < resolutionToggles.Length; i++)
         {
-            resolutionToggles[i].interactable = !isFullScreen;
-            
+            resolutionToggles[i].interactable = !isFullScreen;            
         }
         if (isFullScreen)
         {
@@ -115,6 +130,7 @@ public class MenuScript : MonoBehaviour
         }
         models[SelectionIndex].SetActive(false);
         SelectionIndex = index;
+        audioManager.audioInstance.ButtonMenuNext();
         models[SelectionIndex].SetActive(true);
     }
 }

@@ -119,11 +119,35 @@ public class audioManager : MonoBehaviour
             m_audios[11].PlayOneShot(m_audios[11].clip, 1f);
         }
     }
+    public void ButtonMenuOK()
+    {
+        if (!m_audios[12].isPlaying)
+        {
+            m_audios[12].Play();
+        }
+    }
+    public void ButtonMenuBack()
+    {
+        if (!m_audios[13].isPlaying)
+        {
+            m_audios[13].Play();
+        }
+    }
+    public void ButtonMenuNext()
+    {
+        m_audios[14].PlayOneShot(m_audios[14].clip, 1f);
+
+        //if (!m_audios[14].isPlaying)
+        //{
+        //    m_audios[14].PlayOneShot(m_audios[14].clip, 1f);
+        //}
+        //else
+        //{
+
+        //}
+    }
     public void StopDrift()
     {
-        for (int i = 0; i < m_audios.Length; i++)
-        {
-            m_audios[4].Stop();
-        }
+        m_audios[4].Stop();
     }
 }

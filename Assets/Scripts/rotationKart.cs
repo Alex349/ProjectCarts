@@ -14,6 +14,6 @@ public class rotationKart : MonoBehaviour {
 	
 	void Update ()
     {
-        transform.Rotate(0, 0, deltaRotation * Time.deltaTime);
+        transform.Rotate(0, deltaRotation * Time.deltaTime, 0);
 	}
 }

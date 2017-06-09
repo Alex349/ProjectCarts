@@ -46,14 +46,20 @@ public class m_carHUD : MonoBehaviour
 
     void Start()
     {
-        m_car = FindObjectOfType<m_carController>();
-        timeNumbers = GameObject.Find("Time");
-        car_Item = FindObjectOfType<m_carItem>();
-        car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
-        positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-        InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
-        LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
-        LeaderboardEndGO.SetActive(false);
+        if (m_GM.CameraTravel())
+        {
+           if (GameObject.Find("HUDManager") != null)
+            {
+                m_car = FindObjectOfType<m_carController>();
+                timeNumbers = GameObject.Find("Time");
+                car_Item = FindObjectOfType<m_carItem>();
+                car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+                positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+                InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
+                LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
+                LeaderboardEndGO.SetActive(false);
+            }            
+        }        
     }
 
     void Update()
@@ -104,10 +110,10 @@ public class m_carHUD : MonoBehaviour
         {
             LeaderboardEnd();
         }
-        else if (carCheckPoints.currentLap == 4)
-        {
-           LeaderboardEnd();
-        }
+        //else if (carCheckPoints.currentLap == 4)
+        //{
+        //   LeaderboardEnd();
+        //}
         else
         {
             LeaderboardEndGO.SetActive(false);

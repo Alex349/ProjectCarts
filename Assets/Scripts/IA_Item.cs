@@ -95,16 +95,23 @@ public class IA_Item : MonoBehaviour
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        navmeshAI = GetComponent<NavMeshAI>();
-        hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
-        _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-        carCheckPoints = GetComponent<CarCheckPoints>();
-        anim = GetComponentInChildren<Animator>();
-        StartCoroutine(CheckLeaderboards());
+        if (m_GM.CameraTravel())
+        {
+            if (GameObject.Find("HUDManager") != null)
+            {
+                agent = GetComponent<NavMeshAgent>();
+                navmeshAI = GetComponent<NavMeshAI>();
+                hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+                _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+                carCheckPoints = GetComponent<CarCheckPoints>();
+                anim = GetComponentInChildren<Animator>();
+                StartCoroutine(CheckLeaderboards());
 
-        agent.speed = 0;
-        agent.acceleration = 0;
+                agent.speed = 0;
+                agent.acceleration = 0;
+            }
+        }       
+
     }
     // Update is called once per frame
     void Update()

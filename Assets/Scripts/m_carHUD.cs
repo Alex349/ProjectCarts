@@ -69,8 +69,12 @@ public class m_carHUD : MonoBehaviour
     void Update()
     {
         stretchTime -= Time.deltaTime;
+        countDown -= Time.deltaTime;
 
-        CountDown();
+        if (countDown >= -0.5f)
+        {
+            CountDown();
+        }        
 
         if (carCheckPoints.currentLap >= 4 )
         {
@@ -80,6 +84,7 @@ public class m_carHUD : MonoBehaviour
         if (StartRace == true)
         {
             milisecondsCount += Time.deltaTime * 1000;
+            audioManager.audioInstance.Music1stLap();
 
             if (milisecondsCount >= 999)
             {
@@ -122,10 +127,13 @@ public class m_carHUD : MonoBehaviour
         {
             LeaderboardEndGO.SetActive(false);
         }
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> origin/master
         randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
     }
 
@@ -228,8 +236,8 @@ public class m_carHUD : MonoBehaviour
     }
 
     void CountDown()
-    {
-        countDown -= Time.deltaTime;
+    {        
+        audioManager.audioInstance.countDownSound();
 
         if (countDown <= 3 && countDown > 2.1 || countDown <= 2 && countDown > 1.1 || countDown <= 1 && countDown > 0.1 || countDown < 0 && countDown > -0.8)
         {
@@ -251,7 +259,7 @@ public class m_carHUD : MonoBehaviour
             if (hasImageChanged1 == false)
             {
                 numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
-                hasImageChanged1 = true;
+                hasImageChanged1 = true;  
             }
 
             numberImage.sprite = numberSpriteList[1];
@@ -272,6 +280,8 @@ public class m_carHUD : MonoBehaviour
             {
                 m_car.m_rigidbody.AddRelativeForce(new Vector3 (0, 0, m_car.m_rigidbody.transform.forward.z) * m_car.startTurboForce, ForceMode.Acceleration);
                 Debug.Log("is accelerating");
+                audioManager.audioInstance.CarHorn();
+
             }
             if (hasImageChanged3 == false)
             {
@@ -291,7 +301,6 @@ public class m_carHUD : MonoBehaviour
         else if (countDown <= -1.1f)
         {
             numberImage.GetComponent<Image>().enabled = false;
-            countDown = 10000;
         }
     }
 

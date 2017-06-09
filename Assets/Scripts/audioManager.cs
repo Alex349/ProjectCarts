@@ -23,7 +23,7 @@ public class audioManager : MonoBehaviour
     }
 	void Start ()
     {
-        m_audios = GetComponents<AudioSource>();
+        m_audios = GetComponentsInChildren<AudioSource>();
         m_kart = FindObjectOfType<m_carController>();
 	}
 	
@@ -45,11 +45,13 @@ public class audioManager : MonoBehaviour
             m_audios[1].Play();
         }
     }
-    public void MotorFront()
+    public void MotorFront(float pitch)
     {     
         if (!m_audios[2].isPlaying)
         {
             m_audios[2].Play();
+            m_audios[2].pitch = pitch;
+            Debug.Log(pitch);
         }
     }
     public void MotorRear()
@@ -73,17 +75,55 @@ public class audioManager : MonoBehaviour
         {
             m_audios[5].Play();
             Debug.Log("playing turbo sound");
-        }
-        else
+        }        
+    }
+    public void Music1stLapIntro()
+    {
+        if (!m_audios[6].isPlaying)
         {
-            m_audios[5].Play();
+            m_audios[6].Play();
         }
     }
-    public void Stop()
+    public void Music1stLap()
+    {
+        if (!m_audios[7].isPlaying)
+        {
+            m_audios[7].Play();
+        }
+    }
+    public void MansionMusic()
+    {
+        if (!m_audios[8].isPlaying)
+        {
+            m_audios[8].Play();
+        }
+    }
+    public void CrashCar()
+    {
+        if (!m_audios[9].isPlaying)
+        {
+            m_audios[9].Play();
+        }
+    }
+    public void CarHorn()
+    {
+        if (!m_audios[10].isPlaying)
+        {
+            m_audios[10].Play();
+        }
+    }
+    public void countDownSound()
+    {
+        if (!m_audios[11].isPlaying)
+        {
+            m_audios[11].PlayOneShot(m_audios[11].clip, 1f);
+        }
+    }
+    public void StopDrift()
     {
         for (int i = 0; i < m_audios.Length; i++)
         {
-            m_audios[i].Stop();
+            m_audios[4].Stop();
         }
     }
 }

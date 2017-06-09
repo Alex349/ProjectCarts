@@ -246,8 +246,8 @@ public class m_carController : MonoBehaviour
                 else
                 {
                     m_rigidbody.drag = 3;
-                    //m_rigidbody.AddForce(-m_rigidbody.transform.forward * slowDownForce, ForceMode.Force);
-                    //Debug.DrawRay(m_rigidbody.transform.position, -m_rigidbody.transform.forward * slowDownForce, Color.black);
+
+                    audioManager.audioInstance.MotorFront(1 - currentSpeed * Time.deltaTime);
                 }
 
             }
@@ -264,9 +264,6 @@ public class m_carController : MonoBehaviour
                 else
                 {
                     m_rigidbody.drag = 3;
-                    //m_rigidbody.AddRelativeForce(m_rigidbody.transform.forward * slowDownForce, ForceMode.Force);
-                    //Debug.DrawRay(m_rigidbody.transform.position, m_rigidbody.transform.forward * slowDownForce, Color.green);
-
                 }
             }
         }
@@ -276,6 +273,7 @@ public class m_carController : MonoBehaviour
             {
                 driftDelay = 0;
                 m_rigidbody.AddForceAtPosition(Vector3.up * 150, m_rigidbody.transform.position, ForceMode.Acceleration);
+                audioManager.audioInstance.Turbo();
 
                 if (Input.GetAxis("Horizontal") < -0.5f || Input.GetAxis("HorizontalXbox") < -0.5f)
                 {
@@ -325,7 +323,14 @@ public class m_carController : MonoBehaviour
         {
             maxSpeed = frontMaxSpeed;
 
-            audioManager.audioInstance.MotorFront();
+            if (currentSpeed > frontMaxSpeed/2)
+            {
+                audioManager.audioInstance.MotorFront(1 + Time.deltaTime);
+            }
+            else
+            {
+                audioManager.audioInstance.MotorFront(1);
+            }        
 
             wheelBLFrontFriction = wheelBL.forwardFriction;
 
@@ -498,17 +503,18 @@ public class m_carController : MonoBehaviour
         }
 
         if (driveMode == DriveMode.Drift)
-        {
+        {           
             Drifting = true;
             driftFrwd = m_rigidbody.transform.right;            
 
             DriftBehaviour(wheelBL, wheelBR, wheelFL, wheelFR);
-            audioManager.audioInstance.MotorDrift();
+
+            audioManager.audioInstance.MotorDrift();            
+            
 
             if (rightDrift && (Input.GetAxis("Horizontal") == -1 || Input.GetAxis("HorizontalXbox") == -1))
             {
                 m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward - driftFrwd) * driftForce, ForceMode.Force);
-                Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward - driftFrwd) * driftForce);
 
                 m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                   m_rigidbody.transform.rotation.y - 12, 0.1f));
@@ -521,7 +527,6 @@ public class m_carController : MonoBehaviour
             else if (leftDrift && (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("HorizontalXbox") == 1))
             {
                 m_rigidbody.AddRelativeForce((m_rigidbody.transform.forward + driftFrwd) * driftForce, ForceMode.Force);
-                Debug.DrawRay(m_rigidbody.transform.position, (m_rigidbody.transform.forward + driftFrwd) * driftForce);
 
                 m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                   m_rigidbody.transform.rotation.y + 12, 0.1f));
@@ -568,18 +573,18 @@ public class m_carController : MonoBehaviour
             
                     Drifting = false;
                     rightDrift = false;
-                    leftDrift = false;
-            
-                    if (Input.GetAxis("Vertical") > 0)
+                    leftDrift = false;            
+                    
+                    if (currentSpeed > maxSpeed/2)
                     {
-                        audioManager.audioInstance.Stop();
+                        audioManager.audioInstance.Turbo();
+                    }
+                    else if (Input.GetAxis("Vertical") > 0)
+                    {
+                        audioManager.audioInstance.StopDrift();
                         driveMode = DriveMode.Front;
                     }
-                    else
-                    {
-                        audioManager.audioInstance.Stop();
-                    }
-            
+
                     canTurbo = false;
                 }
                 else if (driftCounter > 0 && isSpaceJustUp)
@@ -591,12 +596,12 @@ public class m_carController : MonoBehaviour
 
                     if (Input.GetAxis("Vertical") > 0)
                     {
-                        audioManager.audioInstance.Stop();
+                        audioManager.audioInstance.StopDrift();
                         driveMode = DriveMode.Front;
                     }
                     else
                     {
-                        audioManager.audioInstance.Stop();
+                        audioManager.audioInstance.StopDrift();
                     }
                 }
             }
@@ -610,8 +615,6 @@ public class m_carController : MonoBehaviour
                 else if (!isDriftingXbox && canTurbo)
                 {
                     StartCoroutine(TurboEnum());
-                    Debug.DrawRay(m_rigidbody.transform.position, m_rigidbody.transform.forward * endDriftTurboForce, Color.blue);
-
                     audioManager.audioInstance.Turbo();
 
                     driftCounter = 2f;
@@ -636,7 +639,7 @@ public class m_carController : MonoBehaviour
 
                     if (inputAcc > 0)
                     {
-                        audioManager.audioInstance.Stop();
+                        audioManager.audioInstance.StopDrift();
                         driveMode = DriveMode.Front;
                         
                     }
@@ -718,6 +721,11 @@ public class m_carController : MonoBehaviour
                 wheelFRDamp = wheelFR.wheelDampingRate;
                 wheelFRDamp = 0.5f;
                 wheelFR.wheelDampingRate = wheelFRDamp;
+
+                if ((hitFloor1.transform.position - m_rigidbody.transform.position).magnitude <= 4)
+                {
+                    audioManager.audioInstance.CarHorn();
+                }
             }
             else
             {
@@ -769,6 +777,9 @@ public class m_carController : MonoBehaviour
 
         driftFrwd = m_rigidbody.transform.right;
 
+        wheelBLTrail.enabled = true;
+        wheelBRTrail.enabled = true;
+
         if (groundedBL && groundedBR)
         {
             if (inputAcc > 0)
@@ -801,15 +812,13 @@ public class m_carController : MonoBehaviour
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * inputAcc +
                                                       driftFrwd * 2) * driftForce, ForceMode.Force);
 
-                        Debug.DrawRay(m_rigidbody.transform.position,(-m_rigidbody.transform.forward * inputAcc +
-                                                      driftFrwd * 2) * driftForce, Color.grey);
                     }
                     else if ((Input.GetAxis("HorizontalXbox") <= 1 && Input.GetAxis("HorizontalXbox") > 0))
                     {
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * inputAcc +
                                                       driftFrwd * 2) * driftForce, ForceMode.Force);
 
-                    }
+                    }                    
                 }
 
                 else if (leftDrift)
@@ -834,8 +843,7 @@ public class m_carController : MonoBehaviour
                     {
                         m_rigidbody.AddRelativeForce((-m_rigidbody.transform.forward * inputAcc -
                                                       driftFrwd * 2) * driftForce, ForceMode.Force);
-                        Debug.DrawRay(m_rigidbody.transform.position, (-m_rigidbody.transform.forward * inputAcc -
-                                                      driftFrwd * 2) * driftForce, Color.grey);
+
                     }
                     else if (Input.GetAxis("HorizontalXbox") >= -1 && Input.GetAxis("HorizontalXbox") < 0)
                     {
@@ -920,17 +928,21 @@ public class m_carController : MonoBehaviour
     {
         if (col.tag == "Turbo")
         {
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * turboForce, ForceMode.Impulse);
+            m_rigidbody.AddForce(m_rigidbody.transform.forward * turboForce, ForceMode.Acceleration);
         }
         if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "FakeMysteryBox" || col.tag == "Rocket")
         {
             m_animator.SetBool("isKnockedUp", true);
-            m_rigidbody.AddRelativeForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
+            m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
         }
-        else if (col.tag == "Water" || col.tag == "Banana")
+        if (col.tag == "Water" || col.tag == "Banana")
         {
             m_animator.SetBool("isSpinning", true);
-            m_rigidbody.AddRelativeForce(new Vector3(0, 0, -Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * slipperyForce, ForceMode.Impulse);
+            m_rigidbody.AddForce(new Vector3(0, 0, -Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * slipperyForce, ForceMode.Impulse);
+        }
+        if (col.tag == "Wall")
+        {
+            audioManager.audioInstance.CrashCar();
         }
         else
         {
@@ -1002,9 +1014,10 @@ public class m_carController : MonoBehaviour
     }    
     IEnumerator TurboEnum()
     {
-        m_rigidbody.AddRelativeForce(new Vector3(0, 0, m_rigidbody.transform.forward.z) * endDriftTurboForce, ForceMode.Acceleration);
-        Debug.DrawRay(m_rigidbody.transform.position, m_rigidbody.transform.forward * endDriftTurboForce, Color.blue);
+        m_rigidbody.AddForce(m_rigidbody.transform.forward * endDriftTurboForce, ForceMode.Acceleration);
+
         audioManager.audioInstance.Turbo();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
+        audioManager.audioInstance.StopDrift();
     }
 }

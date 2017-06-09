@@ -31,7 +31,8 @@ public class StraightRocket : MonoBehaviour
 
         if (rocketBounces >= 5)
         {
-            Destroy(this.gameObject);
+            GameObject.Find("AlertBoxHUD").GetComponent<RocketsHUDScript>().straightIsInside = false;
+            Destroy(gameObject);
         }
 
         RaycastHit hit = new RaycastHit();
@@ -50,6 +51,7 @@ public class StraightRocket : MonoBehaviour
 
         if (selfDestruct < 0)
         {
+            GameObject.Find("AlertBoxHUD").GetComponent<RocketsHUDScript>().straightIsInside = false;
             Destroy(this.gameObject);
         }
 
@@ -74,6 +76,7 @@ public class StraightRocket : MonoBehaviour
     {
         if (col.tag == "Player" || col.tag == "Kart")
         {
+            GameObject.Find("AlertBoxHUD").GetComponent<RocketsHUDScript>().straightIsInside = false;
             Destroy(this.gameObject);
         }
         if (col.tag == "Banana" || col.tag == "FakeMysteryBox")

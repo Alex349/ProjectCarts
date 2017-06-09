@@ -12,15 +12,19 @@ public class m_carHUD : MonoBehaviour
     public Image positionImage;
     public Image currentLapImage;
 
+    public GameObject timeNumbers;
+    public GameObject LeaderboardEndGO;
+
     public m_carItem car_Item;
     private CarCheckPoints car_Checkpoint;
+    private PositionManager positionManager;
     public Sprite[] itemSpriteList;
     public Sprite[] numberSpriteList;
     public Sprite[] numberPosition;
     public Sprite[] currentLapSprite;
 
     public Text time_Text, totalLaps_Text, coins_Text;
-    private float time, secondsCount, minuteCount, milisecondsCount;
+    public float time, secondsCount, minuteCount, milisecondsCount;
     private int currentPosition;
 
     [SerializeField]
@@ -31,65 +35,99 @@ public class m_carHUD : MonoBehaviour
     private m_carController m_car;
     private int randomItem = 0;
     private float itemRandomCounter = 0;
-
+    [HideInInspector] public float stretchTime = 0;
     public float scaleSpeed = 1f;
     private bool hasImageChanged0, hasImageChanged1, hasImageChanged2, hasImageChanged3;
+
+    public Text pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12;
+    public Image pos1Img, pos2Img, pos3Img, pos4Img, pos5Img, pos6Img, pos7Img, pos8Img, pos9Img, pos10Img, pos11Img, pos12Img;
 
     //private float scrollSpeed = 3f;
 
     void Start()
     {
-        m_car = FindObjectOfType<m_carController>();
-        car_Item = FindObjectOfType<m_carItem>();
-        car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
-        InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
+        if (m_GM.CameraTravel())
+        {
+           if (GameObject.Find("HUDManager") != null)
+            {
+                m_car = FindObjectOfType<m_carController>();
+                timeNumbers = GameObject.Find("Time");
+                car_Item = FindObjectOfType<m_carItem>();
+                car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+                positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+                InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
+                LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
+                LeaderboardEndGO.SetActive(false);
+            }            
+        }        
     }
 
     void Update()
     {
+        stretchTime -= Time.deltaTime;
+        countDown -= Time.deltaTime;
+
+        if (countDown >= -0.5f)
+        {
+        }
         CountDown();
 
         if (StartRace == true)
         {
-            UpdateTimerUI();
+            milisecondsCount += Time.deltaTime * 1000;
+            audioManager.audioInstance.Music1stLap();
+
+            if (milisecondsCount >= 999)
+            {
+                secondsCount++;
+                milisecondsCount = 0;
+            }
+            else if (secondsCount >= 60)
+            {
+                minuteCount++;
+                secondsCount = 0;
+            }
+
             UpdateItemUI();
+        }
+
+        if (stretchTime > 0)
+        {
+            StretchTime();
+            time_Text.color = Color.yellow;
+        }
+        else
+        {
+            UpdateTimerUI();
+            time_Text.color = Color.white;
         }
 
         UpdateLap();
 
-        //Coins UI
-        coins_Text.text = car_Item.money.ToString();
+        CoinUIFix();
 
-        if (coins_Text.text == "10")
+        if (Input.GetKey(KeyCode.U))
         {
-            coins_Text.color = Color.blue;
+            LeaderboardEnd();
         }
+        //else if (carCheckPoints.currentLap == 4)
+        //{
+        //   LeaderboardEnd();
+        //}
         else
         {
-            coins_Text.color = Color.white;
+            LeaderboardEndGO.SetActive(false);
         }
-
-
+<<<<<<< HEAD
+       // randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+=======
         randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+>>>>>>> origin/master
     }
 
     public void UpdateTimerUI()
     {
-        //set timer UI 3 digits als milisegons
-        milisecondsCount += Time.deltaTime * 1000;
-
-        time_Text.text = minuteCount + ": " + (int)secondsCount + ", " + milisecondsCount.ToString("000").Truncate(3);
-
-        if (milisecondsCount >= 999)
-        {
-            secondsCount++;
-            milisecondsCount = 0;
-        }
-        else if (secondsCount >= 60)
-        {
-            minuteCount++;
-            secondsCount = 0;
-        }
+        time_Text.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
     }
 
     public void UpdateItemUI()
@@ -186,8 +224,8 @@ public class m_carHUD : MonoBehaviour
     }
 
     void CountDown()
-    {
-        countDown -= Time.deltaTime;
+    {        
+       audioManager.audioInstance.countDownSound();
 
         if (countDown <= 3 && countDown > 2.1 || countDown <= 2 && countDown > 1.1 || countDown <= 1 && countDown > 0.1 || countDown < 0 && countDown > -0.8)
         {
@@ -195,8 +233,7 @@ public class m_carHUD : MonoBehaviour
         }
 
         if (countDown <= 3 && countDown > 2)
-        {
-            
+        {            
             if (hasImageChanged0 == false)
             {
                 numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
@@ -206,19 +243,17 @@ public class m_carHUD : MonoBehaviour
             numberImage.sprite = numberSpriteList[0];
         }
         else if (countDown <= 2 && countDown > 1)
-        {
-           
+        {           
             if (hasImageChanged1 == false)
             {
                 numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
-                hasImageChanged1 = true;
+                hasImageChanged1 = true;  
             }
 
             numberImage.sprite = numberSpriteList[1];
         }
         else if (countDown <= 1 && countDown > 0)
         {
-
             if (hasImageChanged2 == false)
             {
                 numberImage.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
@@ -227,12 +262,14 @@ public class m_carHUD : MonoBehaviour
 
             numberImage.sprite = numberSpriteList[2];
         }
-        else if (countDown <= 0)
-        {           
-
+        else if (countDown <= 0 && StartRace == false)
+        {         
             if (Input.GetAxis("Vertical") == 1 || Input.GetButton("Accelerate"))
             {
-                m_car.m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_car.m_rigidbody.transform.forward.z)) * m_car.startTurboForce, ForceMode.Acceleration);
+                m_car.m_rigidbody.AddRelativeForce(new Vector3 (0, 0, m_car.m_rigidbody.transform.forward.z) * m_car.startTurboForce, ForceMode.Acceleration);
+                Debug.Log("is accelerating");
+                audioManager.audioInstance.CarHorn();
+
             }
             if (hasImageChanged3 == false)
             {
@@ -240,13 +277,18 @@ public class m_carHUD : MonoBehaviour
                 hasImageChanged3 = true;
             }
 
-            numberImage.sprite = numberSpriteList[3];
+            numberImage.sprite = numberSpriteList[3];            
             
-            if (countDown <= -1.1f)
-            {
-                numberImage.GetComponent<Image>().enabled = false;
-            }
             StartRace = true;
+
+            if (countDown <= -10)
+            {
+               GameObject.Find("InitialCheckPoint").transform.gameObject.tag = "StartCheckPoint";
+            }
+        }
+        else if (countDown <= -1.1f)
+        {
+            numberImage.GetComponent<Image>().enabled = false;
         }
     }
 
@@ -305,6 +347,57 @@ public class m_carHUD : MonoBehaviour
         {
             positionImage.sprite = numberPosition[11];
         }
+    }
+
+    void StretchTime()
+    {
+        timeNumbers.transform.localScale = new Vector3(PingPong(Time.time * 0.5f, 0.9f, 1.1f), PingPong(Time.time * 0.5f, 0.9f, 1.1f), PingPong(Time.time * 0.5f, 0.9f, 1.1f));
+    }
+
+    void LeaderboardEnd()
+    {
+        LeaderboardEndGO.SetActive(true);
+        Debug.Log("U");
+    }
+
+    void CoinUIFix()
+    {
+        //Coins UI
+        coins_Text.text = car_Item.money.ToString();
+
+        if (coins_Text.text == "10")
+        {
+            coins_Text.color = Color.blue;
+        }
+        else
+        {
+            coins_Text.color = Color.white;
+        }
+        if (coins_Text.text == "11")
+        {
+            coins_Text.text = "10";
+        }
+        else if (coins_Text.text == "12")
+        {
+            coins_Text.text = "10";
+        }
+        else if (coins_Text.text == "13")
+        {
+            coins_Text.text = "10";
+        }
+        else if (coins_Text.text == "14")
+        {
+            coins_Text.text = "10";
+        }
+        else if (coins_Text.text == "15")
+        {
+            coins_Text.text = "10";
+        }
+    }
+
+    float PingPong(float aValue, float aMin, float aMax)
+    {
+        return Mathf.PingPong(aValue, aMax - aMin) + aMin;
     }
 }
 

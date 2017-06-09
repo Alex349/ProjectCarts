@@ -42,7 +42,7 @@ public class NavMeshAI : MonoBehaviour
         ia_Item = GetComponent<IA_Item>();
         link = null;
         agent.updateRotation = true;
-
+        InvokeRepeating("LookAtPoint", 3.0f, 0.5f);
         agent.autoBraking = false;
 
         Transform[] pathTransforms = path.GetComponentsInChildren<Transform>();
@@ -110,8 +110,7 @@ public class NavMeshAI : MonoBehaviour
 
         //transform.up = upDir;
 
-        var rotation = Quaternion.LookRotation(points[destPoint].position -transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5);
+
     }
 
     void OnTriggerEnter(Collider col)
@@ -167,5 +166,11 @@ public class NavMeshAI : MonoBehaviour
 
         ia_Item.iADefaultSpeed = spd;
         ia_Item.iADefaultAcc = acc;
+    }
+
+    void LookAtPoint()
+    {
+        var rotation = Quaternion.LookRotation(points[destPoint].position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);
     }
 }

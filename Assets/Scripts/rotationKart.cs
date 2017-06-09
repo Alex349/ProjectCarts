@@ -9,11 +9,11 @@ public class rotationKart : MonoBehaviour {
 
 	void Start ()
     {
-        m_rigidbody = GetComponentInParent<Rigidbody>();		
+        //m_rigidbody = GetComponentInParent<Rigidbody>();		
 	}
 	
 	void Update ()
     {
-        m_rigidbody.transform.Rotate(0, deltaRotation * Time.deltaTime, 0);
+        transform.Rotate(0, deltaRotation * Time.deltaTime, 0);
 	}
 }

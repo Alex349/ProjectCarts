@@ -14,14 +14,16 @@ public class IA_Item : MonoBehaviour
     private Animator anim;
     private float slipstream, slipstreamDuration, slipstreamCountDown;
     private PositionManager _positionManager;
+    private CarCheckPoints carCheckPoints;
     [SerializeField]
     public int myPosition;
     bool keepChecking = true;
 
     private string lap1Time, lap2Time, lap3Time;
     private float lapCountdown;
+    public float secondsCount, minuteCount, milisecondsCount;
 
-    private HudManager hudManager;
+    private m_carHUD hudManager;
     private NavMeshAgent agent;
     private NavMeshAI navmeshAI;
 
@@ -93,15 +95,23 @@ public class IA_Item : MonoBehaviour
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        navmeshAI = GetComponent<NavMeshAI>();
-        hudManager = GameObject.Find("HUDManager").GetComponent<HudManager>();
-        _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-        anim = GetComponentInChildren<Animator>();
-        StartCoroutine(CheckLeaderboards());
+        if (m_GM.CameraTravel())
+        {
+            if (GameObject.Find("HUDManager") != null)
+            {
+                agent = GetComponent<NavMeshAgent>();
+                navmeshAI = GetComponent<NavMeshAI>();
+                hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+                _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+                carCheckPoints = GetComponent<CarCheckPoints>();
+                anim = GetComponentInChildren<Animator>();
+                StartCoroutine(CheckLeaderboards());
 
-        agent.speed = 0;
-        agent.acceleration = 0;
+                agent.speed = 0;
+                agent.acceleration = 0;
+            }
+        }       
+
     }
     // Update is called once per frame
     void Update()
@@ -112,6 +122,22 @@ public class IA_Item : MonoBehaviour
         startRaceCooldown -= Time.deltaTime;
         knockUpCountDown -= Time.deltaTime;
         spinCountDown -= Time.deltaTime;
+
+        if (hudManager.StartRace == true)
+        {
+            milisecondsCount += Time.deltaTime * 1000;
+
+            if (milisecondsCount >= 999)
+            {
+                secondsCount++;
+                milisecondsCount = 0;
+            }
+            else if (secondsCount >= 60)
+            {
+                minuteCount++;
+                secondsCount = 0;
+            }
+        }
 
         if (rainbowPotion == false)
         {
@@ -252,6 +278,70 @@ public class IA_Item : MonoBehaviour
             agent.acceleration = agent.acceleration / 2;
         }
 
+        if (carCheckPoints.currentLap == 4 && other.tag == "StartCheckPoint" )
+        {
+            if (myPosition == 1)
+            {
+                hudManager.pos1.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia first position" + " " + myPosition);
+            }
+            else if (myPosition == 2)
+            {
+                hudManager.pos2.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia second position" + " " + myPosition);
+            }
+            else if(myPosition == 3)
+            {
+                hudManager.pos3.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 3 position" + " " + myPosition);
+            }
+            else if(myPosition == 4)
+            {
+                hudManager.pos4.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 4 position" + " " + myPosition);
+            }
+            else if(myPosition == 5)
+            {
+                hudManager.pos5.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 5 position" + myPosition);
+            }
+            else if(myPosition == 6)
+            {
+                hudManager.pos6.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 6 position" + myPosition);
+            }
+            if (myPosition == 7)
+            {
+                hudManager.pos7.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 7 position" + myPosition);
+            }
+            if (myPosition == 8)
+            {
+                hudManager.pos8.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 8 position" + myPosition);
+            }
+            if (myPosition == 9)
+            {
+                hudManager.pos9.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 9 position" + myPosition);
+            }
+            if (myPosition == 10)
+            {
+                hudManager.pos10.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 10 position" + " " + myPosition);
+            }
+            if (myPosition == 11)
+            {
+                hudManager.pos11.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 11 position" + myPosition);
+            }
+            if (myPosition == 12)
+            {
+                hudManager.pos12.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
+                Debug.Log("Ia 12 position" + myPosition);
+            }
+        }
+
     }
 
     void OnTriggerExit(Collider other)
@@ -269,7 +359,7 @@ public class IA_Item : MonoBehaviour
 
         if (rnd < 0.05)
         {
-            currentIAItem = "        triplebanana";
+            currentIAItem = "triplebanana";
         }
         if (rnd < 0.15)
         {
@@ -320,7 +410,6 @@ public class IA_Item : MonoBehaviour
             if (money < 10)
             {
                 currentIAItem = "coin";
-                Debug.Log("Coin");
             }
             else
             {
@@ -554,7 +643,7 @@ public class IA_Item : MonoBehaviour
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             }
-            Debug.Log("Unfreez");
+
             thePlayer = GameObject.FindWithTag("Player");
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -574,29 +663,6 @@ public class IA_Item : MonoBehaviour
             float rnd = (Random.Range(5f, 15f));
 
             IaUseItemCooldown = rnd;
-        }
-    }
-
-    public void SetTimeLap()
-    {
-        if (lap1Time == string.Empty)
-        {
-            //lap1Time = hudManager.time_Text.text.ToString();
-            Debug.Log("Lap1Set");
-            lapCountdown = 5;
-        }
-
-        if ((lap1Time != string.Empty && lap2Time == string.Empty) && lapCountdown < 0)
-        {
-            //lap2Time = hudManager.time_Text.text.ToString();
-            Debug.Log("Lap2Set");
-            lapCountdown = 5;
-        }
-
-        if ((lap1Time != string.Empty && lap2Time != string.Empty) && lapCountdown < 0)
-        {
-            // lap3Time = hudManager.time_Text.text.ToString();
-            lapCountdown = 400;
         }
     }
 

@@ -10,9 +10,6 @@ public class CarSmoothFollow : MonoBehaviour
     public float heightDamping = 2.0f;
 
     public float lookAtHeight = 0.0f;
-
-    public Transform parentObject;
-
     public float rotationSnapTime = 0.3F;
 
     public float distanceSnapTime;
@@ -35,19 +32,71 @@ public class CarSmoothFollow : MonoBehaviour
     private float yVelocity = 0.0F;
     private float zVelocity = 0.0F;
 
-    private m_carController m_kart;
     private Camera thisCamera;
+    private m_carController m_kart;
 
     void Start()
-    {
-        lookAtVector = new Vector3(0, lookAtHeight, 0);
-        m_kart = FindObjectOfType<m_carController>();
-        thisCamera = GetComponent<Camera>();
+    {       
+        if (m_GM.CameraTravel())
+        {
+            target = GameObject.Find("CameraTarget").transform;
+            LeftDriftTarget = GameObject.Find("CameraTargetL").transform;
+            RightDriftTarget = GameObject.Find("CameraTargetR").transform;
+
+            lookAtVector = new Vector3(0, lookAtHeight, 0);
+
+            m_kart = FindObjectOfType<m_carController>();
+
+            thisCamera = GetComponent<Camera>();
+        }
     }
 
     void FixedUpdate()
     {
-        distanceToKart = parentObject.transform.position - transform.position;
+        if (m_kart == null)
+        {
+            m_GM.CameraTravel();
+        }
+        else
+        {
+            if (m_kart.currentSpeed <= 5f)
+            {
+                currentHeight = wantedHeight;
+            }
+            else
+            {
+                currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+            }
+
+            if (m_kart.leftDrift)
+            {
+                rotationSnapTime = 0.5f;
+                transform.LookAt(Vector3.Lerp(target.position + lookAtVector, LeftDriftTarget.position + lookAtVector, 0.05f));
+
+            }
+            else if (m_kart.rightDrift)
+            {
+                rotationSnapTime = 0.5f;
+                transform.LookAt(Vector3.Lerp(target.position + lookAtVector, RightDriftTarget.position + lookAtVector, 0.05f));
+                //transform.LookAt(RightDriftTarget.position + lookAtVector);
+            }
+            if (m_kart.currentSpeed > m_kart.frontMaxSpeed - 1)
+            {
+                thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 55, 1f * Time.deltaTime);
+            }
+            else if (m_kart.currentSpeed >= 20)
+            {
+                thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 70, 1f * Time.deltaTime);
+            }
+            else if (thisCamera.fieldOfView > 45 && m_kart.currentSpeed < m_kart.frontMaxSpeed - 1)
+            {
+                thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 45, 1f * Time.deltaTime);
+            }
+
+
+        }
+
+        distanceToKart = target.transform.position - transform.position;
 
         rotationSnapTime = 0.125f;
         wantedHeight = target.position.y + height;
@@ -56,17 +105,7 @@ public class CarSmoothFollow : MonoBehaviour
         wantedRotationAngle = target.eulerAngles.y;
         currentRotationAngle = transform.eulerAngles.y;
         
-        currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);
-
-        if (m_kart.currentSpeed <= 0.1f)
-        {
-            currentHeight = wantedHeight;
-        }
-        else
-        {
-            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
-        }
-        
+        currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);       
 
         wantedPosition = target.position;
         wantedPosition.y = currentHeight;
@@ -78,32 +117,7 @@ public class CarSmoothFollow : MonoBehaviour
         transform.position = wantedPosition;
 
         transform.LookAt(target.position + lookAtVector);
-
-        if (m_kart.leftDrift)
-        {
-            rotationSnapTime = 0.5f;            
-            transform.LookAt(Vector3.Lerp(target.position + lookAtVector, LeftDriftTarget.position + lookAtVector, 0.05f));
-            
-        }
-        else if (m_kart.rightDrift)
-        {
-            rotationSnapTime = 0.5f;
-            transform.LookAt(Vector3.Lerp(target.position + lookAtVector, RightDriftTarget.position + lookAtVector, 0.05f));
-            //transform.LookAt(RightDriftTarget.position + lookAtVector);
-        }
-        if (m_kart.currentSpeed > m_kart.frontMaxSpeed - 1)
-        {
-            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 55, 1f * Time.deltaTime);
-        }
-        else if (m_kart.currentSpeed >= 20)
-        {
-            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 70, 1f * Time.deltaTime);
-        }
-        else if (thisCamera.fieldOfView > 45 && m_kart.currentSpeed < m_kart.frontMaxSpeed - 1)
-        {
-            thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 45, 1f * Time.deltaTime);
-        }
-                 
+           
     }
 
 }

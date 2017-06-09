@@ -58,6 +58,7 @@ public class HoamingRocket : MonoBehaviour
 
         if (selfDestruct < 0)
         {
+            GameObject.Find("AlertBoxHUD").GetComponent<RocketsHUDScript>().hoamingIsInside = false;
             Destroy(this.gameObject);
         }
 
@@ -75,6 +76,7 @@ public class HoamingRocket : MonoBehaviour
     {
         if (col.tag == "Player" || col.tag == "Kart")
         {
+            GameObject.Find("AlertBoxHUD").GetComponent<RocketsHUDScript>().hoamingIsInside = false;
             Destroy(this.gameObject);
         }
         if (col.tag == "Banana" || col.tag == "FakeMysteryBox")

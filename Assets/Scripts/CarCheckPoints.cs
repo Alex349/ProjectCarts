@@ -10,8 +10,10 @@ public class CarCheckPoints : MonoBehaviour
 
     void Start()
     {
+        for (int i = 0; i < checkPointArray.Length; i++)
+        {
+            checkPointArray[i] = GameObject.Find("Checkpoint").transform;
+        }        
     }
-
-
 }
 

@@ -13,7 +13,7 @@ public class m_carHUD : MonoBehaviour
     public Image currentLapImage;
 
     public GameObject timeNumbers;
-    public GameObject LeaderboardEndGO,PlayerLapRecap,WrongWayImg;
+    public GameObject LeaderboardEndGO;
 
     public m_carItem car_Item;
     private CarCheckPoints car_Checkpoint;
@@ -39,8 +39,6 @@ public class m_carHUD : MonoBehaviour
     public float scaleSpeed = 1f;
     private bool hasImageChanged0, hasImageChanged1, hasImageChanged2, hasImageChanged3;
 
-    public Text Lap1Text, Lap2Text, Lap3Text, TotalText;
-
     public Text pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12;
     public Image pos1Img, pos2Img, pos3Img, pos4Img, pos5Img, pos6Img, pos7Img, pos8Img, pos9Img, pos10Img, pos11Img, pos12Img;
 
@@ -48,22 +46,20 @@ public class m_carHUD : MonoBehaviour
 
     void Start()
     {
-        m_car = FindObjectOfType<m_carController>();
-        timeNumbers = GameObject.Find("Time");
-        car_Item = FindObjectOfType<m_carItem>();
-        car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
-        positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-
-        InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
-
-        LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
-        LeaderboardEndGO.SetActive(false);
-
-        PlayerLapRecap = GameObject.Find("PlayerLapRecap");
-        PlayerLapRecap.SetActive(false);
-
-        WrongWayImg = GameObject.Find("WrongWay");
-        WrongWayImg.SetActive(false);
+        if (m_GM.CameraTravel())
+        {
+           if (GameObject.Find("HUDManager") != null)
+            {
+                m_car = FindObjectOfType<m_carController>();
+                timeNumbers = GameObject.Find("Time");
+                car_Item = FindObjectOfType<m_carItem>();
+                car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+                positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+                InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
+                LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
+                LeaderboardEndGO.SetActive(false);
+            }            
+        }        
     }
 
     void Update()
@@ -75,11 +71,6 @@ public class m_carHUD : MonoBehaviour
         {
         }
         CountDown();
-
-        if (carCheckPoints.currentLap >= 4 )
-        {
-            StartRace = false;
-        }
 
         if (StartRace == true)
         {
@@ -119,15 +110,19 @@ public class m_carHUD : MonoBehaviour
         {
             LeaderboardEnd();
         }
-        else if (carCheckPoints.currentLap == 4)
-        {
-           LeaderboardEnd();
-        }
+        //else if (carCheckPoints.currentLap == 4)
+        //{
+        //   LeaderboardEnd();
+        //}
         else
         {
             LeaderboardEndGO.SetActive(false);
         }
+<<<<<<< HEAD
        // randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+=======
+        randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+>>>>>>> origin/master
     }
 
     public void UpdateTimerUI()
@@ -361,22 +356,8 @@ public class m_carHUD : MonoBehaviour
 
     void LeaderboardEnd()
     {
-        PlayerLapRecap.SetActive(false);
         LeaderboardEndGO.SetActive(true);
         Debug.Log("U");
-    }
-
-    void LapRecap()
-    {
-        Lap1Text.text = car_Item.lap1Time.ToString();
-        Lap2Text.text = car_Item.lap2Time.ToString();
-        Lap3Text.text = car_Item.lap3Time.ToString();
-
-        if (float.Parse(car_Item.lap1Time) < float.Parse(car_Item.lap2Time))
-        {
-
-        }
-        PlayerLapRecap.SetActive(true);
     }
 
     void CoinUIFix()
@@ -412,11 +393,6 @@ public class m_carHUD : MonoBehaviour
         {
             coins_Text.text = "10";
         }
-    }
-
-    public void WrongWay()
-    {
-        WrongWayImg.SetActive(true);
     }
 
     float PingPong(float aValue, float aMin, float aMax)

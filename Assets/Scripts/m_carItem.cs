@@ -88,15 +88,19 @@ public class m_carItem : MonoBehaviour
 
     void Start()
     {
-        carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
-        myRigidbody = carController.GetComponent<Rigidbody>();
-        _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-        checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
-        cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
+        if (m_GM.CameraTravel())
+        {
+            carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+            myRigidbody = carController.GetComponent<Rigidbody>();
+            _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+            checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+            cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
+        }
 
         foreach (Image img in cakeStains)
             img.enabled = false;
     }
+
     // Update is called once per frame
     void Update()
     {

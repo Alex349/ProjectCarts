@@ -88,7 +88,7 @@ public class m_carItem : MonoBehaviour
 
     void Start()
     {
-        if (m_GM.CameraTravel())
+        if (m_GM.managerReady)
         {
             carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
             myRigidbody = carController.GetComponent<Rigidbody>();

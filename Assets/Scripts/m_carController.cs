@@ -119,7 +119,7 @@ public class m_carController : MonoBehaviour
         isDriftingXbox = Input.GetButton("Drift");
         notDriftingXbox = Input.GetButtonUp("Drift");
 
-        if (m_hud.StartRace == true)
+        if (m_hud.StartRace == true && m_GM.managerReady)
         {
             if (wheelBL.rpm < g_RPM)
             {

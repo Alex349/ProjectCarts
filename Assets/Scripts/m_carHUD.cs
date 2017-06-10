@@ -46,9 +46,14 @@ public class m_carHUD : MonoBehaviour
 
     void Start()
     {
-        if (m_GM.CameraTravel())
-        {
-           if (GameObject.Find("HUDManager") != null)
+        
+    }
+
+    void Update()
+    {
+        if (m_GM.managerReady)
+        {          
+            if (m_car == null)
             {
                 m_car = FindObjectOfType<m_carController>();
                 timeNumbers = GameObject.Find("Time");
@@ -58,19 +63,16 @@ public class m_carHUD : MonoBehaviour
                 InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
                 LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
                 LeaderboardEndGO.SetActive(false);
-            }            
-        }        
-    }
+            }  
 
-    void Update()
-    {
-        stretchTime -= Time.deltaTime;
-        countDown -= Time.deltaTime;
+            stretchTime -= Time.deltaTime;
+            countDown -= Time.deltaTime;
 
-        if (countDown >= -0.5f)
-        {
-            CountDown();
-        }        
+            if (countDown >= -0.5f)
+            {
+                CountDown();
+            }
+        }           
 
         if (StartRace == true)
         {
@@ -89,36 +91,34 @@ public class m_carHUD : MonoBehaviour
             }
 
             UpdateItemUI();
-        }
+            UpdateLap();
+            CoinUIFix();
 
-        if (stretchTime > 0)
-        {
-            StretchTime();
-            time_Text.color = Color.yellow;
-        }
-        else
-        {
-            UpdateTimerUI();
-            time_Text.color = Color.white;
-        }
+            if (stretchTime > 0)
+            {
+                StretchTime();
+                time_Text.color = Color.yellow;
+            }
+            else
+            {
+                UpdateTimerUI();
+                time_Text.color = Color.white;
+            }
 
-        UpdateLap();
-
-        CoinUIFix();
-
-        if (Input.GetKey(KeyCode.U))
-        {
-            LeaderboardEnd();
-        }
-        //else if (carCheckPoints.currentLap == 4)
-        //{
-        //   LeaderboardEnd();
-        //}
-        else
-        {
-            LeaderboardEndGO.SetActive(false);
-        }
-        randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+            if (Input.GetKey(KeyCode.U))
+            {
+                LeaderboardEnd();
+            }
+            //else if (carCheckPoints.currentLap == 4)
+            //{
+            //    LeaderboardEnd();
+            //}
+            else
+            {
+                LeaderboardEndGO.SetActive(false);
+            }
+            randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+        }       
     }
 
     public void UpdateTimerUI()
@@ -200,7 +200,6 @@ public class m_carHUD : MonoBehaviour
 
     public void UpdateLap()
     {
-
         if (car_Checkpoint.currentLap == 0)
         {
             currentLapImage.sprite = currentLapSprite[0];

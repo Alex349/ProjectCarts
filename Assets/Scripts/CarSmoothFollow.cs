@@ -5,11 +5,11 @@ public class CarSmoothFollow : MonoBehaviour
 {
 
     public Transform target, LeftDriftTarget, RightDriftTarget;
-    public float distance = 20.0f;
-    public float height = 5.0f;
-    public float heightDamping = 2.0f;
+    public float distance = 3.0f;
+    public float height = -1.0f;
+    public float heightDamping = 10.0f;
 
-    public float lookAtHeight = 0.0f;
+    public float lookAtHeight = 1f;
     public float rotationSnapTime = 0.3F;
 
     public float distanceSnapTime;
@@ -34,31 +34,52 @@ public class CarSmoothFollow : MonoBehaviour
 
     private Camera thisCamera;
     private m_carController m_kart;
+    private Animator m_animator;
 
     void Start()
     {       
-        if (m_GM.CameraTravel())
-        {
-            target = GameObject.Find("CameraTarget").transform;
-            LeftDriftTarget = GameObject.Find("CameraTargetL").transform;
-            RightDriftTarget = GameObject.Find("CameraTargetR").transform;
-
-            lookAtVector = new Vector3(0, lookAtHeight, 0);
-
-            m_kart = FindObjectOfType<m_carController>();
-
-            thisCamera = GetComponent<Camera>();
-        }
+      
     }
 
     void FixedUpdate()
     {
-        if (m_kart == null)
+        if (m_GM.managerReady)
         {
-            m_GM.CameraTravel();
+            m_kart = FindObjectOfType<m_carController>();
+            target = GameObject.Find("CameraTarget").transform;
+            LeftDriftTarget = GameObject.Find("CameraTargetL").transform;
+            RightDriftTarget = GameObject.Find("CameraTargetR").transform;
+            
+            lookAtVector = new Vector3(0, lookAtHeight, 0);
+            thisCamera = GetComponent<Camera>();
+            m_animator = thisCamera.GetComponent<Animator>();
+            m_animator.enabled = false;            
         }
-        else
+
+        if (m_kart != null)
         {
+            distanceToKart = target.transform.position - transform.position;
+
+            rotationSnapTime = 0.125f;
+            wantedHeight = target.position.y + height;
+            currentHeight = transform.position.y;
+
+            wantedRotationAngle = target.eulerAngles.y;
+            currentRotationAngle = transform.eulerAngles.y;
+
+            currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);
+
+            wantedPosition = target.position;
+            wantedPosition.y = currentHeight;
+
+            usedDistance = Mathf.SmoothDampAngle(usedDistance, distance + (distanceToKart.magnitude * distanceMultiplier), ref zVelocity, distanceSnapTime);
+
+            wantedPosition += Quaternion.Euler(0, currentRotationAngle, 0) * new Vector3(0, 0, -usedDistance);
+
+            transform.position = wantedPosition;
+
+            transform.LookAt(target.position + lookAtVector);
+
             if (m_kart.currentSpeed <= 5f)
             {
                 currentHeight = wantedHeight;
@@ -92,32 +113,9 @@ public class CarSmoothFollow : MonoBehaviour
             {
                 thisCamera.fieldOfView = Mathf.Lerp(thisCamera.fieldOfView, 45, 1f * Time.deltaTime);
             }
-
-
         }
 
-        distanceToKart = target.transform.position - transform.position;
-
-        rotationSnapTime = 0.125f;
-        wantedHeight = target.position.y + height;
-        currentHeight = transform.position.y;
-
-        wantedRotationAngle = target.eulerAngles.y;
-        currentRotationAngle = transform.eulerAngles.y;
-        
-        currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);       
-
-        wantedPosition = target.position;
-        wantedPosition.y = currentHeight;
-
-        usedDistance = Mathf.SmoothDampAngle(usedDistance, distance + (distanceToKart.magnitude * distanceMultiplier), ref zVelocity, distanceSnapTime);
-
-        wantedPosition += Quaternion.Euler(0, currentRotationAngle, 0) * new Vector3(0, 0, -usedDistance);
-
-        transform.position = wantedPosition;
-
-        transform.LookAt(target.position + lookAtVector);
-           
     }
+
 
 }

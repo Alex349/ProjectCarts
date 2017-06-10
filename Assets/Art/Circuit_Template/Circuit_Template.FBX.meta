@@ -48,6 +48,7 @@ ModelImporter:
     100080: Checkpoint_4_Template_Ceiling
     100082: Checkpoint_5_Template_Ceiling
     100084: CheckPoint_6_Template_Ceiling
+    100086: CheckPoint_6_Template_Ceiling_Bottom
     400000: CheckPoint_0_Template_Floor_Central
     400002: CheckPoint_0_Template_Floor_Lateral
     400004: CheckPoint_0_Template_Walls_Door
@@ -91,6 +92,7 @@ ModelImporter:
     400080: Checkpoint_4_Template_Ceiling
     400082: Checkpoint_5_Template_Ceiling
     400084: CheckPoint_6_Template_Ceiling
+    400086: CheckPoint_6_Template_Ceiling_Bottom
     2300000: CheckPoint_0_Template_Floor_Central
     2300002: CheckPoint_0_Template_Floor_Lateral
     2300004: CheckPoint_0_Template_Walls_Door
@@ -132,6 +134,7 @@ ModelImporter:
     2300076: Checkpoint_4_Template_Ceiling
     2300078: Checkpoint_5_Template_Ceiling
     2300080: CheckPoint_6_Template_Ceiling
+    2300082: CheckPoint_6_Template_Ceiling_Bottom
     3300000: CheckPoint_0_Template_Floor_Central
     3300002: CheckPoint_0_Template_Floor_Lateral
     3300004: CheckPoint_0_Template_Walls_Door
@@ -173,6 +176,7 @@ ModelImporter:
     3300076: Checkpoint_4_Template_Ceiling
     3300078: Checkpoint_5_Template_Ceiling
     3300080: CheckPoint_6_Template_Ceiling
+    3300082: CheckPoint_6_Template_Ceiling_Bottom
     4300000: CheckPoint_0_Template_Walls_Fence
     4300002: CheckPoint_0_Template_Walls_External
     4300004: CheckPoint_1_Template_Walls
@@ -214,6 +218,7 @@ ModelImporter:
     4300076: CheckPoint_3_Template_Ceiling
     4300078: Checkpoint_1_Template_Ceiling
     4300080: CheckPoint_6_Template_Ceiling
+    4300082: CheckPoint_6_Template_Ceiling_Bottom
     7400000: Take 001
     9500000: //RootNode
   materials:

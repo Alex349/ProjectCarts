@@ -73,6 +73,11 @@ public class m_carHUD : MonoBehaviour
                 CountDown();
             }
         }           
+        if (countDown >= -0.5f)
+        {
+            CountDown();
+        }      
+
 
         if (StartRace == true)
         {
@@ -119,6 +124,23 @@ public class m_carHUD : MonoBehaviour
             }
             randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
         }       
+
+        if (Input.GetKey(KeyCode.U))
+        {
+            LeaderboardEnd();
+        }
+        //else if (carCheckPoints.currentLap == 4)
+        //{
+        //   LeaderboardEnd();
+        //}
+        else
+        {
+            LeaderboardEndGO.SetActive(false);
+        }
+
+       // randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+        randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+
     }
 
     public void UpdateTimerUI()
@@ -220,7 +242,7 @@ public class m_carHUD : MonoBehaviour
 
     void CountDown()
     {        
-        audioManager.audioInstance.countDownSound();
+       audioManager.audioInstance.countDownSound();
 
         if (countDown <= 3 && countDown > 2.1 || countDown <= 2 && countDown > 1.1 || countDown <= 1 && countDown > 0.1 || countDown < 0 && countDown > -0.8)
         {

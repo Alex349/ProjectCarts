@@ -13,6 +13,6 @@ public class rotateKartMenu : MonoBehaviour
 	
 	void Update ()
     {
-        transform.rotation = Quaternion.Euler(0, transform.rotation.y + deltaRotation * Time.deltaTime, 0);
+        transform.Rotate(0, transform.rotation.y - deltaRotation * Time.deltaTime, 0);
     }
 }

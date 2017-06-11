@@ -8,7 +8,7 @@ public class m_GM : MonoBehaviour
     public GameObject[] mainPlayer;
     public GameObject[] IAPlayers;
     public GameObject[] initSpawnPoints;
-    public static GameObject CanvasAmazing;
+    public static GameObject CanvasAmazing, LapCheckPoints, AlertBoxHUD, OffScreenLogic;
 
     private static Camera m_camera;
 
@@ -31,8 +31,14 @@ public class m_GM : MonoBehaviour
         }
 
         managerReady = false;
-        CanvasAmazing = GameObject.Find("Canvas_Amazing");
+        CanvasAmazing = GameObject.Find("Canvas_Gold");
         CanvasAmazing.SetActive(false);
+        LapCheckPoints = GameObject.Find("LapCheckPoints");
+        LapCheckPoints.SetActive(false);
+        AlertBoxHUD = GameObject.Find("AlertBoxHUD");
+        AlertBoxHUD.SetActive(false);
+        OffScreenLogic = GameObject.Find("OffScreenLogic");
+        OffScreenLogic.SetActive(false);
 
         m_camera = Camera.main;        
         m_camera.GetComponent<CameraScript>().enabled = false;
@@ -68,7 +74,11 @@ public class m_GM : MonoBehaviour
                 if (MenuScript.SelectionIndex == i)
                 {
                     CanvasAmazing.SetActive(true);
+
                     mainPlayer[i].SetActive(true);
+                    OffScreenLogic.SetActive(true);
+                    AlertBoxHUD.SetActive(true);
+                    LapCheckPoints.SetActive(true);
                     totalPlayers++;
                 }
             }

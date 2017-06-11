@@ -85,6 +85,7 @@ public class m_carItem : MonoBehaviour
     private m_carHUD carHUD;
     public Image[] cakeStains;
     private float randomMaxLeftStainSize, randomMaxMiddleStainSize, randomMaxRightStainSize;
+    private float startCheckReverseCountdown;
 
     void Start()
     {
@@ -93,6 +94,7 @@ public class m_carItem : MonoBehaviour
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
         checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
         cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
+        startCheckReverseCountdown = 3f;
 
         foreach (Image img in cakeStains)
             img.enabled = false;
@@ -277,19 +279,24 @@ public class m_carItem : MonoBehaviour
             }
         }
 
-        if (other.tag == "CheckPoint")  ///checkPoints.checkPointArray[checkPoints.currentCheckpoint-2].index)
+
+        if (other.tag == "CheckPoint")
         {
-            Debug.Log("CheckPoint");
-            Debug.Log("test " + checkPoints.checkPointArray[checkPoints.currentCheckpoint - 2]);
+            checkPoints.currentCheckpointReal = other.GetComponent<CheckPoints>().myPositionOnArray;
 
-            //if (checkPoints.currentCheckpoint < checkPoints.checkPointArray[checkPoints.currentCheckpoint - 2])
-            //{
-            //    carHUD.WrongWay();
-            //    Debug.Log("reverse");
-            //}
+            if (checkPoints.currentCheckpointReal == checkPoints.previousCheckpoint)
+            {
+                carHUD.WrongWay();
+            }
+            if (checkPoints.currentCheckpointReal == checkPoints.expectedCheckpoint)
+            {
+                carHUD.RightWay();
+            }
 
+            checkPoints.previousCheckpoint = other.GetComponent<CheckPoints>().myPositionOnArray - 1;
+
+            checkPoints.expectedCheckpoint = other.GetComponent<CheckPoints>().myPositionOnArray + 1;
         }
-
     }
 
     void GetRandomItem()

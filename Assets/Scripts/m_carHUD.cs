@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class m_carHUD : MonoBehaviour
 {
-    public CarCheckPoints carCheckPoints;
     public Image itemImage;
     public Image numberImage;
     public Image positionImage;
@@ -82,11 +81,16 @@ public class m_carHUD : MonoBehaviour
         }      
 
 
-        if (carCheckPoints.currentLap >= 4)
+        if (car_Checkpoint.currentLap >= 4)
         {
             StartRace = false;
         }
 
+        if (countDown <= -10)
+        {
+            Debug.Log("Sett!!");
+            GameObject.Find("InitialCheckPoint").transform.gameObject.tag = "StartCheckPoint";
+        }
 
         if (StartRace == true)
         {
@@ -123,7 +127,7 @@ public class m_carHUD : MonoBehaviour
             {
                 LeaderboardEnd();
             }
-            else if (carCheckPoints.currentLap == 4)
+            else if (car_Checkpoint.currentLap == 4)
             {
                 LeaderboardEnd();
             }
@@ -138,7 +142,7 @@ public class m_carHUD : MonoBehaviour
         {
             LeaderboardEnd();
         }
-        else if (carCheckPoints.currentLap == 4)
+        else if (car_Checkpoint.currentLap == 4)
         {
            LeaderboardEnd();
         }
@@ -308,10 +312,7 @@ public class m_carHUD : MonoBehaviour
             
             StartRace = true;
 
-            if (countDown <= -10)
-            {
-               GameObject.Find("InitialCheckPoint").transform.gameObject.tag = "StartCheckPoint";
-            }
+
         }
         else if (countDown <= -1.1f)
         {

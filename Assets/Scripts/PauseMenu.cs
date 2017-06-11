@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -27,111 +26,116 @@ public class PauseMenu : MonoBehaviour
     }
     void Update()
     {
-        if (mainPauseMenu != null)
-        {
-            for (int i = 0; i < mainPauseMenuButtons.Length; i++)
-            {
-                if (mainPauseMenuButtons[i].isActiveAndEnabled == false)
-                {
-                    mainPauseMenuButtons[0].Select();
-                }
-            }
-
-            if (Input.GetAxis("Vertical") < 0)
-            {
-                if (mainPauseMenuButtons[0].isActiveAndEnabled)
-                {
-                    mainPauseMenuButtons[1].Select();
-                }
-                else if (mainPauseMenuButtons[1].isActiveAndEnabled)
-                {
-                    mainPauseMenuButtons[2].Select();
-                }
-                else if (mainPauseMenuButtons[2].isActiveAndEnabled)
-                {
-                    mainPauseMenuButtons[0].Select();
-                }
-            }            
-            else if (Input.GetAxis("Vertical") > 0)
-            {
-                if (mainPauseMenuButtons[0].isActiveAndEnabled)
-                {
-                    mainPauseMenuButtons[2].Select();
-                }
-                else if (mainPauseMenuButtons[1].isActiveAndEnabled)
-                {
-                    mainPauseMenuButtons[0].Select();
-                }
-                else if (mainPauseMenuButtons[2].isActiveAndEnabled)
-                {
-                    mainPauseMenuButtons[1].Select();
-                }
-            }
-        }
-        else if (pauseMenu != null)
-        {            
-            for (int i = 0; i < TogglesOfResolution.Length; i++)
-            {
-                if (TogglesOfResolution[i].isActiveAndEnabled == false)
-                {
-                    TogglesOfResolution[0].Select();
-                }
-            }
-            if (Input.GetAxis("Vertical") < 0)
-            {
-                if (TogglesOfResolution[0].isActiveAndEnabled)
-                {
-                    TogglesOfResolution[1].Select();
-                }
-                else if (TogglesOfResolution[1].isActiveAndEnabled)
-                {
-                    TogglesOfResolution[2].Select();
-                }
-                else if (TogglesOfResolution[2].isActiveAndEnabled)
-                {
-                    TogglesOfResolution[3].Select();
-                }
-                else if (TogglesOfResolution[3].isActiveAndEnabled)
-                {
-                    TogglesOfResolution[0].Select();
-                }
-            }           
-
-            else if (Input.GetAxis("Vertical") > 0)
-            {
-                if (TogglesOfResolution[0].isActiveAndEnabled)
-                {
-                    TogglesOfResolution[3].Select();
-                }
-                else if (TogglesOfResolution[1].isActiveAndEnabled)
-                {
-                    TogglesOfResolution[0].Select();
-                }
-                else if (TogglesOfResolution[2].isActiveAndEnabled)
-                {
-                    TogglesOfResolution[3].Select();
-                }
-                else if (TogglesOfResolution[3].isActiveAndEnabled)
-                {
-                    TogglesOfResolution[0].Select();
-                }
-            }            
-        }       
+        //if (mainPauseMenu != null)
+        //{
+        //    for (int i = 0; i < mainPauseMenuButtons.Length; i++)
+        //    {
+        //        if (mainPauseMenuButtons[i].isActiveAndEnabled == false)
+        //        {
+        //            mainPauseMenuButtons[0].Select();
+        //        }
+        //    }
+        //
+        //    if (Input.GetAxis("Vertical") < 0)
+        //    {
+        //        if (mainPauseMenuButtons[0].isActiveAndEnabled)
+        //        {
+        //            mainPauseMenuButtons[1].Select();
+        //        }
+        //        else if (mainPauseMenuButtons[1].isActiveAndEnabled)
+        //        {
+        //            mainPauseMenuButtons[2].Select();
+        //        }
+        //        else if (mainPauseMenuButtons[2].isActiveAndEnabled)
+        //        {
+        //            mainPauseMenuButtons[0].Select();
+        //        }
+        //    }            
+        //    else if (Input.GetAxis("Vertical") > 0)
+        //    {
+        //        if (mainPauseMenuButtons[0].isActiveAndEnabled)
+        //        {
+        //            mainPauseMenuButtons[2].Select();
+        //        }
+        //        else if (mainPauseMenuButtons[1].isActiveAndEnabled)
+        //        {
+        //            mainPauseMenuButtons[0].Select();
+        //        }
+        //        else if (mainPauseMenuButtons[2].isActiveAndEnabled)
+        //        {
+        //            mainPauseMenuButtons[1].Select();
+        //        }
+        //    }
+        //}
+        //else if (pauseMenu != null)
+        //{            
+        //    for (int i = 0; i < TogglesOfResolution.Length; i++)
+        //    {
+        //        if (TogglesOfResolution[i].isActiveAndEnabled == false)
+        //        {
+        //            TogglesOfResolution[0].Select();
+        //        }
+        //    }
+        //    if (Input.GetAxis("Vertical") < 0)
+        //    {
+        //        if (TogglesOfResolution[0].isActiveAndEnabled)
+        //        {
+        //            TogglesOfResolution[1].Select();
+        //        }
+        //        else if (TogglesOfResolution[1].isActiveAndEnabled)
+        //        {
+        //            TogglesOfResolution[2].Select();
+        //        }
+        //        else if (TogglesOfResolution[2].isActiveAndEnabled)
+        //        {
+        //            TogglesOfResolution[3].Select();
+        //        }
+        //        else if (TogglesOfResolution[3].isActiveAndEnabled)
+        //        {
+        //            TogglesOfResolution[0].Select();
+        //        }
+        //    }           
+        //
+        //    else if (Input.GetAxis("Vertical") > 0)
+        //    {
+        //        if (TogglesOfResolution[0].isActiveAndEnabled)
+        //        {
+        //            TogglesOfResolution[3].Select();
+        //        }
+        //        else if (TogglesOfResolution[1].isActiveAndEnabled)
+        //        {
+        //            TogglesOfResolution[0].Select();
+        //        }
+        //        else if (TogglesOfResolution[2].isActiveAndEnabled)
+        //        {
+        //            TogglesOfResolution[3].Select();
+        //        }
+        //        else if (TogglesOfResolution[3].isActiveAndEnabled)
+        //        {
+        //            TogglesOfResolution[0].Select();
+        //        }
+        //    }            
+        //}       
         
     }
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
     }
     public void OptionsMenu()
     {
         mainPauseMenu.SetActive(false);
         optionsMenu.SetActive(true);
     }
+    public void MainPauseMenu()
+    {
+        optionsMenu.SetActive(false);
+        mainPauseMenu.SetActive(true);
+    }
     public void Exit()
     {
-        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadScene("MainMenu");
     }
     public void Back()
     {

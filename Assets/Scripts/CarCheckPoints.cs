@@ -15,7 +15,7 @@ public class CarCheckPoints : MonoBehaviour
 
         for (int i = 0; i < checkPointArray.Length; i++)
         {
-            checkPointArray[i] = gameObjectPoints.GetComponentsInChildren<Transform>()[i];
+            checkPointArray[i] = gameObjectPoints.GetComponentsInChildren<Transform>()[i + 1];
         }        
     }
 }

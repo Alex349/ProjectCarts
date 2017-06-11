@@ -46,25 +46,20 @@ public class m_carHUD : MonoBehaviour
 
     void Start()
     {
-        
+        m_car = FindObjectOfType<m_carController>();
+        timeNumbers = GameObject.Find("Time");
+        car_Item = FindObjectOfType<m_carItem>();
+        car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+        positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+        InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
+        LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
+        LeaderboardEndGO.SetActive(false);
     }
 
     void Update()
     {
         if (m_GM.managerReady)
-        {          
-            if (m_car == null)
-            {
-                m_car = FindObjectOfType<m_carController>();
-                timeNumbers = GameObject.Find("Time");
-                car_Item = FindObjectOfType<m_carItem>();
-                car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
-                positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-                InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
-                LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
-                LeaderboardEndGO.SetActive(false);
-            }  
-
+        {     
             stretchTime -= Time.deltaTime;
             countDown -= Time.deltaTime;
 
@@ -114,10 +109,10 @@ public class m_carHUD : MonoBehaviour
             {
                 LeaderboardEnd();
             }
-            //else if (carCheckPoints.currentLap == 4)
-            //{
-            //    LeaderboardEnd();
-            //}
+            else if (carCheckPoints.currentLap == 4)
+            {
+                LeaderboardEnd();
+            }
             else
             {
                 LeaderboardEndGO.SetActive(false);
@@ -129,10 +124,10 @@ public class m_carHUD : MonoBehaviour
         {
             LeaderboardEnd();
         }
-        //else if (carCheckPoints.currentLap == 4)
-        //{
-        //   LeaderboardEnd();
-        //}
+        else if (carCheckPoints.currentLap == 4)
+        {
+           LeaderboardEnd();
+        }
         else
         {
             LeaderboardEndGO.SetActive(false);

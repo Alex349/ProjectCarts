@@ -33,7 +33,9 @@ public class m_GM : MonoBehaviour
         managerReady = false;
         CanvasAmazing = GameObject.Find("Canvas_Amazing");
         CanvasAmazing.SetActive(false);
-        m_camera = Camera.main;
+
+        m_camera = Camera.main;        
+        m_camera.GetComponent<CameraScript>().enabled = false;
 
         cameraAnimator = Camera.main.GetComponent<Animator>();
         cameraAnimator.SetBool("raceStart", false);  
@@ -77,7 +79,8 @@ public class m_GM : MonoBehaviour
             managerReady = true;
             cameraAnimator.SetBool("raceStart", true);
             cameraAnimator.enabled = false;
-            m_camera.gameObject.AddComponent<CarSmoothFollow>();            
+            m_camera.GetComponent<CameraScript>().enabled = true;
+
         }        
     }    
 }

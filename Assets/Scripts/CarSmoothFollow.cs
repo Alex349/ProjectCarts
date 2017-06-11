@@ -51,9 +51,7 @@ public class CarSmoothFollow : MonoBehaviour
             RightDriftTarget = GameObject.Find("CameraTargetR").transform;
             
             lookAtVector = new Vector3(0, lookAtHeight, 0);
-            thisCamera = GetComponent<Camera>();
-            m_animator = thisCamera.GetComponent<Animator>();
-            m_animator.enabled = false;            
+            thisCamera = Camera.main;       
         }
 
         if (m_kart != null)

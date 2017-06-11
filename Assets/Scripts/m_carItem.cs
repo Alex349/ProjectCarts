@@ -88,14 +88,11 @@ public class m_carItem : MonoBehaviour
 
     void Start()
     {
-        if (m_GM.managerReady)
-        {
-            carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
-            myRigidbody = carController.GetComponent<Rigidbody>();
-            _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-            checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
-            cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
-        }
+        carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+        myRigidbody = carController.GetComponent<Rigidbody>();
+        _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+        checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+        cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
 
         foreach (Image img in cakeStains)
             img.enabled = false;
@@ -119,12 +116,14 @@ public class m_carItem : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.L))
             {
                 UseBanana();
+                audioManager.audioInstance.ThrowCake();
             }
             else
             {
                 if (Input.GetKeyUp(KeyCode.L))
                 {
                     ReleaseBanana();
+                    audioManager.audioInstance.ThrowItemGeneral();
                 }
             }
         }
@@ -133,12 +132,14 @@ public class m_carItem : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.L))
             {
                 UseTripleBanana();
+                audioManager.audioInstance.ThrowCake();
             }
             else
             {
                 if (Input.GetKeyUp(KeyCode.L))
                 {
                     ReleaseTripleBanana();
+                    audioManager.audioInstance.ThrowItemGeneral();
                 }
             }
         }
@@ -147,12 +148,14 @@ public class m_carItem : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.L))
             {
                 UseFakeBox();
+                audioManager.audioInstance.ThrowCake();
             }
             else
             {
                 if (Input.GetKeyUp(KeyCode.L))
                 {
                     ReleaseFakeBox();
+                    audioManager.audioInstance.ThrowItemGeneral();
                 }
             }
         }
@@ -170,6 +173,7 @@ public class m_carItem : MonoBehaviour
         if (other.tag == "MysteryBox")
         {
             Destroy(other.gameObject);
+            audioManager.audioInstance.PickBox();
 
             if (currentPlayerObject == "none")
             {
@@ -180,6 +184,7 @@ public class m_carItem : MonoBehaviour
         if (other.tag == "Banana")
         {
             Destroy(other.gameObject);
+            audioManager.audioInstance.HitCake();
 
             randomMaxLeftStainSize = (Random.Range(0.2f, 1f));
             randomMaxMiddleStainSize = (Random.Range(0.2f, 1f));
@@ -191,10 +196,13 @@ public class m_carItem : MonoBehaviour
         if (other.tag == "StartCheckPoint")
         {
             SetTimeLap();
+            audioManager.audioInstance.NewLap();
         }
 
         if (other.tag == "StartCheckPoint" && checkPoints.currentLap == 4)
         {
+            audioManager.audioInstance.EndMusic();
+
             if (myPosition == 1)
             {
                 carHUD.pos1.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
@@ -355,10 +363,12 @@ public class m_carItem : MonoBehaviour
         if (currentPlayerObject == "rainbowPotion")
         {
             currentPlayerObject = "none";
+            audioManager.audioInstance.RainbowPotion();
         }
         if (currentPlayerObject == "straightrocket")
         {
             Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
+            audioManager.audioInstance.LaunchRocket();
             currentPlayerObject = "none";
         }
 
@@ -366,19 +376,21 @@ public class m_carItem : MonoBehaviour
         {
             GameObject rocketTracker = (GameObject)Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation) as GameObject;
             rocketTracker.GetComponent<HoamingRocket>().shooterListPosition = myPosition;
+            audioManager.audioInstance.LauchHoamingRocket();
             currentPlayerObject = "none";
         }
 
         if (currentPlayerObject == "rockettofirst")
         {
             Instantiate(Resources.Load("Items/RocketToFirst"), frontSpawnVector, frontSpawn.rotation);
+            audioManager.audioInstance.LaunchRocketFirst();
             currentPlayerObject = "none";
         }
 
         if (currentPlayerObject == "triplerocketstraight")
         {
             Instantiate(Resources.Load("Items/RocketStraight"), frontSpawnVector, frontSpawn.rotation);
-
+            audioManager.audioInstance.LaunchRocket();
             rocketsShooted++;
 
             if (rocketsShooted >= 3)
@@ -392,6 +404,7 @@ public class m_carItem : MonoBehaviour
         {
             GameObject rocketTracker = (GameObject)Instantiate(Resources.Load("Items/RocketTracker"), frontSpawnVector, frontSpawn.rotation) as GameObject;
             rocketTracker.GetComponent<HoamingRocket>().shooterListPosition = myPosition;
+            audioManager.audioInstance.LauchHoamingRocket();
 
             rocketsShooted++;
 
@@ -406,12 +419,14 @@ public class m_carItem : MonoBehaviour
         {
             Debug.Log("Turbo");
             turboEffect = turboEffectDuration;
+            audioManager.audioInstance.TurboMode();
             currentPlayerObject = "none";
         }
 
         if (currentPlayerObject == "tripleturbo")
         {
             turboEffect = turboEffectDuration;
+            audioManager.audioInstance.TurboMode();
 
             turbosUsed++;
 
@@ -425,6 +440,7 @@ public class m_carItem : MonoBehaviour
         if (currentPlayerObject == "coin")
         {
             money = money + 5;
+            audioManager.audioInstance.CoinSound();
             currentPlayerObject = "none";
 
         }
@@ -432,6 +448,7 @@ public class m_carItem : MonoBehaviour
         if (currentPlayerObject == "froze")
         {
             frozeEffect = frozeEffectDuration;
+            audioManager.audioInstance.FrozeEffect();
             currentPlayerObject = "none";
         }
 

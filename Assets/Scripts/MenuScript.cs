@@ -18,6 +18,7 @@ public class MenuScript : MonoBehaviour
     public int[] screenWidths;
     int activeScreenResIndex;
     public static int SelectionIndex = 0;
+    public float deltaRotation;
 
     void Awake()
     {
@@ -47,7 +48,7 @@ public class MenuScript : MonoBehaviour
     public void Play()
     {
         audioManager.audioInstance.ButtonMenuOK();
-        //SceneManager.LoadScene("Gold_Version");                
+        SceneManager.LoadScene("Gold_Version");               
     }
     public void ArcadeMenu()
     {

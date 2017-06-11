@@ -1,18 +1,14 @@
 fileFormatVersion: 2
-guid: ae94ee80201dc494bb21893b8fe23273
-timeCreated: 1495552935
+guid: 3f3f93acadb793c4c8f79e0306360407
+timeCreated: 1497189152
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: FrontRightWheel
-    100002: //RootNode
-    100004: polySurface8
-    400000: FrontRightWheel
-    400002: //RootNode
-    400004: polySurface8
-    2300000: FrontRightWheel
-    3300000: FrontRightWheel
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
     4300000: FrontRightWheel
     9500000: //RootNode
   materials:

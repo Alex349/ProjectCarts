@@ -59,8 +59,10 @@ public class m_GM : MonoBehaviour
     {
         animDuration += Time.deltaTime;
 
-        if (animDuration >= 17 && !cameraAnimator.GetBool("raceStart"))
+        if (animDuration >= 1 && !cameraAnimator.GetBool("raceStart"))
         {
+            audioManager.audioInstance.PauseCinematicMusic();
+
             for (int i = 0; i < mainPlayer.Length; i++)
             {
                 if (MenuScript.SelectionIndex == i)
@@ -81,6 +83,10 @@ public class m_GM : MonoBehaviour
             cameraAnimator.enabled = false;
             m_camera.GetComponent<CameraScript>().enabled = true;
 
+        }
+        else
+        {
+            audioManager.audioInstance.CinematicMusic();
         }        
     }    
 }

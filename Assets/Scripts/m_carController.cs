@@ -54,6 +54,7 @@ public class m_carController : MonoBehaviour
     public float currentSpeed;
     private float driftCounter = 2f;
     private float rebufoCounter = 0;
+    private float animationCounter = 1;
     private m_carHUD m_hud;
 
     public bool Drifting;
@@ -76,7 +77,7 @@ public class m_carController : MonoBehaviour
     private int inputAcc;
     public TrailRenderer wheelBRTrail, wheelBLTrail;
     public float knockUpForce, slipperyForce;
-    private bool notDriftingXbox, canTurbo;
+    private bool notDriftingXbox, canTurbo, canDrive = true;
 
     public GameObject sparksBLWheel, sparksBRWheel, grassBLWheel, grassBRWheel;
     public Material sparkMaterialYellow, sparkMaterialBlue;
@@ -102,7 +103,10 @@ public class m_carController : MonoBehaviour
 
         driveMode = DriveMode.Stopped;
 
-        m_rigidbody.isKinematic = true;       
+        m_rigidbody.isKinematic = true;
+
+        m_carAnimator = GameObject.Find("KartAnimado180").GetComponent<Animator>();
+        m_CharacterAnimator = GameObject.Find("RamsesAnimado").GetComponent<Animator>();
     }
 
     public float Speed()
@@ -195,6 +199,10 @@ public class m_carController : MonoBehaviour
 
         m_rigidbody.drag = 0.5f;
         
+        if (canDrive == false)
+        {
+            animationCounter -= Time.deltaTime * 10;
+        }
     }
 
     void FixedUpdate()
@@ -336,6 +344,7 @@ public class m_carController : MonoBehaviour
         if (driveMode == DriveMode.Front)
         {
             maxSpeed = frontMaxSpeed;
+            audioManager.audioInstance.StopDrift();
 
             if (currentSpeed > frontMaxSpeed/2)
             {
@@ -477,6 +486,7 @@ public class m_carController : MonoBehaviour
         {
             maxSpeed = rearMaxSpeed;
 
+            audioManager.audioInstance.StopDrift();
             audioManager.audioInstance.MotorRear();
 
             //sideawaysFriction
@@ -556,6 +566,8 @@ public class m_carController : MonoBehaviour
 
                 stifness = 0;
 
+                audioManager.audioInstance.Contravolant();
+
                 //Debug.Log("SPACE:" + Input.GetKey("space") + ", DRIFT: " + Input.GetButton("Drift") + ", HORI:" + Input.GetAxis("Horizontal"));
 
             }
@@ -566,6 +578,8 @@ public class m_carController : MonoBehaviour
                 m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                   m_rigidbody.transform.rotation.y + 12, 0.1f));
                 stifness = 0;
+
+                audioManager.audioInstance.Contravolant();
 
             }
 
@@ -604,6 +618,7 @@ public class m_carController : MonoBehaviour
                 {
                     StartCoroutine(TurboEnum());
                     m_CharacterAnimator.SetBool("turbo?", true);
+                    audioManager.audioInstance.YeahPJ();
 
                     driftCounter = 2f;
             
@@ -966,13 +981,22 @@ public class m_carController : MonoBehaviour
         {
             m_rigidbody.AddForce(m_rigidbody.transform.forward * turboForce, ForceMode.Acceleration);
             m_CharacterAnimator.SetBool("turbo?", true);
+            
+            if (!canTurbo)
+            {
+                m_CharacterAnimator.SetBool("turbo?", false);
+            }
+            audioManager.audioInstance.YeahPJ();
         }
         if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "FakeMysteryBox" || col.tag == "Rocket")
-        {
+        {          
+            audioManager.audioInstance.NoPJ();
+            m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
+
             m_carAnimator.SetBool("isKnockedUp", true);
             m_CharacterAnimator.SetBool("isHit?", true);
 
-            m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
+            canDrive = false;            
         }
         if (col.tag == "Water" || col.tag == "Banana")
         {
@@ -983,14 +1007,12 @@ public class m_carController : MonoBehaviour
         }
         if (col.tag == "Wall")
         {
-            audioManager.audioInstance.CrashCar();
+            audioManager.audioInstance.CrashCar();            
         }
-        else
+        if (col.tag == "Kart")
         {
-            m_carAnimator.SetBool("isKnockedUp", false);
-            m_carAnimator.SetBool("isSpinning", false);     
-            m_CharacterAnimator.SetBool("isHit?", false);
-
+            audioManager.audioInstance.CrashCar2();
+            audioManager.audioInstance.OopsPJ();
         }
     }
     void OnTriggerStay(Collider col)
@@ -1012,6 +1034,8 @@ public class m_carController : MonoBehaviour
             {
                 m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * rebufoTurboForce, ForceMode.Acceleration);
                 m_CharacterAnimator.SetBool("turbo?", true);
+                audioManager.audioInstance.YeahPJ();
+
                 rebufoCounter = 0;
                 
             }
@@ -1040,7 +1064,21 @@ public class m_carController : MonoBehaviour
             maxSpeed = frontMaxSpeed;
             grassBLWheel.SetActive(false);
             grassBRWheel.SetActive(false);
-        }     
+        }
+        if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "FakeMysteryBox" || col.tag == "Rocket")
+        {
+            if (animationCounter <= 0)
+            {
+                Debug.Log("animation OUT");
+                m_carAnimator.SetBool("isKnockedUp", false);
+                m_carAnimator.SetBool("isSpinning", false);
+                m_CharacterAnimator.SetBool("isHit?", false);
+
+                animationCounter = 1;
+
+                canDrive = true;
+            }
+        }
     }
 
     //private Vector3 ResetPosition()

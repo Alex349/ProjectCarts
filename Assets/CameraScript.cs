@@ -70,7 +70,6 @@ public class CameraScript : MonoBehaviour
         if (m_kart.currentSpeed <= 5f)
         {
             currentHeight = wantedHeight;
-            Debug.Log("El cotxe està quiet");
         }
         else
         {

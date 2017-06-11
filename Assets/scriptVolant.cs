@@ -17,7 +17,7 @@ public class scriptVolant : MonoBehaviour {
 	void Update ()
     {
         m_volantini.transform.rotation = m_rotationi;
-        m_rotationi = new Quaternion(m_rotationi.x, m_rotationi.y, m_rotationi.z + Input.GetAxis("Horizontal") * deltaRotation, m_rotationi.w);
+        m_rotationi = new Quaternion(m_rotationi.x + Input.GetAxis("Horizontal") * deltaRotation, m_rotationi.z, m_rotationi.y, m_rotationi.w);
 
     }
 }

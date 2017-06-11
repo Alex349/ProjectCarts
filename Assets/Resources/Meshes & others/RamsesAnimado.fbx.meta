@@ -97,6 +97,7 @@ ModelImporter:
     7400018: Throw
     7400020: Jump
     9500000: //RootNode
+    11100000: //RootNode
     13700000: polySurface6
   materials:
     importMaterials: 1
@@ -1306,7 +1307,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

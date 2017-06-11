@@ -51,7 +51,6 @@ public class audioManager : MonoBehaviour
         {
             m_audios[2].Play();
             m_audios[2].pitch = pitch;
-            Debug.Log(pitch);
         }
     }
     public void MotorRear()
@@ -67,14 +66,17 @@ public class audioManager : MonoBehaviour
         {
             m_audios[4].Play();
             m_audios[2].Play();
-        }      
+        }
+        else if (m_audios[15].isPlaying)
+        {
+            m_audios[15].Stop();
+        }
     }
     public void Turbo()
     {
         if (!m_audios[5].isPlaying)
         {
             m_audios[5].Play();
-            Debug.Log("playing turbo sound");
         }        
     }
     public void Music1stLapIntro()
@@ -136,18 +138,59 @@ public class audioManager : MonoBehaviour
     public void ButtonMenuNext()
     {
         m_audios[14].PlayOneShot(m_audios[14].clip, 1f);
-
-        //if (!m_audios[14].isPlaying)
-        //{
-        //    m_audios[14].PlayOneShot(m_audios[14].clip, 1f);
-        //}
-        //else
-        //{
-
-        //}
+      
     }
     public void StopDrift()
     {
         m_audios[4].Stop();
+        m_audios[15].Stop();
     }
+    public void Contravolant()
+    {
+        if (!m_audios[15].isPlaying)
+        {
+            m_audios[15].Play();
+        }
+        else if (m_audios[4].isPlaying)
+        {
+            m_audios[4].Stop();
+        }
+    }
+    public void CrashCar2()
+    {
+        if (!m_audios[16].isPlaying)
+        {
+            m_audios[16].Play();
+        }
+    }
+    public void NoPJ()
+    {
+        if (!m_audios[17].isPlaying)
+        {
+            m_audios[17].Play();
+        }
+    }
+
+    public void LauhgPJ()
+    {
+        if (!m_audios[18].isPlaying)
+        {
+            m_audios[18].Play();
+        }
+    }
+    public void YeahPJ()
+    {
+        if (!m_audios[19].isPlaying)
+        {
+            m_audios[19].Play();
+        }
+    }
+    public void OopsPJ()
+    {
+        if (!m_audios[20].isPlaying)
+        {
+            m_audios[20].Play();
+        }
+    }
+
 }

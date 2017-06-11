@@ -31,74 +31,8 @@ public class wagonSpawner : MonoBehaviour
 
         if (currentTime > spawningTime)
         {
-            barrelSpawned = true;
             Instantiate(Resources.Load("Hazards/Barrel_Def"), initPoint.position, new Quaternion (0, 0, 0, 0));
             currentTime = 0;
-        }
-        if (barrelSpawned == true && firstBarrelDestroyed)
-        {            
-           // distanceToFirstWall = firstWall.transform.position - instanceWagon.transform.position;
-           // distanceToLastWall = lastWall.transform.position - instanceWagon.transform.position;            
-           //
-           // if (distanceToFirstWall.magnitude <= 7 && !firstWallReached)
-           // {
-           //     firstWall.transform.position = Vector3.Lerp(firstWall.transform.position, firstWallFinalPoint.position, deltaUpdate);
-           //     firstWallReached = true;
-           // }
-           // else if (distanceToFirstWall.magnitude > 7 && firstWallReached)
-           // {
-           //     firstWall.transform.position = Vector3.Lerp(firstWall.transform.position, firstWallInitPoint.position, deltaUpdate);
-           //     firstWallReached = false;
-           // }
-           // if (distanceToLastWall.magnitude <= 7 && !secondWallReached)
-           // {
-           //     lastWall.transform.position = Vector3.Lerp(lastWall.transform.position, lastWallFinalPoint.position, deltaUpdate);
-           //     secondWallReached = true;
-           // }
-           // else if (distanceToLastWall.magnitude > 7 && secondWallReached )
-           // {
-           //     lastWall.transform.position = Vector3.Lerp(lastWall.transform.position, lastWallInitPoint.position, deltaUpdate);
-           //
-           //     if (distanceToLastWall.magnitude > 30)
-           //     {
-           //         secondWallReached = false;
-           //         Destroy(instanceWagon);
-           //         wagonSpawned = false;
-           //         currentTime = 0f;
-           //     }
-           // }                        
-        }
-        if (firstBarrelDestroyed == false)
-        {
-           // distanceToFirstWall = firstWall.transform.position - wagon.transform.position;
-           // distanceToLastWall = lastWall.transform.position - wagon.transform.position;
-           //
-           // if (distanceToFirstWall.magnitude <= 7 && !firstWallReached)
-           // {
-           //     firstWall.transform.position = Vector3.Lerp(firstWall.transform.position, firstWallFinalPoint.position, deltaUpdate);
-           //     firstWallReached = true;
-           // }
-           // else if (distanceToFirstWall.magnitude > 7 && firstWallReached)
-           // {
-           //     firstWall.transform.position = Vector3.Lerp(firstWall.transform.position, firstWallInitPoint.position, deltaUpdate);
-           //     firstWallReached = false;
-           // }
-           // if (distanceToLastWall.magnitude <= 7)
-           // {
-           //     lastWall.transform.position = Vector3.Lerp(lastWall.transform.position, lastWallFinalPoint.position, deltaUpdate);
-           //     secondWallReached = true;
-           // }
-           // else if (distanceToLastWall.magnitude > 7 && secondWallReached)
-           // {
-           //     lastWall.transform.position = Vector3.Lerp(lastWall.transform.position, lastWallInitPoint.position, deltaUpdate);
-           //     
-           //     if (distanceToLastWall.magnitude > 30)
-           //     {
-           //         secondWallReached = false;
-           //         Destroy(wagon);
-           //         firstWagonDestroyed = true;
-           //     }                               
-           // }      
-        }       
+        }            
     }
 }

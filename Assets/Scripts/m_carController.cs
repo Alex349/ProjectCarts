@@ -54,6 +54,7 @@ public class m_carController : MonoBehaviour
     public float currentSpeed;
     private float driftCounter = 2f;
     private float rebufoCounter = 0;
+    private float animationCounter = 1;
     private m_carHUD m_hud;
 
     public bool Drifting;
@@ -64,7 +65,6 @@ public class m_carController : MonoBehaviour
     private Vector3 driftFrwd;
     private float stifness = 0;
     public ParticleSystem[] Sfire;
-    private ParticleSystem[] SubSFire = new ParticleSystem[16];
 
     private bool isSpaceDown = false;
     private bool isSpaceJustUp = false;
@@ -73,13 +73,13 @@ public class m_carController : MonoBehaviour
     public float slowDownForce;
     public float frontTurnRadius, rearTurnRadius, driftTurnRadius;
 
-    public Animator m_animator;
+    public Animator m_carAnimator, m_CharacterAnimator;
     private int inputAcc;
     public TrailRenderer wheelBRTrail, wheelBLTrail;
     public float knockUpForce, slipperyForce;
-    private bool notDriftingXbox, canTurbo;
+    private bool notDriftingXbox, canTurbo, canDrive = true;
 
-    public GameObject particleSystemBLWheel, particleSystemBRWheel;
+    public GameObject sparksBLWheel, sparksBRWheel, grassBLWheel, grassBRWheel;
     public Material sparkMaterialYellow, sparkMaterialBlue;
 
     void Start()
@@ -95,10 +95,18 @@ public class m_carController : MonoBehaviour
         wheelBLTrail.enabled = false;
         wheelBRTrail.enabled = false;
 
-        particleSystemBLWheel.SetActive(false);
-        particleSystemBRWheel.SetActive(false);
+        sparksBLWheel.SetActive(false);
+        sparksBRWheel.SetActive(false);
+
+        grassBLWheel.SetActive(false);
+        grassBRWheel.SetActive(false);
 
         driveMode = DriveMode.Stopped;
+
+        m_rigidbody.isKinematic = true;
+
+        m_carAnimator = GameObject.Find("KartAnimado180").GetComponent<Animator>();
+        m_CharacterAnimator = GameObject.Find("RamsesAnimado").GetComponent<Animator>();
     }
 
     public float Speed()
@@ -113,7 +121,7 @@ public class m_carController : MonoBehaviour
     }
 
     void Update()
-    {
+    {       
         isSpaceDown = Input.GetKey("space");
         isSpaceJustUp = Input.GetKeyUp("space");
         isDriftingXbox = Input.GetButton("Drift");
@@ -121,6 +129,8 @@ public class m_carController : MonoBehaviour
 
         if (m_hud.StartRace == true)
         {
+            m_rigidbody.isKinematic = false;
+
             if (wheelBL.rpm < g_RPM)
             {
                 scaledTorque = Mathf.Lerp(scaledTorque / 10, scaledTorque, wheelBL.rpm / g_RPM);
@@ -160,11 +170,13 @@ public class m_carController : MonoBehaviour
         {
             wheelFR.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
             wheelFL.steerAngle = Input.GetAxis("Horizontal") * turnRadius;
+            m_CharacterAnimator.SetFloat("horizontalInput", Input.GetAxis("Horizontal"));
         }
         if (Input.GetAxis("HorizontalXbox") != 0)
         {
             wheelFR.steerAngle = Input.GetAxis("HorizontalXbox") * turnRadius;
-            wheelFL.steerAngle = Input.GetAxis("HorizontalXbox") * turnRadius;            
+            wheelFL.steerAngle = Input.GetAxis("HorizontalXbox") * turnRadius;
+            m_CharacterAnimator.SetFloat("horizontalInput", Input.GetAxis("HorizontalXbox"));
         }
         else if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("HorizontalXbox") == 0)
         {
@@ -184,9 +196,13 @@ public class m_carController : MonoBehaviour
         {
             driveMode = DriveMode.Stopped;           
         }
-        m_rigidbody.drag = 0.5f;
 
-        //EngineSound();
+        m_rigidbody.drag = 0.5f;
+        
+        if (canDrive == false)
+        {
+            animationCounter -= Time.deltaTime * 10;
+        }
     }
 
     void FixedUpdate()
@@ -197,19 +213,15 @@ public class m_carController : MonoBehaviour
 
         for (int i = 0; i < Sfire.Length; i++)
         {
-            for (int r = 0; r < SubSFire.Length; r++)
-            {
-                SubSFire = Sfire[i].GetComponentsInChildren<ParticleSystem>();
-                ParticleSystem.VelocityOverLifetimeModule fireVelocity = SubSFire[r].GetComponent<ParticleSystem>().velocityOverLifetime;
-                fireVelocity.xMultiplier = -currentSpeed;
-                ParticleSystem.ColorOverLifetimeModule fireColor = SubSFire[r].GetComponent<ParticleSystem>().colorOverLifetime;
-                fireVelocity.z = 0;                
-            }
-
+            Sfire[i].GetComponents<ParticleSystem>();
+            ParticleSystem.VelocityOverLifetimeModule fireVelocity = Sfire[i].GetComponent<ParticleSystem>().velocityOverLifetime;
+            fireVelocity.xMultiplier = -currentSpeed;
+            ParticleSystem.ColorOverLifetimeModule fireColor = Sfire[i].GetComponent<ParticleSystem>().colorOverLifetime;
+            fireVelocity.z = 0;           
         }
         if (inputAcc != 0 && !Drifting)
         {
-            //m_rigidbody.AddRelativeForce(m_rigidbody.transform.forward * currentAcc * inputAcc, ForceMode.Acceleration);
+            m_rigidbody.AddForce(m_rigidbody.transform.forward * currentAcc * inputAcc, ForceMode.Acceleration);
             //Debug.DrawRay(m_rigidbody.transform.position, m_rigidbody.transform.forward * currentAcc * inputAcc);
 
             wheelBR.motorTorque = scaledTorque;
@@ -274,6 +286,7 @@ public class m_carController : MonoBehaviour
                 driftDelay = 0;
                 m_rigidbody.AddForceAtPosition(Vector3.up * 150, m_rigidbody.transform.position, ForceMode.Acceleration);
                 audioManager.audioInstance.Turbo();
+                
 
                 if (Input.GetAxis("Horizontal") < -0.5f || Input.GetAxis("HorizontalXbox") < -0.5f)
                 {
@@ -315,13 +328,23 @@ public class m_carController : MonoBehaviour
             wheelFR.brakeTorque = brakeTorque;
             wheelFL.brakeTorque = brakeTorque;
             wheelBR.brakeTorque = brakeTorque;
-            wheelBL.brakeTorque = brakeTorque;                  
+            wheelBL.brakeTorque = brakeTorque;  
+            
+            Sfire[0].Play();
+            Sfire[1].Play();
+            Sfire[2].Play();
+            Sfire[3].Play();
+            Sfire[4].Play();
+            Sfire[5].Play();
+            Sfire[6].Play();
+            Sfire[7].Play();                
         }
 
         //driveMode front
         if (driveMode == DriveMode.Front)
         {
             maxSpeed = frontMaxSpeed;
+            audioManager.audioInstance.StopDrift();
 
             if (currentSpeed > frontMaxSpeed/2)
             {
@@ -443,8 +466,19 @@ public class m_carController : MonoBehaviour
             {
                 turnRadius = frontTurnRadius;
             }
-            particleSystemBLWheel.SetActive(false);
-            particleSystemBRWheel.SetActive(false);         
+            sparksBLWheel.SetActive(false);
+            sparksBRWheel.SetActive(false);
+
+            Sfire[0].Stop();
+            Sfire[1].Stop();
+            Sfire[2].Stop();
+            Sfire[3].Stop();
+            Sfire[4].Stop();
+            Sfire[5].Stop();
+            Sfire[6].Stop();
+            Sfire[7].Stop();
+
+            m_CharacterAnimator.SetBool("turbo?", false);
         }
 
         //drivemode rear
@@ -452,7 +486,12 @@ public class m_carController : MonoBehaviour
         {
             maxSpeed = rearMaxSpeed;
 
+<<<<<<< HEAD
             //audioManager.audioInstance.MotorRear();
+=======
+            audioManager.audioInstance.StopDrift();
+            audioManager.audioInstance.MotorRear();
+>>>>>>> origin/master
 
             //sideawaysFriction
             wheelBRDriftFriction = wheelBR.sidewaysFriction;
@@ -497,9 +536,19 @@ public class m_carController : MonoBehaviour
 
             turnRadius = rearTurnRadius;
 
-            particleSystemBLWheel.SetActive(false);
-            particleSystemBRWheel.SetActive(false);            
+            sparksBLWheel.SetActive(false);
+            sparksBRWheel.SetActive(false);
 
+            Sfire[0].Play();
+            Sfire[1].Play();
+            Sfire[2].Play();
+            Sfire[3].Play();
+            Sfire[4].Play();
+            Sfire[5].Play();
+            Sfire[6].Play();
+            Sfire[7].Play();
+
+            m_CharacterAnimator.SetBool("turbo?", false);
         }
 
         if (driveMode == DriveMode.Drift)
@@ -521,6 +570,8 @@ public class m_carController : MonoBehaviour
 
                 stifness = 0;
 
+                audioManager.audioInstance.Contravolant();
+
                 //Debug.Log("SPACE:" + Input.GetKey("space") + ", DRIFT: " + Input.GetButton("Drift") + ", HORI:" + Input.GetAxis("Horizontal"));
 
             }
@@ -531,6 +582,8 @@ public class m_carController : MonoBehaviour
                 m_rigidbody.transform.Rotate(m_rigidbody.transform.up, Mathf.Lerp(m_rigidbody.transform.rotation.y,
                                                                                   m_rigidbody.transform.rotation.y + 12, 0.1f));
                 stifness = 0;
+
+                audioManager.audioInstance.Contravolant();
 
             }
 
@@ -567,7 +620,9 @@ public class m_carController : MonoBehaviour
                 }
                 else if (isSpaceJustUp && canTurbo)
                 {
-                    StartCoroutine(TurboEnum());                  
+                    StartCoroutine(TurboEnum());
+                    m_CharacterAnimator.SetBool("turbo?", true);
+                    audioManager.audioInstance.YeahPJ();
 
                     driftCounter = 2f;
             
@@ -579,7 +634,7 @@ public class m_carController : MonoBehaviour
                     {
                         audioManager.audioInstance.Turbo();
                     }
-                    else if (Input.GetAxis("Vertical") > 0)
+                    if (Input.GetAxis("Vertical") > 0)
                     {
                         audioManager.audioInstance.StopDrift();
                         driveMode = DriveMode.Front;
@@ -588,10 +643,11 @@ public class m_carController : MonoBehaviour
                     canTurbo = false;
                 }
                 else if (driftCounter > 0 && isSpaceJustUp)
-                {
+                {                   
                     Drifting = false;
                     rightDrift = false;
                     leftDrift = false;
+
                     driftCounter = 2f;
 
                     if (Input.GetAxis("Vertical") > 0)
@@ -616,6 +672,7 @@ public class m_carController : MonoBehaviour
                 {
                     StartCoroutine(TurboEnum());
                     audioManager.audioInstance.Turbo();
+                    m_CharacterAnimator.SetBool("Turbo", true);
 
                     driftCounter = 2f;
 
@@ -646,16 +703,16 @@ public class m_carController : MonoBehaviour
                 }
             }
 
-            particleSystemBLWheel.SetActive(true);
-            particleSystemBRWheel.SetActive(true);
+            sparksBLWheel.SetActive(true);
+            sparksBRWheel.SetActive(true);
 
-            if (particleSystemBLWheel.activeInHierarchy)
+            if (sparksBLWheel.activeInHierarchy)
             {
-                ParticleSystem m_PSBackLeft = particleSystemBLWheel.GetComponent<ParticleSystem>();
-                ParticleSystem m_PSBackRight = particleSystemBRWheel.GetComponent<ParticleSystem>();
+                ParticleSystem m_PSBackLeft = sparksBLWheel.GetComponent<ParticleSystem>();
+                ParticleSystem m_PSBackRight = sparksBRWheel.GetComponent<ParticleSystem>();
 
-                Light lightBL = particleSystemBLWheel.GetComponent<Light>();
-                Light lightBR = particleSystemBRWheel.GetComponent<Light>();
+                Light lightBL = sparksBLWheel.GetComponent<Light>();
+                Light lightBR = sparksBRWheel.GetComponent<Light>();
 
                 m_PSBackLeft.GetComponent<Renderer>().material = null;
                 m_PSBackRight.GetComponent<Renderer>().material = null;
@@ -681,15 +738,14 @@ public class m_carController : MonoBehaviour
                 }
             }
 
-            Sfire[0].Play();
-            Sfire[1].Play();
-            Sfire[2].Play();
-            Sfire[3].Play();
-            Sfire[4].Play();
-            Sfire[5].Play();
-            Sfire[6].Play();
-            Sfire[7].Play();
-           
+            Sfire[0].Stop();
+            Sfire[1].Stop();
+            Sfire[2].Stop();
+            Sfire[3].Stop();
+            Sfire[4].Stop();
+            Sfire[5].Stop();
+            Sfire[6].Stop();
+            Sfire[7].Stop();
         }
 
         WheelHit hit;
@@ -752,7 +808,6 @@ public class m_carController : MonoBehaviour
 
             if (timeCounter >= 3)
             {
-                ResetPosition();
                 timeCounter = 0;
             }
         }
@@ -929,34 +984,52 @@ public class m_carController : MonoBehaviour
         if (col.tag == "Turbo")
         {
             m_rigidbody.AddForce(m_rigidbody.transform.forward * turboForce, ForceMode.Acceleration);
+            m_CharacterAnimator.SetBool("turbo?", true);
+            
+            if (!canTurbo)
+            {
+                m_CharacterAnimator.SetBool("turbo?", false);
+            }
+            audioManager.audioInstance.YeahPJ();
         }
         if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "FakeMysteryBox" || col.tag == "Rocket")
-        {
-            m_animator.SetBool("isKnockedUp", true);
+        {          
+            audioManager.audioInstance.NoPJ();
             m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
+
+            m_carAnimator.SetBool("isKnockedUp", true);
+            m_CharacterAnimator.SetBool("isHit?", true);
+
+            canDrive = false;            
         }
         if (col.tag == "Water" || col.tag == "Banana")
         {
-            m_animator.SetBool("isSpinning", true);
+            m_carAnimator.SetBool("isSpinning", true);
+            m_CharacterAnimator.SetBool("isHit?", true);
+
             m_rigidbody.AddForce(new Vector3(0, 0, -Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * slipperyForce, ForceMode.Impulse);
         }
         if (col.tag == "Wall")
         {
-            audioManager.audioInstance.CrashCar();
+            audioManager.audioInstance.CrashCar();            
         }
-        else
+        if (col.tag == "Kart")
         {
-            m_animator.SetBool("isKnockedUp", false);
-            m_animator.SetBool("isSpinning", false);            
-        }     
+            audioManager.audioInstance.CrashCar2();
+            audioManager.audioInstance.OopsPJ();
+        }
     }
     void OnTriggerStay(Collider col)
     {
         if (col.tag == "RoughFloor")
         {
             maxSpeed = 10;
+            grassBLWheel.SetActive(true);
+            grassBRWheel.SetActive(true);
+            grassBLWheel.GetComponent<ParticleSystem>().Play();
+            grassBRWheel.GetComponent<ParticleSystem>().Play();
+
         }
-        
         if (col.tag == "IA")
         {
             rebufoCounter += Time.deltaTime;
@@ -964,15 +1037,19 @@ public class m_carController : MonoBehaviour
             if (rebufoCounter >= 2)
             {
                 m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * rebufoTurboForce, ForceMode.Acceleration);
+                m_CharacterAnimator.SetBool("turbo?", true);
+                audioManager.audioInstance.YeahPJ();
+
                 rebufoCounter = 0;
+                
             }
         }
         if (col.tag == "Cheese")
         {
-            m_rigidbody.transform.rotation = new Quaternion(m_rigidbody.transform.rotation.x, 
-                                                            m_rigidbody.transform.rotation.y + col.gameObject.transform.rotation.z * Time.deltaTime * 0.05f,
-                                                            m_rigidbody.transform.rotation.z, 
-                                                            m_rigidbody.transform.rotation.w);            
+            Quaternion m_rotation = m_rigidbody.transform.rotation;
+            
+            m_rotation = new Quaternion(m_rotation.x, m_rotation.y + col.gameObject.transform.rotation.z * Time.deltaTime * 0.1f,
+                                                            m_rotation.z, m_rotation.w);            
         }
         if (col.tag == "Ramp")
         {
@@ -989,29 +1066,45 @@ public class m_carController : MonoBehaviour
         if (col.tag == "RoughFloor")
         {
             maxSpeed = frontMaxSpeed;
-        }     
-    }
-
-    private Vector3 ResetPosition()
-    {
-        Vector3 respawnPosition;
-        GameObject kart = gameObject;
-
-        for (int i = 0; i < nodes.Length; i++)
+            grassBLWheel.SetActive(false);
+            grassBRWheel.SetActive(false);
+        }
+        if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "FakeMysteryBox" || col.tag == "Rocket")
         {
-            distanceToRespawnPoint = nodes[i].transform.position - gameObject.transform.position;
-
-            if (distanceToRespawnPoint.magnitude <= 30)
+            if (animationCounter <= 0)
             {
-                respawnPosition = nodes[i].transform.position;
-                Debug.Log("Is Respawning");
-                transform.position = respawnPosition;
-                transform.rotation = nodes[i].transform.rotation;
+                Debug.Log("animation OUT");
+                m_carAnimator.SetBool("isKnockedUp", false);
+                m_carAnimator.SetBool("isSpinning", false);
+                m_CharacterAnimator.SetBool("isHit?", false);
 
+                animationCounter = 1;
+
+                canDrive = true;
             }
         }
-        return transform.position;
-    }    
+    }
+
+    //private Vector3 ResetPosition()
+    //{
+    //    Vector3 respawnPosition;
+    //    GameObject kart = gameObject;
+    //
+    //    for (int i = 0; i < nodes.Length; i++)
+    //    {
+    //        distanceToRespawnPoint = nodes[i].transform.position - gameObject.transform.position;
+    //
+    //        if (distanceToRespawnPoint.magnitude <= 30)
+    //        {
+    //            respawnPosition = nodes[i].transform.position;
+    //            Debug.Log("Is Respawning");
+    //            transform.position = respawnPosition;
+    //            transform.rotation = nodes[i].transform.rotation;
+    //
+    //        }
+    //    }
+    //    return transform.position;
+    //}    
     IEnumerator TurboEnum()
     {
         m_rigidbody.AddForce(m_rigidbody.transform.forward * endDriftTurboForce, ForceMode.Acceleration);

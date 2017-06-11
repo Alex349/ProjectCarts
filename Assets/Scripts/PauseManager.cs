@@ -21,14 +21,14 @@ public class PauseManager : MonoBehaviour {
         {
             if (CanPause)
             {
-                m_HUD.SetActive(false);
+                m_HUD.SetActive(true);
 
                 Debug.Log("pause");
                 Time.timeScale = 0;
-                CanPause = false;
+                
                 PauseScreen.SetActive(true);
-                pauseImage.fillAmount = Screen.dpi;               
-
+                pauseImage.fillAmount = Screen.dpi;
+                CanPause = false;
             }
             else
             {
@@ -38,7 +38,6 @@ public class PauseManager : MonoBehaviour {
                 Time.timeScale = 1;
                 CanPause = true;
                 PauseScreen.SetActive(false);
-
             }
         }
 

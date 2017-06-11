@@ -12,6 +12,7 @@ public class m_carItem : MonoBehaviour
     private Rigidbody myRigidbody;
     public float money;
     private GameObject player;
+    
 
     //Defaults
     [SerializeField]
@@ -93,9 +94,12 @@ public class m_carItem : MonoBehaviour
         startCheckReverseCountdown = 10f;
         player = GameObject.FindWithTag("Player");
 
-    //if (m_GM.CameraTravel())
-    //{
+
     carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+
+        if (m_GM.managerReady)
+        {
+            carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
             myRigidbody = carController.GetComponent<Rigidbody>();
             _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
             checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();

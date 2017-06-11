@@ -95,6 +95,7 @@ public class IA_Item : MonoBehaviour
 
     void Start()
     {
+<<<<<<< HEAD
         //if (m_GM.CameraTravel())
         //{
             if (GameObject.Find("HUDManager") != null)
@@ -111,34 +112,53 @@ public class IA_Item : MonoBehaviour
                 agent.acceleration = 0;
             }
        // }       
+=======
+        agent = GetComponent<NavMeshAgent>();
+        navmeshAI = GetComponent<NavMeshAI>();
+        hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+        _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+        carCheckPoints = GetComponent<CarCheckPoints>();
+        anim = GetComponentInChildren<Animator>();
+        StartCoroutine(CheckLeaderboards());
 
+        agent.speed = 0;
+        agent.acceleration = 0;
+>>>>>>> origin/master
+
+        if (GameObject.Find("HUDManager") == null)
+        {
+            
+        }
     }
     // Update is called once per frame
     void Update()
     {
         //CountDowns
-        lapCountdown -= Time.deltaTime;
-        IaUseItemCooldown -= Time.deltaTime;
-        startRaceCooldown -= Time.deltaTime;
-        knockUpCountDown -= Time.deltaTime;
-        spinCountDown -= Time.deltaTime;
 
-        if (hudManager.StartRace == true)
+        if (m_GM.managerReady)
         {
-            milisecondsCount += Time.deltaTime * 1000;
-
-            if (milisecondsCount >= 999)
+            if (hudManager.StartRace == true)
             {
-                secondsCount++;
-                milisecondsCount = 0;
-            }
-            else if (secondsCount >= 60)
-            {
-                minuteCount++;
-                secondsCount = 0;
-            }
-        }
+                milisecondsCount += Time.deltaTime * 1000;
 
+                if (milisecondsCount >= 999)
+                {
+                    secondsCount++;
+                    milisecondsCount = 0;
+                }
+                else if (secondsCount >= 60)
+                {
+                    minuteCount++;
+                    secondsCount = 0;
+                }
+
+                lapCountdown -= Time.deltaTime;
+                IaUseItemCooldown -= Time.deltaTime;
+                startRaceCooldown -= Time.deltaTime;
+                knockUpCountDown -= Time.deltaTime;
+                spinCountDown -= Time.deltaTime;
+            }
+        }       
         if (rainbowPotion == false)
         {
             if (spin == true)
@@ -278,7 +298,7 @@ public class IA_Item : MonoBehaviour
             agent.acceleration = agent.acceleration / 2;
         }
 
-        if (carCheckPoints.currentLap == 4 && other.tag == "StartCheckPoint" )
+        if (carCheckPoints.currentLap == 4 && other.tag == "StartCheckPoint")
         {
             if (myPosition == 1)
             {

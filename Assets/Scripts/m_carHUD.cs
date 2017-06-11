@@ -48,36 +48,39 @@ public class m_carHUD : MonoBehaviour
 
     void Start()
     {
-        //if (m_GM.CameraTravel())
-        //{
-           if (GameObject.Find("HUDManager") != null)
-            {
-                m_car = FindObjectOfType<m_carController>();
-                timeNumbers = GameObject.Find("Time");
-                car_Item = FindObjectOfType<m_carItem>();
-                car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
-                positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-                InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
-                LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
-                LeaderboardEndGO.SetActive(false);
-                PlayerLapRecap = GameObject.Find("PlayerLapRecap");
-                PlayerLapRecap.SetActive(false);
 
-                WrongWayImg = GameObject.Find("WrongWay");
-                WrongWayImg.SetActive(false);
-            }            
-        //}        
+        m_car = FindObjectOfType<m_carController>();
+        timeNumbers = GameObject.Find("Time");
+        car_Item = FindObjectOfType<m_carItem>();
+        car_Checkpoint = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+        positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+        InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
+        LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
+        LeaderboardEndGO.SetActive(false);
+        PlayerLapRecap = GameObject.Find("PlayerLapRecap");
+        PlayerLapRecap.SetActive(false);
+
+        WrongWayImg = GameObject.Find("WrongWay");
+        WrongWayImg.SetActive(false);
     }
 
     void Update()
     {
-        stretchTime -= Time.deltaTime;
-        countDown -= Time.deltaTime;
+        if (m_GM.managerReady)
+        {     
+            stretchTime -= Time.deltaTime;
+            countDown -= Time.deltaTime;
 
+            if (countDown >= -0.5f)
+            {
+                CountDown();
+            }
+        }           
         if (countDown >= -0.5f)
         {
-        }
-        CountDown();
+            CountDown();
+        }      
+
 
         if (carCheckPoints.currentLap >= 4)
         {
@@ -102,38 +105,49 @@ public class m_carHUD : MonoBehaviour
             }
 
             UpdateItemUI();
-        }
+            UpdateLap();
+            CoinUIFix();
 
-        if (stretchTime > 0)
-        {
-            StretchTime();
-            time_Text.color = Color.yellow;
-        }
-        else
-        {
-            UpdateTimerUI();
-            time_Text.color = Color.white;
-        }
+            if (stretchTime > 0)
+            {
+                StretchTime();
+                time_Text.color = Color.yellow;
+            }
+            else
+            {
+                UpdateTimerUI();
+                time_Text.color = Color.white;
+            }
 
-        UpdateLap();
-
-        CoinUIFix();
+            if (Input.GetKey(KeyCode.U))
+            {
+                LeaderboardEnd();
+            }
+            else if (carCheckPoints.currentLap == 4)
+            {
+                LeaderboardEnd();
+            }
+            else
+            {
+                LeaderboardEndGO.SetActive(false);
+            }
+            randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+        }       
 
         if (Input.GetKey(KeyCode.U))
         {
             LeaderboardEnd();
         }
-        //else if (carCheckPoints.currentLap == 4)
-        //{
-        //   LeaderboardEnd();
-        //}
+        else if (carCheckPoints.currentLap == 4)
+        {
+           LeaderboardEnd();
+        }
         else
         {
             LeaderboardEndGO.SetActive(false);
         }
 
        // randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
-
 
     }
 
@@ -216,7 +230,6 @@ public class m_carHUD : MonoBehaviour
 
     public void UpdateLap()
     {
-
         if (car_Checkpoint.currentLap == 0)
         {
             currentLapImage.sprite = currentLapSprite[0];
@@ -280,6 +293,9 @@ public class m_carHUD : MonoBehaviour
             {
                 m_car.m_rigidbody.AddRelativeForce(new Vector3 (0, 0, m_car.m_rigidbody.transform.forward.z) * m_car.startTurboForce, ForceMode.Acceleration);
                 //Debug.Log("is accelerating");
+
+                audioManager.audioInstance.YeahPJ();
+
                 audioManager.audioInstance.CarHorn();
 
             }

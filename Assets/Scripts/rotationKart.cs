@@ -47,6 +47,7 @@ public class rotationKart : MonoBehaviour {
 
     void OnTriggerStay (Collider theTerrainCol)
     {
+<<<<<<< HEAD
         if (theTerrainCol.gameObject.name == "CP1")
         {
             terrain = CP1;
@@ -64,6 +65,10 @@ public class rotationKart : MonoBehaviour {
             terrain = CP4;
         }
     }
+=======
+        transform.Rotate(0, 0, deltaRotation * Time.deltaTime);
+	}
+>>>>>>> origin/master
 }
 
 

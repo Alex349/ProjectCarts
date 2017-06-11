@@ -24,16 +24,7 @@ public class NavMeshAI : MonoBehaviour
     [SerializeField]
     private float nodeRange = 10f;
 
-    public Transform backLeft;
-    public Transform backRight;
-    public Transform frontLeft;
-    public Transform frontRight;
-    public RaycastHit hit;
-    public RaycastHit lr;
-    public RaycastHit rr;
-    public RaycastHit lf;
-    public RaycastHit rf;
-    public Vector3 upDir;
+
 
     void Start()
     {
@@ -41,8 +32,8 @@ public class NavMeshAI : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         ia_Item = GetComponent<IA_Item>();
         link = null;
-        agent.updateRotation = true;
-        InvokeRepeating("LookAtPoint", 3.0f, 0.5f);
+        agent.updateRotation = false;
+        //InvokeRepeating("LookAtPoint", 3.0f, 0.5f);
         agent.autoBraking = false;
 
         Transform[] pathTransforms = path.GetComponentsInChildren<Transform>();
@@ -64,7 +55,6 @@ public class NavMeshAI : MonoBehaviour
 
         // Choose the next destination point when the agent gets
         // close to the current one.
-
         if (agent.remainingDistance < nodeRange)
         {
             GotoNextPoint();
@@ -92,23 +82,7 @@ public class NavMeshAI : MonoBehaviour
         //Quaternion rotation = Quaternion.LookRotation(relativePos);
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * camSpeed);
 
-        //Physics.Raycast(backLeft.position + Vector3.up, Vector3.down, out lr);
-        //Physics.Raycast(backRight.position + Vector3.up, Vector3.down, out rr);
-        //Physics.Raycast(frontLeft.position + Vector3.up, Vector3.down, out lf);
-        //Physics.Raycast(frontRight.position + Vector3.up, Vector3.down, out rf);
 
-        //upDir = (Vector3.Cross(rr.point - Vector3.up, lr.point - Vector3.up) +
-        //         Vector3.Cross(lr.point - Vector3.up, lf.point - Vector3.up) +
-        //         Vector3.Cross(lf.point - Vector3.up, rf.point - Vector3.up) +
-        //         Vector3.Cross(rf.point - Vector3.up, rr.point - Vector3.up)
-        //        ).normalized;
-
-        //Debug.DrawRay(rr.point, Vector3.up);
-        //Debug.DrawRay(lr.point, Vector3.up);
-        //Debug.DrawRay(lf.point, Vector3.up);
-        //Debug.DrawRay(rf.point, Vector3.up);
-
-        //transform.up = upDir;
 
 
     }

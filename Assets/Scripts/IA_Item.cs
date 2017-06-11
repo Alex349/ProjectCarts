@@ -95,6 +95,24 @@ public class IA_Item : MonoBehaviour
 
     void Start()
     {
+<<<<<<< HEAD
+        //if (m_GM.CameraTravel())
+        //{
+            if (GameObject.Find("HUDManager") != null)
+            {
+                agent = GetComponent<NavMeshAgent>();
+                navmeshAI = GetComponent<NavMeshAI>();
+                hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+                _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+                carCheckPoints = GetComponent<CarCheckPoints>();
+                anim = GetComponentInChildren<Animator>();
+                StartCoroutine(CheckLeaderboards());
+
+                agent.speed = 0;
+                agent.acceleration = 0;
+            }
+       // }       
+=======
         agent = GetComponent<NavMeshAgent>();
         navmeshAI = GetComponent<NavMeshAI>();
         hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
@@ -105,6 +123,7 @@ public class IA_Item : MonoBehaviour
 
         agent.speed = 0;
         agent.acceleration = 0;
+>>>>>>> origin/master
 
         if (GameObject.Find("HUDManager") == null)
         {

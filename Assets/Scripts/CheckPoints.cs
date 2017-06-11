@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckPoints : MonoBehaviour {
+public class CheckPoints : MonoBehaviour
+{
 
     /*
   
@@ -15,23 +16,25 @@ public class CheckPoints : MonoBehaviour {
      */
     public Transform playerTransform;
     public CarCheckPoints carCheckPoints;
-    //public IA_Item ia_item;
-    //public m_carItem car_item;
+    public int myPositionOnArray;
+    public CarCheckPoints playerArray;
 
-    void Start ()
+    void Start()
     {
-
+        playerArray = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
+        myPositionOnArray = System.Array.IndexOf(playerArray.checkPointArray, this.gameObject.transform);
     }
 
     void OnTriggerEnter(Collider other)
     {
+
         //Is it the Player who enters the collider?
         if (other.CompareTag("Player") || other.CompareTag("Kart"))
         {
             playerTransform = other.GetComponent<Transform>();
             carCheckPoints = other.GetComponent<CarCheckPoints>();
 
-           // return; //If it's not the player dont continue
+            // return; //If it's not the player dont continue
         }
         else
         {

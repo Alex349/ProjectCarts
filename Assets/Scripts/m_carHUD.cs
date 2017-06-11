@@ -13,7 +13,7 @@ public class m_carHUD : MonoBehaviour
     public Image currentLapImage;
 
     public GameObject timeNumbers;
-    public GameObject LeaderboardEndGO;
+    public GameObject LeaderboardEndGO, PlayerLapRecap, WrongWayImg;
 
     public m_carItem car_Item;
     private CarCheckPoints car_Checkpoint;
@@ -39,6 +39,8 @@ public class m_carHUD : MonoBehaviour
     public float scaleSpeed = 1f;
     private bool hasImageChanged0, hasImageChanged1, hasImageChanged2, hasImageChanged3;
 
+    public Text Lap1Text, Lap2Text, Lap3Text, TotalText;
+
     public Text pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12;
     public Image pos1Img, pos2Img, pos3Img, pos4Img, pos5Img, pos6Img, pos7Img, pos8Img, pos9Img, pos10Img, pos11Img, pos12Img;
 
@@ -46,6 +48,7 @@ public class m_carHUD : MonoBehaviour
 
     void Start()
     {
+
         m_car = FindObjectOfType<m_carController>();
         timeNumbers = GameObject.Find("Time");
         car_Item = FindObjectOfType<m_carItem>();
@@ -54,6 +57,11 @@ public class m_carHUD : MonoBehaviour
         InvokeRepeating("PositionIconUpdate", 3.0f, 0.5f);
         LeaderboardEndGO = GameObject.Find("LeaderboardEnd");
         LeaderboardEndGO.SetActive(false);
+        PlayerLapRecap = GameObject.Find("PlayerLapRecap");
+        PlayerLapRecap.SetActive(false);
+
+        WrongWayImg = GameObject.Find("WrongWay");
+        WrongWayImg.SetActive(false);
     }
 
     void Update()
@@ -74,10 +82,16 @@ public class m_carHUD : MonoBehaviour
         }      
 
 
+        if (carCheckPoints.currentLap >= 4)
+        {
+            StartRace = false;
+        }
+
+
         if (StartRace == true)
         {
             milisecondsCount += Time.deltaTime * 1000;
-            audioManager.audioInstance.Music1stLap();
+            //audioManager.audioInstance.Music1stLap();
 
             if (milisecondsCount >= 999)
             {
@@ -134,7 +148,6 @@ public class m_carHUD : MonoBehaviour
         }
 
        // randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
-        randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
 
     }
 
@@ -237,7 +250,7 @@ public class m_carHUD : MonoBehaviour
 
     void CountDown()
     {        
-       audioManager.audioInstance.countDownSound();
+       //audioManager.audioInstance.countDownSound();
 
         if (countDown <= 3 && countDown > 2.1 || countDown <= 2 && countDown > 1.1 || countDown <= 1 && countDown > 0.1 || countDown < 0 && countDown > -0.8)
         {
@@ -279,6 +292,8 @@ public class m_carHUD : MonoBehaviour
             if (Input.GetAxis("Vertical") == 1 || Input.GetButton("Accelerate"))
             {
                 m_car.m_rigidbody.AddRelativeForce(new Vector3 (0, 0, m_car.m_rigidbody.transform.forward.z) * m_car.startTurboForce, ForceMode.Acceleration);
+                //Debug.Log("is accelerating");
+
                 audioManager.audioInstance.YeahPJ();
                 audioManager.audioInstance.CarHorn();
 
@@ -368,8 +383,22 @@ public class m_carHUD : MonoBehaviour
 
     void LeaderboardEnd()
     {
+        PlayerLapRecap.SetActive(false);
         LeaderboardEndGO.SetActive(true);
         Debug.Log("U");
+    }
+
+    void LapRecap()
+    {
+        Lap1Text.text = car_Item.lap1Time.ToString();
+        Lap2Text.text = car_Item.lap2Time.ToString();
+        Lap3Text.text = car_Item.lap3Time.ToString();
+
+        if (float.Parse(car_Item.lap1Time) < float.Parse(car_Item.lap2Time))
+        {
+
+        }
+        PlayerLapRecap.SetActive(true);
     }
 
     void CoinUIFix()
@@ -405,6 +434,16 @@ public class m_carHUD : MonoBehaviour
         {
             coins_Text.text = "10";
         }
+    }
+
+    public void WrongWay()
+    {
+        WrongWayImg.SetActive(true);
+    }
+
+    public void RightWay()
+    {
+        WrongWayImg.SetActive(false);
     }
 
     float PingPong(float aValue, float aMin, float aMax)

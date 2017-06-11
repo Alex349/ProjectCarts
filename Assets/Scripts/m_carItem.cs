@@ -11,6 +11,7 @@ public class m_carItem : MonoBehaviour
     public m_carController carController;
     private Rigidbody myRigidbody;
     public float money;
+    private GameObject player;
 
     //Defaults
     [SerializeField]
@@ -85,17 +86,21 @@ public class m_carItem : MonoBehaviour
     private m_carHUD carHUD;
     public Image[] cakeStains;
     private float randomMaxLeftStainSize, randomMaxMiddleStainSize, randomMaxRightStainSize;
+    private float startCheckReverseCountdown;
 
     void Start()
     {
-        if (m_GM.CameraTravel())
-        {
-            carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+        startCheckReverseCountdown = 10f;
+        player = GameObject.FindWithTag("Player");
+
+    //if (m_GM.CameraTravel())
+    //{
+    carHUD = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
             myRigidbody = carController.GetComponent<Rigidbody>();
             _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
             checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
             cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
-        }
+        //}
 
         foreach (Image img in cakeStains)
             img.enabled = false;
@@ -108,10 +113,11 @@ public class m_carItem : MonoBehaviour
         backSpawnVectorMiddle = backSpawnMiddle.transform.position;
         backSpawnVectorLast = backSpawnLast.transform.position;
         frontSpawnVector = frontSpawn.transform.position;
+        startCheckReverseCountdown -= Time.deltaTime;
 
         myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
 
-        UpdateItems();
+            UpdateItems();
         IncreaseSpeedOnMoney();
 
         if (currentPlayerObject == "banana" || bananaDefending == true)
@@ -269,18 +275,39 @@ public class m_carItem : MonoBehaviour
             }
         }
 
-        if (other.tag == "CheckPoint")  ///checkPoints.checkPointArray[checkPoints.currentCheckpoint-2].index)
+        if (startCheckReverseCountdown < 0)
         {
-            Debug.Log("CheckPoint");
-            Debug.Log("test " + checkPoints.checkPointArray[checkPoints.currentCheckpoint - 2]);
+            if (other.tag == "CheckPoint")
+            {
+                checkPoints.currentCheckpointReal = other.GetComponent<CheckPoints>().myPositionOnArray;
 
-            //if (checkPoints.currentCheckpoint < checkPoints.checkPointArray[checkPoints.currentCheckpoint - 2])
-            //{
-            //    carHUD.WrongWay();
-            //    Debug.Log("reverse");
-            //}
+                if (checkPoints.currentCheckpointReal == checkPoints.previousCheckpoint)
+                {
+                    carHUD.WrongWay();
 
+                }
+                if (checkPoints.currentCheckpointReal == checkPoints.expectedCheckpoint)
+                {
+                    carHUD.RightWay();
+                }
+
+
+
+                checkPoints.previousCheckpoint = other.GetComponent<CheckPoints>().myPositionOnArray - 1;
+
+                checkPoints.expectedCheckpoint = other.GetComponent<CheckPoints>().myPositionOnArray + 1;
+
+
+
+            }
         }
+        else
+        {
+            checkPoints.currentCheckpointReal = other.GetComponent<CheckPoints>().myPositionOnArray;
+            checkPoints.previousCheckpoint = other.GetComponent<CheckPoints>().myPositionOnArray - 1;
+            checkPoints.expectedCheckpoint = other.GetComponent<CheckPoints>().myPositionOnArray + 1;
+        }
+
 
     }
 
@@ -350,7 +377,7 @@ public class m_carItem : MonoBehaviour
     {
         if (currentPlayerObject == "none")
         {
-
+            turboEffect = turboEffectDuration;
         }
         if (currentPlayerObject == "rainbowPotion")
         {

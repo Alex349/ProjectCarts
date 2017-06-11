@@ -1,41 +1,66 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
-public class ItemAlertMovement : MonoBehaviour {
+//Attach this class to the GameObject you want the arrow to be pointing at.
+public class ItemAlertMovement : MonoBehaviour
+{
 
-    public GameObject goTarget;
+    public Texture2D icon; //The icon. Preferably an arrow pointing upwards.
+    public float iconSize = 50f;
+    [HideInInspector]
+    public GUIStyle gooey; //GUIStyle to make the box around the icon invisible. Public so that everything has the default stats.
+    Vector2 indRange;
+    float scaleRes = Screen.width / 500; //The width of the screen divided by 500. Will make the GUI automatically
+                                         //scale with varying resolutions.
+    Camera cam;
+    bool visible = true; //Whether or not the object is visible in the camera.
 
-    void Update()
+    void Start()
     {
-        PositionArrow();
+        visible = GetComponent<MeshRenderer>().isVisible;
+
+        cam = Camera.main; //Don't use Camera.main in a looping method, its very slow, as Camera.main actually
+                           //does a GameObject.Find for an object tagged with MainCamera.
+
+        indRange.x = Screen.width - (Screen.width / 6);
+        indRange.y = Screen.height - (Screen.height / 7);
+        indRange /= 2f;
+
+        gooey.normal.textColor = new Vector4(0, 0, 0, 0); //Makes the box around the icon invisible.
     }
 
-    void PositionArrow()
+    void OnGUI()
     {
-        this.gameObject.GetComponent<Image>().enabled = false;
+        if (!visible)
+        {
+            Vector3 dir = transform.position - cam.transform.position;
+            dir = Vector3.Normalize(dir);
+            dir.y *= -1f;
 
-        Vector3 v3Pos = Camera.main.WorldToViewportPoint(goTarget.transform.position);
+            Vector2 indPos = new Vector2(indRange.x * dir.x, indRange.y * dir.y);
+            indPos = new Vector2((Screen.width / 2) + indPos.x,
+                              (Screen.height / 2) + indPos.y);
 
-        if (v3Pos.z < Camera.main.nearClipPlane)
-            return;  // Object is behind the camera
+            Vector3 pdir = transform.position - cam.ScreenToWorldPoint(new Vector3(indPos.x, indPos.y,
+                                                                                    transform.position.z));
+            pdir = Vector3.Normalize(pdir);
 
-        if (v3Pos.x >= 0.0f && v3Pos.x <= 1.0f && v3Pos.y >= 0.0f && v3Pos.y <= 1.0f)
-            return; // Object center is visible
+            float angle = Mathf.Atan2(pdir.x, pdir.y) * Mathf.Rad2Deg;
 
-        this.gameObject.GetComponent<Image>().enabled = true;
-        v3Pos.x -= 0.5f;  // Translate to use center of viewport
-        v3Pos.y -= 0.5f;
-        v3Pos.z = 0;      // I think I can do this rather than do a 
-                          //   a full projection onto the plane
+            GUIUtility.RotateAroundPivot(angle, indPos); //Rotates the GUI. Only rotates GUI drawn after the rotate is called, not before.
+            GUI.Box(new Rect(indPos.x, indPos.y, scaleRes * iconSize, scaleRes * iconSize), icon, gooey);
+            GUIUtility.RotateAroundPivot(0, indPos); //Rotates GUI back to the default so that GUI drawn after is not rotated.
+                }
+    }
 
-        float fAngle = Mathf.Atan2(v3Pos.x, v3Pos.y);
-        transform.localEulerAngles = new Vector3(0.0f, 0.0f, -fAngle * Mathf.Rad2Deg);
-
-        v3Pos.x = 0.5f * Mathf.Sin(fAngle) + 0.5f;  // Place on ellipse touching 
-        v3Pos.y = 0.5f * Mathf.Cos(fAngle) + 0.5f;  //   side of viewport
-        v3Pos.z = Camera.main.nearClipPlane + 0.01f;  // Looking from neg to pos Z;
-        transform.position = Camera.main.ViewportToWorldPoint(v3Pos);
+    void OnBecameInvisible()
+    {
+        visible = false;
+    }
+    //Turns off the indicator if object is onscreen.
+    void OnBecameVisible()
+    {
+        visible = true;
     }
 }

@@ -95,8 +95,8 @@ public class IA_Item : MonoBehaviour
 
     void Start()
     {
-        if (m_GM.CameraTravel())
-        {
+        //if (m_GM.CameraTravel())
+        //{
             if (GameObject.Find("HUDManager") != null)
             {
                 agent = GetComponent<NavMeshAgent>();
@@ -110,7 +110,7 @@ public class IA_Item : MonoBehaviour
                 agent.speed = 0;
                 agent.acceleration = 0;
             }
-        }       
+       // }       
 
     }
     // Update is called once per frame

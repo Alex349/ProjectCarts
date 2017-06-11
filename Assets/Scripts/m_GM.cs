@@ -26,24 +26,24 @@ public class m_GM : MonoBehaviour {
             Destroy(gameManager);
         }
 
-        CanvasAmazing.SetActive(false);
-        m_cameraScript = Camera.main.GetComponent<CarSmoothFollow>();
+        //CanvasAmazing.SetActive(false);
+        //m_cameraScript = Camera.main.GetComponent<CarSmoothFollow>();
 
-        cameraPoints = new GameObject[8];
+        //cameraPoints = new GameObject[8];
 
-        for (int i = 0; i < cameraPoints.Length; i++)
-        {
-            cameraPoints = GameObject.FindGameObjectsWithTag("CameraPoint");
+        //for (int i = 0; i < cameraPoints.Length; i++)
+        //{
+        //    cameraPoints = GameObject.FindGameObjectsWithTag("CameraPoint");
 
-            if (cameraPoints[i] != null)
-            {
-                cameraPoints[i] = GameObject.FindGameObjectWithTag("CameraPoint");
-            }
-            else
-            {
-                cameraPoints[i+1] = GameObject.FindGameObjectWithTag("CameraPoint");
-            }
-        }
+        //    if (cameraPoints[i] != null)
+        //    {
+        //        cameraPoints[i] = GameObject.FindGameObjectWithTag("CameraPoint");
+        //    }
+        //    else
+        //    {
+        //        cameraPoints[i+1] = GameObject.FindGameObjectWithTag("CameraPoint");
+        //    }
+        //}
     }
 	void Start ()
     {        
@@ -57,7 +57,7 @@ public class m_GM : MonoBehaviour {
 
 		if (counter >= 0)
         {
-            CameraTravel();
+            //CameraTravel();
         }
         else if (mainPlayer == null)
         {
@@ -87,59 +87,59 @@ public class m_GM : MonoBehaviour {
             }
         }
 	}
-    public static bool CameraTravel()
-    {
-        if (counter <= 8 && counter > 7)
-        {
-            m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[1].transform.position, cameraSpeed * Time.deltaTime);
-            m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[0].transform.position, cameraPoints[1].transform.position);
-            return false;
-        }
-        else if (counter <= 7 && counter > 6)
-        {
-            m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[2].transform.position, cameraSpeed * Time.deltaTime);
-            m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[1].transform.position, cameraPoints[2].transform.position);
-            return false;
-        }
-        else if (counter <= 6 && counter > 5)
-        {
-            m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[2].transform.position, cameraSpeed * Time.deltaTime);
-            m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[2].transform.position, cameraPoints[3].transform.position);
-            return false;
-        }
-        else if (counter <= 5 && counter > 4)
-        {
-            m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[3].transform.position, cameraSpeed * Time.deltaTime);
-            m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[3].transform.position, cameraPoints[4].transform.position);
-            return false;
-        }
-        else if (counter <= 4 && counter > 3)
-        {
-            m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[4].transform.position, cameraSpeed * Time.deltaTime);
-            m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[4].transform.position, cameraPoints[5].transform.position);
-            return false;
-        }
-        else if (counter <= 3 && counter > 2)
-        {
-            m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[5].transform.position, cameraSpeed * Time.deltaTime);
-            m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[5].transform.position, cameraPoints[6].transform.position);
-            return false;
-        }
-        else if (counter <= 2 && counter > 1)
-        {
-            m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[6].transform.position, cameraSpeed * Time.deltaTime);
-            m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[6].transform.position, cameraPoints[7].transform.position);
-            return false;
-        }
-        else if (counter <= 1 && counter > 0)
-        {
-            m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[7].transform.position, cameraSpeed * Time.deltaTime);
-            m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[7].transform.position, cameraPoints[8].transform.position);
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+    //public static bool CameraTravel()
+    //{
+    //    if (counter <= 8 && counter > 7)
+    //    {
+    //        m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[1].transform.position, cameraSpeed * Time.deltaTime);
+    //        m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[0].transform.position, cameraPoints[1].transform.position);
+    //        return false;
+    //    }
+    //    else if (counter <= 7 && counter > 6)
+    //    {
+    //        m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[2].transform.position, cameraSpeed * Time.deltaTime);
+    //        m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[1].transform.position, cameraPoints[2].transform.position);
+    //        return false;
+    //    }
+    //    else if (counter <= 6 && counter > 5)
+    //    {
+    //        m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[2].transform.position, cameraSpeed * Time.deltaTime);
+    //        m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[2].transform.position, cameraPoints[3].transform.position);
+    //        return false;
+    //    }
+    //    else if (counter <= 5 && counter > 4)
+    //    {
+    //        m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[3].transform.position, cameraSpeed * Time.deltaTime);
+    //        m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[3].transform.position, cameraPoints[4].transform.position);
+    //        return false;
+    //    }
+    //    else if (counter <= 4 && counter > 3)
+    //    {
+    //        m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[4].transform.position, cameraSpeed * Time.deltaTime);
+    //        m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[4].transform.position, cameraPoints[5].transform.position);
+    //        return false;
+    //    }
+    //    else if (counter <= 3 && counter > 2)
+    //    {
+    //        m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[5].transform.position, cameraSpeed * Time.deltaTime);
+    //        m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[5].transform.position, cameraPoints[6].transform.position);
+    //        return false;
+    //    }
+    //    else if (counter <= 2 && counter > 1)
+    //    {
+    //        m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[6].transform.position, cameraSpeed * Time.deltaTime);
+    //        m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[6].transform.position, cameraPoints[7].transform.position);
+    //        return false;
+    //    }
+    //    else if (counter <= 1 && counter > 0)
+    //    {
+    //        m_cameraScript.target.position = Vector3.Lerp(m_cameraScript.target.position, cameraPoints[7].transform.position, cameraSpeed * Time.deltaTime);
+    //        m_cameraScript.transform.rotation = Quaternion.FromToRotation(cameraPoints[7].transform.position, cameraPoints[8].transform.position);
+    //        return false;
+    //    }
+    //    else
+    //    {
+    //        return true;
+    //    }
+    //}
 }

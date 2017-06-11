@@ -37,8 +37,8 @@ public class CarSmoothFollow : MonoBehaviour
 
     void Start()
     {       
-        if (m_GM.CameraTravel())
-        {
+        //if (m_GM.CameraTravel())
+        //{
             target = GameObject.Find("CameraTarget").transform;
             LeftDriftTarget = GameObject.Find("CameraTargetL").transform;
             RightDriftTarget = GameObject.Find("CameraTargetR").transform;
@@ -48,14 +48,14 @@ public class CarSmoothFollow : MonoBehaviour
             m_kart = FindObjectOfType<m_carController>();
 
             thisCamera = GetComponent<Camera>();
-        }
+       // }
     }
 
     void FixedUpdate()
     {
         if (m_kart == null)
         {
-            m_GM.CameraTravel();
+           // m_GM.CameraTravel();
         }
         else
         {

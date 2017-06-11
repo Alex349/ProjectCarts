@@ -1,62 +1,69 @@
-﻿using System.Collections;
+﻿using Greyman;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RocketsHUDScript : MonoBehaviour {
+public class RocketsHUDScript : MonoBehaviour
+{
 
-    public Image HoamingRocketImage, StraightRocketImage, KingBallImage;
+    public Sprite king, tracker, straight;
     public bool hoamingIsInside, straightIsInside, KingBallIsInside;
     private GameObject player;
-    // Use this for initialization
-    void Start () {
+    public GameObject offScreenLogicGO;
+    private OffScreenIndicator offScreenArrow;
+    private OffScreenIndicatorManagerCanvas offScreenIndicatorManagerCanvas;
 
-        HoamingRocketImage = GameObject.Find("HoamingRocketHUD").GetComponent<Image>();
-        StraightRocketImage = GameObject.Find("StraightRocketHUD").GetComponent<Image>();
-        KingBallImage = GameObject.Find("KingBallHUD").GetComponent<Image>();
+    // Use this for initialization
+    void Start()
+    {
+
+        offScreenArrow = offScreenLogicGO.GetComponent<OffScreenIndicator>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         this.transform.position = player.transform.position;
         this.transform.rotation = player.transform.rotation;
 
         if (hoamingIsInside == false)
         {
-            HoamingRocketImage.enabled = false;
+
+            //HoamingRocketImage.enabled = false;
         }
 
         if (straightIsInside == false)
         {
-            StraightRocketImage.enabled = false;
+            // StraightRocketImage.enabled = false;
         }
 
         if (KingBallIsInside == false)
         {
-            KingBallImage.enabled = false;
+            // KingBallImage.enabled = false;
         }
 
     }
 
 
-    void OnTriggerStay(Collider rocket)
+    //void OnTriggerStay(Collider rocket)
+    void OnTriggerEnter(Collider rocket)
     {
         if (rocket.GetComponent<StraightRocket>() != null && rocket.GetComponent<HoamingRocket>() == null)
         {
-            StraightRocketImage.enabled = true;
-            StraightRocketImage.enabled = true;
+            straightIsInside = true;
         }
 
         if (rocket.GetComponent<StraightRocket>() != null && rocket.GetComponent<HoamingRocket>() != null)
         {
-            HoamingRocketImage.enabled = true;
-            HoamingRocketImage.enabled = true;
+            hoamingIsInside = true;
         }
-    
+
         if (rocket.GetComponent<ToFirstRocket>() != null)
         {
-            KingBallImage.enabled = true;
+            Debug.Log("Detected");
+            AddTarget(rocket.transform);
             KingBallIsInside = true;
         }
 
@@ -65,15 +72,28 @@ public class RocketsHUDScript : MonoBehaviour {
     {
         if (rocket.GetComponent<StraightRocket>() != null)
         {
-            StraightRocketImage.enabled = false;
         }
         if (rocket.GetComponent<StraightRocket>() != null && rocket.GetComponent<HoamingRocket>() != null)
         {
-            HoamingRocketImage.enabled = false;
         }
         if (rocket.GetComponent<ToFirstRocket>() != null)
         {
-            KingBallImage.enabled = false;
+        }
+    }
+    public void AddTarget(Transform rocketTrans)
+    {
+        Debug.Log("Added");
+
+        //add the ArrowIndicatorStuff
+        offScreenArrow.AddIndicator(rocketTrans, Random.Range(0, offScreenArrow.indicators.Length));
+    }
+    public void RemoveTarget()
+    {
+        GameObject cubeToRemove = GameObject.Find("AddedCube");
+        if (cubeToRemove)
+        {
+            offScreenArrow.RemoveIndicator(cubeToRemove.transform);
+            GameObject.Destroy(cubeToRemove);
         }
     }
 }

@@ -51,7 +51,6 @@ public class audioManager : MonoBehaviour
         {
             m_audios[2].Play();
             m_audios[2].pitch = pitch;
-            Debug.Log(pitch);
         }
     }
     public void MotorRear()
@@ -74,7 +73,7 @@ public class audioManager : MonoBehaviour
         if (!m_audios[5].isPlaying)
         {
             m_audios[5].Play();
-            Debug.Log("playing turbo sound");
+
         }        
     }
     public void Music1stLapIntro()

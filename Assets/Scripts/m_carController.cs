@@ -486,12 +486,11 @@ public class m_carController : MonoBehaviour
         {
             maxSpeed = rearMaxSpeed;
 
-<<<<<<< HEAD
             //audioManager.audioInstance.MotorRear();
-=======
+
             audioManager.audioInstance.StopDrift();
             audioManager.audioInstance.MotorRear();
->>>>>>> origin/master
+
 
             //sideawaysFriction
             wheelBRDriftFriction = wheelBR.sidewaysFriction;

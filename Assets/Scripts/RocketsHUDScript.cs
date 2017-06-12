@@ -22,54 +22,97 @@ public class RocketsHUDScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
+    public void AddTarget()
+    {
+
+        GameObject cubeToInstantiate = GameObject.Find("RocketToFirst");
+        GameObject newCube = GameObject.Instantiate(cubeToInstantiate);
+        newCube.name = "RocketToFirstAdded";
+        //position it at random place
+        newCube.transform.localPosition = new Vector3(Random.Range(-50, 50), 1, Random.Range(-50, 50));
+        //add the ArrowIndicatorStuff
+        offScreenArrow.AddIndicator(newCube.transform, Random.Range(0, offScreenArrow.indicators.Length));
+    }
+
+    public void RemoveTarget()
+    {
+        GameObject cubeToRemove = GameObject.Find("RocketToFirstAdded");
+        if (cubeToRemove)
+        {
+            offScreenArrow.RemoveIndicator(cubeToRemove.transform);
+            GameObject.Destroy(cubeToRemove);
+        }
+    }
+
     void Update()
     {
         this.transform.position = player.transform.position;
         this.transform.rotation = player.transform.rotation;
 
-        if (hoamingIsInside == false)
+        if (Input.GetKeyUp(KeyCode.Q))
         {
-
-            //HoamingRocketImage.enabled = false;
+            AddTarget();
         }
-
-        if (straightIsInside == false)
-        {
-            // StraightRocketImage.enabled = false;
-        }
-
-        if (KingBallIsInside == false)
-        {
-            // KingBallImage.enabled = false;
-        }
-
     }
 
+    // Update is called once per frame
+    //void Update()
+    //{
+    //    this.transform.position = player.transform.position;
+    //    this.transform.rotation = player.transform.rotation;
 
-    //void OnTriggerStay(Collider rocket)
-    void OnTriggerEnter(Collider rocket)
+    //    if (hoamingIsInside == false)
+    //    {
+
+    //        //HoamingRocketImage.enabled = false;
+    //    }
+
+    //    if (straightIsInside == false)
+    //    {
+    //        // StraightRocketImage.enabled = false;
+    //    }
+
+    //    if (KingBallIsInside == false)
+    //    {
+    //        // KingBallImage.enabled = false;
+    //    }
+
+    //}
+
+
+    void OnTriggerStay(Collider rocket)
+    //void OnTriggerEnter(Collider rocket)
     {
         if (rocket.GetComponent<StraightRocket>() != null && rocket.GetComponent<HoamingRocket>() == null)
         {
+            Debug.Log("TrackerDetected");
+            offScreenArrow.AddIndicator(rocket.transform, 2);
             straightIsInside = true;
         }
 
         if (rocket.GetComponent<StraightRocket>() != null && rocket.GetComponent<HoamingRocket>() != null)
         {
+            Debug.Log("HoamingDetected");
             hoamingIsInside = true;
+            offScreenArrow.AddIndicator(rocket.transform, 1);
         }
 
         if (rocket.GetComponent<ToFirstRocket>() != null)
         {
-            Debug.Log("Detected");
-            AddTarget(rocket.transform);
+            Debug.Log("KingDetected");
+            offScreenArrow.AddIndicator(rocket.transform, 0);
             KingBallIsInside = true;
         }
 
     }
     void OnTriggerExit(Collider rocket)
     {
+        if (rocket.gameObject.tag == "Rocket")
+        {
+            Debug.Log("Safe!!!!!");
+            offScreenArrow.RemoveIndicator(rocket.transform);
+        }
+
         if (rocket.GetComponent<StraightRocket>() != null)
         {
         }
@@ -78,22 +121,6 @@ public class RocketsHUDScript : MonoBehaviour
         }
         if (rocket.GetComponent<ToFirstRocket>() != null)
         {
-        }
-    }
-    public void AddTarget(Transform rocketTrans)
-    {
-        Debug.Log("Added");
-
-        //add the ArrowIndicatorStuff
-        offScreenArrow.AddIndicator(rocketTrans, Random.Range(0, offScreenArrow.indicators.Length));
-    }
-    public void RemoveTarget()
-    {
-        GameObject cubeToRemove = GameObject.Find("AddedCube");
-        if (cubeToRemove)
-        {
-            offScreenArrow.RemoveIndicator(cubeToRemove.transform);
-            GameObject.Destroy(cubeToRemove);
         }
     }
 }

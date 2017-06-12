@@ -88,7 +88,6 @@ public class m_carHUD : MonoBehaviour
 
         if (countDown <= -10)
         {
-            Debug.Log("Sett!!");
             GameObject.Find("InitialCheckPoint").transform.gameObject.tag = "StartCheckPoint";
         }
 

@@ -304,4 +304,11 @@ public class audioManager : MonoBehaviour
             m_audios[35].Stop();
         }
     }
+    public void StopAllSounds()
+    {
+        for (int i = 0; i < m_audios.Length; i++)
+        {
+            m_audios[i].Stop();
+        }
+    }
 }

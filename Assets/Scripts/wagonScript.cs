@@ -28,7 +28,7 @@ public class wagonScript : MonoBehaviour {
         lifeTimeCounter += Time.deltaTime;
         transform.Rotate(Vector3.forward, 3);
 
-        if (distanceToEnd.magnitude <= 5)
+        if (distanceToEnd.magnitude <= 5 || lifeTimeCounter >= 15)
         {
             Destroy(gameObject);
         }

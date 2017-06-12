@@ -86,6 +86,7 @@ public class m_carItem : MonoBehaviour
     public Image[] cakeStains;
     private float randomMaxLeftStainSize, randomMaxMiddleStainSize, randomMaxRightStainSize;
     private float startCheckReverseCountdown;
+    public GameObject[] ItemSystems;
 
     void Start()
     {
@@ -98,6 +99,11 @@ public class m_carItem : MonoBehaviour
 
         foreach (Image img in cakeStains)
             img.enabled = false;
+
+        for (int i = 0; i < ItemSystems.Length; i++)
+        {
+            ItemSystems[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -115,14 +121,14 @@ public class m_carItem : MonoBehaviour
 
         if (currentPlayerObject == "banana" || bananaDefending == true)
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
             {
                 UseBanana();
                 audioManager.audioInstance.ThrowCake();
             }
             else
             {
-                if (Input.GetKeyUp(KeyCode.L))
+                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
                 {
                     ReleaseBanana();
                     audioManager.audioInstance.ThrowItemGeneral();
@@ -131,14 +137,14 @@ public class m_carItem : MonoBehaviour
         }
         else if (currentPlayerObject == "triplebanana" || triplebananaDefending == true)
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
             {
                 UseTripleBanana();
                 audioManager.audioInstance.ThrowCake();
             }
             else
             {
-                if (Input.GetKeyUp(KeyCode.L))
+                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
                 {
                     ReleaseTripleBanana();
                     audioManager.audioInstance.ThrowItemGeneral();
@@ -147,14 +153,14 @@ public class m_carItem : MonoBehaviour
         }
         else if (currentPlayerObject == "fakemysterybox" || fakeboxDefending == true)
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
             {
                 UseFakeBox();
                 audioManager.audioInstance.ThrowCake();
             }
             else
             {
-                if (Input.GetKeyUp(KeyCode.L))
+                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
                 {
                     ReleaseFakeBox();
                     audioManager.audioInstance.ThrowItemGeneral();
@@ -163,7 +169,7 @@ public class m_carItem : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
             {
                 UseItem();
             }
@@ -371,6 +377,8 @@ public class m_carItem : MonoBehaviour
         {
             currentPlayerObject = "none";
             audioManager.audioInstance.RainbowPotion();
+            ItemSystems[9].SetActive(true);
+            ItemSystems[9].GetComponentInChildren<ParticleSystem>().Play();
         }
         if (currentPlayerObject == "straightrocket")
         {
@@ -567,6 +575,7 @@ public class m_carItem : MonoBehaviour
         if (rocketEffect > 0)
         {
             Debug.Log("Rocked");
+
             carController.maxSpeed = carController.frontMaxSpeed * 0.5f;
         }
 
@@ -580,7 +589,7 @@ public class m_carItem : MonoBehaviour
 
         if (turboEffect > 0)
         {
-            myRigidbody.AddRelativeForce(myRigidbody.transform.forward * carController.turboForce, ForceMode.Acceleration);
+            myRigidbody.AddForce(myRigidbody.transform.forward * carController.turboForce, ForceMode.Acceleration);
         }
 
 
@@ -610,6 +619,9 @@ public class m_carItem : MonoBehaviour
 
         if (frozeEffect < 0 && frozeEffect > -0.1f) //&& startRaceCooldown < 0
         {
+            ItemSystems[5].SetActive(true);
+            ItemSystems[5].GetComponentInChildren<ParticleSystem>().Play();
+
             List<GameObject> karts = new List<GameObject>();
             foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
             {
@@ -623,6 +635,10 @@ public class m_carItem : MonoBehaviour
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             }
+        }
+        else
+        {
+            ItemSystems[5].SetActive(false);
         }
     }
 

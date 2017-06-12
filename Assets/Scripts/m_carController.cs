@@ -64,8 +64,9 @@ public class m_carController : MonoBehaviour
 
     private Vector3 driftFrwd;
     private float stifness = 0;
-    public ParticleSystem[] Sfire;
+    public ParticleSystem[] SmokeEffects;
     public ParticleSystem YellowStun, BlueStun;
+    public ParticleSystem[] turboEffects;
 
     private bool isSpaceDown = false;
     private bool isSpaceJustUp = false;
@@ -109,7 +110,16 @@ public class m_carController : MonoBehaviour
         m_carAnimator = GameObject.Find("KartAnimado180").GetComponent<Animator>();
         m_CharacterAnimator = GameObject.Find("RamsesAnimado").GetComponent<Animator>();
 
-        audioManager.audioInstance.PauseCinematicMusic();
+        YellowStun.Stop();
+        BlueStun.Stop();
+        
+        audioManager.audioInstance.StopAllSounds();
+        audioManager.audioInstance.MansionMusic();
+
+        for (int i = 0; i < turboEffects.Length; i++)
+        {
+            turboEffects[i].Stop();
+        }
     }
 
     public float Speed()
@@ -212,7 +222,7 @@ public class m_carController : MonoBehaviour
                 m_carAnimator.SetBool("isKnockedUp", false);
                 m_carAnimator.SetBool("isSpinning", false);
                 m_CharacterAnimator.SetBool("isHit?", false);
-                m_CharacterAnimator.SetBool("Jump", false);
+                m_CharacterAnimator.SetBool("Jump?", false);
 
                 animationCounter = 1;
 
@@ -227,12 +237,11 @@ public class m_carController : MonoBehaviour
 
         currentSpeed = m_rigidbody.velocity.magnitude;            
 
-        for (int i = 0; i < Sfire.Length; i++)
+        for (int i = 0; i < SmokeEffects.Length; i++)
         {
-            Sfire[i].GetComponents<ParticleSystem>();
-            ParticleSystem.VelocityOverLifetimeModule fireVelocity = Sfire[i].GetComponent<ParticleSystem>().velocityOverLifetime;
+            ParticleSystem.VelocityOverLifetimeModule fireVelocity = SmokeEffects[i].GetComponent<ParticleSystem>().velocityOverLifetime;
             fireVelocity.xMultiplier = -currentSpeed;
-            ParticleSystem.ColorOverLifetimeModule fireColor = Sfire[i].GetComponent<ParticleSystem>().colorOverLifetime;
+            ParticleSystem.ColorOverLifetimeModule fireColor = SmokeEffects[i].GetComponent<ParticleSystem>().colorOverLifetime;
             fireVelocity.z = 0;           
         }
         if (inputAcc != 0 && !Drifting)
@@ -302,7 +311,12 @@ public class m_carController : MonoBehaviour
                 driftDelay = 0;
                 m_rigidbody.AddForceAtPosition(Vector3.up * 150, m_rigidbody.transform.position, ForceMode.Acceleration);
                 audioManager.audioInstance.Turbo();
-                m_CharacterAnimator.SetBool("Jump", true);
+                
+                for (int i = 0; i < turboEffects.Length; i++)
+                {
+                    turboEffects[i].Play();
+                }
+                m_CharacterAnimator.SetBool("Jump?", true);
                 canDrive = false;
 
                 if (Input.GetAxis("Horizontal") < -0.5f || Input.GetAxis("HorizontalXbox") < -0.5f)
@@ -340,21 +354,19 @@ public class m_carController : MonoBehaviour
             rightDrift = false;
             leftDrift = false;
 
-            //audioManager.audioInstance.MotorStopped();
-
             wheelFR.brakeTorque = brakeTorque;
             wheelFL.brakeTorque = brakeTorque;
             wheelBR.brakeTorque = brakeTorque;
-            wheelBL.brakeTorque = brakeTorque;  
-            
-            Sfire[0].Play();
-            Sfire[1].Play();
-            Sfire[2].Play();
-            Sfire[3].Play();
-            Sfire[4].Play();
-            Sfire[5].Play();
-            Sfire[6].Play();
-            Sfire[7].Play();                
+            wheelBL.brakeTorque = brakeTorque;
+
+            for (int i = 0; i < SmokeEffects.Length; i++)
+            {
+                SmokeEffects[i].Play();
+            }
+            for (int i = 0; i < turboEffects.Length; i++)
+            {
+                turboEffects[i].Stop();
+            }
         }
 
         //driveMode front
@@ -486,16 +498,17 @@ public class m_carController : MonoBehaviour
             sparksBLWheel.SetActive(false);
             sparksBRWheel.SetActive(false);
 
-            Sfire[0].Stop();
-            Sfire[1].Stop();
-            Sfire[2].Stop();
-            Sfire[3].Stop();
-            Sfire[4].Stop();
-            Sfire[5].Stop();
-            Sfire[6].Stop();
-            Sfire[7].Stop();
+            for (int i = 0; i < SmokeEffects.Length; i++)
+            {
+                SmokeEffects[i].Stop();
+            }
 
             m_CharacterAnimator.SetBool("turbo?", false);
+
+            for (int i = 0; i < turboEffects.Length; i++)
+            {
+                turboEffects[i].Stop();
+            }
         }
 
         //drivemode rear
@@ -555,16 +568,17 @@ public class m_carController : MonoBehaviour
             sparksBLWheel.SetActive(false);
             sparksBRWheel.SetActive(false);
 
-            Sfire[0].Play();
-            Sfire[1].Play();
-            Sfire[2].Play();
-            Sfire[3].Play();
-            Sfire[4].Play();
-            Sfire[5].Play();
-            Sfire[6].Play();
-            Sfire[7].Play();
+            for (int i = 0; i < SmokeEffects.Length; i++)
+            {
+                SmokeEffects[i].Play();
+            }
 
             m_CharacterAnimator.SetBool("turbo?", false);
+
+            for (int i = 0; i < turboEffects.Length; i++)
+            {
+                turboEffects[i].Stop();
+            }
         }
 
         if (driveMode == DriveMode.Drift)
@@ -640,6 +654,11 @@ public class m_carController : MonoBehaviour
                     m_CharacterAnimator.SetBool("turbo?", true);
                     audioManager.audioInstance.YeahPJ();
 
+                    for (int i = 0; i < turboEffects.Length; i++)
+                    {
+                        turboEffects[i].Play();
+                    }
+
                     driftCounter = 2f;
             
                     Drifting = false;
@@ -688,7 +707,12 @@ public class m_carController : MonoBehaviour
                 {
                     StartCoroutine(TurboEnum());
                     audioManager.audioInstance.Turbo();
-                    m_CharacterAnimator.SetBool("Turbo", true);
+                    m_CharacterAnimator.SetBool("turbo?", true);
+
+                    for (int i = 0; i < turboEffects.Length; i++)
+                    {
+                        turboEffects[i].Play();
+                    }
 
                     driftCounter = 2f;
 
@@ -754,14 +778,10 @@ public class m_carController : MonoBehaviour
                 }
             }
 
-            Sfire[0].Stop();
-            Sfire[1].Stop();
-            Sfire[2].Stop();
-            Sfire[3].Stop();
-            Sfire[4].Stop();
-            Sfire[5].Stop();
-            Sfire[6].Stop();
-            Sfire[7].Stop();
+            for (int i = 0; i < SmokeEffects.Length; i++)
+            {
+                SmokeEffects[i].Stop();
+            }
         }
 
         WheelHit hit;
@@ -776,7 +796,7 @@ public class m_carController : MonoBehaviour
         {
             if (Physics.Raycast(transform.position, -m_rigidbody.transform.up, out hitFloor1, 10f))
             {
-                m_CharacterAnimator.SetBool("Jump", true);
+                m_CharacterAnimator.SetBool("Jump?", true);
 
                 gravity = 8;
 
@@ -1003,7 +1023,11 @@ public class m_carController : MonoBehaviour
         {
             m_rigidbody.AddForce(m_rigidbody.transform.forward * turboForce, ForceMode.Acceleration);
             m_CharacterAnimator.SetBool("turbo?", true);
-            
+
+            for (int i = 0; i < turboEffects.Length; i++)
+            {
+                turboEffects[i].Play();
+            }
             if (!canTurbo)
             {
                 m_CharacterAnimator.SetBool("turbo?", false);
@@ -1062,6 +1086,11 @@ public class m_carController : MonoBehaviour
             {
                 m_rigidbody.AddRelativeForce(new Vector3(0, 0, Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * rebufoTurboForce, ForceMode.Acceleration);
                 m_CharacterAnimator.SetBool("turbo?", true);
+
+                for (int i = 0; i < turboEffects.Length; i++)
+                {
+                    turboEffects[i].Play();
+                }
                 audioManager.audioInstance.YeahPJ();
 
                 rebufoCounter = 0;

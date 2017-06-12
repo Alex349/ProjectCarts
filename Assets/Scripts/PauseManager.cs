@@ -9,10 +9,12 @@ public class PauseManager : MonoBehaviour {
     public Image pauseImage;
     public GameObject m_HUD;
     public bool CanPause;
+    private GameObject[] hudComponents;
 
     void Start ()
     {
         CanPause = true;
+        //hudComponents = m_HUD.GetComponentsInChildren<LayerMask>();
     }
 	
 	void Update ()
@@ -21,7 +23,11 @@ public class PauseManager : MonoBehaviour {
         {
             if (CanPause)
             {
-                m_HUD.SetActive(true);
+                for (int i = 0; i < hudComponents.Length; i++)
+                {                    
+                    hudComponents[i].SetActive(false);
+                    hudComponents[0].SetActive(true);
+                }                
 
                 Debug.Log("pause");
                 Time.timeScale = 0;
@@ -32,7 +38,11 @@ public class PauseManager : MonoBehaviour {
             }
             else
             {
-                m_HUD.SetActive(true);
+                for (int i = 0; i < hudComponents.Length; i++)
+                {
+                    hudComponents[i].SetActive(true);
+                    hudComponents[0].SetActive(false);
+                }
 
                 Debug.Log("Running");
                 Time.timeScale = 1;

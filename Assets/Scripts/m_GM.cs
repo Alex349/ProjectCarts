@@ -65,7 +65,7 @@ public class m_GM : MonoBehaviour
     {
         animDuration += Time.deltaTime;
 
-        if (animDuration >= 15 && !cameraAnimator.GetBool("raceStart"))
+        if (animDuration >= 1 && !cameraAnimator.GetBool("raceStart"))
         {
             audioManager.audioInstance.StopAllSounds();
 

@@ -11,13 +11,11 @@ public class PauseMenu : MonoBehaviour
     public Button[] mainPauseMenuButtons;
     public int[] screenRectWidth;
     int activeScreenResIndex;
-    private AudioListener cameraListener;
 
     void Start()
     {
         activeScreenResIndex = PlayerPrefs.GetInt("screen res index");
         bool isFullScreen = (PlayerPrefs.GetInt("fullscreen") == 1) ? true : false;        
-        cameraListener = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioListener>();
 
         pauseMenu.SetActive(false);
         mainPauseMenu.SetActive(true);

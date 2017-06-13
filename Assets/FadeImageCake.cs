@@ -39,7 +39,7 @@ public class FadeImageCake : MonoBehaviour
             this.image.color = curColor;
         }
 
-        if (carItem.bananaEffect <4) // && carItem.bananaEffect > -5
+        if (carItem.bananaEffect < 4) // && carItem.bananaEffect > -5
         {
 
             float alphaDiff = Mathf.Abs(curColor.a - this.targetAlpha);
@@ -50,12 +50,12 @@ public class FadeImageCake : MonoBehaviour
             }
         }
 
-        //if (carItem.bananaEffect < -6)
-        //{
-        //    Color curColor = this.image.color;
-        //    curColor.a = 100;
-        //    this.image.color = curColor;
-        //}
+        if (carItem.bananaEffect < -6)
+        {
+            Color curColor = this.image.color;
+            curColor.a = 100;
+            this.image.color = curColor;
+        }
 
     }
 

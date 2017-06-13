@@ -1101,8 +1101,10 @@ public class m_carController : MonoBehaviour
         {
             Quaternion m_rotation = m_rigidbody.transform.rotation;
             
-            m_rotation = new Quaternion(m_rotation.x, m_rotation.y + col.gameObject.transform.rotation.z * Time.deltaTime * 0.1f,
-                                                            m_rotation.z, m_rotation.w);            
+            m_rotation = new Quaternion(m_rotation.x, m_rotation.y - col.gameObject.transform.rotation.z * Time.deltaTime * 0.1f,
+                                                            m_rotation.z, m_rotation.w);
+
+            m_rigidbody.transform.rotation = m_rotation;      
         }
         if (col.tag == "Ramp")
         {

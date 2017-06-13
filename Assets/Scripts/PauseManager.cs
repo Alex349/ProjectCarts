@@ -9,12 +9,11 @@ public class PauseManager : MonoBehaviour {
     public Image pauseImage;
     public GameObject m_HUD;
     public bool CanPause;
-    private GameObject[] hudComponents;
+    public GameObject[] hudComponents;
 
     void Start ()
     {
-        CanPause = true;
-        //hudComponents = m_HUD.GetComponentsInChildren<LayerMask>();
+        CanPause = true;        
     }
 	
 	void Update ()

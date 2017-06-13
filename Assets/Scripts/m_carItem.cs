@@ -68,7 +68,9 @@ public class m_carItem : MonoBehaviour
     private float frozeAcc = 1000;
     [SerializeField]
     private float frozeEffectDuration = 5;
-
+    [SerializeField]
+    private float countdownPotion = 0, rainbowEffectDuration = 8f;
+    
     //ItemSpawners
     [SerializeField]
     private Transform backSpawn, backSpawnMiddle, backSpawnLast;
@@ -79,7 +81,7 @@ public class m_carItem : MonoBehaviour
 
     //Laps
     public string lap1Time, lap2Time, lap3Time;
-    private float lapCountdown;
+    private float lapCountdown, kartFrontMaxSpeed;
     private CarCheckPoints checkPoints;
 
     private m_carHUD carHUD;
@@ -87,6 +89,9 @@ public class m_carItem : MonoBehaviour
     private float randomMaxLeftStainSize, randomMaxMiddleStainSize, randomMaxRightStainSize;
     private float startCheckReverseCountdown;
     public GameObject[] ItemSystems;
+    private ParticleSystem dotsPotion;
+    private bool boxEntered;
+    private float delayBoxEffect = 2;
 
     void Start()
     {
@@ -104,6 +109,8 @@ public class m_carItem : MonoBehaviour
         {
             ItemSystems[i].SetActive(false);
         }
+
+        kartFrontMaxSpeed = carController.frontMaxSpeed;
     }
 
     // Update is called once per frame
@@ -174,6 +181,16 @@ public class m_carItem : MonoBehaviour
                 UseItem();
             }
         }
+
+        if (boxEntered)
+        {
+            delayBoxEffect -= Time.deltaTime;
+
+            if (delayBoxEffect <= 0)
+            {
+                ItemSystems[4].SetActive(false);
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -182,6 +199,8 @@ public class m_carItem : MonoBehaviour
         {
             Destroy(other.gameObject);
             audioManager.audioInstance.PickBox();
+            ItemSystems[4].SetActive(true);
+            boxEntered = true;
 
             if (currentPlayerObject == "none")
             {
@@ -376,9 +395,9 @@ public class m_carItem : MonoBehaviour
         if (currentPlayerObject == "rainbowPotion")
         {
             currentPlayerObject = "none";
-            audioManager.audioInstance.RainbowPotion();
-            ItemSystems[9].SetActive(true);
-            ItemSystems[9].GetComponentInChildren<ParticleSystem>().Play();
+            audioManager.audioInstance.RainbowPotion();            
+
+            countdownPotion = rainbowEffectDuration;
         }
         if (currentPlayerObject == "straightrocket")
         {
@@ -592,7 +611,37 @@ public class m_carItem : MonoBehaviour
             myRigidbody.AddForce(myRigidbody.transform.forward * carController.turboForce, ForceMode.Acceleration);
         }
 
+        countdownPotion -= Time.deltaTime;
 
+        if (countdownPotion > 0)
+        {
+            carController.frontMaxSpeed = 25;
+            Debug.Log("is POTION IN");
+
+            ItemSystems[0].SetActive(true);
+            dotsPotion = GameObject.Find("dots").GetComponent<ParticleSystem>();
+            ParticleSystem.VelocityOverLifetimeModule dotsVelocity = dotsPotion.velocityOverLifetime;
+            dotsVelocity.z = -carController.currentSpeed;
+            dotsVelocity.x = 0;
+
+            if (carController.rightDrift)
+            {
+                dotsVelocity.xMultiplier = carController.currentSpeed/3;
+            }
+            else if (carController.leftDrift)
+            {
+                dotsVelocity.xMultiplier = -carController.currentSpeed/3;
+
+            }
+            carController.GetComponent<BoxCollider>().enabled = false;
+        }
+        else
+        {
+            carController.frontMaxSpeed = kartFrontMaxSpeed;
+            ItemSystems[0].SetActive(false);
+            carController.GetComponent<BoxCollider>().enabled = true;
+            countdownPotion = 0;
+        }
         //FrostItemUpdate
         frozeEffect -= Time.deltaTime;
 
@@ -617,11 +666,8 @@ public class m_carItem : MonoBehaviour
             Debug.Log("Froze");
         }
 
-        if (frozeEffect < 0 && frozeEffect > -0.1f) //&& startRaceCooldown < 0
-        {
-            ItemSystems[5].SetActive(true);
-            ItemSystems[5].GetComponentInChildren<ParticleSystem>().Play();
-
+        if (frozeEffect < 0 && frozeEffect > -0.5f) //&& startRaceCooldown < 0
+        {           
             List<GameObject> karts = new List<GameObject>();
             foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
             {
@@ -635,10 +681,6 @@ public class m_carItem : MonoBehaviour
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             }
-        }
-        else
-        {
-            ItemSystems[5].SetActive(false);
         }
     }
 

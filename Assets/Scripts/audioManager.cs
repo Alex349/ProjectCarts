@@ -74,10 +74,7 @@ public class audioManager : MonoBehaviour
     }
     public void Turbo()
     {
-        if (!m_audios[5].isPlaying)
-        {
-            m_audios[5].Play();
-        }        
+        m_audios[5].Play();
     }
     public void Music1stLapIntro()
     {
@@ -281,6 +278,13 @@ public class audioManager : MonoBehaviour
         if (!m_audios[33].isPlaying)
         {
             m_audios[33].Play();
+        }
+    }
+    public void StopFroze()
+    {
+        if (m_audios[33].isPlaying)
+        {
+            m_audios[33].Stop();
         }
     }
     public void ThrowItemGeneral()

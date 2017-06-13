@@ -13,6 +13,6 @@ public class barrelScenario : MonoBehaviour {
 	
 	void Update ()
     {
-        transform.Rotate(new Vector3(0, 0, deltaRotation * Time.deltaTime));
+        transform.Rotate(0, 0, deltaRotation * Time.deltaTime);
 	}
 }

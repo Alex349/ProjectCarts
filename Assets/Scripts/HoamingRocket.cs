@@ -6,7 +6,6 @@ using System.Linq;
 
 public class HoamingRocket : MonoBehaviour
 {
-
     [SerializeField]
     private float rocketSpeed = 20, rocketAcc = 80, selfDestruct = 10, triggerDelay;
 

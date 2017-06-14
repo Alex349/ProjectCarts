@@ -17,13 +17,13 @@ public class coinScript : MonoBehaviour
 
         if (m_kart != null)
         {           
-            if (m_kart.GetComponent<m_carItem>().ItemSystems[1].activeInHierarchy && m_kart != null)
+            if (m_kart.GetComponent<m_carItem>().ItemSystems[1].isPlaying && m_kart != null)
             {
                 delay -= Time.deltaTime;
 
                 if (delay <= 0)
                 {
-                    m_kart.GetComponent<m_carItem>().ItemSystems[1].SetActive(false);
+                    m_kart.GetComponent<m_carItem>().ItemSystems[1].Stop();
                 }
             }
         }
@@ -35,7 +35,7 @@ public class coinScript : MonoBehaviour
         if (col.tag == "Player" && col.GetComponent<m_carItem>().money < 10)
         {
             col.GetComponent<m_carItem>().money++;
-            col.GetComponent<m_carItem>().ItemSystems[1].SetActive(true);
+            col.GetComponent<m_carItem>().ItemSystems[1].Play();
             audioManager.audioInstance.CoinSound();
         }
         else if (col.tag == "IA" && col.GetComponent<IA_Item>().money < 10)

@@ -4,13 +4,31 @@ using UnityEngine;
 
 public class frozeEffectScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+    private GameObject m_particleSystem;
+    private float delayParticles = 5;
+
+	void Start ()
+    {
+       //m_particleSystem = transform.GetChild(0).gameObject;
+       //m_particleSystem.SetActive(false);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	
+	void Update ()
+    {
+		//if (gameObject.activeInHierarchy)
+        //{
+        //    delayParticles -= Time.deltaTime;
+        //
+        //    if (delayParticles <= 0)
+        //    {
+        //        m_particleSystem.SetActive(true);
+        //        Debug.Log("playing froze effect");
+        //    }
+        //}
 	}
+    void OnDestroy()
+    {
+        
+    }
 }

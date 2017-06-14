@@ -794,29 +794,33 @@ public class m_carController : MonoBehaviour
 
         if ((!groundedWheel && !groundedWheel2 && !groundedWheel3 && !groundedWheel4) && !Drifting)
         {
-            if (Physics.Raycast(transform.position, -m_rigidbody.transform.up, out hitFloor1, 10f))
+            
+            if (Physics.Raycast(transform.position, -m_rigidbody.transform.up, out hitFloor1, 30f))
             {
-                m_CharacterAnimator.SetBool("Jump?", true);
+                if (Vector3.Distance(m_rigidbody.transform.position, hitFloor1.transform.position) > 5)
+                {
+                    m_CharacterAnimator.SetBool("Jump?", true);
 
-                gravity = 8;
+                    gravity = 8;
 
-                wheelBLDamp = wheelBL.wheelDampingRate;
-                wheelBLDamp = 0.5f;
-                wheelBL.wheelDampingRate = wheelBLDamp;
+                    wheelBLDamp = wheelBL.wheelDampingRate;
+                    wheelBLDamp = 0.5f;
+                    wheelBL.wheelDampingRate = wheelBLDamp;
 
-                wheelBRDamp = wheelBR.wheelDampingRate;
-                wheelBRDamp = 0.5f;
-                wheelBR.wheelDampingRate = wheelBRDamp;
+                    wheelBRDamp = wheelBR.wheelDampingRate;
+                    wheelBRDamp = 0.5f;
+                    wheelBR.wheelDampingRate = wheelBRDamp;
 
-                wheelFLDamp = wheelFL.wheelDampingRate;
-                wheelFLDamp = 0.5f;
-                wheelFL.wheelDampingRate = wheelFLDamp;
+                    wheelFLDamp = wheelFL.wheelDampingRate;
+                    wheelFLDamp = 0.5f;
+                    wheelFL.wheelDampingRate = wheelFLDamp;
 
-                wheelFRDamp = wheelFR.wheelDampingRate;
-                wheelFRDamp = 0.5f;
-                wheelFR.wheelDampingRate = wheelFRDamp;
+                    wheelFRDamp = wheelFR.wheelDampingRate;
+                    wheelFRDamp = 0.5f;
+                    wheelFR.wheelDampingRate = wheelFRDamp;
+                }                   
 
-                if ((hitFloor1.transform.position - m_rigidbody.transform.position).magnitude <= 4)
+                else if (Vector3.Distance(m_rigidbody.transform.position, hitFloor1.transform.position) <= 5)
                 {
                     audioManager.audioInstance.CarHorn();
                 }

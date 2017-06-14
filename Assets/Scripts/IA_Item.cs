@@ -92,6 +92,7 @@ public class IA_Item : MonoBehaviour
     [SerializeField]
     private Transform frontSpawn;
     private Vector3 frontSpawnVector;
+    public bool isKartFrezzed = false;
 
     void Start()
     {
@@ -612,6 +613,7 @@ public class IA_Item : MonoBehaviour
                 karts.Add(kart);
             }
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            isKartFrezzed = true;
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX;
 
             for (int i = 0; i < karts.Count; i++)
@@ -636,16 +638,24 @@ public class IA_Item : MonoBehaviour
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+                isKartFrezzed = false;
             }
-            
+
+            thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            thePlayer.GetComponent<m_carItem>().ItemSystems[5].SetActive(true);
-            Debug.Log("playing froze effect");
+
         }
-        else if (frozeEffect < -1)
+        else if (frozeEffect < -1 && frozeEffect > - 4)
         {
-            thePlayer.GetComponent<m_carItem>().ItemSystems[5].SetActive(false);
+            thePlayer.GetComponent<m_carItem>().ItemSystems[5].Play();
+
+            for (int i = 0; i < karts.Count; i++)
+            {
+                karts[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                isKartFrezzed = false;
+            }
         }
     }
 

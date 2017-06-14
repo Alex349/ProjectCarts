@@ -17,6 +17,7 @@ public class HoamingRocket : MonoBehaviour
     private Vector3 destination;
     private StraightRocket straightRocket;
     private PositionManager _positionManager;
+    private GameObject m_particleSystem;
 
     // Use this for initialization
     void Start()
@@ -41,8 +42,10 @@ public class HoamingRocket : MonoBehaviour
             target = _positionManager.racersGO[targetListPosition].transform;
         }
 
-
         destination = agent.destination;
+
+        m_particleSystem = transform.GetChild(1).gameObject;
+        m_particleSystem.SetActive(true);
     }
 
     // Update is called once per frame
@@ -83,5 +86,9 @@ public class HoamingRocket : MonoBehaviour
             Destroy(this.gameObject);
             Destroy(col.gameObject);
         }
+    }
+    void OnDestroy()
+    {
+        m_particleSystem.SetActive(false);
     }
 }

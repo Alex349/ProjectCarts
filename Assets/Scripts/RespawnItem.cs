@@ -25,10 +25,9 @@ public class RespawnItem : MonoBehaviour
             item_Instance.transform.Rotate(new Vector3(0, 1, 0), deltaRotation * Time.deltaTime);
            // item_Instance.transform.position = new Vector3(transform.position.x, transform.position.y + (Mathf.Sin(Time.time) * 0.2f), transform.position.z);
         }
-
-
         if (item_Instance == null)
         {
+            IsDestroyed();
             itemCounter -= Time.deltaTime;
 
             if (itemCounter <= 0)
@@ -43,7 +42,11 @@ public class RespawnItem : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawCube(transform.position, new Vector3 (1,1,1));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(transform.position, new Vector3 (1,1,1));
+    }
+    void IsDestroyed()
+    {
+       
     }
 }

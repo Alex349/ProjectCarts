@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PauseManager : MonoBehaviour {
 
     public GameObject PauseScreen;
-    public Image pauseImage;
     public GameObject m_HUD;
     public bool CanPause;
     public GameObject[] hudComponents;
@@ -32,7 +31,6 @@ public class PauseManager : MonoBehaviour {
                 Time.timeScale = 0;
                 
                 PauseScreen.SetActive(true);
-                pauseImage.fillAmount = Screen.dpi;
                 CanPause = false;
             }
             else

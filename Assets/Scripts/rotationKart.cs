@@ -7,7 +7,7 @@ public class rotationKart : MonoBehaviour {
 
     public Transform target;
     public Terrain terrain;
-    public Terrain CP1, CP2, CP3, CP4, CP5, CP6;
+    public Terrain CP1, CP2, CP3, CP4, CP5, CP6, CP7, CP8, CP8_1, CP9, CP10, CP11;
     private NavMeshAgent agent;
     private Quaternion lookRotation;
     public float deltaRotation;
@@ -35,7 +35,6 @@ public class rotationKart : MonoBehaviour {
 
         if (direction.magnitude > 0.1f || normal.magnitude > 0.1f)
         {
-            Debug.Log("0.1");
             Quaternion qLook = Quaternion.LookRotation(direction, Vector3.up);
             Quaternion qNorm = Quaternion.FromToRotation(Vector3.up, normal );
             lookRotation = qNorm * qLook ;
@@ -63,6 +62,39 @@ public class rotationKart : MonoBehaviour {
         {
             terrain = CP4;
         }
+        if (theTerrainCol.gameObject.name == "CP5")
+        {
+            terrain = CP5;
+        }
+        if (theTerrainCol.gameObject.name == "CP6")
+        {
+            terrain = CP6;
+        }
+        if (theTerrainCol.gameObject.name == "CP7")
+        {
+            terrain = CP7;
+        }
+        if (theTerrainCol.gameObject.name == "CP8")
+        {
+            terrain = CP8;
+        }
+        if (theTerrainCol.gameObject.name == "CP8.1")
+        {
+            terrain = CP8_1;
+        }
+        if (theTerrainCol.gameObject.name == "CP9")
+        {
+            terrain = CP9;
+        }
+        if (theTerrainCol.gameObject.name == "CP10")
+        {
+            terrain = CP10;
+        }
+        if (theTerrainCol.gameObject.name == "CP11")
+        {
+            terrain = CP11;
+        }
+
     }
 
 }

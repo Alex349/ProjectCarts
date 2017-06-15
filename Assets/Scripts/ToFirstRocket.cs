@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ToFirstRocket : MonoBehaviour {
+public class ToFirstRocket : MonoBehaviour
+{
 
     [SerializeField]
     private float rocketSpeed = 20, rocketAcc = 80, colliderActivator = 10;
@@ -15,8 +16,8 @@ public class ToFirstRocket : MonoBehaviour {
     public float scaleSpeed = 2.0f;
 
     private PositionManager _positionManager;
+    private GameObject waveBefore, explosionAfter;
 
-    // Use this for initialization
     void Start()
     {
 
@@ -26,9 +27,15 @@ public class ToFirstRocket : MonoBehaviour {
 
         target = _positionManager.racersGO[0].transform;
         destination = agent.destination;
-            }
 
-    // Update is called once per frame
+        waveBefore = transform.GetChild(1).gameObject;
+        explosionAfter = transform.GetChild(2).gameObject;
+
+        waveBefore.SetActive(false);
+        explosionAfter.SetActive(false);
+    }
+
+
     void Update()
     {
         colliderActivator -= Time.deltaTime;
@@ -67,8 +74,13 @@ public class ToFirstRocket : MonoBehaviour {
         }
     }
 
-    void IncreaseOnTime ()
+    void IncreaseOnTime()
     {
         transform.localScale += Vector3.one * scaleSpeed * Time.deltaTime;
+    }
+    void OnDestroy()
+    {
+        waveBefore.SetActive(true);
+        explosionAfter.SetActive(true);
     }
 }

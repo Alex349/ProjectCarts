@@ -75,7 +75,7 @@ public class IA_Item : MonoBehaviour
 
     //Froze
     [SerializeField]
-    private float frozeEffect;
+    private float frozeEffect = -10;
     [SerializeField]
     private float frozeSpeed = 0;
     [SerializeField]
@@ -92,33 +92,25 @@ public class IA_Item : MonoBehaviour
     [SerializeField]
     private Transform frontSpawn;
     private Vector3 frontSpawnVector;
+    public bool isKartFrezzed = false;
 
     void Start()
     {
-        //if (m_GM.CameraTravel())
-        //{
-            if (GameObject.Find("HUDManager") != null)
-            {
-                agent = GetComponent<NavMeshAgent>();
-                navmeshAI = GetComponent<NavMeshAI>();
-                hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
-                _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
-                carCheckPoints = GetComponent<CarCheckPoints>();
-                anim = GetComponentInChildren<Animator>();
-                StartCoroutine(CheckLeaderboards());
-
-                agent.speed = 0;
-                agent.acceleration = 0;
-            }
-       // }       
-
-
-        if (GameObject.Find("HUDManager") == null)
+        if (GameObject.Find("HUDManager") != null)
         {
-            
-        }
+            agent = GetComponent<NavMeshAgent>();
+            navmeshAI = GetComponent<NavMeshAI>();
+            hudManager = GameObject.Find("HUDManager").GetComponent<m_carHUD>();
+            _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
+            carCheckPoints = GetComponent<CarCheckPoints>();
+            anim = GetComponentInChildren<Animator>();
+            StartCoroutine(CheckLeaderboards());
+
+            agent.speed = 0;
+            agent.acceleration = 0;
+        }   
     }
-    // Update is called once per frame
+
     void Update()
     {
         //CountDowns
@@ -146,7 +138,7 @@ public class IA_Item : MonoBehaviour
                 knockUpCountDown -= Time.deltaTime;
                 spinCountDown -= Time.deltaTime;
             }
-        }       
+        }
         if (rainbowPotion == false)
         {
             if (spin == true)
@@ -298,22 +290,22 @@ public class IA_Item : MonoBehaviour
                 hudManager.pos2.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
                 Debug.Log("Ia second position" + " " + myPosition);
             }
-            else if(myPosition == 3)
+            else if (myPosition == 3)
             {
                 hudManager.pos3.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
                 Debug.Log("Ia 3 position" + " " + myPosition);
             }
-            else if(myPosition == 4)
+            else if (myPosition == 4)
             {
                 hudManager.pos4.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
                 Debug.Log("Ia 4 position" + " " + myPosition);
             }
-            else if(myPosition == 5)
+            else if (myPosition == 5)
             {
                 hudManager.pos5.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
                 Debug.Log("Ia 5 position" + myPosition);
             }
-            else if(myPosition == 6)
+            else if (myPosition == 6)
             {
                 hudManager.pos6.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
                 Debug.Log("Ia 6 position" + myPosition);
@@ -609,20 +601,19 @@ public class IA_Item : MonoBehaviour
 
         //FrostItemUpdate
         frozeEffect -= Time.deltaTime;
+        thePlayer = GameObject.FindWithTag("Player");
+        List<GameObject> karts = new List<GameObject>();
 
         if (frozeEffect > 0)
-        {
-            List<GameObject> karts = new List<GameObject>();
-
+        {           
             foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
             {
                 if (kart.Equals(this.gameObject))
                     continue;
                 karts.Add(kart);
             }
-
-            thePlayer = GameObject.FindWithTag("Player");
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            isKartFrezzed = true;
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX;
 
             for (int i = 0; i < karts.Count; i++)
@@ -632,13 +623,10 @@ public class IA_Item : MonoBehaviour
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
                 Debug.Log(karts[i].GetComponent<IA_Item>().name);
             }
-
         }
 
-        if (frozeEffect < 0 && frozeEffect > -0.5f) //&& startRaceCooldown < 0
+        else if (frozeEffect < 0 && frozeEffect > -1f) //&& startRaceCooldown < 0
         {
-            List<GameObject> karts = new List<GameObject>();
-
             foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Kart"))
             {
                 if (kart.Equals(this.gameObject))
@@ -650,11 +638,24 @@ public class IA_Item : MonoBehaviour
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+                isKartFrezzed = false;
             }
 
-            thePlayer = GameObject.FindWithTag("Player");
+            thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
+        }
+        else if (frozeEffect < -1 && frozeEffect > - 4)
+        {
+            thePlayer.GetComponent<m_carItem>().ItemSystems[5].Play();
+
+            for (int i = 0; i < karts.Count; i++)
+            {
+                karts[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                isKartFrezzed = false;
+            }
         }
     }
 

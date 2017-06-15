@@ -19,6 +19,7 @@ public class MenuScript : MonoBehaviour
     int activeScreenResIndex;
     public static int SelectionIndex = 0;
     public float deltaRotation;
+    private bool isFullScreen;
 
     void Awake()
     {
@@ -34,7 +35,7 @@ public class MenuScript : MonoBehaviour
     void Start()
     {
         activeScreenResIndex = PlayerPrefs.GetInt("screen res index");
-        bool isFullScreen = (PlayerPrefs.GetInt("fullscreen") == 1) ? true : false;
+        isFullScreen = (PlayerPrefs.GetInt("fullscreen") == 1) ? true : false;
 
         mainMenuHolder.SetActive(true);
         optionsMenuHolder.SetActive(false);

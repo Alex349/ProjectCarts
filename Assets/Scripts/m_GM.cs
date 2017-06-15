@@ -5,9 +5,9 @@ using UnityEngine;
 public class m_GM : MonoBehaviour
 {
     public static m_GM gameManager;
-    public GameObject[] mainPlayer;
-    public GameObject[] IAPlayers;
-    public GameObject[] initSpawnPoints;
+    private GameObject[] mainPlayer;
+    private GameObject[] IAPlayers;
+    //public GameObject[] initSpawnPoints;
     public static GameObject CanvasAmazing, LapCheckPoints, AlertBoxHUD, OffScreenLogic;
 
     private static Camera m_camera;
@@ -30,6 +30,18 @@ public class m_GM : MonoBehaviour
             Destroy(gameManager);
         }
 
+        mainPlayer = GameObject.FindGameObjectsWithTag("Player");
+        IAPlayers = GameObject.FindGameObjectsWithTag("Kart");
+
+        for (int i = 0; i < mainPlayer.Length; i++)
+        {
+            mainPlayer[i].SetActive(false);
+        }
+        for (int i = 0; i < IAPlayers.Length; i++)
+        {
+            IAPlayers[i].SetActive(false);
+        }
+
         managerReady = false;
         CanvasAmazing = GameObject.Find("Canvas_Gold");
         CanvasAmazing.SetActive(false);
@@ -44,16 +56,8 @@ public class m_GM : MonoBehaviour
         m_camera.GetComponent<CameraScript>().enabled = false;
 
         cameraAnimator = Camera.main.GetComponent<Animator>();
-        cameraAnimator.SetBool("raceStart", false);  
+        cameraAnimator.SetBool("raceStart", false);        
         
-        for (int i = 0; i < mainPlayer.Length; i++)
-        {
-            mainPlayer[i].SetActive(false);
-        }      
-        for (int i = 0; i < IAPlayers.Length; i++)
-        {
-            IAPlayers[i].SetActive(false);
-        }
     }
 	void Start ()
     {
@@ -65,7 +69,7 @@ public class m_GM : MonoBehaviour
     {
         animDuration += Time.deltaTime;
 
-        if (animDuration >= 15 && !cameraAnimator.GetBool("raceStart"))
+        if (animDuration >= 1 && !cameraAnimator.GetBool("raceStart"))
         {
             audioManager.audioInstance.StopAllSounds();
 

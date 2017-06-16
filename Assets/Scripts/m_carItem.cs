@@ -133,74 +133,77 @@ public class m_carItem : MonoBehaviour
         UpdateItems();
         IncreaseSpeedOnMoney();
 
-        if (currentPlayerObject == "banana" || bananaDefending == true)
+        if (!boxEntered)
         {
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+            if (currentPlayerObject == "banana" || bananaDefending == true)
             {
-                UseBanana();
-                audioManager.audioInstance.ThrowCake();
-                
-            }
-            else
-            {
-                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
                 {
-                    ReleaseBanana();
-                    audioManager.audioInstance.ThrowItemGeneral();
-                    ramsesAnimator.SetBool("throwingObj?", true);
-                    print("throwing banana");
-                    objThrown = true;
+                    UseBanana();
+                    audioManager.audioInstance.ThrowCake();
+
+                }
+                else
+                {
+                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    {
+                        ReleaseBanana();
+                        audioManager.audioInstance.ThrowItemGeneral();
+                        ramsesAnimator.SetBool("throwingObj?", true);
+                        print("throwing banana");
+                        objThrown = true;
+                    }
                 }
             }
-        }
-        else if (currentPlayerObject == "triplebanana" || triplebananaDefending == true)
-        {
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+            else if (currentPlayerObject == "triplebanana" || triplebananaDefending == true)
             {
-                UseTripleBanana();
-                audioManager.audioInstance.ThrowCake();
+                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                {
+                    UseTripleBanana();
+                    audioManager.audioInstance.ThrowCake();
+                }
+                else
+                {
+                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    {
+                        ReleaseTripleBanana();
+                        audioManager.audioInstance.ThrowItemGeneral();
+                        ramsesAnimator.SetBool("throwingObj?", true);
+                        objThrown = true;
+
+                    }
+                }
+            }
+            else if (currentPlayerObject == "fakemysterybox" || fakeboxDefending == true)
+            {
+                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                {
+                    UseFakeBox();
+                    audioManager.audioInstance.ThrowCake();
+                }
+                else
+                {
+                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    {
+                        ReleaseFakeBox();
+                        audioManager.audioInstance.ThrowItemGeneral();
+                        ramsesAnimator.SetBool("throwingObj?", true);
+                        objThrown = true;
+
+                    }
+                }
             }
             else
             {
-                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
                 {
-                    ReleaseTripleBanana();
-                    audioManager.audioInstance.ThrowItemGeneral();
+                    UseItem();
                     ramsesAnimator.SetBool("throwingObj?", true);
                     objThrown = true;
 
                 }
             }
-        }
-        else if (currentPlayerObject == "fakemysterybox" || fakeboxDefending == true)
-        {
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
-            {
-                UseFakeBox();
-                audioManager.audioInstance.ThrowCake();
-            }
-            else
-            {
-                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
-                {
-                    ReleaseFakeBox();
-                    audioManager.audioInstance.ThrowItemGeneral();
-                    ramsesAnimator.SetBool("throwingObj?", true);
-                    objThrown = true;
-
-                }
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
-            {
-                UseItem();
-                ramsesAnimator.SetBool("throwingObj?", true);
-                objThrown = true;
-
-            }
-        }
+        }        
 
         if (boxEntered)
         {
@@ -214,12 +217,11 @@ public class m_carItem : MonoBehaviour
                     if (audioManager.audioInstance.m_audios[36].isPlaying)
                     {
                         audioManager.audioInstance.m_audios[36].Stop();
-                    }                   
+                    }
+                    boxEntered = false;
                 }
                 audioManager.audioInstance.ItemChoosed();
-                delayBoxEffect = 2;               
-
-                boxEntered = false;
+                delayBoxEffect = 2;             
             }
         }
         if (objThrown)
@@ -259,6 +261,8 @@ public class m_carItem : MonoBehaviour
             randomMaxLeftStainSize = (Random.Range(0.2f, 1f));
             randomMaxMiddleStainSize = (Random.Range(0.2f, 1f));
             randomMaxRightStainSize = (Random.Range(0.2f, 1f));
+
+            money--;
 
             bananaEffect = bananaEffectDuration;
         }
@@ -407,15 +411,15 @@ public class m_carItem : MonoBehaviour
         {
             currentPlayerObject = "fakemysterybox";
         }
-        else if (rnd < 0.85 && myPosition >= 9)
+        else if (rnd < 0.85 && myPosition >= 8)
         {
             currentPlayerObject = "rainbowPotion";
         }
-        else if (rnd < 0.90 && myPosition >= 4)
+        else if (rnd < 0.90 && myPosition >= 2)
         {
             currentPlayerObject = "froze";
         }
-        else if (rnd < 1)
+        else if (rnd < 1 && myPosition >= 2)
         {
             if (money < 10)
             {
@@ -701,6 +705,7 @@ public class m_carItem : MonoBehaviour
         else if (countdownPotion < 0 && countdownPotion > -1)
         {
             carController.frontMaxSpeed = kartFrontMaxSpeed;
+            audioManager.audioInstance.StopPotion();
 
             ItemSystems[0].gameObject.SetActive(false);
             ItemSystems[6].gameObject.SetActive(false);
@@ -766,7 +771,7 @@ public class m_carItem : MonoBehaviour
 
     void IncreaseSpeedOnMoney()
     {
-        //carController.maxSpeed = carController.maxSpeed * ( 1 + money * 0.1f);
+        carController.maxSpeed = carController.frontMaxSpeed * ( 1 + money * 0.1f);
         //carController.currentAcc = carController.currentAcc * (1 + money * 0.01f);
     }
 

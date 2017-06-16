@@ -380,51 +380,51 @@ public class IA_Item : MonoBehaviour
     {
         float rnd = (Random.Range(0f, 1f));
 
-        if (rnd < 0.05)
+        if (rnd < 0.05 && myPosition >= 4)
         {
             currentIAItem = "triplebanana";
         }
-        if (rnd < 0.15)
+        if (rnd < 0.15 && myPosition >= 1)
         {
             currentIAItem = "banana";
         }
-        else if (rnd < 0.2)
+        else if (rnd < 0.2 && myPosition >= 4)
         {
             currentIAItem = "tripleturbo";
         }
-        else if (rnd < 0.3)
+        else if (rnd < 0.3 && myPosition >= 1)
         {
             currentIAItem = "turbo";
         }
-        else if (rnd < 0.4)
+        else if (rnd < 0.4 && myPosition >= 1)
         {
             currentIAItem = "straightrocket";
         }
-        else if (rnd < 0.5)
+        else if (rnd < 0.5 && myPosition >= 2)
         {
             currentIAItem = "rockettracker";
         }
-        else if (rnd < 0.55)
+        else if (rnd < 0.55 && myPosition >= 7)
         {
             currentIAItem = "rockettofirst";
         }
-        else if (rnd < 0.6)
+        else if (rnd < 0.6 && myPosition >= 2)
         {
             currentIAItem = "triplerocketstraight";
         }
-        else if (rnd < 0.65)
+        else if (rnd < 0.65 && myPosition >= 4)
         {
             currentIAItem = "triplerockettracker";
         }
-        else if (rnd < 0.75)
+        else if (rnd < 0.75 && myPosition >= 4)
         {
             currentIAItem = "fakemysterybox";
         }
-        else if (rnd < 0.85)
+        else if (rnd < 0.85 && myPosition >= 9)
         {
             currentIAItem = "rainbowPotion";
         }
-        else if (rnd < 0.90)
+        else if (rnd < 0.90 && myPosition >= 3)
         {
             currentIAItem = "froze";
         }

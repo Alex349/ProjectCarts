@@ -38,7 +38,7 @@ public class coinScript : MonoBehaviour
             col.transform.GetChild(7).GetChild(1).gameObject.SetActive(true);
             col.transform.GetChild(7).GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
             //col.GetComponent<m_carItem>().ItemSystems[1].Play();
-            Debug.Log("taking coin!!");
+
             audioManager.audioInstance.CoinSound();
         }
         else if (col.tag == "IA" && col.GetComponent<IA_Item>().money < 10)

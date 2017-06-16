@@ -49,6 +49,37 @@ ModelImporter:
     100082: Checkpoint_5_Template_Ceiling
     100084: CheckPoint_6_Template_Ceiling
     100086: CheckPoint_6_Template_Ceiling_Bottom
+    100088: CheckPoint_6_Template_Walls_Cork
+    100090: CheckPoint_2_Template_Walls_Interior_Collider
+    100092: group
+    100094: group1
+    100096: CheckPoint_6_Template_Floor_Helping_2 1
+    100098: CheckPoint_6_Template_Floor_Turbo_Platform 1
+    100100: tapa_barril
+    100102: CheckPoint_0_Template_Floor_Central_Curves
+    100104: CheckPoint_0_Template_Floor_Goal
+    100106: CheckPoint_6_Template_Walls_Big_Barrel_Margin
+    100108: CheckPoint_0_Template_Floor_Central_Water
+    100110: CheckPoint_0_Template_Floor_Central_Straight
+    100112: CheckPoint:0_Template_Walls_Door
+    100114: CheckPoint_5_Template_Walls002
+    100116: Checkpoint1_ceiling
+    100118: Checkpoint2_ceiling
+    100120: Checkpoint4_ceiling
+    100122: Checkpoint5_Ceiling
+    100124: Checpoint3_ceiling
+    100126: Checpoint6_ceiling
+    100128: CheckPoint_5_Walls
+    100130: CheckPoint_1_Carpet
+    100132: CheckPoint_1_Carpet_Corner
+    100134: Circuit_Template_Plane_12x12
+    100136: CheckPoint_3_Template_Wall_Fence
+    100138: Plane001
+    100140: Windows
+    100142: CheckPoint_1_Template_Ceiling
+    100144: CheckPoint_2_Template_Ceiling
+    100146: CheckPoint_4_Template_Ceiling
+    100148: CheckPoint_5_Template_Ceiling
     400000: CheckPoint_0_Template_Floor_Central
     400002: CheckPoint_0_Template_Floor_Lateral
     400004: CheckPoint_0_Template_Walls_Door
@@ -93,6 +124,37 @@ ModelImporter:
     400082: Checkpoint_5_Template_Ceiling
     400084: CheckPoint_6_Template_Ceiling
     400086: CheckPoint_6_Template_Ceiling_Bottom
+    400088: CheckPoint_6_Template_Walls_Cork
+    400090: CheckPoint_2_Template_Walls_Interior_Collider
+    400092: group
+    400094: group1
+    400096: CheckPoint_6_Template_Floor_Helping_2 1
+    400098: CheckPoint_6_Template_Floor_Turbo_Platform 1
+    400100: tapa_barril
+    400102: CheckPoint_0_Template_Floor_Central_Curves
+    400104: CheckPoint_0_Template_Floor_Goal
+    400106: CheckPoint_6_Template_Walls_Big_Barrel_Margin
+    400108: CheckPoint_0_Template_Floor_Central_Water
+    400110: CheckPoint_0_Template_Floor_Central_Straight
+    400112: CheckPoint:0_Template_Walls_Door
+    400114: CheckPoint_5_Template_Walls002
+    400116: Checkpoint1_ceiling
+    400118: Checkpoint2_ceiling
+    400120: Checkpoint4_ceiling
+    400122: Checkpoint5_Ceiling
+    400124: Checpoint3_ceiling
+    400126: Checpoint6_ceiling
+    400128: CheckPoint_5_Walls
+    400130: CheckPoint_1_Carpet
+    400132: CheckPoint_1_Carpet_Corner
+    400134: Circuit_Template_Plane_12x12
+    400136: CheckPoint_3_Template_Wall_Fence
+    400138: Plane001
+    400140: Windows
+    400142: CheckPoint_1_Template_Ceiling
+    400144: CheckPoint_2_Template_Ceiling
+    400146: CheckPoint_4_Template_Ceiling
+    400148: CheckPoint_5_Template_Ceiling
     2300000: CheckPoint_0_Template_Floor_Central
     2300002: CheckPoint_0_Template_Floor_Lateral
     2300004: CheckPoint_0_Template_Walls_Door
@@ -135,6 +197,35 @@ ModelImporter:
     2300078: Checkpoint_5_Template_Ceiling
     2300080: CheckPoint_6_Template_Ceiling
     2300082: CheckPoint_6_Template_Ceiling_Bottom
+    2300084: CheckPoint_6_Template_Walls_Cork
+    2300086: CheckPoint_2_Template_Walls_Interior_Collider
+    2300088: CheckPoint_6_Template_Floor_Helping_2 1
+    2300090: CheckPoint_6_Template_Floor_Turbo_Platform 1
+    2300092: tapa_barril
+    2300094: CheckPoint_0_Template_Floor_Central_Curves
+    2300096: CheckPoint_0_Template_Floor_Goal
+    2300098: CheckPoint_6_Template_Walls_Big_Barrel_Margin
+    2300100: CheckPoint_0_Template_Floor_Central_Water
+    2300102: CheckPoint_0_Template_Floor_Central_Straight
+    2300104: CheckPoint:0_Template_Walls_Door
+    2300106: CheckPoint_5_Template_Walls002
+    2300108: Checkpoint1_ceiling
+    2300110: Checkpoint2_ceiling
+    2300112: Checkpoint4_ceiling
+    2300114: Checkpoint5_Ceiling
+    2300116: Checpoint3_ceiling
+    2300118: Checpoint6_ceiling
+    2300120: CheckPoint_5_Walls
+    2300122: CheckPoint_1_Carpet
+    2300124: CheckPoint_1_Carpet_Corner
+    2300126: Circuit_Template_Plane_12x12
+    2300128: CheckPoint_3_Template_Wall_Fence
+    2300130: Plane001
+    2300132: Windows
+    2300134: CheckPoint_1_Template_Ceiling
+    2300136: CheckPoint_2_Template_Ceiling
+    2300138: CheckPoint_4_Template_Ceiling
+    2300140: CheckPoint_5_Template_Ceiling
     3300000: CheckPoint_0_Template_Floor_Central
     3300002: CheckPoint_0_Template_Floor_Lateral
     3300004: CheckPoint_0_Template_Walls_Door
@@ -177,6 +268,35 @@ ModelImporter:
     3300078: Checkpoint_5_Template_Ceiling
     3300080: CheckPoint_6_Template_Ceiling
     3300082: CheckPoint_6_Template_Ceiling_Bottom
+    3300084: CheckPoint_6_Template_Walls_Cork
+    3300086: CheckPoint_2_Template_Walls_Interior_Collider
+    3300088: CheckPoint_6_Template_Floor_Helping_2 1
+    3300090: CheckPoint_6_Template_Floor_Turbo_Platform 1
+    3300092: tapa_barril
+    3300094: CheckPoint_0_Template_Floor_Central_Curves
+    3300096: CheckPoint_0_Template_Floor_Goal
+    3300098: CheckPoint_6_Template_Walls_Big_Barrel_Margin
+    3300100: CheckPoint_0_Template_Floor_Central_Water
+    3300102: CheckPoint_0_Template_Floor_Central_Straight
+    3300104: CheckPoint:0_Template_Walls_Door
+    3300106: CheckPoint_5_Template_Walls002
+    3300108: Checkpoint1_ceiling
+    3300110: Checkpoint2_ceiling
+    3300112: Checkpoint4_ceiling
+    3300114: Checkpoint5_Ceiling
+    3300116: Checpoint3_ceiling
+    3300118: Checpoint6_ceiling
+    3300120: CheckPoint_5_Walls
+    3300122: CheckPoint_1_Carpet
+    3300124: CheckPoint_1_Carpet_Corner
+    3300126: Circuit_Template_Plane_12x12
+    3300128: CheckPoint_3_Template_Wall_Fence
+    3300130: Plane001
+    3300132: Windows
+    3300134: CheckPoint_1_Template_Ceiling
+    3300136: CheckPoint_2_Template_Ceiling
+    3300138: CheckPoint_4_Template_Ceiling
+    3300140: CheckPoint_5_Template_Ceiling
     4300000: CheckPoint_0_Template_Walls_Fence
     4300002: CheckPoint_0_Template_Walls_External
     4300004: CheckPoint_1_Template_Walls
@@ -219,6 +339,35 @@ ModelImporter:
     4300078: Checkpoint_1_Template_Ceiling
     4300080: CheckPoint_6_Template_Ceiling
     4300082: CheckPoint_6_Template_Ceiling_Bottom
+    4300084: CheckPoint_6_Template_Walls_Cork
+    4300086: CheckPoint_2_Template_Walls_Interior_Collider
+    4300088: tapa_barril
+    4300090: CheckPoint_6_Template_Floor_Turbo_Platform
+    4300092: CheckPoint_6_Template_Floor_Helping_2
+    4300094: CheckPoint_6_Template_Walls_Big_Barrel_Margin
+    4300096: CheckPoint_0_Template_Floor_Central_Curves
+    4300098: CheckPoint_0_Template_Floor_Goal
+    4300100: CheckPoint_0_Template_Floor_Central_Water
+    4300102: CheckPoint_0_Template_Floor_Central_Straight
+    4300104: CheckPoint:0_Template_Walls_Door
+    4300106: CheckPoint_5_Template_Walls002
+    4300108: Checkpoint1_ceiling
+    4300110: Checkpoint2_ceiling
+    4300112: Checpoint3_ceiling
+    4300114: Checkpoint4_ceiling
+    4300116: Checkpoint5_Ceiling
+    4300118: Checpoint6_ceiling
+    4300120: CheckPoint_5_Walls
+    4300122: Circuit_Template_Plane_12x12
+    4300124: CheckPoint_1_Carpet_Corner
+    4300126: CheckPoint_1_Carpet
+    4300128: CheckPoint_3_Template_Wall_Fence
+    4300130: Plane001
+    4300132: Windows
+    4300134: CheckPoint_1_Template_Ceiling
+    4300136: CheckPoint_2_Template_Ceiling
+    4300138: CheckPoint_4_Template_Ceiling
+    4300140: CheckPoint_5_Template_Ceiling
     7400000: Take 001
     9500000: //RootNode
   materials:

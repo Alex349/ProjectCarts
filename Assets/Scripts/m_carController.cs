@@ -116,6 +116,7 @@ public class m_carController : MonoBehaviour
             turboEffects[i].Stop();
         }
         m_carItem = GetComponent<m_carItem>();
+
     }
 
     public float Speed()
@@ -227,6 +228,8 @@ public class m_carController : MonoBehaviour
                 canDrive = true;
             }
         }
+        audioManager.audioInstance.PauseCinematicMusic();
+
     }
 
     void FixedUpdate()
@@ -867,6 +870,14 @@ public class m_carController : MonoBehaviour
             m_CharacterAnimator.SetBool("Jump?", false);
 
         }
+        if (m_carItem.countdownPotion > -1 && m_carItem.countdownPotion <= 0)
+        {
+            m_carItem.countdownPotion = -1;
+        }
+        if (m_rigidbody.IsSleeping())
+        {
+            
+        }
     }
 
     void DriftBehaviour(WheelCollider WheelBL, WheelCollider WheelBR, WheelCollider WheelFL, WheelCollider WheelFR)
@@ -1048,9 +1059,10 @@ public class m_carController : MonoBehaviour
             }
             audioManager.audioInstance.YeahPJ();
         }
-        if ((col.tag == "Spear" || col.tag == "Barrel" || col.tag == "Rocket") && m_carItem.rainbowEffectDuration < 0)
+        if ((col.tag == "Spear" || col.tag == "Barrel") && m_carItem.countdownPotion < -1)
         {
             //YellowStun.Play();
+            m_carItem.countdownPotion = 0;
             YellowStun.GetComponentInChildren<ParticleSystem>().Play();
 
             m_carAnimator.SetBool("isKnockedUp", true);
@@ -1060,10 +1072,32 @@ public class m_carController : MonoBehaviour
 
             m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
 
-            canDrive = false;            
+            if (m_carItem.money >= 3)
+            {
+                m_carItem.money = m_carItem.money - 3;
+            }
+            else if (m_carItem.money == 2)
+            {
+                m_carItem.money = m_carItem.money - 2;
+            }
+            else if (m_carItem.money == 1)
+            {
+                m_carItem.money = m_carItem.money - 1;
+            }
+            else
+            {
+                m_carItem.money = 0;
+            }
+
+            canDrive = false;
+            m_rigidbody.Sleep();
         }
-        if (col.tag == "FakeMysteryBox" && m_carItem.rainbowEffectDuration < 0)
+        Debug.Log(m_carItem.rainbowEffectDuration < 0);
+
+        if (col.tag == "FakeMysteryBox" || col.tag == "Rocket" && m_carItem.countdownPotion < -1)
         {
+            m_carItem.countdownPotion = 0;
+
             YellowStun.GetComponentInChildren<ParticleSystem>().Play();
 
             m_carAnimator.SetBool("isKnockedUp", true);
@@ -1072,13 +1106,34 @@ public class m_carController : MonoBehaviour
             audioManager.audioInstance.NoPJ();
 
             m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
+
+            if (m_carItem.money >= 3)
+            {
+                m_carItem.money = m_carItem.money - 3;
+            }
+            else if (m_carItem.money == 2)
+            {
+                m_carItem.money = m_carItem.money - 2;
+            }
+            else if (m_carItem.money == 1)
+            {
+                m_carItem.money = m_carItem.money - 1;
+            }
+            else
+            {
+                m_carItem.money = 0;
+            }
+
+            m_rigidbody.Sleep();
 
             canDrive = false;
 
             Destroy(col.gameObject);
         }
-        if ((col.tag == "Water" || col.tag == "Banana") && m_carItem.rainbowEffectDuration < 0)
+        if ((col.tag == "Water" || col.tag == "Banana") && m_carItem.countdownPotion < -1)
         {
+            m_carItem.countdownPotion = 0;
+
             BlueStun.Play();
             BlueStun.GetComponentInChildren<ParticleSystem>().Play();
 
@@ -1088,7 +1143,21 @@ public class m_carController : MonoBehaviour
 
             audioManager.audioInstance.ThrowItemGeneral();
 
+            if (m_carItem.money >= 2)
+            {
+                m_carItem.money = m_carItem.money - 2;
+            }
+            else if (m_carItem.money == 1)
+            {
+                m_carItem.money = m_carItem.money - 1;
+            }
+            else
+            {
+                m_carItem.money = 0;
+            }
+
             m_rigidbody.AddForce(new Vector3(0, 0, -Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * slipperyForce, ForceMode.Impulse);
+            m_rigidbody.Sleep();
         }
         if (col.tag == "Wall")
         {

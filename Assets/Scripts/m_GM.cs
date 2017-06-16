@@ -14,7 +14,7 @@ public class m_GM : MonoBehaviour
 
     public Animator cameraAnimator;
     private static Animation cameraAnimation;
-    public static float animDuration;
+    public static float animDuration = 17;
     public static bool managerReady;
     private int totalIA = 0, totalPlayers = 0;
 
@@ -67,10 +67,10 @@ public class m_GM : MonoBehaviour
 	
 	void Update ()
     {
-        animDuration += Time.deltaTime;
+        animDuration -= Time.deltaTime;
 
         //l'animació són uns 17s
-        if (animDuration >= 1 && !cameraAnimator.GetBool("raceStart") || Input.GetKey("enter"))
+        if (animDuration <= 0 && !cameraAnimator.GetBool("raceStart") || Input.GetKey("enter"))
         {
             audioManager.audioInstance.StopAllSounds();
 
@@ -97,7 +97,7 @@ public class m_GM : MonoBehaviour
             cameraAnimator.SetBool("raceStart", true);
             cameraAnimator.enabled = false;
             m_camera.GetComponent<CameraScript>().enabled = true;
-
+            audioManager.audioInstance.PauseCinematicMusic();
         }
         else
         {

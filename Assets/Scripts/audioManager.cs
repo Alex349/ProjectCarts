@@ -277,6 +277,17 @@ public class audioManager : MonoBehaviour
         {
             m_audios[28].Play();
         }
+        if (m_audios[8].isPlaying)
+        {
+            m_audios[8].Stop();
+        }
+    }
+    public void StopPotion()
+    {
+        if (m_audios[28].isPlaying)
+        {
+            m_audios[28].Stop();
+        }
     }
     public void LaunchRocket()
     {

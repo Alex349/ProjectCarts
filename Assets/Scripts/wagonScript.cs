@@ -16,7 +16,7 @@ public class wagonScript : MonoBehaviour {
     {
         startPoint = GameObject.FindGameObjectWithTag("StartPoint");        
         endPoints = GameObject.FindGameObjectsWithTag("EndPoint");
-        endPoint = endPoints[Random.Range(0, 2)];
+        endPoint = endPoints[Random.Range(0, 1)];
         transform.position = startPoint.transform.position;
 	}
 	

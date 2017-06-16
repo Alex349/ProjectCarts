@@ -15,7 +15,7 @@ public class m_GM : MonoBehaviour
 
     public Animator cameraAnimator;
     private static Animation cameraAnimation;
-    public static float animDuration = 1;
+    public static float animDuration = 17;
     public static bool managerReady;
     private int totalIA = 0, totalPlayers = 0;
 
@@ -68,7 +68,7 @@ public class m_GM : MonoBehaviour
 	
 	void Update ()
     {
-        if (SceneManager.GetActiveScene().name == "Gold_Version")
+        if (SceneManager.GetActiveScene().name == "Gold_Version_Eduard")
         {
             animDuration -= Time.deltaTime;
 

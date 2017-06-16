@@ -574,7 +574,6 @@ public class m_carItem : MonoBehaviour
             //Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity, backSpawn.transform);
             (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
             //(Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
-            //banana.GetComponent<Transform>().localScale = banana.GetComponent<Transform>().localScale + new Vector3(0.01f, 0.01f, 0.01f);
 
             currentPlayerObject = "none";
             bananaDefending = true;

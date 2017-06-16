@@ -49,7 +49,7 @@ public class MenuScript : MonoBehaviour
     public void Play()
     {
         audioManager.audioInstance.ButtonMenuOK();
-        SceneManager.LoadScene("Gold_Version");               
+        SceneManager.LoadScene("Gold_Version_Eduard");               
     }
     public void ArcadeMenu()
     {

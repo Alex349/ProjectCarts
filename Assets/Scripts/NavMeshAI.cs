@@ -65,7 +65,6 @@ public class NavMeshAI : MonoBehaviour
         if (changeVelocityTimer < 0)
         {
             VelocityandAccelerationRandom();
-            Debug.Log("Velochng");
             changeVelocityTimer = changeVelocityCooldown;
         }
 

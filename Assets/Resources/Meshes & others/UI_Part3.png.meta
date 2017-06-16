@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 5345e7d338cf2df488ae537ad0f47996
+timeCreated: 1497630088
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: SuperControls
+    21300002: Controls
+    21300004: UI_Part3_2
+    21300006: UI_Part3_3
+    21300008: UI_Part3_4
+    21300010: UI_Part3_5
+    21300012: UI_Part3_6
+    21300014: UI_Part3_7
+    21300016: UI_Part3_8
+    21300018: UI_Part3_9
+    21300020: UI_Part3_10
+    21300022: UI_Part3_11
+    21300024: UI_Part3_12
+    21300026: UI_Part3_13
+    21300028: UI_Part3_14
+    21300030: UI_Part3_15
+    21300032: UI_Part3_16
+    21300034: UI_Part3_17
+    21300036: UI_Part3_18
+    21300038: UI_Part3_19
+    21300040: UI_Part3_20
+    21300042: UI_Part3_21
+    21300044: UI_Part3_22
+    21300046: UI_Part3_23
+    21300048: UI_Part3_24
+    21300050: UI_Part3_25
+    21300052: UI_Part3_26
+    21300054: UI_Part3_27
+    21300056: UI_Part3_28
+    21300058: UI_Part3_29
+    21300060: UI_Part3_30
+    21300062: UI_Part3_31
+    21300064: UI_Part3_32
+    21300066: UI_Part3_33
+    21300068: UI_Part3_34
+    21300070: UI_Part3_35
+    21300072: UI_Part3_36
+    21300074: UI_Part3_37
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 0
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 1024
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: UI_Part3_5
+      rect:
+        serializedVersion: 2
+        x: 2515
+        y: 921
+        width: 890
+        height: 1200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UI_Part3_31
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 921
+        width: 461
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UI_Part3_32
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 531
+        width: 356
+        height: 356
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UI_Part3_33
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 553
+        width: 300
+        height: 299
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UI_Part3_34
+      rect:
+        serializedVersion: 2
+        x: 1067
+        y: 77
+        width: 843
+        height: 810
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UI_Part3_35
+      rect:
+        serializedVersion: 2
+        x: 1968
+        y: 58
+        width: 876
+        height: 851
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UI_Part3_36
+      rect:
+        serializedVersion: 2
+        x: 2897
+        y: 126
+        width: 937
+        height: 555
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: UI_Part3_37
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 36
+        width: 678
+        height: 502
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SuperControls
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 1075
+        width: 2341
+        height: 928
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -38,8 +38,6 @@ public class PositionManager : MonoBehaviour
     {
         racersGO.Sort((IComparer<GameObject>)new SortLap());
         racersGO.Reverse();
-
-
     }
 
     private class SortLap : IComparer<GameObject>
@@ -48,6 +46,7 @@ public class PositionManager : MonoBehaviour
         {
             int t1 = _objAL.GetComponent<CarCheckPoints>().currentLap;
             int t2 = _objBL.GetComponent<CarCheckPoints>().currentLap;
+
             if (t1.CompareTo(t2) != 0)
             {
                 return t1.CompareTo(t2);
@@ -57,30 +56,17 @@ public class PositionManager : MonoBehaviour
                 int t3 = _objAL.GetComponent<CarCheckPoints>().currentCheckpoint;
                 int t4 = _objBL.GetComponent<CarCheckPoints>().currentCheckpoint;
 
-                return t3.CompareTo(t4);
+                if(t3 == 74 || t4 == 74)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return t3.CompareTo(t4);
+
+                }
             }
         }
     }
-
-    //private class SortCheckpoint: IComparer<GameObject>
-    //{
-    //    int IComparer<GameObject>.Compare(GameObject _objAL, GameObject _objBL)
-    //    {
-    //        int t1 = _objAL.GetComponent<CarCheckPoints>().currentCheckpoint;
-    //        int t2 = _objBL.GetComponent<CarCheckPoints>().currentCheckpoint;
-    //        return t1.CompareTo(t2);
-    //    }
-    //}
-
-    //private class SortDestPoint : IComparer<GameObject>
-    //{
-
-    //    int IComparer<GameObject>.Compare(GameObject _objA, GameObject _objB)
-    //    {
-    //        int t1 = _objA.GetComponent<NavMeshAI>().destPoint;
-    //        int t2 = _objB.GetComponent<NavMeshAI>().destPoint;
-    //        return t1.CompareTo(t2);
-    //    }
-    //}
 
 }

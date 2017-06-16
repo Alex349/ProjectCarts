@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class m_carHUD : MonoBehaviour
@@ -24,6 +25,7 @@ public class m_carHUD : MonoBehaviour
 
     public Text time_Text, totalLaps_Text, coins_Text;
     public float time, secondsCount, minuteCount, milisecondsCount;
+    public float timeLap, secondsCountLap, minuteCountLap, milisecondsCountLap;
     private int currentPosition;
 
     [SerializeField]
@@ -38,7 +40,6 @@ public class m_carHUD : MonoBehaviour
     public float scaleSpeed = 1f;
     private bool hasImageChanged0, hasImageChanged1, hasImageChanged2, hasImageChanged3;
 
-    public Text Lap1Text, Lap2Text, Lap3Text, TotalText;
 
     public Text pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12;
     public Image pos1Img, pos2Img, pos3Img, pos4Img, pos5Img, pos6Img, pos7Img, pos8Img, pos9Img, pos10Img, pos11Img, pos12Img;
@@ -47,7 +48,6 @@ public class m_carHUD : MonoBehaviour
 
     void Start()
     {
-
         m_car = FindObjectOfType<m_carController>();
         timeNumbers = GameObject.Find("Time");
         car_Item = FindObjectOfType<m_carItem>();
@@ -107,6 +107,20 @@ public class m_carHUD : MonoBehaviour
                 secondsCount = 0;
             }
 
+            //Counter for laps
+            milisecondsCountLap += Time.deltaTime * 1000;
+
+            if (milisecondsCountLap >= 999)
+            {
+                secondsCountLap++;
+                milisecondsCountLap = 0;
+            }
+            else if (secondsCountLap >= 60)
+            {
+                minuteCountLap++;
+                secondsCountLap = 0;
+            }
+
             UpdateItemUI();
             UpdateLap();
             CoinUIFix();
@@ -122,36 +136,38 @@ public class m_carHUD : MonoBehaviour
                 time_Text.color = Color.white;
             }
 
-            if (Input.GetKey(KeyCode.U))
-            {
-                LeaderboardEnd();
-            }
-            else if (car_Checkpoint.currentLap == 4)
-            {
-                LeaderboardEnd();
-            }
-            else
-            {
-                LeaderboardEndGO.SetActive(false);
-            }
             randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
-        }       
+        }
 
-        if (Input.GetKey(KeyCode.U))
+
+        if (Input.GetKey(KeyCode.B))
         {
-            LeaderboardEnd();
+            car_Checkpoint.currentLap = 4;
         }
-        else if (car_Checkpoint.currentLap == 4)
+        if (Input.GetKey(KeyCode.N))
         {
-           LeaderboardEnd();
+            car_Checkpoint.currentLap = 5;
         }
-        else
+        if (Input.GetKey(KeyCode.M))
         {
+            GoToMainMenu();
+        }
+        else if (car_Checkpoint.currentLap != 4 && car_Checkpoint.currentLap != 5 && car_Checkpoint.currentLap != 6)
+        {
+            PlayerLapRecap.SetActive(false);
             LeaderboardEndGO.SetActive(false);
         }
 
-       // randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
+        if (car_Checkpoint.currentLap == 4)
+        {
+            PlayerRecapEnd();
+        }
+        if (car_Checkpoint.currentLap == 5)
+        {
+            LeaderboardEnd();
+        }
 
+        // randomItem = UnityEngine.Random.Range(1, itemSpriteList.Length);
     }
 
     public void UpdateTimerUI()
@@ -381,24 +397,24 @@ public class m_carHUD : MonoBehaviour
         timeNumbers.transform.localScale = new Vector3(PingPong(Time.time * 0.5f, 0.9f, 1.1f), PingPong(Time.time * 0.5f, 0.9f, 1.1f), PingPong(Time.time * 0.5f, 0.9f, 1.1f));
     }
 
-    void LeaderboardEnd()
+    void PlayerRecapEnd()
     {
-        PlayerLapRecap.SetActive(false);
-        LeaderboardEndGO.SetActive(true);
-        Debug.Log("U");
+        PlayerLapRecap.SetActive(true);
+        LeaderboardEndGO.SetActive(false);
     }
 
-    void LapRecap()
+    public void LeaderboardEnd()
     {
-        Lap1Text.text = car_Item.lap1Time.ToString();
-        Lap2Text.text = car_Item.lap2Time.ToString();
-        Lap3Text.text = car_Item.lap3Time.ToString();
+        car_Checkpoint.currentLap = 5;
+        PlayerLapRecap.SetActive(false);
+        LeaderboardEndGO.SetActive(true);
+        Debug.Log("N");
+    }
 
-        if (float.Parse(car_Item.lap1Time) < float.Parse(car_Item.lap2Time))
-        {
-
-        }
-        PlayerLapRecap.SetActive(true);
+    public void GoToMainMenu()
+    {
+        Debug.Log("M");
+        SceneManager.LoadScene("MainMenu");
     }
 
     void CoinUIFix()
@@ -414,26 +430,11 @@ public class m_carHUD : MonoBehaviour
         {
             coins_Text.color = Color.white;
         }
-        if (coins_Text.text == "11")
+        if (car_Item.money >= 11)
         {
-            coins_Text.text = "10";
+            car_Item.money = 10;
         }
-        else if (coins_Text.text == "12")
-        {
-            coins_Text.text = "10";
-        }
-        else if (coins_Text.text == "13")
-        {
-            coins_Text.text = "10";
-        }
-        else if (coins_Text.text == "14")
-        {
-            coins_Text.text = "10";
-        }
-        else if (coins_Text.text == "15")
-        {
-            coins_Text.text = "10";
-        }
+
     }
 
     public void WrongWay()

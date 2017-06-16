@@ -299,7 +299,7 @@ public class IA_Item : MonoBehaviour
             }
         }
 
-        if (carCheckPoints.currentLap == 4 && other.tag == "StartCheckPoint")
+        if (carCheckPoints.currentLap == 3 && other.tag == "StartCheckPoint" && carCheckPoints.currentCheckpoint >= 70)
         {
             if (myPosition == 1)
             {
@@ -681,6 +681,8 @@ public class IA_Item : MonoBehaviour
                 karts[i].transform.GetChild(0).GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
             }            
 
+           thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
+
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(true);
             thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
@@ -697,8 +699,12 @@ public class IA_Item : MonoBehaviour
 
         if (countDownPotion > 0)
         {
+
+            thePlayer.GetComponent<m_carItem>().ItemSystems[5].Play();
+
             agent.speed = agent.speed * 1.5f;
             agent.acceleration = agent.acceleration * 1.5f;
+
 
             Debug.Log("is POTION IN");
             ItemSystems[7].gameObject.SetActive(true);

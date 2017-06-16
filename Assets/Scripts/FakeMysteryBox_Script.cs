@@ -4,10 +4,27 @@ using UnityEngine;
 
 public class FakeMysteryBox_Script : MonoBehaviour {
 
-    public float deltaRotation = 50, deltaUp = 0.004f;
+    public float deltaRotation = 50;
 
-	void Update () {
+    Vector3 myTransform;
+
+    void Start()
+    {
+        myTransform = this.transform.position;
+
+    }
+
+        void Update () {
+
         transform.Rotate(new Vector3(0, 1, 0), deltaRotation * Time.deltaTime);
-        transform.position = new Vector3(transform.position.x, transform.position.y + (Mathf.Sin(Time.time) * deltaUp), transform.position.z);
+
+        RaycastHit hit = new RaycastHit();
+
+        Debug.DrawRay(transform.position, -Vector3.up, Color.green);
+
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+        {
+            transform.position = hit.point + hit.normal * 0.5f;
+        }
     }
 }

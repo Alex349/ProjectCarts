@@ -6,9 +6,13 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: puta_concha
     400000: //RootNode
+    400002: puta_concha
     2300000: //RootNode
+    2300002: puta_concha
     3300000: //RootNode
+    3300002: puta_concha
     4300000: puta_concha
   materials:
     importMaterials: 1

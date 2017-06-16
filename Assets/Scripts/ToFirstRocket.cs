@@ -7,7 +7,7 @@ public class ToFirstRocket : MonoBehaviour
 {
 
     [SerializeField]
-    private float rocketSpeed = 20, rocketAcc = 80, colliderActivator = 10;
+    private float rocketSpeed = 20, rocketAcc = 80, colliderActivator = 4;
 
     private NavMeshAgent agent;
     public Transform target;
@@ -16,11 +16,11 @@ public class ToFirstRocket : MonoBehaviour
     public float scaleSpeed = 2.0f;
 
     private PositionManager _positionManager;
-    private GameObject waveBefore, explosionAfter;
+    private ParticleSystem explosion;
+    private Component[] spheres;
 
     void Start()
     {
-
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         _positionManager = GameObject.Find("HUDManager").GetComponent<PositionManager>();
@@ -28,11 +28,13 @@ public class ToFirstRocket : MonoBehaviour
         target = _positionManager.racersGO[0].transform;
         destination = agent.destination;
 
-        waveBefore = transform.GetChild(1).gameObject;
-        explosionAfter = transform.GetChild(2).gameObject;
+        explosion = transform.gameObject.GetComponentInChildren<ParticleSystem>();
 
-        waveBefore.SetActive(false);
-        explosionAfter.SetActive(false);
+        if (explosion.isPlaying)
+        {
+            explosion.Stop();
+        }
+
     }
 
 
@@ -46,10 +48,9 @@ public class ToFirstRocket : MonoBehaviour
         agent.acceleration = rocketAcc;
 
         if (colliderActivator < 1)
-        {
-            Component[] shpheres;
-            shpheres = GetComponents(typeof(SphereCollider));
-            foreach (SphereCollider a in shpheres)
+        {            
+            spheres = GetComponents(typeof(SphereCollider));
+            foreach (SphereCollider a in spheres)
                 a.enabled = true;
         }
         if (transform.localScale.x < 0.5f)
@@ -58,16 +59,17 @@ public class ToFirstRocket : MonoBehaviour
         }
         //Debug.Log(Vector3.Distance(target.transform.position, transform.position));
 
-        if (Vector3.Distance(target.transform.position, this.transform.position) < 4f)
+        if (Vector3.Distance(target.transform.position, this.transform.position) <= 5f && spheres != null)
         {
-            //GameObject.Find("AlertBoxHUD").GetComponent<RocketsHUDScript>().KingBallIsInside = false;
-            //Destroy(gameObject);
-        }
+            if (!explosion.isPlaying)
+            {
+                explosion.Play();
+            }
+        }       
     }
 
     void OnTriggerEnter(Collider col)
     {
-
         if (col.tag == "Banana" || col.tag == "FakeMysteryBox")
         {
             Destroy(col.gameObject);
@@ -77,10 +79,5 @@ public class ToFirstRocket : MonoBehaviour
     void IncreaseOnTime()
     {
         transform.localScale += Vector3.one * scaleSpeed * Time.deltaTime;
-    }
-    void OnDestroy()
-    {
-        waveBefore.SetActive(true);
-        explosionAfter.SetActive(true);
     }
 }

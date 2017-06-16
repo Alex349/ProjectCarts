@@ -35,7 +35,7 @@ public class m_carItem : MonoBehaviour
 
     //Turbo
     [SerializeField]
-    private float turboEffect;
+    private float turboEffect = 0;
     [SerializeField]
     private float turboSpeed = 1.1f;
     [SerializeField]
@@ -61,7 +61,7 @@ public class m_carItem : MonoBehaviour
 
     //Froze
     [SerializeField]
-    private float frozeEffect = -5;
+    private float frozeEffect;
     [SerializeField]
     private float frozeSpeed = 0;
     [SerializeField]
@@ -69,7 +69,7 @@ public class m_carItem : MonoBehaviour
     [SerializeField]
     private float frozeEffectDuration = 5;
     [SerializeField]
-    private float countdownPotion = 0, rainbowEffectDuration = 8f;
+    public float countdownPotion, rainbowEffectDuration = 8f;
     
     //ItemSpawners
     [SerializeField]
@@ -89,11 +89,12 @@ public class m_carItem : MonoBehaviour
     private float randomMaxLeftStainSize, randomMaxMiddleStainSize, randomMaxRightStainSize;
     private float startCheckReverseCountdown;
     public ParticleSystem[] ItemSystems;
-    //public GameObject[] ItemSystems;
-    private ParticleSystem dotsPotion;
-    private bool boxEntered;
-    private float delayBoxEffect = 3;
-    
+
+    public ParticleSystem dotsPotion;
+    private bool boxEntered, objThrown;
+    private float delayBoxEffect = 3, delayItemAnim = 2;
+    private Animator ramsesAnimator;
+    private GameObject banana;
 
     void Start()
     {
@@ -103,6 +104,7 @@ public class m_carItem : MonoBehaviour
         checkPoints = GameObject.FindGameObjectWithTag("Player").GetComponent<CarCheckPoints>();
         cakeStains = GameObject.Find("CakeStains").GetComponentsInChildren<Image>(true);
         startCheckReverseCountdown = 3f;
+        ramsesAnimator = GameObject.Find("RamsesAnimado").GetComponent<Animator>();
 
         foreach (Image img in cakeStains)
             img.enabled = false;
@@ -113,6 +115,9 @@ public class m_carItem : MonoBehaviour
         }
 
         kartFrontMaxSpeed = carController.frontMaxSpeed;
+
+        frozeEffect = -6;
+        countdownPotion = -10;
     }
 
     // Update is called once per frame
@@ -128,89 +133,124 @@ public class m_carItem : MonoBehaviour
         UpdateItems();
         IncreaseSpeedOnMoney();
 
-        if (currentPlayerObject == "banana" || bananaDefending == true)
+        if (!boxEntered)
         {
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+            if (currentPlayerObject == "banana" || bananaDefending == true)
             {
-                UseBanana();
-                audioManager.audioInstance.ThrowCake();
+                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                {
+                    UseBanana();
+                    audioManager.audioInstance.ThrowCake();
+
+                }
+                else
+                {
+                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    {
+                        ReleaseBanana();
+                        audioManager.audioInstance.ThrowItemGeneral();
+                        ramsesAnimator.SetBool("throwingObj?", true);
+                        print("throwing banana");
+                        objThrown = true;
+                    }
+                }
+            }
+            else if (currentPlayerObject == "triplebanana" || triplebananaDefending == true)
+            {
+                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                {
+                    UseTripleBanana();
+                    audioManager.audioInstance.ThrowCake();
+                }
+                else
+                {
+                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    {
+                        ReleaseTripleBanana();
+                        audioManager.audioInstance.ThrowItemGeneral();
+                        ramsesAnimator.SetBool("throwingObj?", true);
+                        objThrown = true;
+
+                    }
+                }
+            }
+            else if (currentPlayerObject == "fakemysterybox" || fakeboxDefending == true)
+            {
+                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                {
+                    UseFakeBox();
+                    audioManager.audioInstance.ThrowCake();
+                }
+                else
+                {
+                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    {
+                        ReleaseFakeBox();
+                        audioManager.audioInstance.ThrowItemGeneral();
+                        ramsesAnimator.SetBool("throwingObj?", true);
+                        objThrown = true;
+
+                    }
+                }
             }
             else
             {
-                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
                 {
-                    ReleaseBanana();
-                    audioManager.audioInstance.ThrowItemGeneral();
+                    UseItem();
+                    ramsesAnimator.SetBool("throwingObj?", true);
+                    objThrown = true;
+
                 }
             }
-        }
-        else if (currentPlayerObject == "triplebanana" || triplebananaDefending == true)
-        {
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
-            {
-                UseTripleBanana();
-                audioManager.audioInstance.ThrowCake();
-            }
-            else
-            {
-                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
-                {
-                    ReleaseTripleBanana();
-                    audioManager.audioInstance.ThrowItemGeneral();
-                }
-            }
-        }
-        else if (currentPlayerObject == "fakemysterybox" || fakeboxDefending == true)
-        {
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
-            {
-                UseFakeBox();
-                audioManager.audioInstance.ThrowCake();
-            }
-            else
-            {
-                if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
-                {
-                    ReleaseFakeBox();
-                    audioManager.audioInstance.ThrowItemGeneral();
-                }
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
-            {
-                UseItem();
-            }
-        }
+        }        
 
         if (boxEntered)
         {
             delayBoxEffect -= Time.deltaTime;
+            GetRandomItem();           
 
-            if (delayBoxEffect <= 0)
+            if (delayBoxEffect <= 0 && delayBoxEffect > -1)
             {
-                ItemSystems[4].Stop();
-                ItemSystems[4].gameObject.SetActive(false);
-                delayBoxEffect = 2;
+                if (currentPlayerObject != "none")
+                {
+                    if (audioManager.audioInstance.m_audios[36].isPlaying)
+                    {
+                        audioManager.audioInstance.m_audios[36].Stop();
+                    }
+                    boxEntered = false;
+                }
+                audioManager.audioInstance.ItemChoosed();
+                delayBoxEffect = 2;             
             }
+        }
+        if (objThrown)
+        {
+            delayItemAnim -= Time.deltaTime;
+
+            if (delayItemAnim <= 0)
+            {
+                ramsesAnimator.SetBool("throwingObj?", false);
+                ramsesAnimator.SetBool("rear?", false);
+
+                objThrown = false;
+            }           
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "MysteryBox")
+        if (other.tag == "MysteryBox" && currentPlayerObject == "none")
         {
             Destroy(other.gameObject);
             audioManager.audioInstance.PickBox();
-            ItemSystems[4].gameObject.SetActive(true);
-            ItemSystems[4].Play();
-            boxEntered = true;
+            audioManager.audioInstance.ItemLoop();
 
-            if (currentPlayerObject == "none")
-            {
-                GetRandomItem();
-            }
+            boxEntered = true;           
+        }
+        else if (other.tag == "MysteryBox" && currentPlayerObject != "none")
+        {
+            Destroy(other.gameObject);
         }
 
         if (other.tag == "Banana")
@@ -221,6 +261,8 @@ public class m_carItem : MonoBehaviour
             randomMaxLeftStainSize = (Random.Range(0.2f, 1f));
             randomMaxMiddleStainSize = (Random.Range(0.2f, 1f));
             randomMaxRightStainSize = (Random.Range(0.2f, 1f));
+
+            money--;
 
             bananaEffect = bananaEffectDuration;
         }
@@ -333,51 +375,51 @@ public class m_carItem : MonoBehaviour
     {
         float rnd = (Random.Range(0f, 1f));
 
-        if (rnd < 0.15)
+        if (rnd < 0.15 && myPosition >= 1)
         {
             currentPlayerObject = "banana";
         }
-        else if (rnd < 0.2)
+        else if (rnd < 0.2 && myPosition >= 4)
         {
             currentPlayerObject = "tripleturbo";
         }
-        else if (rnd < 0.3)
+        else if (rnd < 0.3 && myPosition >= 1)
         {
             currentPlayerObject = "turbo";
         }
-        else if (rnd < 0.4)
+        else if (rnd < 0.4 && myPosition >= 1)
         {
             currentPlayerObject = "straightrocket";
         }
-        else if (rnd < 0.5)
+        else if (rnd < 0.5 && myPosition >= 1)
         {
             currentPlayerObject = "rockettracker";
         }
-        else if (rnd < 0.55)
+        else if (rnd < 0.55 && myPosition >= 8)
         {
             currentPlayerObject = "rockettofirst";
         }
-        else if (rnd < 0.6)
+        else if (rnd < 0.6 && myPosition >= 5)
         {
             currentPlayerObject = "triplerocketstraight";
         }
-        else if (rnd < 0.65)
+        else if (rnd < 0.65 && myPosition >= 4)
         {
             currentPlayerObject = "triplerockettracker";
         }
-        else if (rnd < 0.75)
+        else if (rnd < 0.75 && myPosition >= 2)
         {
             currentPlayerObject = "fakemysterybox";
         }
-        else if (rnd < 0.85)
+        else if (rnd < 0.85 && myPosition >= 8)
         {
             currentPlayerObject = "rainbowPotion";
         }
-        else if (rnd < 0.90)
+        else if (rnd < 0.90 && myPosition >= 2)
         {
             currentPlayerObject = "froze";
         }
-        else if (rnd < 1)
+        else if (rnd < 1 && myPosition >= 2)
         {
             if (money < 10)
             {
@@ -395,7 +437,7 @@ public class m_carItem : MonoBehaviour
     {
         if (currentPlayerObject == "none")
         {
-
+            ramsesAnimator.SetBool("throwingObj?", false);
         }
         if (currentPlayerObject == "rainbowPotion")
         {
@@ -465,6 +507,7 @@ public class m_carItem : MonoBehaviour
         if (currentPlayerObject == "tripleturbo")
         {
             turboEffect = turboEffectDuration;
+            audioManager.audioInstance.StopTurbo();
             audioManager.audioInstance.TurboMode();
 
             turbosUsed++;
@@ -502,7 +545,10 @@ public class m_carItem : MonoBehaviour
     {
         if (currentPlayerObject == "banana")
         {
-            (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
+            //(Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
+            banana = (GameObject)Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity, backSpawn.transform) as GameObject;
+            banana.GetComponent<Transform>().localScale = banana.GetComponent<Transform>().localScale + new Vector3(0.01f, 0.01f, 0.01f);
+            
             currentPlayerObject = "none";
             bananaDefending = true;
         }
@@ -518,7 +564,7 @@ public class m_carItem : MonoBehaviour
     {
         if (currentPlayerObject == "fakemysterybox")
         {
-            (Instantiate(Resources.Load("Items/FakeMysteryBox"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
+            (Instantiate(Resources.Load("Items/FakeMysteryBox"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
             currentPlayerObject = "none";
             fakeboxDefending = true;
 
@@ -614,6 +660,18 @@ public class m_carItem : MonoBehaviour
         if (turboEffect > 0)
         {
             myRigidbody.AddForce(myRigidbody.transform.forward * carController.turboForce, ForceMode.Acceleration);
+
+            for (int i = 0; i < carController.turboEffects.Length; i++)
+            {
+                carController.turboEffects[i].Play();
+            }
+        }
+        else if (turboEffect < 0 && turboEffect > -1)
+        {
+            for (int i = 0; i < carController.turboEffects.Length; i++)
+            {
+                carController.turboEffects[i].Stop();
+            }
         }
 
         countdownPotion -= Time.deltaTime;
@@ -624,15 +682,15 @@ public class m_carItem : MonoBehaviour
             Debug.Log("is POTION IN");
             ItemSystems[0].gameObject.SetActive(true);
             ItemSystems[6].gameObject.SetActive(true);
-            ItemSystems[7].gameObject.SetActive(true);
 
-            ItemSystems[0].Play();
-            ItemSystems[6].Play();
-            ItemSystems[7].Play();
-
-            dotsPotion = GameObject.Find("dots").GetComponent<ParticleSystem>();
+            if (!ItemSystems[0].isPlaying || !ItemSystems[6].isPlaying)
+            {
+                ItemSystems[0].Play();
+                ItemSystems[6].Play();
+            }
+          
             ParticleSystem.VelocityOverLifetimeModule dotsVelocity = dotsPotion.velocityOverLifetime;
-            dotsVelocity.z = -carController.currentSpeed;
+            dotsVelocity.z = 0;
             dotsVelocity.x = 0;
 
             if (carController.rightDrift)
@@ -642,22 +700,16 @@ public class m_carItem : MonoBehaviour
             else if (carController.leftDrift)
             {
                 dotsVelocity.xMultiplier = -carController.currentSpeed/3;
-
             }
-            carController.GetComponent<BoxCollider>().enabled = false;
         }
         else if (countdownPotion < 0 && countdownPotion > -1)
         {
             carController.frontMaxSpeed = kartFrontMaxSpeed;
-            ItemSystems[0].Stop();
-            ItemSystems[6].Stop();
-            ItemSystems[7].Stop();
+            audioManager.audioInstance.StopPotion();
 
             ItemSystems[0].gameObject.SetActive(false);
             ItemSystems[6].gameObject.SetActive(false);
-            ItemSystems[7].gameObject.SetActive(false);
 
-            carController.GetComponent<BoxCollider>().enabled = true;
             countdownPotion = 0;
         }
         //FrostItemUpdate
@@ -700,7 +752,17 @@ public class m_carItem : MonoBehaviour
                 {
                     karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
                     karts[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                    karts[i].transform.GetChild(0).GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
                 }               
+            }
+        }
+        if (frozeEffect <= -5)
+        {
+            for (int i = 0; i < karts.Count; i++)
+            {
+                
+
+                karts[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
             }
         }
         
@@ -709,7 +771,7 @@ public class m_carItem : MonoBehaviour
 
     void IncreaseSpeedOnMoney()
     {
-        //carController.maxSpeed = carController.maxSpeed * ( 1 + money * 0.1f);
+        carController.maxSpeed = carController.frontMaxSpeed * ( 1 + money * 0.1f);
         //carController.currentAcc = carController.currentAcc * (1 + money * 0.01f);
     }
 

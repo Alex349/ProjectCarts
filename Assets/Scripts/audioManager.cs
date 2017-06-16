@@ -5,7 +5,7 @@ using UnityEngine;
 public class audioManager : MonoBehaviour
 {
     public static audioManager audioInstance;
-    private AudioSource[] m_audios;
+    public AudioSource[] m_audios;
     private m_carController m_kart;
     //private AudioSource motorStopped, motorAcceleration, motor
 
@@ -65,7 +65,7 @@ public class audioManager : MonoBehaviour
         if (!m_audios[4].isPlaying)
         {
             m_audios[4].Play();
-            m_audios[2].Play();
+            m_audios[2].Play(1);
         }
         else if (m_audios[15].isPlaying)
         {
@@ -74,7 +74,19 @@ public class audioManager : MonoBehaviour
     }
     public void Turbo()
     {
-        m_audios[5].Play();
+        //m_audios[5].PlayOneShot(m_audios[5].clip, 1);
+
+        if (!m_audios[5].isPlaying)
+        {
+            m_audios[5].Play();
+        }
+    }
+    public void StopTurbo()
+    {
+        if (m_audios[22].isPlaying)
+        {
+            m_audios[22].Stop();
+        }
     }
     public void Music1stLapIntro()
     {
@@ -210,6 +222,27 @@ public class audioManager : MonoBehaviour
             m_audios[23].Play();
         }
     }
+    public void ItemLoop()
+    {
+        if (!m_audios[36].isPlaying)
+        {
+            m_audios[36].Play();
+        }
+    }
+    public void ItemChoosed()
+    {
+        if (!m_audios[37].isPlaying)
+        {
+            m_audios[37].Play();
+        }
+    }
+    public void StopAudioBox()
+    {
+        if (m_audios[23].isPlaying)
+        {
+            m_audios[23].Stop();
+        }
+    }
     public void HitCake()
     {
         if (!m_audios[24].isPlaying)
@@ -243,6 +276,17 @@ public class audioManager : MonoBehaviour
         if (!m_audios[28].isPlaying)
         {
             m_audios[28].Play();
+        }
+        if (m_audios[8].isPlaying)
+        {
+            m_audios[8].Stop();
+        }
+    }
+    public void StopPotion()
+    {
+        if (m_audios[28].isPlaying)
+        {
+            m_audios[28].Stop();
         }
     }
     public void LaunchRocket()

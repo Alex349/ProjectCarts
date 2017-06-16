@@ -15,15 +15,8 @@ public class m_carController : MonoBehaviour
     public WheelCollider wheelBR;
     public WheelCollider wheelBL;
 
-    public float baseAcc;
-    public float currentAcc;
-    public float gravity;
-    public float turnRadius;
-    public float torque ;
-    public float brakeTorque;
-    public float frontMaxSpeed;
-    public float rearMaxSpeed;
-    public float maxSpeed;
+    public float baseAcc, currentAcc, gravity, turnRadius, torque, brakeTorque, frontMaxSpeed, rearMaxSpeed, maxSpeed;
+
     public enum DriveMode {Front, Rear, Drift, Stopped, All};
     public float turboForce, startTurboForce;
     public float rebufoTurboForce, endDriftTurboForce;
@@ -83,6 +76,8 @@ public class m_carController : MonoBehaviour
 
     public GameObject sparksBLWheel, sparksBRWheel, grassBLWheel, grassBRWheel;
     public Material sparkMaterialYellow, sparkMaterialBlue;
+    public float deltaAnimator = 1.3f, backAnimation = 1.5f;
+    private m_carItem m_carItem;
 
     void Start()
     {
@@ -120,6 +115,8 @@ public class m_carController : MonoBehaviour
         {
             turboEffects[i].Stop();
         }
+        m_carItem = GetComponent<m_carItem>();
+
     }
 
     public float Speed()
@@ -219,6 +216,8 @@ public class m_carController : MonoBehaviour
 
             if (animationCounter <= 0)
             {
+                GetComponent<BoxCollider>().enabled = true;
+
                 m_carAnimator.SetBool("isKnockedUp", false);
                 m_carAnimator.SetBool("isSpinning", false);
                 m_CharacterAnimator.SetBool("isHit?", false);
@@ -229,6 +228,8 @@ public class m_carController : MonoBehaviour
                 canDrive = true;
             }
         }
+        audioManager.audioInstance.PauseCinematicMusic();
+
     }
 
     void FixedUpdate()
@@ -284,7 +285,7 @@ public class m_carController : MonoBehaviour
                 {
                     m_rigidbody.drag = 3;
 
-                    audioManager.audioInstance.MotorFront(1 - currentSpeed * Time.deltaTime);
+                    audioManager.audioInstance.MotorStopped();
                 }
 
             }
@@ -374,6 +375,7 @@ public class m_carController : MonoBehaviour
         {
             maxSpeed = frontMaxSpeed;
             audioManager.audioInstance.StopDrift();
+            m_CharacterAnimator.speed = 1;
 
             if (currentSpeed > frontMaxSpeed/2)
             {
@@ -504,11 +506,13 @@ public class m_carController : MonoBehaviour
             }
 
             m_CharacterAnimator.SetBool("turbo?", false);
+            m_CharacterAnimator.SetBool("rear?", false);
 
             for (int i = 0; i < turboEffects.Length; i++)
             {
                 turboEffects[i].Stop();
             }
+
         }
 
         //drivemode rear
@@ -520,8 +524,15 @@ public class m_carController : MonoBehaviour
 
             audioManager.audioInstance.StopDrift();
             audioManager.audioInstance.MotorRear();
+            m_CharacterAnimator.SetBool("rear?", true);
 
+            deltaAnimator -= Time.deltaTime;
 
+            if (m_CharacterAnimator.GetBool("rear?") && deltaAnimator <= 0)
+            {
+                m_CharacterAnimator.speed = 0;
+                deltaAnimator = backAnimation;
+            }
             //sideawaysFriction
             wheelBRDriftFriction = wheelBR.sidewaysFriction;
             wheelBRDriftFriction.stiffness = 1;
@@ -801,7 +812,7 @@ public class m_carController : MonoBehaviour
                 {
                     m_CharacterAnimator.SetBool("Jump?", true);
 
-                    gravity = 8;
+                    gravity = 15;
 
                     wheelBLDamp = wheelBL.wheelDampingRate;
                     wheelBLDamp = 0.5f;
@@ -856,6 +867,16 @@ public class m_carController : MonoBehaviour
         else if (groundedWheel ||groundedWheel2 ||groundedWheel3 || groundedWheel4)
         {
             timeCounter = 0;
+            m_CharacterAnimator.SetBool("Jump?", false);
+
+        }
+        if (m_carItem.countdownPotion > -1 && m_carItem.countdownPotion <= 0)
+        {
+            m_carItem.countdownPotion = -1;
+        }
+        if (m_rigidbody.IsSleeping())
+        {
+            
         }
     }
 
@@ -1038,28 +1059,105 @@ public class m_carController : MonoBehaviour
             }
             audioManager.audioInstance.YeahPJ();
         }
-        if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "FakeMysteryBox" || col.tag == "Rocket")
+        if ((col.tag == "Spear" || col.tag == "Barrel") && m_carItem.countdownPotion < -1)
         {
-            YellowStun.Play();
+            //YellowStun.Play();
+            m_carItem.countdownPotion = 0;
+            YellowStun.GetComponentInChildren<ParticleSystem>().Play();
 
             m_carAnimator.SetBool("isKnockedUp", true);
             m_CharacterAnimator.SetBool("isHit?", true);
+            GetComponent<BoxCollider>().enabled = false;
             audioManager.audioInstance.NoPJ();
 
             m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
 
-            canDrive = false;            
-        }
-        if (col.tag == "Water" || col.tag == "Banana")
-        {
-            BlueStun.Play();
+            if (m_carItem.money >= 3)
+            {
+                m_carItem.money = m_carItem.money - 3;
+            }
+            else if (m_carItem.money == 2)
+            {
+                m_carItem.money = m_carItem.money - 2;
+            }
+            else if (m_carItem.money == 1)
+            {
+                m_carItem.money = m_carItem.money - 1;
+            }
+            else
+            {
+                m_carItem.money = 0;
+            }
 
+            canDrive = false;
+            m_rigidbody.Sleep();
+        }
+        Debug.Log(m_carItem.rainbowEffectDuration < 0);
+
+        if (col.tag == "FakeMysteryBox" || col.tag == "Rocket" && m_carItem.countdownPotion < -1)
+        {
+            m_carItem.countdownPotion = 0;
+
+            YellowStun.GetComponentInChildren<ParticleSystem>().Play();
+
+            m_carAnimator.SetBool("isKnockedUp", true);
+            m_CharacterAnimator.SetBool("isHit?", true);
+            GetComponent<BoxCollider>().enabled = false;
+            audioManager.audioInstance.NoPJ();
+
+            m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
+
+            if (m_carItem.money >= 3)
+            {
+                m_carItem.money = m_carItem.money - 3;
+            }
+            else if (m_carItem.money == 2)
+            {
+                m_carItem.money = m_carItem.money - 2;
+            }
+            else if (m_carItem.money == 1)
+            {
+                m_carItem.money = m_carItem.money - 1;
+            }
+            else
+            {
+                m_carItem.money = 0;
+            }
+
+            m_rigidbody.Sleep();
+
+            canDrive = false;
+
+            Destroy(col.gameObject);
+        }
+        if ((col.tag == "Water" || col.tag == "Banana") && m_carItem.countdownPotion < -1)
+        {
+            m_carItem.countdownPotion = 0;
+
+            BlueStun.Play();
+            BlueStun.GetComponentInChildren<ParticleSystem>().Play();
+
+            //GetComponent<m_carItem>().ItemSystems[5].Play();
             m_carAnimator.SetBool("isSpinning", true);
             m_CharacterAnimator.SetBool("isHit?", true);
 
             audioManager.audioInstance.ThrowItemGeneral();
 
+            if (m_carItem.money >= 2)
+            {
+                m_carItem.money = m_carItem.money - 2;
+            }
+            else if (m_carItem.money == 1)
+            {
+                m_carItem.money = m_carItem.money - 1;
+            }
+            else
+            {
+                m_carItem.money = 0;
+            }
+
             m_rigidbody.AddForce(new Vector3(0, 0, -Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * slipperyForce, ForceMode.Impulse);
+            m_rigidbody.Sleep();
         }
         if (col.tag == "Wall")
         {

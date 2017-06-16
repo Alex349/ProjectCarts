@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour
     public Button[] mainPauseMenuButtons;
     public int[] screenRectWidth;
     int activeScreenResIndex;
+    private PauseManager m_pauseManager;
 
     void Start()
     {
@@ -20,7 +21,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         mainPauseMenu.SetActive(true);
         optionsMenu.SetActive(false);
-        
+        m_pauseManager = FindObjectOfType<PauseManager>();
     }
     void Update()
     {
@@ -119,7 +120,12 @@ public class PauseMenu : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
-        //Time.timeScale = 1;
+        Time.timeScale = 1;
+
+        for (int i = 0; i < m_pauseManager.hudComponents.Length; i++)
+        {
+            m_pauseManager.hudComponents[i].SetActive(true);
+        }
     }
     public void OptionsMenu()
     {
@@ -133,7 +139,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void Exit()
     {
-        SceneManager.LoadScene("MainMenu");
+        Application.Quit();
     }
     public void Back()
     {

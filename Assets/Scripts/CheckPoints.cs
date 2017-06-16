@@ -34,7 +34,7 @@ public class CheckPoints : MonoBehaviour
             playerTransform = other.GetComponent<Transform>();
             carCheckPoints = other.GetComponent<CarCheckPoints>();
 
-            // return; //If it's not the player dont continue
+           // return; //If it's not the player dont continue
         }
         else
         {

@@ -6,11 +6,22 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Camera
+    100004: Chest
+    100006: group
+    100008: Lamp
     400000: //RootNode
+    400002: Camera
+    400004: Chest
+    400006: group
+    400008: Lamp
     2300000: //RootNode
+    2300002: Chest
     3300000: //RootNode
+    3300002: Chest
     4300000: Chest
     7400000: Take 001
+    7400002: Chest|Chest|Take 001|BaseLayer
     9500000: //RootNode
   materials:
     importMaterials: 1

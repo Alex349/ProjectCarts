@@ -34,7 +34,7 @@ public class IA_Item : MonoBehaviour
     public float iADefaultAcc = 40;
 
     [SerializeField]
-    private float IaUseItemCooldown = 5, startRaceCooldown = 3;
+    private float IaUseItemCooldown = 3, startRaceCooldown = 0.5f;
 
     //Banana
     [SerializeField]
@@ -75,15 +75,22 @@ public class IA_Item : MonoBehaviour
 
     //Froze
     [SerializeField]
-    private float frozeEffect = -10;
+    private float frozeEffect;
     [SerializeField]
     private float frozeSpeed = 0;
     [SerializeField]
     private float frozeAcc = 1000;
     [SerializeField]
     private float frozeEffectDuration = 5;
+
+    [SerializeField]
+    private float countDownPotion;
+    [SerializeField]
+    private float PotionEffectDuration = 8;
+
     private GameObject thePlayer;
 
+    public ParticleSystem[] ItemSystems;
 
     //ItemSpawners
     [SerializeField]
@@ -93,6 +100,7 @@ public class IA_Item : MonoBehaviour
     private Transform frontSpawn;
     private Vector3 frontSpawnVector;
     public bool isKartFrezzed = false;
+    public ParticleSystem dotsPotion;
 
     void Start()
     {
@@ -108,6 +116,8 @@ public class IA_Item : MonoBehaviour
 
             agent.speed = 0;
             agent.acceleration = 0;
+            frozeEffect = -10;
+            countDownPotion = -10;        
         }   
     }
 
@@ -141,11 +151,12 @@ public class IA_Item : MonoBehaviour
         }
         if (rainbowPotion == false)
         {
-            if (spin == true)
+            if (anim.GetBool("isSpinning"))
             {
                 iADefaultSpeed = 0;
                 iADefaultAcc = 25;
                 canUseItems = false;
+
                 //SpinAnimation
                 if (spinCountDown < 0 && spinCountDown > -0.1f)
                 {
@@ -156,11 +167,17 @@ public class IA_Item : MonoBehaviour
                 }
             }
 
-            if (knockUp == true)
+            if (anim.GetBool("isKnockedUp"))
             {
+                if (!ItemSystems[0].isPlaying)
+                {
+                    ItemSystems[0].Play();
+                }
+
                 iADefaultSpeed = 0;
                 iADefaultAcc = 5000;
                 canUseItems = false;
+
                 //KnockUpAnimation
                 if (knockUpCountDown < 0 && knockUpCountDown > -0.1f)
                 {
@@ -185,14 +202,17 @@ public class IA_Item : MonoBehaviour
         }
 
 
-        if (knockUpDuration < 0)
+        if (knockUpCountDown < 0)
         {
             anim.SetBool("isKnockedUp", false);
+            knockUpCountDown = knockUpDuration;
+            ItemSystems[0].Stop();
         }
 
         if (turboEffect < 0 && currentIAItem == "tripleturbo")
         {
-            UseItem();
+            UseItem();           
+
         }
         if (rocketsShooted < 4 && currentIAItem == "triplerocketstraight")
         {
@@ -213,12 +233,6 @@ public class IA_Item : MonoBehaviour
 
         UpdateItems();
         IncreaseSpeedOnMoney();
-
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            UseItem();
-        }
 
     }
 
@@ -249,11 +263,12 @@ public class IA_Item : MonoBehaviour
         if (other.tag == "Rocket")
         {
             Destroy(other.gameObject);
+
             if (knockUp == false)
             {
                 anim.SetBool("isKnockedUp", true);
                 knockUp = true;
-                knockUpCountDown = knockUpDuration;
+                
                 turboEffectDuration = -1;
             }
 
@@ -262,20 +277,26 @@ public class IA_Item : MonoBehaviour
         if (other.tag == "FakeMysteryBox")
         {
             Destroy(other.gameObject);
+
             if (knockUp == false)
             {
                 anim.SetBool("isKnockedUp", true);
                 knockUp = true;
-                knockUpCountDown = knockUpDuration;
+
                 turboEffectDuration = -1;
             }
-
         }
 
-        if (other.tag == "RoughTerrain")
+        if (other.tag == "RoughFloor" && rainbowPotion == false)
         {
             agent.speed = agent.speed / 2;
             agent.acceleration = agent.acceleration / 2;
+
+            if (!ItemSystems[5].isPlaying || !ItemSystems[6].isPlaying)
+            {
+                ItemSystems[5].Play();
+                ItemSystems[6].Play();
+            }
         }
 
         if (carCheckPoints.currentLap == 4 && other.tag == "StartCheckPoint")
@@ -346,10 +367,12 @@ public class IA_Item : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "RoughTerrain" && rainbowPotion == false)
+        if (other.tag == "RoughFloor" && rainbowPotion == false)
         {
             agent.speed = agent.speed * 2;
             agent.acceleration = agent.acceleration * 2;
+            ItemSystems[5].Stop();
+            ItemSystems[6].Stop();
         }
     }
 
@@ -357,51 +380,51 @@ public class IA_Item : MonoBehaviour
     {
         float rnd = (Random.Range(0f, 1f));
 
-        if (rnd < 0.05)
+        if (rnd < 0.05 && myPosition >= 4)
         {
             currentIAItem = "triplebanana";
         }
-        if (rnd < 0.15)
+        if (rnd < 0.15 && myPosition >= 1)
         {
             currentIAItem = "banana";
         }
-        else if (rnd < 0.2)
+        else if (rnd < 0.2 && myPosition >= 4)
         {
             currentIAItem = "tripleturbo";
         }
-        else if (rnd < 0.3)
+        else if (rnd < 0.3 && myPosition >= 1)
         {
             currentIAItem = "turbo";
         }
-        else if (rnd < 0.4)
+        else if (rnd < 0.4 && myPosition >= 1)
         {
             currentIAItem = "straightrocket";
         }
-        else if (rnd < 0.5)
+        else if (rnd < 0.5 && myPosition >= 2)
         {
             currentIAItem = "rockettracker";
         }
-        else if (rnd < 0.55)
+        else if (rnd < 0.55 && myPosition >= 7)
         {
             currentIAItem = "rockettofirst";
         }
-        else if (rnd < 0.6)
+        else if (rnd < 0.6 && myPosition >= 2)
         {
             currentIAItem = "triplerocketstraight";
         }
-        else if (rnd < 0.65)
+        else if (rnd < 0.65 && myPosition >= 4)
         {
             currentIAItem = "triplerockettracker";
         }
-        else if (rnd < 0.75)
+        else if (rnd < 0.75 && myPosition >= 4)
         {
             currentIAItem = "fakemysterybox";
         }
-        else if (rnd < 0.85)
+        else if (rnd < 0.85 && myPosition >= 9)
         {
             currentIAItem = "rainbowPotion";
         }
-        else if (rnd < 0.90)
+        else if (rnd < 0.90 && myPosition >= 3)
         {
             currentIAItem = "froze";
         }
@@ -446,6 +469,7 @@ public class IA_Item : MonoBehaviour
         if (currentIAItem == "turbo")
         {
             turboEffect = turboEffectDuration;
+            
             currentIAItem = "none";
         }
 
@@ -529,6 +553,11 @@ public class IA_Item : MonoBehaviour
             ReleaseFakeBox();
             currentIAItem = "none";
         }
+        if (currentIAItem == "rainbowPotion")
+        {
+            countDownPotion = PotionEffectDuration;
+            currentIAItem = "none";
+        }
     }
 
     void UseBanana()
@@ -583,7 +612,6 @@ public class IA_Item : MonoBehaviour
 
     void UpdateItems()
     {
-
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
 
@@ -592,11 +620,22 @@ public class IA_Item : MonoBehaviour
             agent.speed = iADefaultSpeed + turboSpeed;
             agent.acceleration = iADefaultAcc + turboAcc;
 
+            if (!ItemSystems[1].isPlaying || !ItemSystems[2].isPlaying || !ItemSystems[3].isPlaying || !ItemSystems[4].isPlaying)
+            {
+                ItemSystems[1].Play();
+                ItemSystems[2].Play();
+                ItemSystems[3].Play();
+                ItemSystems[4].Play();
+            }           
         }
 
         if (turboEffect < 0 && turboEffect > -0.1f)
         {
             navmeshAI.changeVelocityTimer = -1f;
+            ItemSystems[1].Stop();
+            ItemSystems[2].Stop();
+            ItemSystems[3].Stop();
+            ItemSystems[4].Stop();
         }
 
         //FrostItemUpdate
@@ -622,7 +661,7 @@ public class IA_Item : MonoBehaviour
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeAcc;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
                 Debug.Log(karts[i].GetComponent<IA_Item>().name);
-            }
+            }            
         }
 
         else if (frozeEffect < 0 && frozeEffect > -1f) //&& startRaceCooldown < 0
@@ -638,24 +677,55 @@ public class IA_Item : MonoBehaviour
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-                isKartFrezzed = false;
-            }
+                karts[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                karts[i].transform.GetChild(0).GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
+            }            
 
-            thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-
+            thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(true);
+            thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 
-        }
-        else if (frozeEffect < -1 && frozeEffect > - 4)
+        }        
+        else
         {
-            thePlayer.GetComponent<m_carItem>().ItemSystems[5].Play();
+            thePlayer.GetComponent<m_carItem>().ItemSystems[3].Stop();
+            thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(false);
+        }
 
-            for (int i = 0; i < karts.Count; i++)
+        countDownPotion -= Time.deltaTime;
+
+        if (countDownPotion > 0)
+        {
+            agent.speed = agent.speed * 1.5f;
+            agent.acceleration = agent.acceleration * 1.5f;
+
+            Debug.Log("is POTION IN");
+            ItemSystems[7].gameObject.SetActive(true);
+            ItemSystems[8].gameObject.SetActive(true);
+
+            if (!ItemSystems[7].isPlaying || !ItemSystems[8].isPlaying)
             {
-                karts[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-                isKartFrezzed = false;
+                ItemSystems[7].Play();
+                ItemSystems[8].Play();
             }
+
+            ParticleSystem.VelocityOverLifetimeModule dotsVelocity = dotsPotion.velocityOverLifetime;
+            dotsVelocity.z = 0;
+            dotsVelocity.x = 0;
+
+        }
+        else if (countDownPotion < 0 && countDownPotion > -1)
+        {
+            navmeshAI.changeVelocityTimer = -1;
+
+            ItemSystems[7].Stop();
+            ItemSystems[8].Stop();
+
+            ItemSystems[7].gameObject.SetActive(false);
+            ItemSystems[8].gameObject.SetActive(false);
+
+            countDownPotion = 0;
         }
     }
 

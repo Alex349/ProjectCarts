@@ -100,6 +100,7 @@ public class IA_Item : MonoBehaviour
     private Transform frontSpawn;
     private Vector3 frontSpawnVector;
     public bool isKartFrezzed = false;
+    public ParticleSystem dotsPotion;
 
     void Start()
     {
@@ -177,7 +178,6 @@ public class IA_Item : MonoBehaviour
                 iADefaultAcc = 5000;
                 canUseItems = false;
 
-                Debug.Log(knockUpCountDown);
                 //KnockUpAnimation
                 if (knockUpCountDown < 0 && knockUpCountDown > -0.1f)
                 {
@@ -211,11 +211,7 @@ public class IA_Item : MonoBehaviour
 
         if (turboEffect < 0 && currentIAItem == "tripleturbo")
         {
-            UseItem();
-            ItemSystems[1].Play();
-            ItemSystems[2].Play();
-            ItemSystems[3].Play();
-            ItemSystems[4].Play();
+            UseItem();           
 
         }
         if (rocketsShooted < 4 && currentIAItem == "triplerocketstraight")
@@ -291,10 +287,16 @@ public class IA_Item : MonoBehaviour
             }
         }
 
-        if (other.tag == "RoughTerrain" && rainbowPotion == false)
+        if (other.tag == "RoughFloor" && rainbowPotion == false)
         {
             agent.speed = agent.speed / 2;
             agent.acceleration = agent.acceleration / 2;
+
+            if (!ItemSystems[5].isPlaying || !ItemSystems[6].isPlaying)
+            {
+                ItemSystems[5].Play();
+                ItemSystems[6].Play();
+            }
         }
 
         if (carCheckPoints.currentLap == 4 && other.tag == "StartCheckPoint")
@@ -365,10 +367,12 @@ public class IA_Item : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "RoughTerrain" && rainbowPotion == false)
+        if (other.tag == "RoughFloor" && rainbowPotion == false)
         {
             agent.speed = agent.speed * 2;
             agent.acceleration = agent.acceleration * 2;
+            ItemSystems[5].Stop();
+            ItemSystems[6].Stop();
         }
     }
 
@@ -465,6 +469,7 @@ public class IA_Item : MonoBehaviour
         if (currentIAItem == "turbo")
         {
             turboEffect = turboEffectDuration;
+            
             currentIAItem = "none";
         }
 
@@ -550,19 +555,11 @@ public class IA_Item : MonoBehaviour
         }
         if (currentIAItem == "rainbowPotion")
         {
-            UsePotion();
+            countDownPotion = PotionEffectDuration;
             currentIAItem = "none";
         }
     }
-    void UsePotion()
-    {
-        if (currentIAItem == "potionRainbow")
-        {
-            agent.speed = agent.speed * 1.5f;
-            agent.acceleration = agent.acceleration * 1.5f;
 
-        }
-    }
     void UseBanana()
     {
         if (currentIAItem == "banana")
@@ -615,7 +612,6 @@ public class IA_Item : MonoBehaviour
 
     void UpdateItems()
     {
-
         //TurboItemUpdate
         turboEffect -= Time.deltaTime;
 
@@ -624,11 +620,22 @@ public class IA_Item : MonoBehaviour
             agent.speed = iADefaultSpeed + turboSpeed;
             agent.acceleration = iADefaultAcc + turboAcc;
 
+            if (!ItemSystems[1].isPlaying || !ItemSystems[2].isPlaying || !ItemSystems[3].isPlaying || !ItemSystems[4].isPlaying)
+            {
+                ItemSystems[1].Play();
+                ItemSystems[2].Play();
+                ItemSystems[3].Play();
+                ItemSystems[4].Play();
+            }           
         }
 
         if (turboEffect < 0 && turboEffect > -0.1f)
         {
             navmeshAI.changeVelocityTimer = -1f;
+            ItemSystems[1].Stop();
+            ItemSystems[2].Stop();
+            ItemSystems[3].Stop();
+            ItemSystems[4].Stop();
         }
 
         //FrostItemUpdate
@@ -654,54 +661,7 @@ public class IA_Item : MonoBehaviour
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeAcc;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
                 Debug.Log(karts[i].GetComponent<IA_Item>().name);
-            }
-
-            countDownPotion -= Time.deltaTime;
-
-            if (countDownPotion > 0)
-            {
-                agent.speed = agent.speed * 1.5f;
-                Debug.Log("is POTION IN");
-                ItemSystems[0].gameObject.SetActive(true);
-                ItemSystems[6].gameObject.SetActive(true);
-
-                if (!ItemSystems[0].isPlaying || !ItemSystems[6].isPlaying)
-                {
-                    ItemSystems[0].Play();
-                    ItemSystems[6].Play();
-                }
-
-                //Instantiate(ItemSystems[0], carController.m_rigidbody.transform);          
-
-
-                //dotsPotion = GameObject.Find("dots").GetComponent<ParticleSystem>();
-                //ParticleSystem.VelocityOverLifetimeModule dotsVelocity = dotsPotion.velocityOverLifetime;
-                //dotsVelocity.z = 0;
-                //dotsVelocity.x = 0;
-                //
-                //if (carController.rightDrift)
-                //{
-                //    dotsVelocity.xMultiplier = carController.currentSpeed / 3;
-                //}
-                //else if (carController.leftDrift)
-                //{
-                //    dotsVelocity.xMultiplier = -carController.currentSpeed / 3;
-                //}
-                //carController.GetComponent<BoxCollider>().enabled = false;
-            }
-            else if (countDownPotion < 0 && countDownPotion > -1)
-            {
-                //carController.frontMaxSpeed = kartFrontMaxSpeed;
-                //ItemSystems[0].Stop();
-                //ItemSystems[6].Stop();
-                //ItemSystems[7].Stop();
-
-                ItemSystems[0].gameObject.SetActive(false);
-                ItemSystems[6].gameObject.SetActive(false);
-
-                //carController.GetComponent<BoxCollider>().enabled = true;
-                //countdownPotion = 0;
-            }
+            }            
         }
 
         else if (frozeEffect < 0 && frozeEffect > -1f) //&& startRaceCooldown < 0
@@ -731,6 +691,41 @@ public class IA_Item : MonoBehaviour
         {
             thePlayer.GetComponent<m_carItem>().ItemSystems[3].Stop();
             thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(false);
+        }
+
+        countDownPotion -= Time.deltaTime;
+
+        if (countDownPotion > 0)
+        {
+            agent.speed = agent.speed * 1.5f;
+            agent.acceleration = agent.acceleration * 1.5f;
+
+            Debug.Log("is POTION IN");
+            ItemSystems[7].gameObject.SetActive(true);
+            ItemSystems[8].gameObject.SetActive(true);
+
+            if (!ItemSystems[7].isPlaying || !ItemSystems[8].isPlaying)
+            {
+                ItemSystems[7].Play();
+                ItemSystems[8].Play();
+            }
+
+            ParticleSystem.VelocityOverLifetimeModule dotsVelocity = dotsPotion.velocityOverLifetime;
+            dotsVelocity.z = 0;
+            dotsVelocity.x = 0;
+
+        }
+        else if (countDownPotion < 0 && countDownPotion > -1)
+        {
+            navmeshAI.changeVelocityTimer = -1;
+
+            ItemSystems[7].Stop();
+            ItemSystems[8].Stop();
+
+            ItemSystems[7].gameObject.SetActive(false);
+            ItemSystems[8].gameObject.SetActive(false);
+
+            countDownPotion = 0;
         }
     }
 

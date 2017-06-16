@@ -69,7 +69,7 @@ public class m_carItem : MonoBehaviour
     [SerializeField]
     private float frozeEffectDuration = 5;
     [SerializeField]
-    private float countdownPotion, rainbowEffectDuration = 8f;
+    public float countdownPotion, rainbowEffectDuration = 8f;
     
     //ItemSpawners
     [SerializeField]
@@ -89,8 +89,8 @@ public class m_carItem : MonoBehaviour
     private float randomMaxLeftStainSize, randomMaxMiddleStainSize, randomMaxRightStainSize;
     private float startCheckReverseCountdown;
     public ParticleSystem[] ItemSystems;
-    //public GameObject[] ItemSystems;
-    private ParticleSystem dotsPotion;
+
+    public ParticleSystem dotsPotion;
     private bool boxEntered, objThrown;
     private float delayBoxEffect = 3, delayItemAnim = 2;
     private Animator ramsesAnimator;
@@ -684,11 +684,7 @@ public class m_carItem : MonoBehaviour
                 ItemSystems[0].Play();
                 ItemSystems[6].Play();
             }
-
-            //Instantiate(ItemSystems[0], carController.m_rigidbody.transform);          
-
-
-            dotsPotion = GameObject.Find("dots").GetComponent<ParticleSystem>();
+          
             ParticleSystem.VelocityOverLifetimeModule dotsVelocity = dotsPotion.velocityOverLifetime;
             dotsVelocity.z = 0;
             dotsVelocity.x = 0;
@@ -701,19 +697,14 @@ public class m_carItem : MonoBehaviour
             {
                 dotsVelocity.xMultiplier = -carController.currentSpeed/3;
             }
-            carController.GetComponent<BoxCollider>().enabled = false;
         }
         else if (countdownPotion < 0 && countdownPotion > -1)
         {
             carController.frontMaxSpeed = kartFrontMaxSpeed;
-            //ItemSystems[0].Stop();
-            //ItemSystems[6].Stop();
-            //ItemSystems[7].Stop();
 
             ItemSystems[0].gameObject.SetActive(false);
             ItemSystems[6].gameObject.SetActive(false);
 
-            carController.GetComponent<BoxCollider>().enabled = true;
             countdownPotion = 0;
         }
         //FrostItemUpdate

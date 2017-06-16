@@ -27,7 +27,7 @@ public class miniMapIcon : MonoBehaviour
         else if (m_position != null)
         {
             transform.position = new Vector3(m_position.position.x, Mathf.Lerp(height, m_position.position.y + height, Time.deltaTime), m_position.position.z);
-            transform.rotation = new Quaternion(0, m_position.rotation.y, 0, 0);
+            transform.Rotate(0, 0, m_position.rotation.y);
         }       
     }
 }

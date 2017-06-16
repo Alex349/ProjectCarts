@@ -77,6 +77,7 @@ public class m_carController : MonoBehaviour
     public GameObject sparksBLWheel, sparksBRWheel, grassBLWheel, grassBRWheel;
     public Material sparkMaterialYellow, sparkMaterialBlue;
     public float deltaAnimator = 1.3f, backAnimation = 1.5f;
+    private m_carItem m_carItem;
 
     void Start()
     {
@@ -114,6 +115,7 @@ public class m_carController : MonoBehaviour
         {
             turboEffects[i].Stop();
         }
+        m_carItem = GetComponent<m_carItem>();
     }
 
     public float Speed()
@@ -1046,7 +1048,7 @@ public class m_carController : MonoBehaviour
             }
             audioManager.audioInstance.YeahPJ();
         }
-        if (col.tag == "Spear" || col.tag == "Barrel" || col.tag == "Rocket")
+        if ((col.tag == "Spear" || col.tag == "Barrel" || col.tag == "Rocket") && m_carItem.rainbowEffectDuration < 0)
         {
             //YellowStun.Play();
             YellowStun.GetComponentInChildren<ParticleSystem>().Play();
@@ -1060,7 +1062,7 @@ public class m_carController : MonoBehaviour
 
             canDrive = false;            
         }
-        if (col.tag == "FakeMysteryBox")
+        if (col.tag == "FakeMysteryBox" && m_carItem.rainbowEffectDuration < 0)
         {
             YellowStun.GetComponentInChildren<ParticleSystem>().Play();
 
@@ -1075,7 +1077,7 @@ public class m_carController : MonoBehaviour
 
             Destroy(col.gameObject);
         }
-        if (col.tag == "Water" || col.tag == "Banana")
+        if ((col.tag == "Water" || col.tag == "Banana") && m_carItem.rainbowEffectDuration < 0)
         {
             BlueStun.Play();
             BlueStun.GetComponentInChildren<ParticleSystem>().Play();

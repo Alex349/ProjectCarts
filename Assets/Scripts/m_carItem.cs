@@ -92,12 +92,8 @@ public class m_carItem : MonoBehaviour
     public ParticleSystem[] ItemSystems;
 
     //public GameObject[] ItemSystems;
-    private ParticleSystem dotsPotion;
-    private bool boxEntered;
-    private float delayBoxEffect = 3, setLapCooldown = 10;
-    
 
-
+    private float setLapCooldown = 10;  
     public ParticleSystem dotsPotion;
     private bool boxEntered, objThrown;
     private float delayBoxEffect = 3, delayItemAnim = 2;
@@ -171,7 +167,6 @@ public class m_carItem : MonoBehaviour
                         ReleaseBanana();
                         audioManager.audioInstance.ThrowItemGeneral();
                         ramsesAnimator.SetBool("throwingObj?", true);
-                        print("throwing banana");
                         objThrown = true;
                     }
                 }
@@ -238,10 +233,11 @@ public class m_carItem : MonoBehaviour
                     {
                         audioManager.audioInstance.m_audios[36].Stop();
                     }
-                    boxEntered = false;
+                    
                 }
                 audioManager.audioInstance.ItemChoosed();
-                delayBoxEffect = 2;             
+                delayBoxEffect = 2;
+                boxEntered = false;
             }
         }
         if (objThrown)
@@ -265,8 +261,6 @@ public class m_carItem : MonoBehaviour
             Destroy(other.gameObject);
             audioManager.audioInstance.PickBox();
 
-            ItemSystems[4].gameObject.SetActive(true);
-            ItemSystems[4].Play();
             boxEntered = true;
 
             audioManager.audioInstance.ItemLoop();
@@ -599,7 +593,7 @@ public class m_carItem : MonoBehaviour
 
     void ReleaseFakeBox()
     {
-        backSpawnMiddle.DetachChildren();
+        backSpawn.DetachChildren();
         fakeboxDefending = false;
     }
 

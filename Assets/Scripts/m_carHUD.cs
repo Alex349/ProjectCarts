@@ -405,13 +405,13 @@ public class m_carHUD : MonoBehaviour
 
     public void LeaderboardEnd()
     {
+        car_Checkpoint.currentLap = 5;
         PlayerLapRecap.SetActive(false);
         LeaderboardEndGO.SetActive(true);
         Debug.Log("N");
-
     }
 
-    void GoToMainMenu()
+    public void GoToMainMenu()
     {
         Debug.Log("M");
         SceneManager.LoadScene("MainMenu");

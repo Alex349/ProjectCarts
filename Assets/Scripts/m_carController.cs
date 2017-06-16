@@ -78,6 +78,7 @@ public class m_carController : MonoBehaviour
     public Material sparkMaterialYellow, sparkMaterialBlue;
     public float deltaAnimator = 1.3f, backAnimation = 1.5f;
     private m_carItem m_carItem;
+    public ParticleSystem smokeWheelBL, smokeWheelBR;
 
     void Start()
     {
@@ -1062,7 +1063,6 @@ public class m_carController : MonoBehaviour
 
             m_carAnimator.SetBool("isKnockedUp", true);
             m_CharacterAnimator.SetBool("isHit?", true);
-            GetComponent<BoxCollider>().enabled = false;
             audioManager.audioInstance.NoPJ();
 
             m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
@@ -1087,8 +1087,6 @@ public class m_carController : MonoBehaviour
             canDrive = false;
             
         }
-        Debug.Log(m_carItem.rainbowEffectDuration < 0);
-
         if (col.tag == "FakeMysteryBox" || col.tag == "Rocket" && m_carItem.countdownPotion < -1)
         {
             gravity = 0;
@@ -1098,7 +1096,6 @@ public class m_carController : MonoBehaviour
 
             m_carAnimator.SetBool("isKnockedUp", true);
             m_CharacterAnimator.SetBool("isHit?", true);
-            GetComponent<BoxCollider>().enabled = false;
             audioManager.audioInstance.NoPJ();
 
             m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
@@ -1171,7 +1168,7 @@ public class m_carController : MonoBehaviour
             grassBRWheel.SetActive(true);
             grassBLWheel.GetComponent<ParticleSystem>().Play();
             grassBRWheel.GetComponent<ParticleSystem>().Play();
-
+            Debug.Log("is playing grass");
         }
         if (col.tag == "IA")
         {
@@ -1206,6 +1203,12 @@ public class m_carController : MonoBehaviour
             scaledTorque = 20;
             m_rigidbody.AddRelativeForce(new Vector3(0, 0, -col.transform.right.x) * slowDownForce, ForceMode.Force);
         }
+        if (col.tag == "floor")
+        {
+            smokeWheelBL.Play();
+            smokeWheelBR.Play();
+            Debug.Log("is playing smoke");
+        }
     }
     void OnTriggerExit(Collider col)
     {
@@ -1218,6 +1221,11 @@ public class m_carController : MonoBehaviour
             maxSpeed = frontMaxSpeed;
             grassBLWheel.SetActive(false);
             grassBRWheel.SetActive(false);
+        }
+        if (col.tag == "floor")
+        {
+            smokeWheelBL.Stop();
+            smokeWheelBR.Stop();
         }
     }  
     IEnumerator TurboEnum()

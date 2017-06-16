@@ -56,7 +56,15 @@ public class PositionManager : MonoBehaviour
                 int t3 = _objAL.GetComponent<CarCheckPoints>().currentCheckpoint;
                 int t4 = _objBL.GetComponent<CarCheckPoints>().currentCheckpoint;
 
-                return t3.CompareTo(t4);
+                if(t3 == 74 || t4 == 74)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return t3.CompareTo(t4);
+
+                }
             }
         }
     }

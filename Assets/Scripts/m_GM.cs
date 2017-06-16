@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class m_GM : MonoBehaviour
 {
@@ -67,41 +68,44 @@ public class m_GM : MonoBehaviour
 	
 	void Update ()
     {
-        animDuration -= Time.deltaTime;
-
-        //l'animació són uns 17s
-        if (animDuration <= 0 && !cameraAnimator.GetBool("raceStart") || Input.GetKey("enter"))
+        if (SceneManager.GetActiveScene().name == "Gold_Version")
         {
-            audioManager.audioInstance.StopAllSounds();
+            animDuration -= Time.deltaTime;
 
-            for (int i = 0; i < mainPlayer.Length; i++)
+            //l'animació són uns 17s
+            if (animDuration <= 0 && !cameraAnimator.GetBool("raceStart") || Input.GetKey("enter"))
             {
-                if (MenuScript.SelectionIndex == i)
+                audioManager.audioInstance.StopAllSounds();
+
+                for (int i = 0; i < mainPlayer.Length; i++)
                 {
-                    CanvasAmazing.SetActive(true);
+                    if (MenuScript.SelectionIndex == i)
+                    {
+                        CanvasAmazing.SetActive(true);
 
-                    mainPlayer[i].SetActive(true);
-                    OffScreenLogic.SetActive(true);
-                    AlertBoxHUD.SetActive(true);
-                    LapCheckPoints.SetActive(true);
-                    totalPlayers++;
+                        mainPlayer[i].SetActive(true);
+                        OffScreenLogic.SetActive(true);
+                        AlertBoxHUD.SetActive(true);
+                        LapCheckPoints.SetActive(true);
+                        totalPlayers++;
+                    }
                 }
-            }
-            for (int r = 0; r < IAPlayers.Length; r++)
-            {
-                IAPlayers[r].SetActive(true);
-                totalIA++;
-            }
+                for (int r = 0; r < IAPlayers.Length; r++)
+                {
+                    IAPlayers[r].SetActive(true);
+                    totalIA++;
+                }
 
-            managerReady = true;
-            cameraAnimator.SetBool("raceStart", true);
-            cameraAnimator.enabled = false;
-            m_camera.GetComponent<CameraScript>().enabled = true;
-            audioManager.audioInstance.PauseCinematicMusic();
-        }
-        else
-        {
-            audioManager.audioInstance.CinematicMusic();
-        }        
+                managerReady = true;
+                cameraAnimator.SetBool("raceStart", true);
+                cameraAnimator.enabled = false;
+                m_camera.GetComponent<CameraScript>().enabled = true;
+                audioManager.audioInstance.PauseCinematicMusic();
+            }
+            else
+            {
+                audioManager.audioInstance.CinematicMusic();
+            }
+        }      
     }    
 }

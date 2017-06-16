@@ -5,12 +5,13 @@ using UnityEngine.AI;
 
 public class rotationKart : MonoBehaviour {
 
-    public Transform target;
+    public Transform raycastTarget;
     public Terrain terrain;
     public Terrain CP1, CP2, CP3, CP4, CP5, CP6, CP7, CP8, CP8_1, CP9, CP10, CP11;
     private NavMeshAgent agent;
     private Quaternion lookRotation;
     public float deltaRotation;
+    public float normalDeltaRotation;
 
     void Start()
     {
@@ -24,23 +25,50 @@ public class rotationKart : MonoBehaviour {
         Vector3 terrainLocalPos = transform.position - terrain.transform.position;
         Vector2 normalizedPos = new Vector2(terrainLocalPos.x / terrain.terrainData.size.x,
                                             terrainLocalPos.z / terrain.terrainData.size.z);
+
         return terrain.terrainData.GetInterpolatedNormal(normalizedPos.x, normalizedPos.y);
     }
     void Update()
     {
-
+        RaycastHit hit;
         Vector3 normal = GetTerrainNormal();
         Vector3 direction = agent.steeringTarget - transform.position;
         direction.y = 0.0f;
 
-        if (direction.magnitude > 0.1f || normal.magnitude > 0.1f)
+        if (Physics.Raycast(raycastTarget.position, Vector3.down, out hit, 10f))
         {
-            Quaternion qLook = Quaternion.LookRotation(direction, Vector3.up);
-            Quaternion qNorm = Quaternion.FromToRotation(Vector3.up, normal );
-            lookRotation = qNorm * qLook ;
+            if (hit.distance > 0.9f)
+            {
+                Quaternion qLook = Quaternion.LookRotation(direction, Vector3.up);
+                Quaternion qNorm = Quaternion.FromToRotation(Vector3.up, normal);
+                lookRotation = qNorm * qLook;
+                transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * deltaRotation);
+            }
+            else if (hit.distance <= 0.9f)
+            {
+                Quaternion qLook = Quaternion.LookRotation(direction, Vector3.up);
+                Quaternion qNorm = Quaternion.FromToRotation(Vector3.up, normal);
+                lookRotation = qNorm * qLook;
+                transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * normalDeltaRotation);
+            }
+        }
+        if (normal.magnitude > 10f)
+        {
+            //Quaternion qLook = Quaternion.LookRotation(direction, Vector3.up);
+            //Quaternion qNorm = Quaternion.FromToRotation(Vector3.up, normal);
+            //lookRotation = qNorm * qLook ;
+            //transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * deltaRotation);
+            //Debug.Log("está pujant");
+        }
+        else
+        {
+            //Quaternion qLook = Quaternion.LookRotation(direction, Vector3.up);
+            //Quaternion qNorm = Quaternion.FromToRotation(Vector3.up, normal);
+            //lookRotation = qNorm * qLook;
+            //transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * normalDeltaRotation);
+            //Debug.Log("está en pla");
         }
         //soften the orientation
-        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * deltaRotation);
 
     }
 

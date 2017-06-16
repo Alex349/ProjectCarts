@@ -24,12 +24,12 @@ public class PauseManager : MonoBehaviour {
                 for (int i = 0; i < hudComponents.Length; i++)
                 {                    
                     hudComponents[i].SetActive(false);
-                    hudComponents[0].SetActive(true);
                 }                
 
                 Debug.Log("pause");
                 Time.timeScale = 0;
-                
+                audioManager.audioInstance.StopAllSounds();
+
                 PauseScreen.SetActive(true);
                 CanPause = false;
             }
@@ -38,7 +38,6 @@ public class PauseManager : MonoBehaviour {
                 for (int i = 0; i < hudComponents.Length; i++)
                 {
                     hudComponents[i].SetActive(true);
-                    hudComponents[0].SetActive(false);
                 }
 
                 Debug.Log("Running");

@@ -16,7 +16,7 @@ public class ToFirstRocket : MonoBehaviour
     public float scaleSpeed = 2.0f;
 
     private PositionManager _positionManager;
-    private GameObject waveBefore, explosionAfter;
+    private ParticleSystem[] explosion;
 
     void Start()
     {
@@ -28,11 +28,15 @@ public class ToFirstRocket : MonoBehaviour
         target = _positionManager.racersGO[0].transform;
         destination = agent.destination;
 
-        waveBefore = transform.GetChild(1).gameObject;
-        explosionAfter = transform.GetChild(2).gameObject;
+        explosion = transform.gameObject.GetComponentsInChildren<ParticleSystem>();
 
-        waveBefore.SetActive(false);
-        explosionAfter.SetActive(false);
+        for (int i = 0; i < explosion.Length; i++)
+        {
+            if (explosion[i].isPlaying)
+            {
+                explosion[i].Stop();
+            }
+        }
     }
 
 
@@ -45,7 +49,7 @@ public class ToFirstRocket : MonoBehaviour
         agent.speed = rocketSpeed;
         agent.acceleration = rocketAcc;
 
-        if (colliderActivator < 1)
+        if (colliderActivator < 5)
         {
             Component[] shpheres;
             shpheres = GetComponents(typeof(SphereCollider));
@@ -62,25 +66,39 @@ public class ToFirstRocket : MonoBehaviour
         {
             //GameObject.Find("AlertBoxHUD").GetComponent<RocketsHUDScript>().KingBallIsInside = false;
             //Destroy(gameObject);
-        }
+        }       
     }
 
     void OnTriggerEnter(Collider col)
     {
-
         if (col.tag == "Banana" || col.tag == "FakeMysteryBox")
         {
             Destroy(col.gameObject);
+        }
+        if (col.tag == "Player" || col.tag == "Kart")
+        {
+            for (int i = 0; i < explosion.Length; i++)
+            {
+                if (!explosion[0].isPlaying)
+                {
+                    explosion[0].Play();
+
+                    if (explosion[0].isStopped)
+                    {
+                        explosion[1].Play();
+
+                        if (explosion[1].isStopped)
+                        {
+                            Destroy(gameObject);
+                        }
+                    }
+                }
+            }
         }
     }
 
     void IncreaseOnTime()
     {
         transform.localScale += Vector3.one * scaleSpeed * Time.deltaTime;
-    }
-    void OnDestroy()
-    {
-        waveBefore.SetActive(true);
-        explosionAfter.SetActive(true);
     }
 }

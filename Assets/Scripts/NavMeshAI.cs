@@ -135,8 +135,8 @@ public class NavMeshAI : MonoBehaviour
 
     public void VelocityandAccelerationRandom()
     {
-        float spd = (Random.Range(15f, 25f));
-        float acc = (Random.Range(60f, 100f));
+        float spd = (Random.Range(17f, 22f));
+        float acc = (Random.Range(50f, 70f));
 
         ia_Item.iADefaultSpeed = spd;
         ia_Item.iADefaultAcc = acc;

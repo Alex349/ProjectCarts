@@ -69,7 +69,8 @@ public class m_GM : MonoBehaviour
     {
         animDuration += Time.deltaTime;
 
-        if (animDuration >= 1 && !cameraAnimator.GetBool("raceStart"))
+        //l'animació són uns 17s
+        if (animDuration >= 1 && !cameraAnimator.GetBool("raceStart") || Input.GetKey("enter"))
         {
             audioManager.audioInstance.StopAllSounds();
 

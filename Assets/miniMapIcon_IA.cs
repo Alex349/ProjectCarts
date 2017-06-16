@@ -6,7 +6,7 @@ public class miniMapIcon_IA : MonoBehaviour {
 
     public float height;
     private IA_Item[] m_IA;
-    private Transform[] IA_position;
+    private Transform IA_position;
 
     void Start () {
 		
@@ -16,22 +16,22 @@ public class miniMapIcon_IA : MonoBehaviour {
 	void Update ()
     {
         m_IA = FindObjectsOfType<IA_Item>();
-        IA_position = new Transform[m_IA.Length];
+        IA_position = gameObject.transform;
 
         if (m_IA != null)
         {
             for (int i = 0; i < m_IA.Length; i++)
             {                
-                IA_position[i] = m_IA[i].gameObject.GetComponent<Transform>();
-                transform.position = new Vector3(IA_position[i].position.x, IA_position[i].position.y + height, IA_position[i].position.z);
+                IA_position = m_IA[i].gameObject.GetComponent<Transform>();
+                transform.position = new Vector3(IA_position.position.x, IA_position.position.y + height, IA_position.position.z);
             }
         }
         else if (IA_position != null)
         {
             for (int i = 0; i < m_IA.Length; i++)
             {
-                transform.position = new Vector3(IA_position[i].position.x, Mathf.Lerp(height, IA_position[i].position.y + height, Time.deltaTime), IA_position[i].position.z);
-                transform.rotation = new Quaternion(0, IA_position[i].rotation.y, 0, 0);
+                transform.position = new Vector3(IA_position.position.x, Mathf.Lerp(height, IA_position.position.y + height, Time.deltaTime), IA_position.position.z);
+                transform.rotation = new Quaternion(0, IA_position.rotation.y, 0, 0);
             }           
         }
     }

@@ -143,12 +143,13 @@ public class m_carItem : MonoBehaviour
 
         if (Input.GetButton("ThrowObject"))
         {
-            throwObject = true;
+            throwObject = true;            
         }
-        else
+        else if (Input.GetButton("ThrowObject") && throwObject == true)
         {
             throwObject = false;
         }
+
 
         if (!boxEntered)
         {
@@ -394,9 +395,13 @@ public class m_carItem : MonoBehaviour
     {
         float rnd = (Random.Range(0f, 1f));
 
+        if (rnd < 0.5 && myPosition >= 1)
+        {
+            currentPlayerObject = "triplebanana";
+        }
         if (rnd < 0.15 && myPosition >= 1)
         {
-            currentPlayerObject = "banana";
+            currentPlayerObject = "triplebanana";
         }
         else if (rnd < 0.2 && myPosition >= 4)
         {
@@ -446,6 +451,7 @@ public class m_carItem : MonoBehaviour
             }
             else
             {
+                currentPlayerObject = "fakemysterybox";
                 currentPlayerObject = "none";
 
             }
@@ -565,9 +571,11 @@ public class m_carItem : MonoBehaviour
         if (currentPlayerObject == "banana")
         {
             //(Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
-            banana = (GameObject)Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity, backSpawn.transform) as GameObject;
-            banana.GetComponent<Transform>().localScale = banana.GetComponent<Transform>().localScale + new Vector3(0.01f, 0.01f, 0.01f);
-            
+            //Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity, backSpawn.transform);
+            (Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
+            //(Instantiate(Resources.Load("Items/Banana"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
+            //banana.GetComponent<Transform>().localScale = banana.GetComponent<Transform>().localScale + new Vector3(0.01f, 0.01f, 0.01f);
+
             currentPlayerObject = "none";
             bananaDefending = true;
         }

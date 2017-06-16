@@ -42,10 +42,7 @@ public class HoamingRocket : MonoBehaviour
             target = _positionManager.racersGO[targetListPosition].transform;
         }
 
-        destination = agent.destination;
-
-        m_particleSystem = transform.GetChild(1).gameObject;
-        m_particleSystem.SetActive(true);
+        destination = agent.destination;        
     }
 
     // Update is called once per frame
@@ -89,6 +86,6 @@ public class HoamingRocket : MonoBehaviour
     }
     void OnDestroy()
     {
-        m_particleSystem.SetActive(false);
+
     }
 }

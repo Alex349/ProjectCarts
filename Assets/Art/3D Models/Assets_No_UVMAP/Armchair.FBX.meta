@@ -6,11 +6,20 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Armchair
+    100004: Camera
+    100006: Lamp
     400000: //RootNode
+    400002: Armchair
+    400004: Camera
+    400006: Lamp
     2300000: //RootNode
+    2300002: Armchair
     3300000: //RootNode
+    3300002: Armchair
     4300000: Armchair
     7400000: Take 001
+    7400002: Armchair|Armchair|Take 001|BaseLayer
     9500000: //RootNode
   materials:
     importMaterials: 1

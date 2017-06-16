@@ -105,6 +105,12 @@ namespace Greyman{
 		}
 		
 		protected override void UpdateIndicatorPosition(ArrowIndicator arrowIndicator, int id = 0){
+            if (arrowIndicator.target == null)
+            {
+                RemoveIndicator(arrowIndicator.target);
+            }
+            else
+            {
 			Vector3 v2DPos = Camera.main.WorldToScreenPoint(arrowIndicator.target.localPosition + arrowIndicator.indicator.targetOffset);
 			float angle;
 			bool behindCamera;
@@ -170,6 +176,8 @@ namespace Greyman{
 				angle = 90 * Mathf.Deg2Rad;
 			}
 			arrowIndicator.arrow.transform.localEulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg - 90);
+            }
+
 		}
 	}
 }

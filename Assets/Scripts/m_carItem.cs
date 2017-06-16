@@ -80,7 +80,8 @@ public class m_carItem : MonoBehaviour
     private Vector3 frontSpawnVector;
 
     //Laps
-    public string lap1Time, lap2Time, lap3Time;
+    public string lap1Time, lap2Time, lap3Time, currentLapTime;
+    public Text lap1TimeTxt, lap2TimeTxt, lap3TimeTxt, lapTotalTimeTxt;
     private float lapCountdown, kartFrontMaxSpeed;
     private CarCheckPoints checkPoints;
 
@@ -92,7 +93,7 @@ public class m_carItem : MonoBehaviour
     //public GameObject[] ItemSystems;
     private ParticleSystem dotsPotion;
     private bool boxEntered;
-    private float delayBoxEffect = 3;
+    private float delayBoxEffect = 3, setLapCooldown = 10;
     
 
     void Start()
@@ -109,7 +110,7 @@ public class m_carItem : MonoBehaviour
 
         for (int i = 0; i < ItemSystems.Length; i++)
         {
-            ItemSystems[i].gameObject.SetActive(false);
+           // ItemSystems[i].gameObject.SetActive(false);
         }
 
         kartFrontMaxSpeed = carController.frontMaxSpeed;
@@ -124,6 +125,8 @@ public class m_carItem : MonoBehaviour
         frontSpawnVector = frontSpawn.transform.position;
 
         myPosition = _positionManager.racersGO.IndexOf(this.gameObject) + 1;
+
+        setLapCooldown -= Time.deltaTime;
 
         UpdateItems();
         IncreaseSpeedOnMoney();
@@ -203,8 +206,8 @@ public class m_carItem : MonoBehaviour
         {
             Destroy(other.gameObject);
             audioManager.audioInstance.PickBox();
-            ItemSystems[4].gameObject.SetActive(true);
-            ItemSystems[4].Play();
+            //ItemSystems[4].gameObject.SetActive(true);
+            //ItemSystems[4].Play();
             boxEntered = true;
 
             if (currentPlayerObject == "none")
@@ -225,86 +228,86 @@ public class m_carItem : MonoBehaviour
             bananaEffect = bananaEffectDuration;
         }
 
-        if (other.tag == "StartCheckPoint")
+        if (other.tag == "StartCheckPoint" && setLapCooldown < 0)
         {
             SetTimeLap();
+            setLapCooldown = 10;
             audioManager.audioInstance.NewLap();
         }
 
-        if (other.tag == "StartCheckPoint" && checkPoints.currentLap == 4)
+        if (other.tag == "StartCheckPoint" && checkPoints.currentLap == 3 && checkPoints.currentCheckpoint <= 70)
         {
             audioManager.audioInstance.EndMusic();
-
             if (myPosition == 1)
             {
                 carHUD.pos1.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos1.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos1Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player first position" + myPosition);
             }
             else if (myPosition == 2)
             {
                 carHUD.pos2.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos2.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos2Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player secont position" + myPosition);
             }
             else if (myPosition == 3)
             {
                 carHUD.pos3.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos3.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos3Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 3 position" + myPosition);
             }
             else if (myPosition == 4)
             {
                 carHUD.pos4.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos4.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos4Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 4 position" + myPosition);
             }
             else if (myPosition == 5)
             {
                 carHUD.pos5.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos5.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos5Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 5 position" + myPosition);
             }
             else if (myPosition == 6)
             {
                 carHUD.pos6.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos6.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos6Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 6 position" + myPosition);
             }
             else if (myPosition == 7)
             {
                 carHUD.pos7.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos7.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos7Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 7 position" + myPosition);
             }
             else if (myPosition == 8)
             {
                 carHUD.pos8.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos8.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos8Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 8 position" + myPosition);
             }
             else if (myPosition == 9)
             {
                 carHUD.pos9.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos9.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos9Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 9 position" + myPosition);
             }
             else if (myPosition == 10)
             {
                 carHUD.pos10.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos10.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos10Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 10 position" + myPosition);
             }
             else if (myPosition == 11)
             {
                 carHUD.pos11.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos11.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos11Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 11 position" + myPosition);
             }
             else if (myPosition == 12)
             {
                 carHUD.pos12.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
-                carHUD.pos12.GetComponentInParent<Image>().color = Color.yellow;
+                carHUD.pos12Img.GetComponent<Image>().color = Color.yellow;
                 Debug.Log("Player 12 position" + myPosition);
             }
         }
@@ -518,7 +521,7 @@ public class m_carItem : MonoBehaviour
     {
         if (currentPlayerObject == "fakemysterybox")
         {
-            (Instantiate(Resources.Load("Items/FakeMysteryBox"), backSpawnVectorMiddle, Quaternion.identity) as GameObject).transform.parent = backSpawnMiddle.transform;
+            (Instantiate(Resources.Load("Items/FakeMysteryBox"), backSpawnVector, Quaternion.identity) as GameObject).transform.parent = backSpawn.transform;
             currentPlayerObject = "none";
             fakeboxDefending = true;
 
@@ -649,13 +652,13 @@ public class m_carItem : MonoBehaviour
         else if (countdownPotion < 0 && countdownPotion > -1)
         {
             carController.frontMaxSpeed = kartFrontMaxSpeed;
-            ItemSystems[0].Stop();
-            ItemSystems[6].Stop();
-            ItemSystems[7].Stop();
+            //ItemSystems[0].Stop();
+            //ItemSystems[6].Stop();
+            //ItemSystems[7].Stop();
 
-            ItemSystems[0].gameObject.SetActive(false);
-            ItemSystems[6].gameObject.SetActive(false);
-            ItemSystems[7].gameObject.SetActive(false);
+            //ItemSystems[0].gameObject.SetActive(false);
+            //ItemSystems[6].gameObject.SetActive(false);
+            //ItemSystems[7].gameObject.SetActive(false);
 
             carController.GetComponent<BoxCollider>().enabled = true;
             countdownPotion = 0;
@@ -678,9 +681,7 @@ public class m_carItem : MonoBehaviour
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeAcc;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-                Debug.Log(karts[i].GetComponent<IA_Item>().name);
             }
-            Debug.Log("Froze");
         }
         
         if (frozeEffect < 0 && frozeEffect > -1f) //&& startRaceCooldown < 0
@@ -719,6 +720,12 @@ public class m_carItem : MonoBehaviour
         if (lap1Time == string.Empty && checkPoints.currentLap == 1)
         {
             lap1Time = carHUD.time_Text.text.ToString();
+            lap1TimeTxt.text = carHUD.minuteCountLap.ToString("00") + " : " + carHUD.secondsCountLap.ToString("00") + ", " + carHUD.milisecondsCountLap.ToString("000").Truncate(3);
+
+            carHUD.milisecondsCountLap = 0;
+            carHUD.secondsCountLap = 0;
+            carHUD.minuteCountLap = 0;
+
             carHUD.stretchTime = 3;
             Debug.Log("Lap1Set");
         }
@@ -726,6 +733,12 @@ public class m_carItem : MonoBehaviour
         if (lap2Time == string.Empty && checkPoints.currentLap == 2)
         {
             lap2Time = carHUD.time_Text.text.ToString();
+            lap2TimeTxt.text = carHUD.minuteCountLap.ToString("00") + " : " + carHUD.secondsCountLap.ToString("00") + ", " + carHUD.milisecondsCountLap.ToString("000").Truncate(3);
+
+            carHUD.milisecondsCountLap = 0;
+            carHUD.secondsCountLap = 0;
+            carHUD.minuteCountLap = 0;
+
             carHUD.stretchTime = 3;
             Debug.Log("Lap2Set");
         }
@@ -733,6 +746,14 @@ public class m_carItem : MonoBehaviour
         if (lap3Time == string.Empty && checkPoints.currentLap == 3)
         {
             lap3Time = carHUD.time_Text.text.ToString();
+            lap3TimeTxt.text = carHUD.minuteCountLap.ToString("00") + " : " + carHUD.secondsCountLap.ToString("00") + ", " + carHUD.milisecondsCountLap.ToString("000").Truncate(3);
+
+            carHUD.milisecondsCountLap = 0;
+            carHUD.secondsCountLap = 0;
+            carHUD.minuteCountLap = 0;
+
+            lapTotalTimeTxt.text = carHUD.minuteCount.ToString("00") + " : " + carHUD.secondsCount.ToString("00") + ", " + carHUD.milisecondsCount.ToString("000").Truncate(3);
+
         }
     }
 }

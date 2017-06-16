@@ -17,15 +17,15 @@ public class coinScript : MonoBehaviour
 
         if (m_kart != null)
         {           
-            if (m_kart.GetComponent<m_carItem>().ItemSystems[1].isPlaying && m_kart != null)
-            {
-                delay -= Time.deltaTime;
+            //if (m_kart.GetComponent<m_carItem>().ItemSystems[1].isPlaying && m_kart != null)
+            //{
+            //    delay -= Time.deltaTime;
 
-                if (delay <= 0)
-                {
-                    m_kart.GetComponent<m_carItem>().ItemSystems[1].Stop();
-                }
-            }
+            //    if (delay <= 0)
+            //    {
+            //        m_kart.GetComponent<m_carItem>().ItemSystems[1].Stop();
+            //    }
+            //}
         }
 
         

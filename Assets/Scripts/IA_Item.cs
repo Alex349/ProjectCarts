@@ -278,7 +278,7 @@ public class IA_Item : MonoBehaviour
             agent.acceleration = agent.acceleration / 2;
         }
 
-        if (carCheckPoints.currentLap == 4 && other.tag == "StartCheckPoint")
+        if (carCheckPoints.currentLap == 3 && other.tag == "StartCheckPoint" && carCheckPoints.currentCheckpoint >= 70)
         {
             if (myPosition == 1)
             {
@@ -641,7 +641,7 @@ public class IA_Item : MonoBehaviour
                 isKartFrezzed = false;
             }
 
-            thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
+           // thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
 
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -649,7 +649,7 @@ public class IA_Item : MonoBehaviour
         }
         else if (frozeEffect < -1 && frozeEffect > - 4)
         {
-            thePlayer.GetComponent<m_carItem>().ItemSystems[5].Play();
+            //thePlayer.GetComponent<m_carItem>().ItemSystems[5].Play();
 
             for (int i = 0; i < karts.Count; i++)
             {

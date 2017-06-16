@@ -48,59 +48,26 @@ public class RocketsHUDScript : MonoBehaviour
     {
         this.transform.position = player.transform.position;
         this.transform.rotation = player.transform.rotation;
-
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            AddTarget();
-        }
     }
-
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    this.transform.position = player.transform.position;
-    //    this.transform.rotation = player.transform.rotation;
-
-    //    if (hoamingIsInside == false)
-    //    {
-
-    //        //HoamingRocketImage.enabled = false;
-    //    }
-
-    //    if (straightIsInside == false)
-    //    {
-    //        // StraightRocketImage.enabled = false;
-    //    }
-
-    //    if (KingBallIsInside == false)
-    //    {
-    //        // KingBallImage.enabled = false;
-    //    }
-
-    //}
-
 
     void OnTriggerStay(Collider rocket)
     //void OnTriggerEnter(Collider rocket)
     {
         if (rocket.GetComponent<StraightRocket>() != null && rocket.GetComponent<HoamingRocket>() == null)
         {
-            Debug.Log("TrackerDetected");
             offScreenArrow.AddIndicator(rocket.transform, 2);
             straightIsInside = true;
         }
 
         if (rocket.GetComponent<StraightRocket>() != null && rocket.GetComponent<HoamingRocket>() != null)
         {
-            Debug.Log("HoamingDetected");
             hoamingIsInside = true;
             offScreenArrow.AddIndicator(rocket.transform, 1);
         }
 
         if (rocket.GetComponent<ToFirstRocket>() != null)
         {
-            Debug.Log("KingDetected");
-            offScreenArrow.AddIndicator(rocket.transform, 0);
+            offScreenArrow.AddIndicator(rocket.transform, 3);
             KingBallIsInside = true;
         }
 
@@ -109,18 +76,7 @@ public class RocketsHUDScript : MonoBehaviour
     {
         if (rocket.gameObject.tag == "Rocket")
         {
-            Debug.Log("Safe!!!!!");
             offScreenArrow.RemoveIndicator(rocket.transform);
-        }
-
-        if (rocket.GetComponent<StraightRocket>() != null)
-        {
-        }
-        if (rocket.GetComponent<StraightRocket>() != null && rocket.GetComponent<HoamingRocket>() != null)
-        {
-        }
-        if (rocket.GetComponent<ToFirstRocket>() != null)
-        {
         }
     }
 }

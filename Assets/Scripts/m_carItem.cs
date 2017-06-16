@@ -103,6 +103,7 @@ public class m_carItem : MonoBehaviour
     private float delayBoxEffect = 3, delayItemAnim = 2;
     private Animator ramsesAnimator;
     private GameObject banana;
+    private bool throwObject;
 
 
     void Start()
@@ -144,11 +145,20 @@ public class m_carItem : MonoBehaviour
         UpdateItems();
         IncreaseSpeedOnMoney();
 
+        if (Input.GetButton("ThrowObject"))
+        {
+            throwObject = true;
+        }
+        else
+        {
+            throwObject = false;
+        }
+
         if (!boxEntered)
         {
             if (currentPlayerObject == "banana" || bananaDefending == true)
             {
-                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                if (Input.GetKeyDown(KeyCode.L) || throwObject)
                 {
                     UseBanana();
                     audioManager.audioInstance.ThrowCake();
@@ -156,7 +166,7 @@ public class m_carItem : MonoBehaviour
                 }
                 else
                 {
-                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    if (Input.GetKeyUp(KeyCode.L) || !throwObject)
                     {
                         ReleaseBanana();
                         audioManager.audioInstance.ThrowItemGeneral();
@@ -168,14 +178,14 @@ public class m_carItem : MonoBehaviour
             }
             else if (currentPlayerObject == "triplebanana" || triplebananaDefending == true)
             {
-                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                if (Input.GetKeyDown(KeyCode.L) || throwObject)
                 {
                     UseTripleBanana();
                     audioManager.audioInstance.ThrowCake();
                 }
                 else
                 {
-                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    if (Input.GetKeyUp(KeyCode.L) || !throwObject)
                     {
                         ReleaseTripleBanana();
                         audioManager.audioInstance.ThrowItemGeneral();
@@ -187,14 +197,14 @@ public class m_carItem : MonoBehaviour
             }
             else if (currentPlayerObject == "fakemysterybox" || fakeboxDefending == true)
             {
-                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                if (Input.GetKeyDown(KeyCode.L) || throwObject)
                 {
                     UseFakeBox();
                     audioManager.audioInstance.ThrowCake();
                 }
                 else
                 {
-                    if (Input.GetKeyUp(KeyCode.L) || Input.GetButtonUp("ThrowObject"))
+                    if (Input.GetKeyUp(KeyCode.L) || !throwObject)
                     {
                         ReleaseFakeBox();
                         audioManager.audioInstance.ThrowItemGeneral();
@@ -206,12 +216,11 @@ public class m_carItem : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("ThrowObject"))
+                if (Input.GetKeyDown(KeyCode.L) || throwObject)
                 {
                     UseItem();
                     ramsesAnimator.SetBool("throwingObj?", true);
                     objThrown = true;
-
                 }
             }
         }        

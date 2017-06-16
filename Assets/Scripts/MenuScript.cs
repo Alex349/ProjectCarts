@@ -62,6 +62,7 @@ public class MenuScript : MonoBehaviour
     {
         audioManager.audioInstance.ButtonMenuNext();
         ArcadeMenuHolder.SetActive(false);
+        mainMenuHolder.SetActive(false);
         CharacterMenuHolder.SetActive(true);
         models[SelectionIndex].SetActive(true);
     }
@@ -83,6 +84,7 @@ public class MenuScript : MonoBehaviour
         mainMenuHolder.SetActive(true);
         optionsMenuHolder.SetActive(false);
         ArcadeMenuHolder.SetActive(false);
+        CharacterMenuHolder.SetActive(false);
     }
     public void SetScreenResolution(int i)
     {

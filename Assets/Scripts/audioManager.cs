@@ -228,6 +228,10 @@ public class audioManager : MonoBehaviour
         {
             m_audios[36].Play();
         }
+        else
+        {
+
+        }
     }
     public void ItemChoosed()
     {

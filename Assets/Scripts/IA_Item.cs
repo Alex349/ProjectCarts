@@ -34,7 +34,7 @@ public class IA_Item : MonoBehaviour
     public float iADefaultAcc = 40;
 
     [SerializeField]
-    private float IaUseItemCooldown = 3, startRaceCooldown = 0.5f;
+    private float IaUseItemCooldown = 3, startRaceCooldown = -10f;
 
     //Banana
     [SerializeField]
@@ -79,7 +79,7 @@ public class IA_Item : MonoBehaviour
     [SerializeField]
     private float frozeSpeed = 0;
     [SerializeField]
-    private float frozeAcc = 1000;
+    private float frozeAcc = 10;
     [SerializeField]
     private float frozeEffectDuration = 5;
 
@@ -117,7 +117,8 @@ public class IA_Item : MonoBehaviour
             agent.speed = 0;
             agent.acceleration = 0;
             frozeEffect = -10;
-            countDownPotion = -10;        
+            countDownPotion = -10;
+            frozeAcc = 100f;
         }   
     }
 
@@ -127,26 +128,33 @@ public class IA_Item : MonoBehaviour
 
         if (m_GM.managerReady)
         {
-            if (hudManager.StartRace == true)
+            
+        }
+        if (hudManager.StartRace == true)
+        {
+            milisecondsCount += Time.deltaTime * 1000;
+
+            if (milisecondsCount >= 999)
             {
-                milisecondsCount += Time.deltaTime * 1000;
+                secondsCount++;
+                milisecondsCount = 0;
+            }
+            else if (secondsCount >= 60)
+            {
+                minuteCount++;
+                secondsCount = 0;
+            }
 
-                if (milisecondsCount >= 999)
-                {
-                    secondsCount++;
-                    milisecondsCount = 0;
-                }
-                else if (secondsCount >= 60)
-                {
-                    minuteCount++;
-                    secondsCount = 0;
-                }
+            lapCountdown -= Time.deltaTime;
+            IaUseItemCooldown -= Time.deltaTime;
+            startRaceCooldown -= Time.deltaTime;
+            knockUpCountDown -= Time.deltaTime;
+            spinCountDown -= Time.deltaTime;
 
-                lapCountdown -= Time.deltaTime;
-                IaUseItemCooldown -= Time.deltaTime;
-                startRaceCooldown -= Time.deltaTime;
-                knockUpCountDown -= Time.deltaTime;
-                spinCountDown -= Time.deltaTime;
+            if (startRaceCooldown < 0.1f)
+            {
+                agent.speed = iADefaultSpeed;
+                agent.acceleration = iADefaultAcc;
             }
         }
         if (rainbowPotion == false)
@@ -175,7 +183,7 @@ public class IA_Item : MonoBehaviour
                 }
 
                 iADefaultSpeed = 0;
-                iADefaultAcc = 5000;
+                iADefaultAcc = 100;
                 canUseItems = false;
 
                 //KnockUpAnimation
@@ -195,11 +203,7 @@ public class IA_Item : MonoBehaviour
             UseItem();
         }
 
-        if (startRaceCooldown < 0)
-        {
-            agent.speed = iADefaultSpeed;
-            agent.acceleration = iADefaultAcc;
-        }
+        
 
 
         if (knockUpCountDown < 0)
@@ -211,8 +215,7 @@ public class IA_Item : MonoBehaviour
 
         if (turboEffect < 0 && currentIAItem == "tripleturbo")
         {
-            UseItem();           
-
+            UseItem();      
         }
         if (rocketsShooted < 4 && currentIAItem == "triplerocketstraight")
         {
@@ -500,8 +503,7 @@ public class IA_Item : MonoBehaviour
             rocketsShooted++;
 
             if (rocketsShooted >= 3)
-            {
-                Debug.Log("NoMoreRockets");
+            {  
                 currentIAItem = "none";
                 rocketsShooted = 0;
             }
@@ -658,9 +660,8 @@ public class IA_Item : MonoBehaviour
             for (int i = 0; i < karts.Count; i++)
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeSpeed;
-                karts[i].GetComponent<IA_Item>().iADefaultSpeed = frozeAcc;
+                karts[i].GetComponent<IA_Item>().iADefaultAcc = frozeAcc;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-                Debug.Log(karts[i].GetComponent<IA_Item>().name);
             }            
         }
 
@@ -676,37 +677,35 @@ public class IA_Item : MonoBehaviour
             for (int i = 0; i < karts.Count; i++)
             {
                 karts[i].GetComponent<IA_Item>().iADefaultSpeed = 12;
+                karts[i].GetComponent<IA_Item>().iADefaultAcc = 100;
                 karts[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
                 karts[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
                 karts[i].transform.GetChild(0).GetChild(1).gameObject.GetComponent<ParticleSystem>().Play();
             }            
 
-           thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
+            thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
 
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-            thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(true);
+            //thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(true);
             thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 
         }        
-        else
+        if (frozeEffect <= -3)
         {
             thePlayer.GetComponent<m_carItem>().ItemSystems[3].Stop();
-            thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(false);
+            //thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(false);
         }
 
         countDownPotion -= Time.deltaTime;
 
         if (countDownPotion > 0)
         {
-
             thePlayer.GetComponent<m_carItem>().ItemSystems[5].Play();
 
             agent.speed = agent.speed * 1.5f;
             agent.acceleration = agent.acceleration * 1.5f;
 
-
-            Debug.Log("is POTION IN");
             ItemSystems[7].gameObject.SetActive(true);
             ItemSystems[8].gameObject.SetActive(true);
 

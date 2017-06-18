@@ -163,7 +163,7 @@ public class m_carItem : MonoBehaviour
                 }
                 else
                 {
-                    if (Input.GetKeyUp(KeyCode.L) || !throwObject)
+                    if (Input.GetKeyUp(KeyCode.L) || throwObject)
                     {
                         ReleaseBanana();
                         audioManager.audioInstance.ThrowItemGeneral();
@@ -181,7 +181,7 @@ public class m_carItem : MonoBehaviour
                 }
                 else
                 {
-                    if (Input.GetKeyUp(KeyCode.L) || !throwObject)
+                    if (Input.GetKeyUp(KeyCode.L) || throwObject)
                     {
                         ReleaseTripleBanana();
                         audioManager.audioInstance.ThrowItemGeneral();
@@ -200,7 +200,7 @@ public class m_carItem : MonoBehaviour
                 }
                 else
                 {
-                    if (Input.GetKeyUp(KeyCode.L) || !throwObject)
+                    if (Input.GetKeyUp(KeyCode.L) || throwObject)
                     {
                         ReleaseFakeBox();
                         audioManager.audioInstance.ThrowItemGeneral();

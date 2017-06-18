@@ -1113,7 +1113,6 @@ public class m_carController : MonoBehaviour
             grassBRWheel.SetActive(true);
             grassBLWheel.GetComponent<ParticleSystem>().Play();
             grassBRWheel.GetComponent<ParticleSystem>().Play();
-            Debug.Log("is playing grass");
         }
         if (col.tag == "Turbo")
         {

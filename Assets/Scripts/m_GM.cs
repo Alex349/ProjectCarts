@@ -35,7 +35,7 @@ public class m_GM : MonoBehaviour
         IAPlayers = GameObject.FindGameObjectsWithTag("Kart");
 
         for (int i = 0; i < mainPlayer.Length; i++)
-        {
+        {          
             mainPlayer[i].SetActive(false);
         }
         for (int i = 0; i < IAPlayers.Length; i++)
@@ -75,15 +75,35 @@ public class m_GM : MonoBehaviour
             //l'animació són uns 17s
             if (animDuration <= 0 && !cameraAnimator.GetBool("raceStart") || Input.GetKey("enter"))
             {
-                audioManager.audioInstance.StopAllSounds();
+                audioManager.audioInstance.StopAllSounds();               
 
-                for (int i = 0; i < mainPlayer.Length; i++)
+                for (int i = 0; i <= mainPlayer.Length; i++)
                 {
                     if (MenuScript.SelectionIndex == i)
                     {
                         CanvasAmazing.SetActive(true);
 
-                        mainPlayer[i].SetActive(true);
+                        if (i == 0)
+                        {
+                            mainPlayer[i].SetActive(true);
+                            mainPlayer[i] = GameObject.Find("PlayerKart_Char1");
+                        }
+                        else if (i == 1)
+                        {
+                            mainPlayer[i].SetActive(true);
+                            mainPlayer[i] = GameObject.Find("PlayerKart_Char2");
+                        }
+                        else if (i == 2)
+                        {
+                            mainPlayer[i].SetActive(true);
+                            mainPlayer[i] = GameObject.Find("PlayerKart_Char3");
+                        }
+                        else if (i == 3)
+                        {
+                            mainPlayer[i].SetActive(true);
+                            mainPlayer[i] = GameObject.Find("PlayerKart_Char4");
+                        }                                                
+
                         OffScreenLogic.SetActive(true);
                         AlertBoxHUD.SetActive(true);
                         LapCheckPoints.SetActive(true);

@@ -10,10 +10,12 @@ public class CarCheckPoints : MonoBehaviour
     public int currentLap; //Current lap
 
     public int currentCheckpointReal = 0, expectedCheckpoint = 0, previousCheckpoint = 0;
+    public float checkPointscountDown;
 
     void Start()
     {
         gameObjectPoints = GameObject.Find("LapCheckPoints");
+        checkPointscountDown = 20;
 
         for (int i = 0; i < checkPointArray.Length; i++)
         {
@@ -22,5 +24,10 @@ public class CarCheckPoints : MonoBehaviour
 
         }        
     }
+    void Update()
+    {
+        checkPointscountDown -= Time.deltaTime;
+    }
+
 }
 

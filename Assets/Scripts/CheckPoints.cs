@@ -25,6 +25,7 @@ public class CheckPoints : MonoBehaviour
         myPositionOnArray = System.Array.IndexOf(playerArray.checkPointArray, this.gameObject.transform);
     }
 
+
     void OnTriggerEnter(Collider other)
     {
 
@@ -33,35 +34,44 @@ public class CheckPoints : MonoBehaviour
         {
             playerTransform = other.GetComponent<Transform>();
             carCheckPoints = other.GetComponent<CarCheckPoints>();
-
-           // return; //If it's not the player dont continue
         }
         else
         {
             return;
         }
 
+        if (other.CompareTag("Kart") && carCheckPoints.currentCheckpointReal == 73 && carCheckPoints.checkPointscountDown < 0)
+        {
+            carCheckPoints.currentLap++;
+            carCheckPoints.checkPointscountDown = 20;
+            Debug.Log("KartLapIncreased");
+        }
 
         //Is this transform equal to the transform of checkpointArrays[currentCheckpoint]?
+
         if (transform == carCheckPoints.checkPointArray[carCheckPoints.currentCheckpoint].transform)
         {
             //Check so we dont exceed our checkpoint quantity
             if (carCheckPoints.currentCheckpoint + 1 < carCheckPoints.checkPointArray.Length)
             {
                 //Add to currentLap if currentCheckpoint is 0
-                if (carCheckPoints.currentCheckpoint == 0)
-                {
-                    carCheckPoints.currentLap++;
-                    //ia_item.SetTimeLap();
-                    //car_item.SetTimeLap();
-                }
+                //if (carCheckPoints.currentCheckpoint == 0)
+                //{
+                //    carCheckPoints.currentLap++;
+                //}
 
                 carCheckPoints.currentCheckpoint++;
             }
-            else
+            else if (carCheckPoints.currentCheckpoint == carCheckPoints.checkPointArray.Length)
+            {
+
+            }
+            else if (other.CompareTag("Player"))
             {
                 //If we dont have any Checkpoints left, go back to 0
                 carCheckPoints.currentCheckpoint = 0;
+                carCheckPoints.currentLap++;
+                Debug.Log("PlayerLapIncreased");
             }
         }
     }

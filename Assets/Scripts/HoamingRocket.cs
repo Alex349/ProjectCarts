@@ -48,6 +48,10 @@ public class HoamingRocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (agent.isOnNavMesh == false)
+        {
+            Destroy(gameObject);
+        }
         selfDestruct -= Time.deltaTime;
         destination = target.position;
         agent.destination = destination;

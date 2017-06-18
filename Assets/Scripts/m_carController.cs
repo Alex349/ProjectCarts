@@ -1038,22 +1038,7 @@ public class m_carController : MonoBehaviour
         }
     }
     void OnTriggerEnter(Collider col)
-    {
-        if (col.tag == "Turbo")
-        {
-            m_rigidbody.AddForce(m_rigidbody.transform.forward * turboForce, ForceMode.Acceleration);
-            m_CharacterAnimator.SetBool("turbo?", true);
-
-            for (int i = 0; i < turboEffects.Length; i++)
-            {
-                turboEffects[i].Play();
-            }
-            if (!canTurbo)
-            {
-                m_CharacterAnimator.SetBool("turbo?", false);
-            }
-            audioManager.audioInstance.YeahPJ();
-        }
+    {        
         if ((col.tag == "Spear" || col.tag == "Barrel") && m_carItem.countdownPotion < -1)
         {
             //YellowStun.Play();
@@ -1067,22 +1052,7 @@ public class m_carController : MonoBehaviour
 
             m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
 
-            if (m_carItem.money >= 3)
-            {
-                m_carItem.money = m_carItem.money - 3;
-            }
-            else if (m_carItem.money == 2)
-            {
-                m_carItem.money = m_carItem.money - 2;
-            }
-            else if (m_carItem.money == 1)
-            {
-                m_carItem.money = m_carItem.money - 1;
-            }
-            else
-            {
-                m_carItem.money = 0;
-            }
+            DecreaseMoneyKnockUp();
 
             canDrive = false;
             
@@ -1100,22 +1070,8 @@ public class m_carController : MonoBehaviour
 
             m_rigidbody.AddForce(new Vector3(0, Mathf.Abs(m_rigidbody.transform.forward.y), 0).normalized * knockUpForce, ForceMode.Impulse);
 
-            if (m_carItem.money >= 3)
-            {
-                m_carItem.money = m_carItem.money - 3;
-            }
-            else if (m_carItem.money == 2)
-            {
-                m_carItem.money = m_carItem.money - 2;
-            }
-            else if (m_carItem.money == 1)
-            {
-                m_carItem.money = m_carItem.money - 1;
-            }
-            else
-            {
-                m_carItem.money = 0;
-            }
+            DecreaseMoneyKnockUp();
+
             canDrive = false;
 
             Destroy(col.gameObject);
@@ -1132,22 +1088,11 @@ public class m_carController : MonoBehaviour
             m_carAnimator.SetBool("isSpinning", true);
             m_CharacterAnimator.SetBool("isHit?", true);
 
-            audioManager.audioInstance.ThrowItemGeneral();
-
-            if (m_carItem.money >= 2)
-            {
-                m_carItem.money = m_carItem.money - 2;
-            }
-            else if (m_carItem.money == 1)
-            {
-                m_carItem.money = m_carItem.money - 1;
-            }
-            else
-            {
-                m_carItem.money = 0;
-            }
+            audioManager.audioInstance.ThrowItemGeneral();            
 
             m_rigidbody.AddForce(new Vector3(0, 0, -Mathf.Abs(m_rigidbody.transform.forward.z)).normalized * slipperyForce, ForceMode.Impulse);
+
+            DecreaseMoneySpin();
         }
         if (col.tag == "Wall")
         {
@@ -1169,6 +1114,21 @@ public class m_carController : MonoBehaviour
             grassBLWheel.GetComponent<ParticleSystem>().Play();
             grassBRWheel.GetComponent<ParticleSystem>().Play();
             Debug.Log("is playing grass");
+        }
+        if (col.tag == "Turbo")
+        {
+            m_rigidbody.AddForce(m_rigidbody.transform.forward * turboForce, ForceMode.Acceleration);
+            m_CharacterAnimator.SetBool("turbo?", true);
+
+            for (int i = 0; i < turboEffects.Length; i++)
+            {
+                turboEffects[i].Play();
+            }
+            if (!canTurbo)
+            {
+                m_CharacterAnimator.SetBool("turbo?", false);
+            }
+            audioManager.audioInstance.YeahPJ();
         }
         if (col.tag == "IA")
         {
@@ -1235,5 +1195,39 @@ public class m_carController : MonoBehaviour
         audioManager.audioInstance.Turbo();
         yield return new WaitForSeconds(0.3f);
         audioManager.audioInstance.StopDrift();
+    }
+    void DecreaseMoneySpin()
+    {
+        if (m_carItem.money >= 2)
+        {
+            m_carItem.money = m_carItem.money - 2;
+        }
+        else if (m_carItem.money == 1)
+        {
+            m_carItem.money = m_carItem.money - 1;
+        }
+        else
+        {
+            m_carItem.money = 0;
+        }
+    }
+    void DecreaseMoneyKnockUp()
+    {
+        if (m_carItem.money >= 3)
+        {
+            m_carItem.money = m_carItem.money - 3;
+        }
+        else if (m_carItem.money == 2)
+        {
+            m_carItem.money = m_carItem.money - 2;
+        }
+        else if (m_carItem.money == 1)
+        {
+            m_carItem.money = m_carItem.money - 1;
+        }
+        else
+        {
+            m_carItem.money = 0;
+        }
     }
 }

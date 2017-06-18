@@ -26,7 +26,6 @@ public class PauseManager : MonoBehaviour {
                     hudComponents[i].SetActive(false);
                 }                
 
-                Debug.Log("pause");
                 Time.timeScale = 0;
 
                 // fer que no es pari la música
@@ -42,7 +41,6 @@ public class PauseManager : MonoBehaviour {
                     hudComponents[i].SetActive(true);
                 }
 
-                Debug.Log("Running");
                 Time.timeScale = 1;
                 CanPause = true;
                 PauseScreen.SetActive(false);

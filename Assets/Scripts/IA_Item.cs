@@ -102,6 +102,9 @@ public class IA_Item : MonoBehaviour
     public bool isKartFrezzed = false;
     public ParticleSystem dotsPotion;
 
+    private bool myPositionHasBeenAsigned = false;
+
+
     void Start()
     {
         if (GameObject.Find("HUDManager") != null)
@@ -151,11 +154,8 @@ public class IA_Item : MonoBehaviour
             knockUpCountDown -= Time.deltaTime;
             spinCountDown -= Time.deltaTime;
 
-            if (startRaceCooldown < 0.1f)
-            {
-                agent.speed = iADefaultSpeed;
-                agent.acceleration = iADefaultAcc;
-            }
+            agent.speed = iADefaultSpeed;
+            agent.acceleration = iADefaultAcc;
         }
         if (rainbowPotion == false)
         {
@@ -241,6 +241,11 @@ public class IA_Item : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (other.tag == "CheckPoint")
+        {
+            carCheckPoints.currentCheckpointReal = other.GetComponent<CheckPoints>().myPositionOnArray;
+        }
+
         if (other.tag == "MysteryBox")
         {
             Destroy(other.gameObject);
@@ -302,7 +307,7 @@ public class IA_Item : MonoBehaviour
             }
         }
 
-        if (carCheckPoints.currentLap == 3 && other.tag == "StartCheckPoint" && carCheckPoints.currentCheckpoint >= 70)
+        if (carCheckPoints.currentLap == 4 && myPositionHasBeenAsigned == false)
         {
             if (myPosition == 1)
             {
@@ -364,6 +369,7 @@ public class IA_Item : MonoBehaviour
                 hudManager.pos12.text = minuteCount.ToString("00") + " : " + secondsCount.ToString("00") + ", " + milisecondsCount.ToString("000").Truncate(3);
                 Debug.Log("Ia 12 position" + myPosition);
             }
+            myPositionHasBeenAsigned = true;
         }
 
     }
@@ -686,8 +692,10 @@ public class IA_Item : MonoBehaviour
             thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
 
             thePlayer.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-            //thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(true);
-            thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
+            thePlayer.transform.GetChild(7).GetChild(3).gameObject.SetActive(true);
+            thePlayer.transform.GetChild(7).GetChild(3).gameObject.GetComponent<ParticleSystem>().Play();
+
+            //thePlayer.GetComponent<m_carItem>().ItemSystems[3].Play();
             thePlayer.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 
         }        

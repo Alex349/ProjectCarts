@@ -735,14 +735,9 @@ public class m_carItem : MonoBehaviour
 
             ItemSystems[0].Stop();
             ItemSystems[6].Stop();
-            ItemSystems[7].Stop();
-
-            ItemSystems[0].gameObject.SetActive(false);
-            ItemSystems[6].gameObject.SetActive(false);
-            ItemSystems[7].gameObject.SetActive(false);
 
             audioManager.audioInstance.StopPotion();
-
+            audioManager.audioInstance.PlayAllSounds();
             ItemSystems[0].gameObject.SetActive(false);
             ItemSystems[6].gameObject.SetActive(false);
 
@@ -794,9 +789,7 @@ public class m_carItem : MonoBehaviour
         if (frozeEffect <= -5)
         {
             for (int i = 0; i < karts.Count; i++)
-            {
-                
-
+            {               
                 karts[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
             }
         }
@@ -806,8 +799,8 @@ public class m_carItem : MonoBehaviour
 
     void IncreaseSpeedOnMoney()
     {
-        carController.maxSpeed = carController.frontMaxSpeed * ( 1 + money * 0.1f);
-        //carController.currentAcc = carController.currentAcc * (1 + money * 0.01f);
+        carController.maxSpeed = carController.frontMaxSpeed * ( 1 + money * 0.05f);
+        
     }
 
     public void SetTimeLap()

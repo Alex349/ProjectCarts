@@ -161,7 +161,7 @@ public class audioManager : MonoBehaviour
         }
         else if (m_audios[4].isPlaying)
         {
-            m_audios[4].Stop();
+            m_audios[4].Pause();
         }
     }
     public void CrashCar2()
@@ -227,10 +227,6 @@ public class audioManager : MonoBehaviour
         {
             m_audios[36].Play();
         }
-        else
-        {
-
-        }
     }
     public void ItemChoosed()
     {
@@ -282,7 +278,7 @@ public class audioManager : MonoBehaviour
         }
         if (m_audios[8].isPlaying)
         {
-            m_audios[8].Stop();
+            m_audios[8].Pause();
         }
     }
     public void StopPotion()
@@ -359,7 +355,14 @@ public class audioManager : MonoBehaviour
     {
         for (int i = 0; i < m_audios.Length; i++)
         {
-            m_audios[i].Stop();
+            m_audios[i].Pause();
+        }
+    }
+    public void PlayAllSounds()
+    {
+        for (int i = 0; i < m_audios.Length; i++)
+        {
+            m_audios[i].UnPause();
         }
     }
 }

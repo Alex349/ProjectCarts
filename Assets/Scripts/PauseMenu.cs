@@ -119,6 +119,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void ResumeGame()
     {
+        audioManager.audioInstance.ButtonMenuOK();
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
 
@@ -126,23 +127,30 @@ public class PauseMenu : MonoBehaviour
         {
             m_pauseManager.hudComponents[i].SetActive(true);
         }
+        audioManager.audioInstance.PlayAllSounds();
     }
     public void OptionsMenu()
     {
+        audioManager.audioInstance.ButtonMenuOK();
         mainPauseMenu.SetActive(false);
         optionsMenu.SetActive(true);
     }
     public void MainPauseMenu()
     {
+        audioManager.audioInstance.ButtonMenuOK();
+
         optionsMenu.SetActive(false);
         mainPauseMenu.SetActive(true);
     }
     public void Exit()
     {
+        audioManager.audioInstance.ButtonMenuBack();
+
         Application.Quit();
     }
     public void Back()
     {
+        audioManager.audioInstance.ButtonMenuBack();
         mainPauseMenu.SetActive(true);
         optionsMenu.SetActive(false);
     }
@@ -155,6 +163,7 @@ public class PauseMenu : MonoBehaviour
             Screen.SetResolution(screenRectWidth[i], (int)(screenRectWidth[i] / aspectRatio), false);
             PlayerPrefs.SetInt("screen res index", activeScreenResIndex);
             PlayerPrefs.Save();
+            audioManager.audioInstance.ButtonMenuOK();
         }
 
     }

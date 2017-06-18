@@ -44,6 +44,7 @@ public class PositionManager : MonoBehaviour
     {
         int IComparer<GameObject>.Compare(GameObject _objAL, GameObject _objBL)
         {
+
             int t1 = _objAL.GetComponent<CarCheckPoints>().currentLap;
             int t2 = _objBL.GetComponent<CarCheckPoints>().currentLap;
 
@@ -53,18 +54,32 @@ public class PositionManager : MonoBehaviour
             }
             else
             {
-                int t3 = _objAL.GetComponent<CarCheckPoints>().currentCheckpoint;
-                int t4 = _objBL.GetComponent<CarCheckPoints>().currentCheckpoint;
-
-                if(t3 == 74 || t4 == 74)
+                int t5;
+                int t6;
+                if (_objAL.GetComponent<IA_Item>() == true)
                 {
-                    return 1;
+                     t5 = _objAL.GetComponent<CarCheckPoints>().currentCheckpointReal;
                 }
                 else
                 {
-                    return t3.CompareTo(t4);
+                    t5 = _objAL.GetComponent<CarCheckPoints>().currentCheckpoint;
 
                 }
+
+                if (_objBL.GetComponent<IA_Item>() == true)
+                {
+                    t6 = _objBL.GetComponent<CarCheckPoints>().currentCheckpointReal;
+                }
+                else
+                {
+                    t6 = _objBL.GetComponent<CarCheckPoints>().currentCheckpoint;
+                }
+
+                int t3 = t5;
+                int t4 = t6;
+
+                return t3.CompareTo(t4);
+
             }
         }
     }

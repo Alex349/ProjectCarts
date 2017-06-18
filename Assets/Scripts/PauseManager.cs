@@ -28,6 +28,8 @@ public class PauseManager : MonoBehaviour {
 
                 Debug.Log("pause");
                 Time.timeScale = 0;
+
+                // fer que no es pari la música
                 audioManager.audioInstance.StopAllSounds();
 
                 PauseScreen.SetActive(true);

@@ -30,7 +30,7 @@ public class miniMapIcon_IA : MonoBehaviour {
         {
             for (int i = 0; i < m_IA.Length; i++)
             {
-                transform.position = new Vector3(IA_position.position.x, Mathf.Lerp(height, IA_position.position.y + height, Time.deltaTime), IA_position.position.z);
+                transform.position = new Vector3(IA_position.position.x, IA_position.position.y + height, IA_position.position.z);
                 transform.rotation = new Quaternion(0, IA_position.rotation.y, 0, 0);
             }           
         }

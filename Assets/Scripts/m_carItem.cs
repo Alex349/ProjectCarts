@@ -525,7 +525,7 @@ public class m_carItem : MonoBehaviour
         {
             Debug.Log("Turbo");
             turboEffect = turboEffectDuration;
-            audioManager.audioInstance.TurboMode();
+            audioManager.audioInstance.TurboItem();
             currentPlayerObject = "none";
         }
 
@@ -533,7 +533,7 @@ public class m_carItem : MonoBehaviour
         {
             turboEffect = turboEffectDuration;
             audioManager.audioInstance.StopTurbo();
-            audioManager.audioInstance.TurboMode();
+            audioManager.audioInstance.TurboItem();
 
             turbosUsed++;
 

@@ -6,7 +6,7 @@ public class audioManager : MonoBehaviour
 {
     public static audioManager audioInstance;
     public AudioSource[] m_audios;
-    private m_carController m_kart;
+
     //private AudioSource motorStopped, motorAcceleration, motor
 
     void Awake()
@@ -24,7 +24,6 @@ public class audioManager : MonoBehaviour
 	void Start ()
     {
         m_audios = GetComponentsInChildren<AudioSource>();
-        m_kart = FindObjectOfType<m_carController>();
 	}
 	
 	void Update ()
@@ -83,9 +82,9 @@ public class audioManager : MonoBehaviour
     }
     public void StopTurbo()
     {
-        if (m_audios[22].isPlaying)
+        if (m_audios[5].isPlaying)
         {
-            m_audios[22].Stop();
+            m_audios[5].Stop();
         }
     }
     public void Music1stLapIntro()
@@ -208,7 +207,7 @@ public class audioManager : MonoBehaviour
             m_audios[21].Play();
         }
     }
-    public void TurboMode()
+    public void TurboItem()
     {
         if (!m_audios[22].isPlaying)
         {

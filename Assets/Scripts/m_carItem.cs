@@ -395,51 +395,51 @@ public class m_carItem : MonoBehaviour
     {
         float rnd = (Random.Range(0f, 1f));
 
-        if (rnd < 0.5 && myPosition >= 1)
+        if (rnd < 0.5 && myPosition >= 1 && myPosition <= 5)
+        {
+            currentPlayerObject = "banana";
+        }
+        if (rnd < 0.15 && myPosition >= 1 && myPosition <= 8)
         {
             currentPlayerObject = "triplebanana";
         }
-        if (rnd < 0.15 && myPosition >= 1)
-        {
-            currentPlayerObject = "triplebanana";
-        }
-        else if (rnd < 0.2 && myPosition >= 4)
+        else if (rnd < 0.2 && myPosition >= 4 && myPosition <= 8)
         {
             currentPlayerObject = "tripleturbo";
         }
-        else if (rnd < 0.3 && myPosition >= 1)
+        else if (rnd < 0.3 && myPosition >= 1 && myPosition <= 5)
         {
             currentPlayerObject = "turbo";
         }
-        else if (rnd < 0.4 && myPosition >= 1)
+        else if (rnd < 0.4 && myPosition >= 1 && myPosition <= 5)
         {
             currentPlayerObject = "straightrocket";
         }
-        else if (rnd < 0.5 && myPosition >= 1)
+        else if (rnd < 0.5 && myPosition >= 1 && myPosition <= 6)
         {
             currentPlayerObject = "rockettracker";
         }
-        else if (rnd < 0.55 && myPosition >= 8)
+        else if (rnd < 0.55 && myPosition >= 8 && myPosition <= 12)
         {
             currentPlayerObject = "rockettofirst";
         }
-        else if (rnd < 0.6 && myPosition >= 5)
+        else if (rnd < 0.6 && myPosition >= 5 && myPosition <= 10)
         {
             currentPlayerObject = "triplerocketstraight";
         }
-        else if (rnd < 0.65 && myPosition >= 4)
+        else if (rnd < 0.65 && myPosition >= 4 && myPosition <= 12)
         {
             currentPlayerObject = "triplerockettracker";
         }
-        else if (rnd < 0.75 && myPosition >= 2)
+        else if (rnd < 0.75 && myPosition >= 2 && myPosition <= 10)
         {
             currentPlayerObject = "fakemysterybox";
         }
-        else if (rnd < 0.85 && myPosition >= 8)
+        else if (rnd < 0.85 && myPosition >= 8 && myPosition <= 12)
         {
             currentPlayerObject = "rainbowPotion";
         }
-        else if (rnd < 0.90 && myPosition >= 2)
+        else if (rnd < 0.90 && myPosition >= 2 && myPosition <= 12)
         {
             currentPlayerObject = "froze";
         }

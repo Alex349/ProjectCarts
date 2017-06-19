@@ -389,55 +389,55 @@ public class IA_Item : MonoBehaviour
     {
         float rnd = (Random.Range(0f, 1f));
 
-        if (rnd < 0.05 && myPosition >= 4)
+        if (rnd < 0.05 && myPosition >= 1 && myPosition <= 8)
         {
             currentIAItem = "triplebanana";
         }
-        if (rnd < 0.15 && myPosition >= 1)
+        if (rnd < 0.15 && myPosition >= 1 && myPosition <= 5)
         {
             currentIAItem = "banana";
         }
-        else if (rnd < 0.2 && myPosition >= 4)
+        else if (rnd < 0.2 && myPosition >= 4 && myPosition <= 12)
         {
             currentIAItem = "tripleturbo";
         }
-        else if (rnd < 0.3 && myPosition >= 1)
+        else if (rnd < 0.3 && myPosition >= 1 && myPosition <= 5)
         {
             currentIAItem = "turbo";
         }
-        else if (rnd < 0.4 && myPosition >= 1)
+        else if (rnd < 0.4 && myPosition >= 1 && myPosition <= 5)
         {
             currentIAItem = "straightrocket";
         }
-        else if (rnd < 0.5 && myPosition >= 2)
+        else if (rnd < 0.5 && myPosition >= 2 && myPosition <= 5)
         {
             currentIAItem = "rockettracker";
         }
-        else if (rnd < 0.55 && myPosition >= 7)
+        else if (rnd < 0.55 && myPosition >= 7 && myPosition <= 12)
         {
             currentIAItem = "rockettofirst";
         }
-        else if (rnd < 0.6 && myPosition >= 2)
+        else if (rnd < 0.6 && myPosition >= 2 && myPosition <= 8)
         {
             currentIAItem = "triplerocketstraight";
         }
-        else if (rnd < 0.65 && myPosition >= 4)
+        else if (rnd < 0.65 && myPosition >= 4 && myPosition <= 12)
         {
             currentIAItem = "triplerockettracker";
         }
-        else if (rnd < 0.75 && myPosition >= 4)
+        else if (rnd < 0.75 && myPosition >= 4 && myPosition <= 10)
         {
             currentIAItem = "fakemysterybox";
         }
-        else if (rnd < 0.85 && myPosition >= 9)
+        else if (rnd < 0.85 && myPosition >= 9 && myPosition <= 12)
         {
             currentIAItem = "rainbowPotion";
         }
-        else if (rnd < 0.90 && myPosition >= 3)
+        else if (rnd < 0.90 && myPosition >= 3 && myPosition <= 10)
         {
             currentIAItem = "froze";
         }
-        else if (rnd < 1)
+        else if (rnd < 1 && myPosition >= 2)
         {
             if (money < 10)
             {
